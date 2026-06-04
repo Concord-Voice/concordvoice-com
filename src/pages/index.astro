@@ -35,7 +35,7 @@ const stats = [
         class="rise mx-auto mb-8 h-20 w-auto"
         style="--d:0s; filter: drop-shadow(0 0 34px color-mix(in oklab, var(--color-coral) 55%, transparent));"
       />
-      <p class="eyebrow rise text-gold" style="--d:.1s">Open Beta — June 21st, 2026</p>
+      <p class="eyebrow eyebrow-hero rise text-gold" style="--d:.1s">Open Beta — June 21st, 2026</p>
 
       <h1 class="display rise mt-5 text-5xl sm:text-7xl" style="--d:.2s">
         Concord <span class="text-gradient">Voice</span>
@@ -91,7 +91,7 @@ const stats = [
       <form id="notify-form" class="mt-8 flex flex-col gap-3 sm:flex-row">
         <label for="email" class="sr-only">Email</label>
         <input id="email" name="email" type="email" required placeholder="you@domain.com" class="field" />
-        <!-- Honeypot: a privacy-friendly spam trap. No Google reCAPTCHA. -->
+        <!-- Honeypot: a privacy-friendly spam trap. No third-party CAPTCHA. -->
         <input type="text" name="company" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
         <button type="submit" class="btn btn-primary whitespace-nowrap">Notify Me</button>
       </form>

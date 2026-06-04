@@ -52,6 +52,11 @@ body {
   text-transform: uppercase;
   font-size: 0.72rem;
 }
+/* Larger eyebrow for the hero beta-date line */
+.eyebrow-hero {
+  font-size: clamp(1rem, 2.4vw, 1.35rem);
+  letter-spacing: 0.22em;
+}
 .font-mono { font-family: var(--font-mono); }
 
 /* ---- Brand gradient ---- */
@@ -63,7 +68,7 @@ body {
 }
 
 /* ============================================================
-   Atmosphere: aurora glow + film grain + starfield
+   Atmosphere: aurora glow + film grain + starfield + cloud bank
    ============================================================ */
 .aurora, .grain, .starfield { position: fixed; inset: 0; pointer-events: none; }
 .aurora { z-index: 0; }
@@ -71,11 +76,11 @@ body {
 .grain { z-index: 2; }
 .layer { position: relative; z-index: 3; }
 
+/* Top-of-page glows. The bottom horizon is now owned by .cloudscape. */
 .aurora {
   background:
     radial-gradient(38rem 30rem at 74% -10%, color-mix(in oklab, var(--color-coral) 40%, transparent), transparent 70%),
-    radial-gradient(32rem 26rem at 10% 4%,  color-mix(in oklab, var(--color-gold) 26%, transparent), transparent 70%),
-    radial-gradient(52rem 42rem at 50% 118%, color-mix(in oklab, #6a4cff 32%, transparent), transparent 72%);
+    radial-gradient(32rem 26rem at 10% 4%,  color-mix(in oklab, var(--color-gold) 26%, transparent), transparent 70%);
   filter: blur(6px) saturate(125%);
   opacity: 0.6;
   animation: drift 24s ease-in-out infinite alternate;
@@ -101,6 +106,61 @@ body {
   animation: twinkle 5s ease-in-out infinite;
 }
 @keyframes twinkle { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.85; } }
+
+/* ---- Dusk / dawn cloud bank — drifts along the bottom horizon ---- */
+.cloudscape {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  height: 48vh;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  /* dissolve into the night toward the top */
+  -webkit-mask-image: linear-gradient(to top, #000 12%, rgba(0, 0, 0, 0.85) 40%, transparent 92%);
+  mask-image: linear-gradient(to top, #000 12%, rgba(0, 0, 0, 0.85) 40%, transparent 92%);
+}
+/* warm horizon wash sitting under the clouds */
+.cloudscape::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    color-mix(in oklab, var(--color-coral) 30%, transparent) 0%,
+    color-mix(in oklab, var(--color-coral) 10%, transparent) 32%,
+    transparent 70%
+  );
+}
+.cloud {
+  position: absolute;
+  bottom: -18%;
+  border-radius: 50%;
+  filter: blur(34px);
+  will-change: transform;
+}
+.cloud-1 {
+  left: -12%; width: 65vw; height: 42vh; opacity: 0.55;
+  background: radial-gradient(closest-side, color-mix(in oklab, var(--color-coral) 75%, transparent), transparent 70%);
+  animation: cloud-a 40s ease-in-out infinite alternate;
+}
+.cloud-2 {
+  left: 28%; width: 72vw; height: 50vh; bottom: -24%; opacity: 0.42;
+  background: radial-gradient(closest-side, color-mix(in oklab, var(--color-gold) 60%, transparent), transparent 70%);
+  animation: cloud-b 56s ease-in-out infinite alternate;
+}
+.cloud-3 {
+  left: 50%; width: 58vw; height: 40vh; opacity: 0.5;
+  background: radial-gradient(closest-side, color-mix(in oklab, #ff6ea8 70%, transparent), transparent 70%);
+  animation: cloud-c 46s ease-in-out infinite alternate;
+}
+.cloud-4 {
+  left: 8%; width: 46vw; height: 32vh; bottom: -8%; opacity: 0.38;
+  background: radial-gradient(closest-side, color-mix(in oklab, var(--color-gold) 45%, transparent), transparent 70%);
+  animation: cloud-a 64s ease-in-out infinite alternate-reverse;
+}
+@keyframes cloud-a { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(14vw, -5%, 0); } }
+@keyframes cloud-b { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-16vw, 4%, 0); } }
+@keyframes cloud-c { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(10vw, -7%, 0); } }
 
 /* ============================================================
    Components
