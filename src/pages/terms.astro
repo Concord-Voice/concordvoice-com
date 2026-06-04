@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+// Renders the CANONICAL repo markdown directly. In production this file is the
+// same docs/legal/terms-of-service.md that lives in the repo (synced/symlinked),
+// so the published page can never drift from source. No Termly, no copy-paste.
+import { Content } from '../legal/terms-of-service.md';
+---
+
+<Layout title="Terms of Service — Concord Voice" description="Concord Voice Terms of Service.">
+  <Header />
+  <main class="mx-auto max-w-3xl px-6 py-16">
+    <article class="legal">
+      <Content />
+    </article>
+    <p class="mt-12 text-sm text-mist">
+      ← <a href="/" class="text-coral hover:text-gold">Back to home</a>
+    </p>
+  </main>
+  <Footer />
+</Layout>

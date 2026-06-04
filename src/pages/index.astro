@@ -1,0 +1,115 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const features = [
+  'End-to-End Encrypted',
+  'Voice & Video',
+  'Self-Hostable',
+  'Open-Source Path',
+  '7 Audio Tiers',
+  'Custom Themes',
+  'No Ads. Ever.',
+];
+
+const stats = [
+  { big: 'AES-256', label: 'Message Encryption' },
+  { big: '4096-bit', label: 'Key Wrapping' },
+  { big: '0', label: 'Messages We Can Read' },
+  { big: '0', label: 'Compromises' },
+];
+---
+
+<Layout>
+  <Header />
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="mx-auto max-w-5xl px-6 pb-24 pt-12 text-center">
+      <img
+        src="/brand/symbol.png"
+        alt=""
+        width="84"
+        height="84"
+        class="rise mx-auto mb-8 h-20 w-auto"
+        style="--d:0s; filter: drop-shadow(0 0 34px color-mix(in oklab, var(--color-coral) 55%, transparent));"
+      />
+      <p class="eyebrow rise text-gold" style="--d:.1s">Open Beta — June 21st, 2026</p>
+
+      <h1 class="display rise mt-5 text-5xl sm:text-7xl" style="--d:.2s">
+        Concord <span class="text-gradient">Voice</span>
+      </h1>
+
+      <p class="rise mx-auto mt-7 max-w-2xl text-lg text-mist sm:text-xl" style="--d:.32s">
+        A communications platform where your messages are encrypted before they leave your device.
+        Where virtually transparent voice quality isn't gated behind a paywall. Where you can run the
+        whole thing on your own hardware — with every feature unlocked.
+      </p>
+
+      <div class="rise mt-9 flex flex-wrap items-center justify-center gap-3" style="--d:.44s">
+        <a href="#notify" class="btn btn-primary">Get Launch Notification</a>
+        <a href="#why" class="btn border border-white/20 hover:border-coral">Why Concord</a>
+      </div>
+
+      <ul class="rise mt-12 flex flex-wrap items-center justify-center gap-3" style="--d:.56s">
+        {features.map((f) => <li class="pill">{f}</li>)}
+      </ul>
+    </section>
+
+    <!-- ============ MANIFESTO ============ -->
+    <section id="why" class="reveal mx-auto max-w-4xl px-6 py-20 text-center">
+      <blockquote class="display text-2xl leading-snug sm:text-4xl">
+        “We got tired of telling people to protect their data while watching the tools we used every
+        day do the opposite. <span class="text-gradient">So we built the alternative.</span>”
+      </blockquote>
+      <p class="eyebrow mt-6 text-mist">— The Concord Voice Team</p>
+    </section>
+
+    <!-- ============ STATS ============ -->
+    <section class="mx-auto max-w-6xl px-6 py-12">
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          stats.map((s, i) => (
+            <div
+              class="reveal rounded-2xl border border-white/10 bg-white/5 p-8 text-center"
+              style={`transition-delay:${i * 90}ms`}
+            >
+              <div class="text-gradient font-mono text-4xl sm:text-5xl">{s.big}</div>
+              <div class="eyebrow mt-3 text-mist">{s.label}</div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ============ NOTIFY ============ -->
+    <section id="notify" class="reveal mx-auto max-w-2xl px-6 py-24 text-center">
+      <h2 class="display text-3xl sm:text-5xl">Get Notified When We Launch</h2>
+      <p class="mt-4 text-mist">No spam. One email when beta opens. That's it.</p>
+
+      <form id="notify-form" class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <label for="email" class="sr-only">Email</label>
+        <input id="email" name="email" type="email" required placeholder="you@domain.com" class="field" />
+        <!-- Honeypot: a privacy-friendly spam trap. No Google reCAPTCHA. -->
+        <input type="text" name="company" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+        <button type="submit" class="btn btn-primary whitespace-nowrap">Notify Me</button>
+      </form>
+      <p id="notify-note" class="mt-4 text-xs text-mist">
+        Protected by a honeypot, not Google. Zero third-party trackers on this page.
+      </p>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  // Demo-only handler — production wires this to Cloudflare Turnstile + a Pages Function or your ESP.
+  const form = document.getElementById('notify-form');
+  const note = document.getElementById('notify-note');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (note) note.textContent = 'Thanks! (Demo — wire this to a Cloudflare Pages Function or your email provider.)';
+  });
+</script>

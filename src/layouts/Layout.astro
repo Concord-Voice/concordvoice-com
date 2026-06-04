@@ -1,0 +1,76 @@
+---
+import '@fontsource/source-sans-3/400.css';
+import '@fontsource/source-sans-3/600.css';
+import '@fontsource/source-sans-3/700.css';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Concord Voice — Own Your Voice',
+  description = 'A privacy-first communications platform. End-to-end encrypted voice, video, and messaging. Self-hostable, every feature unlocked. No ads, ever.',
+} = Astro.props;
+
+// A few stars echoing the brand mark (the "Moon with Two Stars" symbol).
+const stars = [
+  { top: '12%', left: '16%', d: '0.2s' },
+  { top: '20%', left: '82%', d: '1.1s' },
+  { top: '34%', left: '44%', d: '2.0s' },
+  { top: '48%', left: '8%', d: '0.7s' },
+  { top: '60%', left: '90%', d: '1.6s' },
+  { top: '72%', left: '28%', d: '2.4s' },
+  { top: '83%', left: '66%', d: '0.4s' },
+  { top: '28%', left: '62%', d: '3.0s' },
+  { top: '8%', left: '50%', d: '1.4s' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/png" href="/brand/icon.png" />
+    <meta name="theme-color" content="#0d0821" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
+    <div class="aurora" aria-hidden="true"></div>
+    <div class="starfield" aria-hidden="true">
+      {stars.map((s) => <span class="star" style={`top:${s.top};left:${s.left};animation-delay:${s.d}`}></span>)}
+    </div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <div class="layer">
+      <slot />
+    </div>
+
+    <script>
+      // Scroll-reveal — zero dependencies. Reduced motion handled in CSS.
+      const els = document.querySelectorAll<HTMLElement>('.reveal');
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('in');
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { threshold: 0.15 },
+        );
+        els.forEach((el) => io.observe(el));
+      } else {
+        els.forEach((el) => el.classList.add('in'));
+      }
+    </script>
+  </body>
+</html>

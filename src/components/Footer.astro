@@ -1,0 +1,28 @@
+---
+// Footer — shared across landing + legal pages.
+// POC: year is static; production can stamp it at build time.
+const year = 2026;
+---
+<footer class="mt-24 border-t border-white/10">
+  <div class="mx-auto grid max-w-6xl gap-10 px-6 py-12 sm:grid-cols-3">
+    <div>
+      <img src="/brand/wordmark.png" alt="Concord Voice" class="mb-3 h-7 w-auto" />
+      <p class="max-w-xs text-sm text-mist">Own Your Voice. Private by design, self-hostable by choice.</p>
+    </div>
+    <div>
+      <p class="eyebrow mb-3 text-mist">Contact</p>
+      <a href="mailto:contact-us@concordvoice.com" class="text-coral hover:text-gold">contact-us@concordvoice.com</a>
+    </div>
+    <div>
+      <p class="eyebrow mb-3 text-mist">Legal</p>
+      <ul class="space-y-2 text-sm">
+        <li><a href="/privacy-policy" class="hover:text-gold">Privacy Policy</a></li>
+        <li><a href="/terms" class="hover:text-gold">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="mx-auto flex max-w-6xl flex-col justify-between gap-2 px-6 pb-10 text-xs text-mist sm:flex-row">
+    <span>© {year} Concord Voice LLC</span>
+    <span>Built privately · zero third-party trackers</span>
+  </div>
+</footer>

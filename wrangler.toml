@@ -1,0 +1,5 @@
+# Cloudflare Pages config for the Concord Voice marketing site.
+# Project/subdomain name → https://concordvoice-preview.pages.dev (rename freely).
+name = "concordvoice-preview"
+compatibility_date = "2026-06-04"
+pages_build_output_dir = "dist"
