@@ -48,7 +48,15 @@ const stats = [
       </p>
 
       <div class="rise mt-9 flex flex-wrap items-center justify-center gap-3" style="--d:.44s">
-        <a href="#notify" class="btn btn-primary">Get Launch Notification</a>
+        <a
+          href="https://www.kickstarter.com/projects/concord-mark/concord-voice"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="ks-btn"
+        >
+          <img src="/brand/kickstarter-k-white.png" alt="" />
+          <span>Follow on Kickstarter</span>
+        </a>
         <a href="#why" class="btn border border-white/20 hover:border-coral">Why Concord</a>
       </div>
 
@@ -83,33 +91,26 @@ const stats = [
       </div>
     </section>
 
-    <!-- ============ NOTIFY ============ -->
-    <section id="notify" class="reveal mx-auto max-w-2xl px-6 py-24 text-center">
-      <h2 class="display text-3xl sm:text-5xl">Get Notified When We Launch</h2>
-      <p class="mt-4 text-mist">No spam. One email when beta opens. That's it.</p>
-
-      <form id="notify-form" class="mt-8 flex flex-col gap-3 sm:flex-row">
-        <label for="email" class="sr-only">Email</label>
-        <input id="email" name="email" type="email" required placeholder="you@domain.com" class="field" />
-        <!-- Honeypot: a privacy-friendly spam trap. No third-party CAPTCHA. -->
-        <input type="text" name="company" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
-        <button type="submit" class="btn btn-primary whitespace-nowrap">Notify Me</button>
-      </form>
-      <p id="notify-note" class="mt-4 text-xs text-mist">
-        Protected by a honeypot, not Google. Zero third-party trackers on this page.
+    <!-- ============ KICKSTARTER ============ -->
+    <section id="kickstarter" class="reveal mx-auto max-w-2xl px-6 py-24 text-center">
+      <p class="eyebrow text-gold">Pre-Launch</p>
+      <h2 class="display mt-3 text-3xl sm:text-5xl">We're Launching on Kickstarter</h2>
+      <p class="mt-4 text-mist">
+        Follow the campaign to be notified the moment it goes live — and help bring private,
+        self-hostable communication to everyone.
       </p>
+      <a
+        href="https://www.kickstarter.com/projects/concord-mark/concord-voice"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="ks-btn mt-8"
+      >
+        <img src="/brand/kickstarter-k-white.png" alt="" />
+        <span>Follow on Kickstarter</span>
+      </a>
+      <p class="mt-4 text-xs text-mist">No account needed to follow · we never store your contact info.</p>
     </section>
   </main>
 
   <Footer />
 </Layout>
-
-<script>
-  // Demo-only handler — production wires this to Cloudflare Turnstile + a Pages Function or your ESP.
-  const form = document.getElementById('notify-form');
-  const note = document.getElementById('notify-note');
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (note) note.textContent = 'Thanks! (Demo — wire this to a Cloudflare Pages Function or your email provider.)';
-  });
-</script>

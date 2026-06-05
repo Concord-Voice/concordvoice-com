@@ -39,6 +39,13 @@ body {
   overflow-x: hidden;
 }
 
+/* Visible keyboard focus (WCAG 2.4.7) */
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
 /* ---- Display type: Droidiga in Title Case reveals its dotted-o ---- */
 .display {
   font-family: "Droidiga", var(--font-body);
@@ -68,7 +75,8 @@ body {
 }
 
 /* ============================================================
-   Atmosphere: aurora glow + film grain + starfield + cloud bank
+   Atmosphere: aurora glow + film grain + starfield
+   (the dusk cloud bank lives in the footer — see .cloudscape)
    ============================================================ */
 .aurora, .grain, .starfield { position: fixed; inset: 0; pointer-events: none; }
 .aurora { z-index: 0; }
@@ -76,7 +84,7 @@ body {
 .grain { z-index: 2; }
 .layer { position: relative; z-index: 3; }
 
-/* Top-of-page glows. The bottom horizon is now owned by .cloudscape. */
+/* Top-of-page glows only. The bottom horizon is owned by the footer cloudscape. */
 .aurora {
   background:
     radial-gradient(38rem 30rem at 74% -10%, color-mix(in oklab, var(--color-coral) 40%, transparent), transparent 70%),
@@ -107,60 +115,78 @@ body {
 }
 @keyframes twinkle { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.85; } }
 
-/* ---- Dusk / dawn cloud bank — drifts along the bottom horizon ---- */
-.cloudscape {
-  position: fixed;
-  left: 0; right: 0; bottom: 0;
-  height: 48vh;
-  z-index: 1;
-  pointer-events: none;
-  overflow: hidden;
-  /* dissolve into the night toward the top */
-  -webkit-mask-image: linear-gradient(to top, #000 12%, rgba(0, 0, 0, 0.85) 40%, transparent 92%);
-  mask-image: linear-gradient(to top, #000 12%, rgba(0, 0, 0, 0.85) 40%, transparent 92%);
-}
-/* warm horizon wash sitting under the clouds */
-.cloudscape::after {
-  content: "";
+/* ============================================================
+   Footer atmosphere: night sky (dusk glow + stars) behind a
+   drifting white fog of varying density that reveals it.
+   ============================================================ */
+
+/* Night sky — behind the fog, revealed wherever the fog thins. NOT masked,
+   so the stars persist up into the dark above the horizon glow. */
+.footer-sky {
   position: absolute;
   inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.footer-glow {
+  position: absolute;
+  inset: 0;
+  /* Faint warm horizon only — the dark blue night is the dominant backdrop so it
+     reads through the morphing pink clouds. */
   background: linear-gradient(
     to top,
     color-mix(in oklab, var(--color-coral) 30%, transparent) 0%,
-    color-mix(in oklab, var(--color-coral) 10%, transparent) 32%,
-    transparent 70%
+    color-mix(in oklab, var(--color-coral) 11%, transparent) 28%,
+    transparent 58%
   );
 }
-.cloud {
+.footer-star {
   position: absolute;
-  bottom: -18%;
-  border-radius: 50%;
-  filter: blur(34px);
-  will-change: transform;
+  width: 2px; height: 2px;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.55);
+  opacity: 0.16;
+  animation: twinkle 5s ease-in-out infinite;
 }
-.cloud-1 {
-  left: -12%; width: 65vw; height: 42vh; opacity: 0.55;
-  background: radial-gradient(closest-side, color-mix(in oklab, var(--color-coral) 75%, transparent), transparent 70%);
-  animation: cloud-a 40s ease-in-out infinite alternate;
+
+/* Fog container — masked so the whole bank dissolves up into the night. */
+.cloudscape {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to top, #000 22%, transparent 92%);
+  mask-image: linear-gradient(to top, #000 22%, transparent 92%);
 }
-.cloud-2 {
-  left: 28%; width: 72vw; height: 50vh; bottom: -24%; opacity: 0.42;
-  background: radial-gradient(closest-side, color-mix(in oklab, var(--color-gold) 60%, transparent), transparent 70%);
-  animation: cloud-b 56s ease-in-out infinite alternate;
+/* WebGL fog — a GPU fragment shader (in Footer.astro) renders animated FBM noise
+   as pink/magenta fog with per-pixel alpha: it morphs fluidly and reveals the
+   dark-blue night through the thin spots, GPU-driven so it stays smooth + cool. */
+.fog-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
-.cloud-3 {
-  left: 50%; width: 58vw; height: 40vh; opacity: 0.5;
-  background: radial-gradient(closest-side, color-mix(in oklab, #ff6ea8 70%, transparent), transparent 70%);
-  animation: cloud-c 46s ease-in-out infinite alternate;
+
+/* Legibility scrim — dark vignette behind footer text so light type passes WCAG AA
+   over the bright pink, while the dusk still glows below and around it. */
+.footer-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    140% 88% at 50% 46%,
+    rgba(13, 8, 33, 0.84) 0%,
+    rgba(13, 8, 33, 0.55) 48%,
+    rgba(13, 8, 33, 0.18) 82%,
+    rgba(13, 8, 33, 0) 100%
+  );
 }
-.cloud-4 {
-  left: 8%; width: 46vw; height: 32vh; bottom: -8%; opacity: 0.38;
-  background: radial-gradient(closest-side, color-mix(in oklab, var(--color-gold) 45%, transparent), transparent 70%);
-  animation: cloud-a 64s ease-in-out infinite alternate-reverse;
-}
-@keyframes cloud-a { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(14vw, -5%, 0); } }
-@keyframes cloud-b { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-16vw, 4%, 0); } }
-@keyframes cloud-c { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(10vw, -7%, 0); } }
 
 /* ============================================================
    Components
@@ -192,6 +218,22 @@ body {
   box-shadow: 0 10px 40px -12px var(--color-coral);
 }
 .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 18px 52px -12px var(--color-coral); }
+
+/* Kickstarter CTA — official Kickstarter green so it's instantly recognisable */
+.ks-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 0.85rem 1.6rem;
+  color: #fff;
+  background: #05ce78;
+  box-shadow: 0 10px 40px -12px #05ce78;
+  transition: transform 0.25s, box-shadow 0.25s, filter 0.25s;
+}
+.ks-btn:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 18px 52px -12px #05ce78; }
+.ks-btn img { height: 1.05em; width: auto; }
 
 .field {
   width: 100%;
@@ -233,9 +275,16 @@ body {
 .legal th, .legal td { border: 1px solid color-mix(in oklab, var(--color-paper) 14%, transparent); padding: 0.5rem 0.75rem; text-align: left; vertical-align: top; }
 
 /* ============================================================
-   Respect reduced motion — keep content visible
+   Reduced motion — respect entrance / hover MOVEMENT, but keep the
+   slow ambient background drift (clouds, aurora, stars). It never
+   displaces content and is part of the brand. (Site-owner choice.)
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
-  .rise, .reveal { opacity: 1 !important; transform: none !important; }
+  .rise, .reveal {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .pill:hover, .btn:hover, .btn-primary:hover { transform: none !important; }
 }

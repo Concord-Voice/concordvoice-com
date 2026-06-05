@@ -1,28 +1,139 @@
 ---
 // Footer — shared across landing + legal pages.
-// POC: year is static; production can stamp it at build time.
+// Layering (back → front): night sky (dark blue + faint dusk glow + stars, z-0) →
+// WebGL fog canvas (animated FBM, pink/magenta, reveals the blue, z-0) →
+// legibility scrim (z-1) → content (z-10).
 const year = 2026;
+
+// Stars sit behind the fog, biased to the upper (darker) sky.
+const stars = [
+  { top: '10%', left: '8%',  d: '0.2s' }, { top: '16%', left: '30%', d: '1.4s' },
+  { top: '9%',  left: '54%', d: '2.3s' }, { top: '14%', left: '78%', d: '0.7s' },
+  { top: '22%', left: '92%', d: '1.9s' }, { top: '27%', left: '18%', d: '3.1s' },
+  { top: '20%', left: '44%', d: '0.5s' }, { top: '25%', left: '66%', d: '2.6s' },
+  { top: '33%', left: '12%', d: '1.1s' }, { top: '31%', left: '84%', d: '3.4s' },
+  { top: '38%', left: '38%', d: '0.9s' }, { top: '36%', left: '58%', d: '2.0s' },
+  { top: '43%', left: '24%', d: '1.6s' }, { top: '40%', left: '72%', d: '0.3s' },
+];
 ---
-<footer class="mt-24 border-t border-white/10">
-  <div class="mx-auto grid max-w-6xl gap-10 px-6 py-12 sm:grid-cols-3">
-    <div>
-      <img src="/brand/wordmark.png" alt="Concord Voice" class="mb-3 h-7 w-auto" />
-      <p class="max-w-xs text-sm text-mist">Own Your Voice. Private by design, self-hostable by choice.</p>
-    </div>
-    <div>
-      <p class="eyebrow mb-3 text-mist">Contact</p>
-      <a href="mailto:contact-us@concordvoice.com" class="text-coral hover:text-gold">contact-us@concordvoice.com</a>
-    </div>
-    <div>
-      <p class="eyebrow mb-3 text-mist">Legal</p>
-      <ul class="space-y-2 text-sm">
-        <li><a href="/privacy-policy" class="hover:text-gold">Privacy Policy</a></li>
-        <li><a href="/terms" class="hover:text-gold">Terms of Service</a></li>
-      </ul>
-    </div>
+<footer class="site-footer relative isolate mt-24 overflow-hidden">
+  <div class="footer-sky" aria-hidden="true">
+    <div class="footer-glow"></div>
+    {stars.map((s) => <span class="footer-star" style={`top:${s.top};left:${s.left};animation-delay:${s.d}`}></span>)}
   </div>
-  <div class="mx-auto flex max-w-6xl flex-col justify-between gap-2 px-6 pb-10 text-xs text-mist sm:flex-row">
-    <span>© {year} Concord Voice LLC</span>
-    <span>Built privately · zero third-party trackers</span>
+
+  <div class="cloudscape" aria-hidden="true">
+    <canvas class="fog-canvas" data-fog></canvas>
+  </div>
+
+  <div class="footer-scrim" aria-hidden="true"></div>
+
+  <div class="relative z-10 pt-[26vh]">
+    <div class="mx-auto grid max-w-6xl gap-10 px-6 py-12 sm:grid-cols-3">
+      <div>
+        <img src="/brand/wordmark.png" alt="Concord Voice" class="mb-3 h-7 w-auto" />
+        <p class="max-w-xs text-sm text-mist">Own Your Voice. Private by design, self-hostable by choice.</p>
+      </div>
+      <div>
+        <p class="eyebrow mb-3 text-mist">Contact</p>
+        <a
+          href="mailto:contact-us@concordvoice.com"
+          class="text-coral underline decoration-coral/40 underline-offset-2 hover:text-gold"
+        >contact-us@concordvoice.com</a>
+      </div>
+      <div>
+        <p class="eyebrow mb-3 text-mist">Legal</p>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/privacy-policy" class="text-coral underline decoration-coral/40 underline-offset-2 hover:text-gold">Privacy Policy</a></li>
+          <li><a href="/terms" class="text-coral underline decoration-coral/40 underline-offset-2 hover:text-gold">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mx-auto flex max-w-6xl flex-col justify-between gap-2 px-6 pb-10 text-xs text-mist sm:flex-row">
+      <span>© {year} Concord Voice LLC</span>
+      <span>Built privately · zero third-party trackers</span>
+    </div>
   </div>
 </footer>
+
+<script>
+  // WebGL fog: animated FBM noise → pink/magenta fog with per-pixel alpha.
+  // GPU-driven, rendered at 0.6× for softness, paused when offscreen or tab-hidden.
+  const canvas = document.querySelector<HTMLCanvasElement>('canvas[data-fog]');
+  const gl = canvas?.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false, depth: false });
+
+  if (canvas && gl) {
+    const VERT = 'attribute vec2 p; void main(){ gl_Position = vec4(p, 0.0, 1.0); }';
+    const FRAG = `
+      precision mediump float;
+      uniform vec2 u_res;
+      uniform float u_time;
+      float hash(vec2 p){ p = fract(p * vec2(123.34, 345.45)); p += dot(p, p + 34.345); return fract(p.x * p.y); }
+      float noise(vec2 p){
+        vec2 i = floor(p), f = fract(p);
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
+                   mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
+      }
+      float fbm(vec2 p){ float v = 0.0, a = 0.5; for (int i = 0; i < 4; i++){ v += a * noise(p); p *= 2.0; a *= 0.5; } return v; }
+      void main(){
+        vec2 uv = gl_FragCoord.xy / u_res;
+        vec2 p = vec2(uv.x * (u_res.x / u_res.y), uv.y) * 3.0;
+        float t = u_time * 0.052;
+        p.x += u_time * 0.014;
+        // domain warp for fluid, swirling motion + slow morph
+        vec2 q = vec2(fbm(p + vec2(0.0, t)), fbm(p + vec2(5.2, -t * 0.8)));
+        float f = fbm(p + 1.6 * q);
+        float vert = smoothstep(1.0, 0.05, uv.y);           // dense low, thins upward
+        float dens = smoothstep(0.30, 0.74, f) * vert;      // denser, more defined cloud bodies
+        dens = pow(dens, 0.82);                              // fatten mid-tones → puffier, less smoky
+        vec3 col = mix(vec3(0.98, 0.44, 0.60), vec3(0.945, 0.35, 0.63), clamp(f, 0.0, 1.0));
+        float a = dens * 0.97;
+        gl_FragColor = vec4(col * a, a);                    // premultiplied
+      }`;
+    const compile = (type: number, src: string) => {
+      const s = gl.createShader(type)!;
+      gl.shaderSource(s, src); gl.compileShader(s); return s;
+    };
+    const prog = gl.createProgram()!;
+    gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
+    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
+    gl.linkProgram(prog); gl.useProgram(prog);
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, 'p');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    const uRes = gl.getUniformLocation(prog, 'u_res');
+    const uTime = gl.getUniformLocation(prog, 'u_time');
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5), scale = 0.55;
+      const w = Math.max(1, (canvas.clientWidth * dpr * scale) | 0);
+      const h = Math.max(1, (canvas.clientHeight * dpr * scale) | 0);
+      if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; gl.viewport(0, 0, w, h); }
+    };
+
+    let raf = 0, onScreen = false, tabHidden = false, last = -1e9;
+    const frame = (t: number) => {
+      raf = requestAnimationFrame(frame);
+      if (t - last < 33) return; // cap ~30fps — slow fog needs no more, and it halves GPU load
+      last = t;
+      resize();
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+      gl.uniform1f(uTime, t * 0.001);
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+    };
+    const start = () => { if (!raf && onScreen && !tabHidden) raf = requestAnimationFrame(frame); };
+    const stop = () => { if (raf) { cancelAnimationFrame(raf); raf = 0; } };
+
+    new IntersectionObserver((e) => { onScreen = e[0].isIntersecting; onScreen ? start() : stop(); }, { threshold: 0 }).observe(canvas);
+    document.addEventListener('visibilitychange', () => { tabHidden = document.hidden; tabHidden ? stop() : start(); });
+  }
+</script>
