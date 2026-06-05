@@ -266,6 +266,69 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .field::placeholder { color: var(--color-mist); }
 
 /* ============================================================
+   "No cookie banner" — a tongue-in-cheek non-banner. The whole
+   joke is the ABSENCE of a consent prompt, so it sets no cookie:
+   dismissal is remembered in sessionStorage (cleared on tab close).
+   Sits in the corner a cookie banner would, then says the opposite.
+   ============================================================ */
+.cookie-note {
+  position: fixed;
+  left: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 60;
+  display: none;
+  max-width: 23rem;
+  padding: 1.05rem 1.15rem 1rem;
+  border-radius: 1rem;
+  background: color-mix(in oklab, var(--color-night) 80%, #000);
+  border: 1px solid color-mix(in oklab, var(--color-coral) 24%, transparent);
+  box-shadow: 0 20px 55px -20px rgba(0, 0, 0, 0.85);
+  color: var(--color-mist);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+.cookie-note.is-visible {
+  display: block;
+  animation: cookie-note-in 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.cookie-note__text { margin: 0; }
+.cookie-note__text strong { color: var(--color-paper); font-weight: 700; }
+.cookie-note__actions {
+  margin-top: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.cookie-note__link {
+  color: var(--color-coral);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.cookie-note__link:hover { color: var(--color-gold); }
+.cookie-note__ok {
+  flex-shrink: 0;
+  padding: 0.42rem 0.95rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: #1a0b2e;
+  background: linear-gradient(100deg, var(--color-gold), var(--color-coral));
+  cursor: pointer;
+  transition: filter 0.2s, transform 0.2s;
+}
+.cookie-note__ok:hover { filter: brightness(1.08); transform: translateY(-1px); }
+@keyframes cookie-note-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+@media (max-width: 480px) {
+  .cookie-note { left: 0.75rem; right: 0.75rem; bottom: 0.75rem; max-width: none; }
+}
+
+/* ============================================================
    Motion: page-load rise + scroll reveal
    ============================================================ */
 .rise { opacity: 0; transform: translateY(16px); animation: rise 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; animation-delay: var(--d, 0s); }
@@ -305,4 +368,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     transform: none !important;
   }
   .pill:hover, .btn:hover, .btn-primary:hover { transform: none !important; }
+  /* The witty cookie-note: appear instantly (no entrance slide) + no hover lift. */
+  .cookie-note.is-visible { animation: none !important; }
+  .cookie-note__ok:hover { transform: none !important; }
 }
