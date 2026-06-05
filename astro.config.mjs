@@ -5,5 +5,5 @@ import { defineConfig } from 'astro/config';
 // Tailwind v4 runs via PostCSS (see postcss.config.mjs); the @tailwindcss/vite
 // plugin is incompatible with Astro 6's rolldown-vite as of 2026-06.
 export default defineConfig({
-  site: 'https://www.concordvoice.com',
+  site: 'https://concordvoice.com',
 });
