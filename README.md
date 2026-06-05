@@ -26,10 +26,15 @@ npm run preview    # serve the build locally
 
 ## Deploy (Cloudflare Pages)
 
+Pushes to `main` build and deploy automatically (Cloudflare Pages Git integration; build
+command `npm run build`, output directory `dist`). Pull requests get their own preview URL.
+
+Manual deploy (fallback):
+
 ```bash
-npx wrangler login              # one-time, OAuth in browser
+npx wrangler login              # one-time OAuth — use Chrome (Safari HTTPS-Only blocks the localhost callback)
 npm run build
-npx wrangler pages deploy dist  # → https://concordvoice-preview.pages.dev
+npx wrangler pages deploy dist
 ```
 
 ## Legal docs are rendered from canonical Markdown
@@ -44,7 +49,7 @@ symlinked), so the published pages can never drift from source — no copy-paste
 src/
   layouts/Layout.astro      # <head>, atmosphere (aurora/grain/stars), scroll-reveal
   components/Header.astro    # symbol + wordmark + CTA
-  components/Footer.astro    # contact, legal links
+  components/Footer.astro    # contact, legal, social row + WebGL "dusk fog" canvas
   pages/index.astro          # the landing page
   pages/terms.astro          # renders src/legal/terms-of-service.md
   pages/privacy-policy.astro # renders src/legal/privacy-policy.md
