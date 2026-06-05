@@ -235,6 +235,27 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .ks-btn:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 18px 52px -12px #05ce78; }
 .ks-btn img { height: 1.05em; width: auto; }
 
+/* GitHub ghost button — secondary to the Kickstarter CTA in the header */
+.gh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 700;
+  font-size: 0.875rem;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  color: var(--color-mist);
+  border: 1px solid color-mix(in oklab, var(--color-paper) 22%, transparent);
+  transition: color 0.25s, border-color 0.25s, background 0.25s, transform 0.25s;
+}
+.gh-btn:hover {
+  color: var(--color-paper);
+  border-color: var(--color-coral);
+  background: color-mix(in oklab, var(--color-paper) 6%, transparent);
+  transform: translateY(-1px);
+}
+.gh-btn svg { width: 1.05em; height: 1.05em; }
+
 /* Footer social icon links */
 .social-link {
   display: inline-flex;
@@ -264,6 +285,23 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 }
 .field:focus { outline: none; border-color: var(--color-gold); box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-gold) 25%, transparent); }
 .field::placeholder { color: var(--color-mist); }
+
+/* License page — the CVSL rendered verbatim. Preformatted so clause
+   indentation survives; wraps long lines (and URLs) on small screens. */
+.legal-license {
+  margin-top: 2rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: color-mix(in oklab, var(--color-paper) 84%, transparent);
+  background: color-mix(in oklab, var(--color-paper) 4%, transparent);
+  border: 1px solid color-mix(in oklab, var(--color-paper) 12%, transparent);
+  border-radius: 0.9rem;
+  padding: 1.5rem 1.4rem;
+  tab-size: 2;
+}
 
 /* ============================================================
    "No cookie banner" — a tongue-in-cheek non-banner. The whole
