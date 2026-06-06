@@ -35,7 +35,11 @@ const stars = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="icon" type="image/png" href="/brand/icon.png" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#0d0821" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -115,6 +119,53 @@ const stars = [
             }
           });
         }
+      }
+
+      // Equal-height cards: level every .mkt-grid's boxes to its tallest, so card rows
+      // read as uniform even when text lengths differ. Incomplete rows stay centered
+      // (that's flexbox). No-op on pages without card grids (home/legal).
+      const equalizeGrids = () => {
+        document.querySelectorAll<HTMLElement>('.mkt-grid, .feat-grid').forEach((grid) => {
+          const cards = Array.from(grid.children) as HTMLElement[];
+          cards.forEach((c) => { c.style.minHeight = ''; });
+          // Stacked in a single column (mobile) → leave natural heights. Detect via layout,
+          // not window width, so it's reliable regardless of viewport-metric quirks.
+          if (new Set(cards.map((c) => c.offsetLeft)).size <= 1) return;
+          const max = cards.reduce((m, c) => Math.max(m, c.getBoundingClientRect().height), 0);
+          cards.forEach((c) => { c.style.minHeight = `${Math.round(max)}px`; });
+        });
+      };
+      const runEqualize = () => requestAnimationFrame(() => requestAnimationFrame(equalizeGrids));
+      runEqualize();
+      window.addEventListener('load', runEqualize);
+      if (document.fonts?.ready) document.fonts.ready.then(runEqualize); // re-level after fonts swap in
+      [300, 900].forEach((d) => window.setTimeout(runEqualize, d)); // catch late reflows (text wrap, images)
+      let eqTimer: number | undefined;
+      window.addEventListener('resize', () => { clearTimeout(eqTimer); eqTimer = window.setTimeout(runEqualize, 150); }, { passive: true });
+
+      // Monthly / Yearly billing toggle for pricing blocks. No-op without a [data-bill] control.
+      // A .tier__price carries data-m (monthly) / data-y (yearly) / data-save (% off) / data-per.
+      const billButtons = document.querySelectorAll<HTMLElement>('[data-bill]');
+      if (billButtons.length) {
+        const setBilling = (mode: string) => {
+          document.querySelectorAll<HTMLElement>('[data-bill]').forEach((b) => {
+            const on = b.dataset.bill === mode;
+            b.classList.toggle('is-active', on);
+            b.setAttribute('aria-pressed', on ? 'true' : 'false');
+          });
+          document.querySelectorAll<HTMLElement>('.tier__price').forEach((p) => {
+            const amt = p.querySelector<HTMLElement>('.tier__amt');
+            const per = p.querySelector<HTMLElement>('.tier__per');
+            const save = p.querySelector<HTMLElement>('.tier__save');
+            const yearly = mode === 'yearly';
+            const free = !p.dataset.y || p.dataset.m === '$0';
+            if (amt) amt.textContent = free ? (p.dataset.m || '$0') : (yearly ? p.dataset.y! : p.dataset.m!);
+            if (per) per.textContent = free ? (p.dataset.per || '') : (yearly ? '/year' : '/month');
+            if (save) save.hidden = !(yearly && Number(p.dataset.save) > 0);
+          });
+        };
+        billButtons.forEach((b) => b.addEventListener('click', () => setBilling(b.dataset.bill!)));
+        setBilling('monthly');
       }
     </script>
   </body>

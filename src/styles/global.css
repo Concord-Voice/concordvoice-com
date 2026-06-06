@@ -74,6 +74,19 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   color: transparent;
 }
 
+/* ---- Brand color rules (branding/Concord-Voice/colors) ----
+   H1–H2 = magenta (Auxiliary 1 / --color-coral); H3+ and bold = yellow (Auxiliary 2 /
+   --color-gold). Applies site-wide. Custom gradients (.text-gradient) win via higher
+   specificity, so gradient titles keep their gradient; plain titles fall back to magenta. */
+h1, h2 { color: var(--color-coral); }
+h3, h4, h5, h6 { color: var(--color-gold); }
+strong, b { color: var(--color-gold); }
+/* A heading that contains a gradient (whole or part) keeps its non-gradient text in the
+   original white (body color) — so a partial-gradient title reads as "white + gradient
+   accent" rather than "magenta + gradient," which looked like a broken gradient. The
+   .text-gradient element itself still wins on specificity and keeps its gradient. */
+:is(h1, h2, h3, h4, h5, h6):has(.text-gradient) { color: var(--color-paper); }
+
 /* ============================================================
    Atmosphere: aurora glow + film grain + starfield
    (the dusk cloud bank lives in the footer — see .cloudscape)
@@ -195,15 +208,43 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   border: 1px solid color-mix(in oklab, var(--color-paper) 18%, transparent);
   border-radius: 9999px;
   padding: 0.5rem 1rem;
+  font-family: inherit;
   font-size: 0.8rem;
   letter-spacing: 0.03em;
+  color: inherit;
   background: color-mix(in oklab, var(--color-paper) 4%, transparent);
-  transition: border-color 0.3s, background 0.3s, transform 0.3s;
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s, transform 0.3s, color 0.3s;
 }
-.pill:hover {
+.pill:hover,
+.pill:focus-visible {
   border-color: var(--color-coral);
   background: color-mix(in oklab, var(--color-coral) 12%, transparent);
   transform: translateY(-2px);
+}
+.pill:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; }
+/* Pinned pill — its blurb is the one showing in the panel below. */
+.pill.is-active {
+  border-color: var(--color-coral);
+  background: color-mix(in oklab, var(--color-coral) 18%, transparent);
+  color: var(--color-paper);
+}
+
+/* One blurb panel under the feature-pill row (replaces the old per-pill tooltips).
+   Hover/focus previews a pill's text here; click pins it. */
+.pill-blurb {
+  max-width: 42rem;
+  min-height: 3rem;
+  margin: 1.5rem auto 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: color-mix(in oklab, var(--color-paper) 88%, transparent);
+  text-align: center;
+  transition: color 0.2s ease;
+}
+.pill-blurb.is-hint {
+  color: color-mix(in oklab, var(--color-mist) 70%, transparent);
+  font-size: 0.85rem;
 }
 
 .btn {
@@ -236,17 +277,21 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .ks-btn img { height: 1.05em; width: auto; }
 
 /* GitHub ghost button — secondary to the Kickstarter CTA in the header */
-.gh-btn {
+/* Header icon buttons — GitHub (ghost) + Kickstarter (green) as matched square icons. */
+.gh-btn, .ks-icon {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  font-weight: 700;
-  font-size: 0.875rem;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
   border-radius: 9999px;
-  padding: 0.5rem 1rem;
+  flex: none;
+  transition: color 0.25s, border-color 0.25s, background 0.25s, transform 0.25s, filter 0.25s, box-shadow 0.25s;
+}
+.gh-btn {
   color: var(--color-mist);
   border: 1px solid color-mix(in oklab, var(--color-paper) 22%, transparent);
-  transition: color 0.25s, border-color 0.25s, background 0.25s, transform 0.25s;
 }
 .gh-btn:hover {
   color: var(--color-paper);
@@ -254,7 +299,13 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   background: color-mix(in oklab, var(--color-paper) 6%, transparent);
   transform: translateY(-1px);
 }
-.gh-btn svg { width: 1.05em; height: 1.05em; }
+.gh-btn svg { width: 1.2rem; height: 1.2rem; }
+.ks-icon {
+  background: #05ce78;
+  box-shadow: 0 8px 26px -12px #05ce78;
+}
+.ks-icon:hover { transform: translateY(-1px); filter: brightness(1.05); box-shadow: 0 14px 36px -12px #05ce78; }
+.ks-icon img { height: 1.2rem; width: auto; }
 
 /* Footer social icon links */
 .social-link {
@@ -316,6 +367,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   z-index: 60;
   display: none;
   max-width: 23rem;
+  max-height: calc(100dvh - 2.5rem);
+  overflow-y: auto;
   padding: 1.05rem 1.15rem 1rem;
   border-radius: 1rem;
   background: color-mix(in oklab, var(--color-night) 80%, #000);
@@ -363,7 +416,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   to { opacity: 1; transform: none; }
 }
 @media (max-width: 480px) {
-  .cookie-note { left: 0.75rem; right: 0.75rem; bottom: 0.75rem; max-width: none; }
+  .cookie-note { left: 0.75rem; right: 0.75rem; bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)); max-width: none; }
 }
 
 /* ============================================================
@@ -380,14 +433,15 @@ a:focus-visible, button:focus-visible, input:focus-visible {
    ============================================================ */
 .legal { max-width: 46rem; margin-inline: auto; color: color-mix(in oklab, var(--color-paper) 86%, transparent); line-height: 1.75; }
 .legal h1 { font-family: "Droidiga", var(--font-body); font-size: clamp(2rem, 5vw, 3rem); line-height: 1; margin-bottom: 0.5rem; }
-.legal h2 { font-family: "Droidiga", var(--font-body); font-size: 1.6rem; margin-top: 2.5rem; margin-bottom: 0.75rem; color: var(--color-paper); }
-.legal h3 { font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.4rem; color: var(--color-paper); }
+.legal h2 { font-family: "Droidiga", var(--font-body); font-size: 1.6rem; margin-top: 2.5rem; margin-bottom: 0.75rem; color: var(--color-coral); }
+.legal h3 { font-weight: 700; font-size: 1.2rem; margin-top: 1.5rem; margin-bottom: 0.4rem; color: var(--color-gold); }
+.legal h4 { font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-gold); margin-top: 1.4rem; margin-bottom: 0.4rem; }
 .legal p, .legal li { margin-bottom: 0.85rem; }
 .legal a { color: var(--color-coral); text-underline-offset: 3px; }
 .legal a:hover { color: var(--color-gold); }
 .legal ul { list-style: disc; padding-left: 1.4rem; margin-bottom: 1rem; }
 .legal ol { list-style: decimal; padding-left: 1.4rem; margin-bottom: 1rem; }
-.legal strong { color: var(--color-paper); }
+.legal strong { color: var(--color-gold); }
 .legal blockquote { border-left: 3px solid var(--color-coral); padding-left: 1rem; color: var(--color-mist); margin: 1.5rem 0; }
 .legal hr { border: 0; border-top: 1px solid color-mix(in oklab, var(--color-paper) 14%, transparent); margin: 2rem 0; }
 .legal table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }

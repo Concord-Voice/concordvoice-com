@@ -13,5 +13,13 @@ _design-reference/
 .dev.vars
 *.log
 
+# claude code local config (preview launcher, session state) — not project source
+.claude/
+
+# draft pages — work-in-progress (e.g. Squarespace migrations). Kept off the
+# public repo, and stripped from the production build by astro.config.mjs so
+# they can never be published. Preview locally via `npm run dev` (/drafts/*).
+src/pages/drafts/
+
 # os
 .DS_Store
