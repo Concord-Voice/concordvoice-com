@@ -3,7 +3,7 @@
 //
 // DEV-AWARE NAV: almost every destination is still a gitignored DRAFT that 404s in a
 // production build. So in `npm run dev` the full categorized nav renders, pointing at
-// /drafts/*; in the production build only items flagged `live` appear (currently none).
+// /drafts/*; in the production build only items flagged `live` appear.
 // When a page is promoted out of src/pages/drafts/, flip its `live` to true — it then
 // shows in production. Links use FINAL production paths; a dev-only middleware
 // (src/middleware.ts) serves the draft version of those paths in local preview.

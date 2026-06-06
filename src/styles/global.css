@@ -84,7 +84,8 @@ strong, b { color: var(--color-gold); }
 /* A heading that contains a gradient (whole or part) keeps its non-gradient text in the
    original white (body color) — so a partial-gradient title reads as "white + gradient
    accent" rather than "magenta + gradient," which looked like a broken gradient. The
-   .text-gradient element itself still wins on specificity and keeps its gradient. */
+   .text-gradient child keeps its own transparent gradient fill — this rule recolors only
+   the heading's own direct text, not the span. */
 :is(h1, h2, h3, h4, h5, h6):has(.text-gradient) { color: var(--color-paper); }
 
 /* ============================================================
@@ -276,7 +277,6 @@ strong, b { color: var(--color-gold); }
 .ks-btn:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 18px 52px -12px #05ce78; }
 .ks-btn img { height: 1.05em; width: auto; }
 
-/* GitHub ghost button — secondary to the Kickstarter CTA in the header */
 /* Header icon buttons — GitHub (ghost) + Kickstarter (green) as matched square icons. */
 .gh-btn, .ks-icon {
   display: inline-flex;
