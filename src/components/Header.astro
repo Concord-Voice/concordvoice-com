@@ -1,12 +1,71 @@
 ---
-// Site header — symbol + wordmark, link home, single CTA.
+// Site header — symbol + wordmark (left), centered page nav (middle), CTAs (right).
+//
+// DEV-AWARE NAV: almost every destination is still a gitignored DRAFT that 404s in a
+// production build. So in `npm run dev` the full categorized nav renders, pointing at
+// /drafts/*; in the production build only items flagged `live` appear (currently none).
+// When a page is promoted out of src/pages/drafts/, flip its `live` to true — it then
+// shows in production. Links use FINAL production paths; a dev-only middleware
+// (src/middleware.ts) serves the draft version of those paths in local preview.
+const DEV = import.meta.env.DEV;
+
+const product = [
+  { label: 'Overview',         path: '/app',            live: false },
+  { label: 'Personal Pricing', path: '/pricing', live: false },
+  { label: 'Groups & Teams Pricing', path: '/teams', live: false },
+  { label: 'Self-Hosting',     path: '/self-hosting',   live: false },
+  { label: 'Enterprise & MSP', path: '/enterprise-msp', live: false },
+];
+const links = [
+  { label: 'Blog',  path: '/blog',     live: false },
+  { label: 'About', path: '/about-us', live: false },
+];
+
+const shown = (it: { live: boolean }) => DEV || it.live;
+
+const productItems = product.filter(shown);
+const linkItems = links.filter(shown);
+const showNav = productItems.length > 0 || linkItems.length > 0;
 ---
-<header class="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
-  <a href="/" class="flex items-center gap-3">
-    <img src="/brand/symbol.png" alt="Concord Voice" width="36" height="36" class="h-9 w-auto" />
-    <span class="display text-xl">Concord Voice</span>
-  </a>
-  <nav class="flex items-center gap-3 sm:gap-4">
+<header class="site-header relative mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-6 py-6">
+  <div class="flex items-center gap-2 justify-self-start">
+    {showNav && (
+      <button type="button" class="nav-burger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-nav" data-burger>
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+    )}
+    <a href="/" class="flex items-center gap-3">
+      <img src="/brand/symbol.png" alt="Concord Voice" width="36" height="36" class="h-9 w-auto" />
+      <span class="display text-xl hidden sm:inline">Concord Voice</span>
+    </a>
+  </div>
+
+  {showNav ? (
+    <nav class="site-nav justify-self-center" aria-label="Primary">
+      {productItems.length > 0 && (
+        <div class="nav-group" data-nav-group>
+          <button type="button" class="nav-link nav-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="nav-product">
+            Product
+            <svg class="nav-caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </button>
+          <div class="nav-pop" id="nav-product" role="menu">
+            {productItems.map((it) => (
+              <a role="menuitem" class="nav-pop__link" href={it.path}>{it.label}</a>
+            ))}
+          </div>
+        </div>
+      )}
+      {linkItems.map((it) => (
+        <a class="nav-link" href={it.path}>{it.label}</a>
+      ))}
+    </nav>
+  ) : (
+    <div aria-hidden="true"></div>
+  )}
+
+  <nav class="header-actions flex items-center justify-self-end gap-3 sm:gap-4" aria-label="Quick links">
     <span class="eyebrow text-mist hidden sm:inline">Coming Soon</span>
     <a
       href="https://github.com/Concord-Voice"
@@ -15,17 +74,204 @@
       class="gh-btn"
       aria-label="Concord Voice on GitHub"
     >
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-      <span class="hidden sm:inline">GitHub</span>
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg>
     </a>
     <a
       href="https://www.kickstarter.com/projects/concord-mark/concord-voice"
       target="_blank"
       rel="noopener noreferrer"
-      class="ks-btn !px-4 !py-2 !text-sm"
+      class="ks-icon"
+      aria-label="Back Concord Voice on Kickstarter"
     >
       <img src="/brand/kickstarter-k-white.png" alt="" />
-      <span>Kickstarter</span>
     </a>
   </nav>
+
+  {showNav && (
+    <div class="mobile-nav" id="mobile-nav" data-mobile-nav>
+      <nav aria-label="Mobile">
+        {productItems.map((it) => <a href={it.path}>{it.label}</a>)}
+        {linkItems.map((it) => <a href={it.path}>{it.label}</a>)}
+      </nav>
+    </div>
+  )}
 </header>
+
+<style>
+  /* Centered page nav lives in the middle grid column. Hidden below lg — the header
+     keeps logo + CTAs on small screens (a matching mobile menu can come later). */
+  .site-nav { display: none; align-items: center; gap: 0.3rem; }
+  @media (min-width: 1024px) { .site-nav { display: flex; } }
+
+  /* Mobile hamburger + slide-down menu — shown below lg, where the centered nav is hidden. */
+  .nav-burger {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 2.4rem; height: 2.4rem; border-radius: 0.6rem;
+    border: 1px solid color-mix(in oklab, var(--color-paper) 14%, transparent);
+    background: color-mix(in oklab, var(--color-paper) 4%, transparent);
+    color: var(--color-paper); cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .nav-burger:hover, .nav-burger:focus-visible { border-color: var(--color-coral); }
+  @media (min-width: 1024px) { .nav-burger { display: none; } }
+
+  .mobile-nav {
+    position: absolute; top: 100%; left: 0.75rem; right: 0.75rem; margin-top: 0.4rem;
+    display: grid; gap: 0.1rem; padding: 0.5rem;
+    border-radius: 0.9rem;
+    background: color-mix(in oklab, var(--color-night) 94%, #000);
+    border: 1px solid color-mix(in oklab, var(--color-paper) 14%, transparent);
+    box-shadow: 0 26px 60px -30px rgba(0, 0, 0, 0.95);
+    opacity: 0; visibility: hidden; transform: translateY(-6px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
+    z-index: 50;
+  }
+  .mobile-nav[data-open] {
+    opacity: 1; visibility: visible; transform: translateY(0);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s;
+  }
+  @media (min-width: 1024px) { .mobile-nav { display: none; } }
+  .mobile-nav a {
+    display: block; padding: 0.7rem 0.9rem; border-radius: 0.55rem;
+    color: var(--color-mist); font-weight: 600;
+    transition: color 0.2s, background 0.2s;
+  }
+  .mobile-nav a:hover, .mobile-nav a:focus-visible {
+    color: var(--color-paper); background: color-mix(in oklab, var(--color-coral) 16%, transparent);
+  }
+
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 0.85rem;
+    border-radius: 9999px;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--color-mist);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s;
+  }
+  .nav-link:hover,
+  .nav-link:focus-visible {
+    color: var(--color-paper);
+    background: color-mix(in oklab, var(--color-paper) 8%, transparent);
+  }
+
+  .nav-group { position: relative; }
+  .nav-caret { width: 0.6rem; height: 0.6rem; transition: transform 0.2s; }
+  .nav-group:hover .nav-caret,
+  .nav-group[data-open] .nav-caret { transform: rotate(180deg); }
+
+  .nav-pop {
+    position: absolute;
+    top: calc(100% + 0.55rem);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    min-width: 12rem;
+    display: grid;
+    gap: 0.1rem;
+    padding: 0.4rem;
+    border-radius: 0.85rem;
+    background: color-mix(in oklab, var(--color-night) 92%, #000);
+    border: 1px solid color-mix(in oklab, var(--color-paper) 14%, transparent);
+    box-shadow: 0 26px 60px -30px rgba(0, 0, 0, 0.95);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    /* visibility flips instantly on open (so menu items are focusable right away) but is
+       delayed on close (so the fade-out is visible) — see the open rule below. */
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
+    z-index: 40;
+  }
+  /* Invisible bridge across the gap so hover doesn't drop between trigger and menu. */
+  .nav-pop::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -0.6rem;
+    height: 0.6rem;
+  }
+  .nav-group:hover .nav-pop,
+  .nav-group[data-open] .nav-pop {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s;
+  }
+
+  .nav-pop__link {
+    display: block;
+    padding: 0.55rem 0.8rem;
+    border-radius: 0.6rem;
+    font-size: 0.9rem;
+    color: var(--color-mist);
+    white-space: nowrap;
+    transition: color 0.2s, background 0.2s;
+  }
+  .nav-pop__link:hover,
+  .nav-pop__link:focus-visible {
+    color: var(--color-paper);
+    background: color-mix(in oklab, var(--color-coral) 16%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-pop { transition: opacity 0.15s !important; transform: translateX(-50%) !important; }
+    .nav-caret { transition: none !important; }
+  }
+</style>
+
+<script>
+  // Product dropdown — WAI-ARIA menu-button pattern. Mouse opens on :hover (CSS);
+  // keyboard/touch use a managed open state with arrow-key navigation, Escape, and
+  // focus return. aria-expanded is kept honest for hover and keyboard alike.
+  const group = document.querySelector<HTMLElement>('[data-nav-group]');
+  const trigger = group?.querySelector<HTMLButtonElement>('.nav-trigger');
+  const menu = group?.querySelector<HTMLElement>('.nav-pop');
+  if (group && trigger && menu) {
+    const items = Array.from(menu.querySelectorAll<HTMLAnchorElement>('a'));
+    const expanded = (on: boolean) => trigger.setAttribute('aria-expanded', on ? 'true' : 'false');
+    const open = (focusFirst = false) => { group.setAttribute('data-open', ''); expanded(true); if (focusFirst) { void menu.offsetHeight; items[0]?.focus(); } };
+    const close = (focusTrigger = false) => { group.removeAttribute('data-open'); expanded(false); if (focusTrigger) trigger.focus(); };
+
+    trigger.addEventListener('click', () => (group.hasAttribute('data-open') ? close() : open()));
+    trigger.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') { e.preventDefault(); open(true); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); open(); void menu.offsetHeight; items[items.length - 1]?.focus(); }
+    });
+    menu.addEventListener('keydown', (e) => {
+      const i = items.indexOf(document.activeElement as HTMLAnchorElement);
+      if (e.key === 'ArrowDown') { e.preventDefault(); items[Math.min(i + 1, items.length - 1)]?.focus(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); if (i <= 0) close(true); else items[i - 1].focus(); }
+      else if (e.key === 'Home') { e.preventDefault(); items[0]?.focus(); }
+      else if (e.key === 'End') { e.preventDefault(); items[items.length - 1]?.focus(); }
+    });
+    // Hover opens visually via CSS — keep aria-expanded in sync for assistive tech.
+    group.addEventListener('mouseenter', () => expanded(true));
+    group.addEventListener('mouseleave', () => expanded(group.hasAttribute('data-open')));
+    // Close when focus leaves the group entirely (keyboard tab-out).
+    group.addEventListener('focusout', (e) => { if (!group.contains(e.relatedTarget as Node)) close(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && group.hasAttribute('data-open')) close(true); });
+    document.addEventListener('click', (e) => { if (!group.contains(e.target as Node)) close(); });
+  }
+
+  // Mobile hamburger menu (shown below lg).
+  const burger = document.querySelector<HTMLButtonElement>('[data-burger]');
+  const mobileNav = document.querySelector<HTMLElement>('[data-mobile-nav]');
+  if (burger && mobileNav) {
+    const setMobile = (open: boolean) => {
+      mobileNav.toggleAttribute('data-open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    burger.addEventListener('click', () => setMobile(!mobileNav.hasAttribute('data-open')));
+    mobileNav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMobile(false)));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && mobileNav.hasAttribute('data-open')) { setMobile(false); burger.focus(); } });
+    document.addEventListener('click', (e) => { const t = e.target as Node; if (!mobileNav.contains(t) && !burger.contains(t)) setMobile(false); });
+  }
+</script>
