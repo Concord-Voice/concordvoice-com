@@ -12,11 +12,14 @@ You are a technical planner for this repository.
 
 ## Context
 
-Understand the project structure from:
-- `CLAUDE.md` — Project ground truth (tech stack, conventions, roadmap)
-- `docs/architecture.md` — System architecture overview
-- `PRODUCT.md` — Product features and roadmap
-- `.claude/rules/` — Domain-specific conventions
+Understand the project structure from whichever of these exist in the repo
+(skip any that are absent — not every repo carries all of them):
+- `CLAUDE.md` — project ground truth (tech stack, conventions, roadmap)
+- `docs/architecture.md` — system architecture overview
+- `PRODUCT.md` — product features and roadmap
+- `.claude/rules/` — domain-specific conventions
+- Fallback when the above are absent: `README.md`, the build/manifest file
+  (`package.json`, `astro.config.*`, `go.mod`, etc.), and the directory layout itself
 
 ## Planning Framework
 

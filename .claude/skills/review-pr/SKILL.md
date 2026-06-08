@@ -23,7 +23,15 @@ Review PR #$0 against this repository's standards.
 Source the repo config helper, then fetch changed files:
 
 ```bash
-source "$(git rev-parse --show-toplevel)/scripts/repo-config.sh"
+# Source the repo-config helper if present; otherwise fall back to documented defaults
+# so the skill still runs in repos without scripts/repo-config.sh (e.g. thin consumer repos).
+RC="$(git rev-parse --show-toplevel)/scripts/repo-config.sh"
+if [ -f "$RC" ]; then
+  source "$RC"
+else
+  rc_get() { echo "$2"; }   # no config → return the provided default
+  rc_has() { return 1; }    # no config → no keys present
+fi
 gh pr diff $0 --name-only > /tmp/review-pr-changed-files.txt
 cat /tmp/review-pr-changed-files.txt
 ```

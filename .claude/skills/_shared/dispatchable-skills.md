@@ -2,7 +2,7 @@
 
 This file is the single source of truth for skills that `/issue-creation`, `/pr-creation`, `/dev-lifecycle`, and `/enhanced-pr-review` **MUST consult and dispatch when triggers match** — subject to mode authorization (Component D matrix) and billed-skill preapproval (§ Billed / cloud-cost skills). Consulting the catalog is not optional; a matched candidate that is not dispatched MUST be logged with the reason it was withheld. Each skill is categorized by the `/dev-lifecycle` phase it's a candidate for, with a trigger heuristic and use-case description.
 
-**Dispatch authorization is mode-dependent** (modes defined in `docs/superpowers/specs/2026-05-21-1109-autonomy-framework-design.md` Component D):
+**Dispatch authorization is mode-dependent** (modes are defined by the autonomy-framework design, Component D; that spec lives in the repo that owns autonomy policy and may not be present in every consumer repo):
 
 - **Hand-Held mode:** every dispatch requires explicit user approval
 - **Careful mode:** dispatches at gated phases (2, 5, 6, 7, 8, 9) require approval; auto-dispatch in 3, 4
