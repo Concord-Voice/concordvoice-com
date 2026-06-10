@@ -6,6 +6,7 @@ allowed-tools:
   - Bash(gh issue *)
   - Bash(gh api *)
   - Bash(gh pr *)
+  - Bash(gh repo *)
   - Read
 ---
 

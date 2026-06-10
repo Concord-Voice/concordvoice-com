@@ -26,11 +26,12 @@ If the PR doesn't exist, STOP and report the error.
 
 ## Step 2: Categorize checks
 
-Group checks into three buckets using the `bucket` field:
+Group checks using the `bucket` field:
 
 - **Passed** — bucket is `pass` (state is `SUCCESS`)
 - **Skipped** — bucket is `skipping` (state is `SKIPPED`)
-- **Failed** — bucket is `fail` (state is `FAILURE` or `CANCELLED`)
+- **Failed** — bucket is `fail` (state is `FAILURE`)
+- **Cancelled** — bucket is `cancel` (state is `CANCELLED`) — treat as a failure for remediation purposes
 - **Pending** — bucket is `pending` (state is `PENDING` or `QUEUED`)
 
 ## Step 3: If checks are still running
@@ -88,7 +89,7 @@ Then for each failed check, suggest remediation based on the check name:
 | Check name pattern | Remediation |
 |---|---|
 | `build` or `test` | "Run tests locally in the affected package (e.g. `go test -race ./...` or `npm test`)" |
-| `sonarqube` or `quality-gate` | "Run `/verify-quality-gate` to check coverage and quality locally" |
+| `sonarqube` or `quality-gate` | "If a local quality-gate skill is available (e.g. `/verify-quality-gate`), run it to check coverage and quality locally; otherwise open the check link" |
 | `lint` or `eslint` or `golangci` | "Run the linter in the affected package (e.g. `golangci-lint run` or `npm run lint`)" |
 | `semgrep` or `sast` | "Check Semgrep findings: `semgrep scan --config auto`" |
 | `gitleaks` or `trufflehog` | "Secret detected — check git history for accidentally committed credentials" |
@@ -98,7 +99,7 @@ Then for each failed check, suggest remediation based on the check name:
 For more details on a failure, open the check's link URL in the browser or use:
 
 ```bash
-gh pr checks $0 --json name,link,bucket --jq '.[] | select(.bucket == "fail") | .name + " → " + .link'
+gh pr checks $0 --json name,link,bucket --jq '.[] | select(.bucket == "fail" or .bucket == "cancel") | .name + " → " + .link'
 ```
 
 ## What This Skill Does NOT Do

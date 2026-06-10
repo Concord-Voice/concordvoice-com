@@ -6,6 +6,8 @@ disable-model-invocation: true
 allowed-tools:
   - Bash(gh pr *)
   - Bash(gh api *)
+  - Bash(git rev-parse *)
+  - Bash(cat *)
   - Read
   - Grep
   - Glob

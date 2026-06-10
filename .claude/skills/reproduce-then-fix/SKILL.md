@@ -14,6 +14,7 @@ allowed-tools:
   - Bash(git commit *)
   - Bash(git status *)
   - Bash(git branch *)
+  - Bash(git checkout *)
   - Bash(gh issue *)
   - Bash(gh pr *)
   - Read
