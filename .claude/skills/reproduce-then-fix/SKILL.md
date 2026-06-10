@@ -29,7 +29,7 @@ This skill encodes a non-negotiable ordering: **failing test exists and is commi
 
 # Reproduce-Then-Fix
 
-A bounded, test-first debugging workflow for issue `$0` (or the bug description given as the argument).
+A bounded, test-first debugging workflow for issue `$0` — a numeric GitHub issue number (validated in Step 1.1).
 
 ---
 

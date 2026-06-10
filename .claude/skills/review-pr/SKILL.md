@@ -101,7 +101,7 @@ Check against any `docs/policies/ai-generated-code-policy.md` and applicable `.c
 `@docs-reviewer` is dispatched via the Agent Dispatch table above when any `.md` file is changed. Report its findings here:
 - Source areas touched in this PR have corresponding doc updates
 - No duplicated facts (counts, phase status, agent lists) became inconsistent
-- Cross-references to CLAUDE.md are present where counts are stated
+- Cross-references to CLAUDE.md (when the repo has one) are present where counts are stated
 
 Report findings inline with severity (HIGH/MEDIUM/LOW/INFO).
 

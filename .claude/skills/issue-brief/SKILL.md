@@ -18,10 +18,11 @@ Generate a structured brief for issue #$0 to provide full context for brainstorm
 ## Step 1: Resolve repo identity
 
 ```bash
-gh repo view --json nameWithOwner --jq '.nameWithOwner'
+gh repo view --json nameWithOwner --jq '.nameWithOwner'   # e.g. Concord-Voice/concordvoice-com
 ```
 
-Split into `OWNER` and `REPO` for API calls.
+The `gh api` calls below use gh's built-in `{owner}`/`{repo}` placeholders, which
+it fills from the current repository — no manual variable wiring needed.
 
 ## Step 2: Fetch core issue data
 
@@ -36,7 +37,7 @@ If the issue doesn't exist or is inaccessible, STOP and report the error.
 Use the timeline API to find cross-references:
 
 ```bash
-gh api repos/${OWNER}/${REPO}/issues/$0/timeline --paginate \
+gh api repos/{owner}/{repo}/issues/$0/timeline --paginate \
   --jq '[.[] | select(.event == "cross-referenced") | {
     number: .source.issue.number,
     title: .source.issue.title,

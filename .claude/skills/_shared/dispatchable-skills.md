@@ -62,7 +62,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Use case:** Produce a structured ADR (Architecture Decision Record) for a non-trivial technology or design choice, with context, options considered, decision, and consequences. Use when the issue's resolution path requires committing to one of multiple credible technical alternatives.
 
-**Example:** [ADR-0002 Actions-as-SoT deploys](../../../docs/adr/0002-actions-as-sot-deploys.md) — exactly this skill's shape: context, alternatives considered, decision, and consequences for the infrastructure choice of "GitHub Actions as the source of truth for production deploys." The catalog of 7 ADRs under [`docs/adr/`](../../../docs/adr/) shows the project's established ADR pattern.
+**Example:** ADR-0002 "Actions-as-SoT deploys" — exactly this skill's shape: context, alternatives considered, decision, and consequences for the infrastructure choice of "GitHub Actions as the source of truth for production deploys." An ADR catalog under `docs/adr/` (in repos that keep one) shows the established ADR pattern.
 
 **Mode interaction:** Gated in Hand-Held and Careful (architecture decisions warrant explicit user buy-in). Auto-dispatch in Trusted / Weekly Deps / Overnight when triggers fire.
 
@@ -97,7 +97,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Use case:** Refine an idea into a written design spec through structured dialogue: explore project context, ask clarifying questions, propose alternatives, present a design, get user approval, write the spec to `docs/superpowers/specs/`. Mandatory before any creative work. **Runs as the synthesis sweep** — after any matched `design-class` skill (architecture, system design, frontend design, diagnosis) produces its artifact, brainstorming integrates those artifacts into the spec rather than being the sole design step (see § Design-class sequencing).
 
-**Example:** This catalog content's spec at [`2026-05-22-1139-skill-catalog-content-design.md`](../../../docs/superpowers/specs/2026-05-22-1139-skill-catalog-content-design.md) was produced by this skill.
+**Example:** This catalog content's spec (`docs/superpowers/specs/2026-05-22-1139-skill-catalog-content-design.md`, in the repo that owns it) was produced by this skill.
 
 **Mode interaction:** Always-dispatch at Phase 2 when no `*-NNN-*-design.md` spec exists for the issue. Mode controls whether the brainstorming output's gate (HARD-GATE on design approval) waits for explicit user reply or accepts inline approval from prior context. Hand-Held / Careful: waits explicitly. Trusted / Weekly Deps / Overnight: accepts pre-approved synthesis if design was just confirmed.
 
@@ -105,7 +105,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Use case:** Produce an executable task-by-task plan from an approved spec, saved to `docs/superpowers/plans/`. Plan contains actual content (file paths, code snippets, commands) — no placeholders. Required input for `/superpowers:subagent-driven-development` or `/superpowers:executing-plans`.
 
-**Example:** The plan at [`2026-05-22-1139-skill-catalog-content.md`](../../../docs/superpowers/plans/2026-05-22-1139-skill-catalog-content.md) was produced by this skill.
+**Example:** The plan `docs/superpowers/plans/2026-05-22-1139-skill-catalog-content.md` (in the repo that owns it) was produced by this skill.
 
 **Mode interaction:** Always-dispatch at Phase 2 after brainstorming produces a spec (or when the spec already exists). Read-only of the spec; write-only of the plan file.
 
@@ -135,7 +135,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Use case:** Design multi-service systems and architectures — API contracts, data modeling, service boundaries, failure-mode handling. Use when the work crosses service boundaries or introduces persistence.
 
-**Example:** The autonomy framework spec ([`2026-05-21-1109-autonomy-framework-design.md`](../../../docs/superpowers/specs/2026-05-21-1109-autonomy-framework-design.md)) is a multi-component system design across hooks, skills, and CLI surfaces — exactly this skill's shape.
+**Example:** The autonomy framework spec (`2026-05-21-1109-autonomy-framework-design.md`) is a multi-component system design across hooks, skills, and CLI surfaces — exactly this skill's shape.
 
 **Mode interaction:** Gated in Hand-Held and Careful. Auto-dispatch in Trusted+ when triggers fire. Often co-dispatched with `/superpowers:brainstorming` (architecture-led brainstorm).
 
