@@ -13,8 +13,12 @@ _design-reference/
 .dev.vars
 *.log
 
-# claude code local config (preview launcher, session state) — not project source
-.claude/
+# claude code local config (preview launcher, session state) — not project source.
+# Exception: shared skills/agents are committed real-file copies synced from the
+# dev-tooling Master (scripts/sync-shared.sh) — Claude Code can't load symlinked skills.
+.claude/*
+!.claude/skills/
+!.claude/agents/
 
 # draft pages — work-in-progress (e.g. Squarespace migrations). Kept off the
 # public repo, and stripped from the production build by astro.config.mjs so
