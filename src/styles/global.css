@@ -93,13 +93,12 @@ strong, b { color: var(--color-gold); }
    (the dusk cloud bank lives in the footer — see .cloudscape)
    ============================================================ */
 .aurora, .grain, .starfield { position: fixed; inset: 0; pointer-events: none; }
-.aurora { z-index: 0; }
 .starfield { z-index: 1; }
-.grain { z-index: 2; }
 .layer { position: relative; z-index: 3; }
 
 /* Top-of-page glows only. The bottom horizon is owned by the footer cloudscape. */
 .aurora {
+  z-index: 0;
   background:
     radial-gradient(38rem 30rem at 74% -10%, color-mix(in oklab, var(--color-coral) 40%, transparent), transparent 70%),
     radial-gradient(32rem 26rem at 10% 4%,  color-mix(in oklab, var(--color-gold) 26%, transparent), transparent 70%);
@@ -113,6 +112,7 @@ strong, b { color: var(--color-gold); }
 }
 
 .grain {
+  z-index: 2;
   opacity: 0.05;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -269,13 +269,13 @@ strong, b { color: var(--color-gold); }
   font-weight: 700;
   border-radius: 9999px;
   padding: 0.85rem 1.6rem;
-  color: #fff;
+  color: var(--color-night);
   background: #05ce78;
   box-shadow: 0 10px 40px -12px #05ce78;
   transition: transform 0.25s, box-shadow 0.25s, filter 0.25s;
 }
 .ks-btn:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 18px 52px -12px #05ce78; }
-.ks-btn img { height: 1.05em; width: auto; }
+.ks-btn img { height: 1.05em; width: auto; filter: brightness(0); }
 
 /* Header icon buttons — GitHub (ghost) + Kickstarter (green) as matched square icons. */
 .gh-btn, .ks-icon {
