@@ -47,8 +47,14 @@ let count = 0;
 for (const [name, rel] of Object.entries(SHOTS)) {
   const input = resolve(SRC, rel);
   const meta = await sharp(input).metadata();
+  let emitted = 0;
   for (const w of WIDTHS) {
-    if (w > meta.width) continue;
+    // Skip widths larger than the source (upscaling would be lossy), but say so loudly:
+    // <Shot> advertises the full WIDTHS set, so a silent skip would drift out of sync.
+    if (w > meta.width) {
+      console.warn(`  ! ${name}: source is ${meta.width}px wide, skipping ${w}w variant`);
+      continue;
+    }
     const base = sharp(input).resize({ width: w });
     await base
       .clone()
@@ -59,8 +65,16 @@ for (const [name, rel] of Object.entries(SHOTS)) {
       .webp({ quality: 78 })
       .toFile(resolve(OUT, `${name}-${w}.webp`));
     count += 2;
+    emitted += 1;
   }
-  process.stdout.write(`  ${name.padEnd(14)} ${meta.width}x${meta.height}\n`);
+  // A shot that produced no variants would make <Shot> reference files that don't exist.
+  if (emitted === 0) {
+    throw new Error(
+      `${name}: source is only ${meta.width}px wide; none of the requested widths ` +
+        `(${WIDTHS.join(', ')}) could be produced. Re-export larger or adjust WIDTHS.`,
+    );
+  }
+  process.stdout.write(`  ${name.padEnd(14)} ${meta.width}x${meta.height}  (${emitted} widths)\n`);
 }
 
 console.log(`\nDone: ${count} files -> public/brand/shots/`);

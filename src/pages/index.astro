@@ -315,9 +315,10 @@ const KS = 'https://www.kickstarter.com/projects/concord-mark/concord-voice';
 
     /* ---- Theme switcher ---- */
     #home .theme-stage { aspect-ratio: 16 / 10; }
-    #home .theme-stage .theme-shot { position: absolute; inset: 0; opacity: 0; transition: opacity 0.32s ease; }
+    /* <Shot> puts the class on the <img> itself, so size + object-fit live on .theme-shot
+       directly (a `.theme-shot img` descendant selector would match nothing). */
+    #home .theme-stage .theme-shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.32s ease; }
     #home .theme-stage .theme-shot.is-on { opacity: 1; }
-    #home .theme-stage .theme-shot img { width: 100%; height: 100%; object-fit: cover; }
     #home .theme-chips { margin-top: 1.4rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
     /* ---- Layered self-host cards ---- */

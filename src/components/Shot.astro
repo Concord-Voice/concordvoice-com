@@ -28,12 +28,15 @@ const {
 const base = '/brand/shots';
 const srcset = (ext: string) =>
   widths.map((w) => `${base}/${name}-${w}.${ext} ${w}w`).join(', ');
+// Fallback (no-srcset path) is derived from the configured widths — never hardcoded —
+// so it always points at a variant the pipeline actually emitted. Pick a middle width.
+const fallbackW = widths[Math.floor(widths.length / 2)] ?? widths[0];
 ---
 <picture>
   <source type="image/avif" srcset={srcset('avif')} sizes={sizes} />
   <source type="image/webp" srcset={srcset('webp')} sizes={sizes} />
   <img
-    src={`${base}/${name}-1400.webp`}
+    src={`${base}/${name}-${fallbackW}.webp`}
     alt={alt}
     width="1600"
     height="1000"
