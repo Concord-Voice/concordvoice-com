@@ -654,7 +654,9 @@ Expected: build succeeds; log includes "Removed draft pages…". Then verify the
 matrix shipped every build (14 binary links) and the page exists:
 
 Run: `test -f dist/download/index.html && grep -o 'releases/download/desktop-v0.2.0/[^"]*' dist/download/index.html | sort -u | wc -l`
-Expected: `14` (2 mac + 2 windows + 2×3 linux). If the number is lower, a link is missing.
+Expected: `10` (2 mac + 2 windows + 2×3 linux = 2+2+6). If the number is lower, a link is missing.
+(The Intel-Mac / .deb / .rpm *alternate* links in the recommendation slot are generated
+client-side, so they are correctly absent from the static HTML.)
 
 - [ ] **Step 3: Commit**
 
