@@ -1,13 +1,15 @@
 // Single source of truth for the desktop download links shown on /download.
 //
-// Per-release update: bump VERSION + RELEASE_TAG below. Asset filenames are derived
-// from VERSION + arch via the per-format templates in `fn` (the naming scheme differs
-// per format), so nothing else changes unless the mirror alters those schemes. Binaries
-// are mirrored from the private Concord-Voice-Alpha repo to the PUBLIC
-// Concord-Voice/Concord-Voice repo, whose release assets download anonymously.
+// Per-release update is usually automatic: VERSION + RELEASE_TAG are resolved at build by
+// scripts/resolve-release.mjs into ./release.generated.ts (the committed value there is the
+// last-known-good fallback). Asset filenames are derived from VERSION + arch via the
+// per-format templates in `fn` (the naming scheme differs per format), so nothing else
+// changes unless the mirror alters those schemes. Binaries are mirrored from the private
+// Concord-Voice-Alpha repo to the PUBLIC Concord-Voice/Concord-Voice repo, whose release
+// assets download anonymously.
 
-export const VERSION = '0.2.0';
-export const RELEASE_TAG = 'desktop-v0.2.0';
+import { VERSION, RELEASE_TAG } from './release.generated.ts';
+export { VERSION, RELEASE_TAG };
 export const MIRROR_REPO = 'Concord-Voice/Concord-Voice';
 
 export const RELEASE_NOTES_URL = `https://github.com/${MIRROR_REPO}/releases/tag/${RELEASE_TAG}`;

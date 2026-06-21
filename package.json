@@ -5,10 +5,11 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/resolve-release.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "optimize:shots": "node scripts/optimize-shots.mjs",
-    "test": "node --test \"src/**/*.test.ts\""
+    "test": "node --test \"src/**/*.test.ts\" \"scripts/**/*.test.ts\""
   },
   "dependencies": {
     "@fontsource/source-sans-3": "^5.1.0",
