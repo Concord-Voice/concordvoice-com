@@ -1,0 +1,138 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import '@styles/marketing.css';
+
+// Migrated from the Squarespace "About Us" page. Draft — gitignored + build-stripped.
+const building = [
+  { t: 'Private by Architecture', d: "Encryption isn't a setting you toggle on — it's the foundation everything else is built on. AES-256-GCM on every message, RSA-OAEP 4096-bit key wrapping. We can't read your messages: not because of a policy, but because of math." },
+  { t: 'Complete by Design', d: "Privacy tools shouldn't feel like a downgrade. Concord has real-time voice and video, seven audio quality tiers, screen sharing, custom themes, emoji, and channel categories — everything you'd expect from a modern platform, without the surveillance business model underneath." },
+  { t: 'Yours to Own', d: "Don't want to trust our servers? Don't. Self-host Concord on your own infrastructure and audit the source. The Concord Voice Source License (CVSL) ensures the codebase converts to AGPL-3.0 automatically — your investment is never locked behind our continued existence." },
+];
+
+const team = [
+  {
+    name: 'Michael T. Prime',
+    role: 'Co-Founder',
+    bio: [
+      'A seasoned software developer and engineering director with experience across every stage of the development cycle — for large enterprise companies, non-profits, and fast-paced startups. He holds degrees in Computer Science and Music from the University of Mary Washington, a background that shapes his approach to frontend design, audio implementation, and quality.',
+      "Michael leads Concord Voice's frontend design, communications implementation, and audio design — the things that make it feel comfortable, rich, and premium.",
+    ],
+  },
+  {
+    name: 'Mark D. Rogers Jr.',
+    role: 'Co-Founder',
+    bio: [
+      'A cybersecurity professional, veteran, and graduate researcher with over a decade of experience in network security, threat analysis, and secure systems architecture. He works at a Fortune 500 cyber defense firm and holds an M.Sc. from Maryville University, with a background spanning the federal, intelligence, defense, and financial sectors.',
+      "His certifications include CISSP, GCIA, CySA+, PenTest+, and Network+; he's a member of the GIAC Advisory Board, OWASP, the EFF, ISSA, AFCEA, and (ISC)². Before cybersecurity, Mark served in the Army National Guard as a Forward Observer — and is a two-time DEFCON Pub Trivia champion with team #DARPADropouts, which tells you about as much about his personality as his résumé does.",
+      "Mark leads Concord Voice's technical architecture, encryption implementation, and infrastructure — the systems that make the privacy promise real.",
+    ],
+  },
+];
+
+const values = [
+  { t: 'Privacy Is a Right, Not a Product', d: "We will never sell user data, serve ads based on message content, or build analytics that profile our users. If our business can't sustain itself without exploiting the people who use it, we don't deserve to have a business." },
+  { t: 'Transparency Over Trust', d: "We don't ask you to take our word for it. The source code is available for audit, the encryption is verifiable, and the license guarantees long-term openness. Trust is earned by making trust unnecessary." },
+  { t: 'Simplicity Is Respect', d: "Complexity gates keep privacy tools away from the people who need them most. If our product requires a terminal, a manual, or a CS degree to use, we've failed. Privacy should be the default, not the expert setting." },
+  { t: 'Build for the Long Term', d: "We make architectural decisions that prioritize durability over speed. No vendor lock-in, no VC-driven growth-at-all-costs, no features that compromise the foundation to hit a deadline. Concord is built to last." },
+];
+---
+<Layout
+  title="About — Concord Voice"
+  description="The people, principles, and name behind Concord Voice — private communication without the compromise, open to audit and built to last."
+>
+  <Header />
+
+  <main class="mx-auto w-full max-w-6xl px-6 pb-24 pt-10">
+    <section class="mkt-hero">
+      <p class="eyebrow text-gradient">About</p>
+      <h1 class="display mkt-hero__title">Private communication, <span class="text-gradient">without the compromise</span></h1>
+      <p class="mkt-lead">
+        We started Concord Voice because we believe private communication shouldn't require a compromise —
+        not on features, not on quality, and not on who gets to read your messages.
+      </p>
+    </section>
+
+    <section class="mkt-section">
+      <p class="mkt-label eyebrow text-gradient">Why Concord Voice Exists</p>
+      <div class="mkt-prose">
+        <p>The platforms most people rely on for voice, video, and messaging are built on a simple trade: your data for their service. Your conversations train their models. Your metadata feeds their ad networks. Your content lives on their servers under their rules — and if they change those rules tomorrow, you have no say and no alternative.</p>
+        <p>Meanwhile, the tools that do respect your privacy are often clunky, incomplete, or so technical that only the most committed users can make them work. The choice has always been between a polished experience you can't trust and a trustworthy experience you can't enjoy.</p>
+      </div>
+      <p class="about-third display"><span class="text-gradient">We're building the third option.</span></p>
+    </section>
+
+    <section class="mkt-section">
+      <p class="mkt-label eyebrow text-gradient">What We're Building</p>
+      <div class="mkt-grid mkt-grid--3">
+        {building.map((b) => (
+          <div class="pledge reveal">
+            <p class="pledge__t">{b.t}</p>
+            <p class="pledge__d">{b.d}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mkt-section">
+      <p class="mkt-label eyebrow text-gradient">The Name</p>
+      <h2 class="display mkt-section__title">Why &ldquo;Concord&rdquo;?</h2>
+      <div class="mkt-prose">
+        <p><em>Concord</em> means agreement, harmony, and a state of mutual trust. For encryption, that's vital — our implementation is a lot like a firm handshake and a compact built on those values.</p>
+        <p>It's also the name of the aircraft that broke the sound barrier for commercial travel — fitting for a platform named after the idea that speed and quality shouldn't be reserved for the privileged few.</p>
+        <p>We spell it without the <em>e</em>. The plane was a marvel of engineering, but it served the few. Concord Voice is built for everyone.</p>
+      </div>
+    </section>
+
+    <section class="mkt-section">
+      <p class="mkt-label eyebrow text-gradient">Our Team</p>
+      <h2 class="display mkt-section__title">The Founders</h2>
+      <div class="mkt-grid">
+        {team.map((m) => (
+          <article class="feat bio reveal">
+            <p class="bio__role eyebrow text-gradient">{m.role}</p>
+            <h3 class="bio__name display">{m.name}</h3>
+            {m.bio.map((p) => <p class="bio__p">{p}</p>)}
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="mkt-section">
+      <p class="mkt-label eyebrow text-gradient">Our Values</p>
+      <h2 class="display mkt-section__title">What We Stand For</h2>
+      <div class="mkt-grid values-grid">
+        {values.map((v) => (
+          <div class="pledge reveal">
+            <p class="pledge__t">{v.t}</p>
+            <p class="pledge__d">{v.d}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mkt-cta reveal">
+      <p class="eyebrow text-gold">Join us</p>
+      <h2 class="display mkt-cta__title">Built for everyone. Including you.</h2>
+      <p class="mkt-cta__sub">Follow the Kickstarter to be part of it from day one.</p>
+      <a href="https://www.kickstarter.com/projects/concord-mark/concord-voice" target="_blank" rel="noopener noreferrer" class="ks-btn" style="margin-top:1.5rem;">
+        <img src="/brand/kickstarter-k-white.png" alt="" />
+        <span>Follow on Kickstarter</span>
+      </a>
+    </section>
+  </main>
+
+  <Footer />
+
+  <style>
+    .about-third { text-align: center; font-size: clamp(1.5rem, 4vw, 2.2rem); margin-top: 2.2rem; line-height: 1.1; }
+    .bio { text-align: left; }
+    .bio__role { margin-bottom: 0.35rem; }
+    .bio__name { font-size: 1.5rem; margin-bottom: 0.85rem; }
+    .bio__p { color: var(--color-mist); line-height: 1.6; font-size: 0.95rem; margin-bottom: 0.7rem; }
+    .bio__p:last-child { margin-bottom: 0; }
+    /* Values: all four boxes equal size, regardless of text length. */
+    @media (min-width: 640px) { .values-grid { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; } }
+  </style>
+</Layout>

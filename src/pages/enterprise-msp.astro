@@ -1,0 +1,113 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import '@styles/marketing.css';
+
+// Migrated from the Squarespace "Enterprise & MSP" page. Draft — gitignored + build-stripped.
+const enterprise = {
+  tagline: 'Your Organization. Your Infrastructure. Your Data.',
+  blurb: 'For companies, agencies, and institutions that need full control over their communications environment. Deploy Concord Voice on your own servers, integrate with your existing identity systems, and meet compliance requirements without trusting a third party with your data.',
+  who: ['Organizations with data-residency or sovereignty requirements', 'Teams that operate on air-gapped or restricted networks', 'Regulated industries — legal, healthcare, finance, government', "Anyone who won't hand sensitive communications to an external platform"],
+  get: ['Self-hosted deployment on your infrastructure', 'End-to-end encrypted voice, video, and messaging', 'Full source-code access for security audit', 'Upcoming: LDAP / SAML SSO integration', 'Upcoming: audit logging and compliance tooling', 'Dedicated support and onboarding'],
+};
+const msp = {
+  tagline: 'Host It. Brand It. Sell It.',
+  blurb: 'For managed service providers, hosting companies, and technology partners who want to offer Concord Voice as part of their own product. Buy wholesale server licenses, deploy on your infrastructure, and sell to your customers — with your branding or ours.',
+  who: ['MSPs adding communications to their stack', 'Hosting companies offering turnkey community platforms', 'Technology partners bundling Concord into a larger product', 'Resellers and consultancies serving client needs'],
+  get: ['Wholesale server licensing starting at 10 servers', '30–40% off retail self-hosted pricing', 'Your customers, your pricing, your relationship', 'Optional white-label branding (Livery add-on)', 'L2/L3 support from Concord — you handle L1', 'Public Directory listing per deployed server (optional)'],
+};
+const why = [
+  { t: 'Encryption is the architecture', d: "Every message encrypted with AES-256-GCM, every key wrapped with RSA-OAEP 4096-bit. Not a toggle. Not a paid add-on. It's the architecture — not a feature." },
+  { t: 'Self-hosted means self-hosted', d: "Your data lives on your servers. Your deployment doesn't depend on our uptime, our pricing decisions, or our continued existence. The codebase converts to AGPL-3.0 after four years, automatically." },
+  { t: 'Auditable, not a black box', d: 'Source code available for audit under the Concord Voice Source License (CVSL), with automatic open-source conversion. No black-box binaries. No "trust us" security. Inspect everything.' },
+];
+const Y = '✓', N = '—';
+const rows = [
+  ['Self-hosted deployment', Y, Y], ['End-to-end encryption', Y, Y], ['Source-code audit access', Y, Y],
+  ['Server license (single)', Y, 'Fleet licensing instead'], ['Fleet licensing (10+ servers)', 'Contact us', 'From Fleet 10'],
+  ['Wholesale pricing', N, '30–40% off retail'], ['Resale rights', N, 'Included in OEM agreement'],
+  ['White-label branding (Livery)', N, 'Add-on'], ['Public Directory listing', 'Optional', 'Per-server, optional'],
+  ['SSO integration (LDAP/SAML)', 'Upcoming', 'Upcoming'], ['Audit logging & compliance', 'Upcoming', 'Upcoming'],
+  ['Dedicated onboarding', Y, Y], ['Support model', 'Direct from Concord', 'L1 = you · L2/L3 = Concord'],
+  ['Pricing', 'Single license or custom', 'Fleet 10 / 25 / 50 / 100+'],
+];
+const cell = (v) => (v === '✓' ? 'yes' : v === '—' ? 'no' : '');
+---
+<Layout
+  title="Enterprise & MSP — Concord Voice"
+  description="Secure communications infrastructure for organizations — self-hosted, end-to-end encrypted, and brandable. Enterprise deployments and MSP/OEM fleet licensing."
+>
+  <Header />
+
+  <main class="mx-auto w-full max-w-6xl px-6 pb-24 pt-10">
+    <section class="mkt-hero">
+      <p class="eyebrow text-gradient">For Organizations</p>
+      <h1 class="display mkt-hero__title">Secure comms, <span class="text-gradient">on your terms</span></h1>
+      <p class="mkt-lead">
+        Deployed on your terms, managed at your scale, branded to your identity. Built from the ground up with
+        end-to-end encryption and self-hosting — an architecture that doesn't depend on our infrastructure.
+      </p>
+    </section>
+
+    <section class="mkt-section">
+      <div class="mkt-grid">
+        {[{ key: 'Enterprise', data: enterprise }, { key: 'MSP & OEM', data: msp }].map(({ key, data }) => (
+          <div class="org reveal">
+            <p class="org__name eyebrow text-gradient">{key}</p>
+            <h2 class="org__tagline display">{data.tagline}</h2>
+            <p class="org__blurb">{data.blurb}</p>
+            <p class="org__h eyebrow text-mist">Who it's for</p>
+            <ul class="checklist checklist--arrow">{data.who.map((i) => <li>{i}</li>)}</ul>
+            <p class="org__h eyebrow text-mist">What you get</p>
+            <ul class="checklist">{data.get.map((i) => <li>{i}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mkt-section">
+      <p class="mkt-label eyebrow text-gradient">Why Concord Voice for Business?</p>
+      <div class="mkt-grid mkt-grid--3">
+        {why.map((w) => (
+          <div class="pledge reveal"><p class="pledge__t">{w.t}</p><p class="pledge__d">{w.d}</p></div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mkt-section">
+      <p class="mkt-label eyebrow text-gradient">Enterprise vs. MSP &amp; OEM</p>
+      <h2 class="display mkt-section__title">At a glance</h2>
+      <div class="mkt-table-wrap">
+        <table class="mkt-table">
+          <thead><tr><th>Capability</th><th>Enterprise</th><th>MSP &amp; OEM</th></tr></thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr>
+                <td>{r[0]}</td>
+                <td class={cell(r[1])}>{r[1]}</td>
+                <td class={cell(r[2])}>{r[2]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="mkt-cta reveal">
+      <p class="eyebrow text-gold">Let's talk</p>
+      <h2 class="display mkt-cta__title">Want to learn more? Reach out today.</h2>
+      <p class="mkt-cta__sub">Tell us about your deployment and we'll map the right path — Enterprise or MSP/OEM.</p>
+      <a href="mailto:contact-us@concordvoice.com" class="btn btn-primary" style="margin-top:1.5rem;">Contact us</a>
+    </section>
+  </main>
+
+  <Footer />
+
+  <style>
+    .org { text-align: left; padding: 1.8rem; border: 1px solid color-mix(in oklab, var(--color-paper) 12%, transparent); border-radius: 1.2rem; background: color-mix(in oklab, var(--color-paper) 4%, transparent); }
+    .org__tagline { font-size: 1.4rem; line-height: 1.1; margin: 0.3rem 0 0.8rem; }
+    .org__blurb { color: var(--color-mist); line-height: 1.6; font-size: 0.95rem; margin-bottom: 1.2rem; }
+    .org__h { display: block; margin: 1.2rem 0 0.6rem; font-size: 0.7rem; }
+  </style>
+</Layout>

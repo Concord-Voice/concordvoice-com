@@ -1,0 +1,125 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import '@styles/marketing.css';
+
+// Kickstarter LANDING page — a lean teaser that drives to the campaign (the full story lives
+// on Kickstarter). Draft — gitignored + build-stripped. "vs. v1.0" shows the retail yearly
+// price of the included subscription at launch (matches the Personal Use pricing).
+const KS = 'https://www.kickstarter.com/projects/concord-mark/concord-voice';
+
+const tiers = [
+  { name: 'Supporter', price: '$5',
+    includes: ['Supporter Profile Badge', 'Backer Credit (optional)'] },
+  { name: 'Early Backer', price: '$25',
+    includes: ['Premium Beta Access', 'Supporter Profile Badge', 'Backer Credit (optional)'] },
+  { name: 'Premium Backer', price: '$50', featured: true,
+    v1: { plan: 'Hypersonic', monthly: '$21.99', price: '$241.89' },
+    includes: ['1 Year of Hypersonic', 'Premium Beta Access', 'Supporter Profile Badge', 'Backer Credit (optional)'] },
+  { name: 'Wing Leader', price: '$70', limit: 250,
+    v1: { plan: 'Wing', monthly: '$14.99', price: '$164.89' },
+    includes: ['1 Year of Wing', 'Quarterly Feature Priority Poll Access', 'Founding Backers Badge', 'Premium Beta Access', 'Backer Credit (optional)'] },
+  { name: 'Founding Backer', price: '$75',
+    v1: { plan: 'Hypersonic', monthly: '$21.99', price: '$241.89' },
+    includes: ['Quarterly Feature Priority Poll Access', 'Founding Backers Badge', '1 Year of Hypersonic', 'Premium Beta Access', 'Backer Credit (optional)'] },
+  { name: 'Squadron-4 Captain', price: '$250', limit: 100,
+    v1: { plan: 'Squadron-4', monthly: '$42.99', price: '$472.89' },
+    includes: ['1 Year of Squadron-4', 'Quarterly Feature Priority Poll Access', 'Founding Backers Badge', 'Premium Beta Access', 'Backer Credit (optional)'] },
+  { name: 'Squadron-8 Captain', price: '$500', limit: 25,
+    v1: { plan: 'Squadron-8', monthly: '$72.99', price: '$802.89' },
+    includes: ['1 Year of Squadron-8', 'Quarterly Feature Priority Poll Access', 'Founding Backers Badge', 'Premium Beta Access', 'Backer Credit (optional)'] },
+  { name: 'Squadron-12 Captain', price: '$850', limit: 5,
+    v1: { plan: 'Squadron-12', monthly: '$104.99', price: '$1,154.89' },
+    includes: ['1 Year of Squadron-12', 'Quarterly Feature Priority Poll Access', 'Founding Backers Badge', 'Premium Beta Access', 'Backer Credit (optional)'] },
+];
+
+const stretch = [
+  { amt: '$20K', title: 'Mobile client', ship: 'v1.0' },
+  { amt: '$30K', title: 'Quantum-resistant encryption', ship: 'v1.1' },
+  { amt: '$40K', title: 'On-device AI noise cancellation', ship: 'v1.0' },
+  { amt: '$50K', title: 'Independent cryptography review', ship: 'post-PQC' },
+  { amt: '$75K', title: 'Concord Watch', ship: 'v1.3' },
+];
+---
+<Layout
+  title="Back Us on Kickstarter — Concord Voice"
+  description="Back Concord Voice on Kickstarter — eight digital reward tiers from $5 to $1,000, plus five stretch goals. A $13,000 all-or-nothing campaign to take the beta to a finished, self-hostable v1.0."
+>
+  <Header />
+
+  <main class="mx-auto w-full max-w-6xl px-6 pb-24 pt-10">
+    <section class="mkt-hero">
+      <p class="eyebrow text-gradient">Kickstarter · Open Beta June 21st, 2026</p>
+      <h1 class="display mkt-hero__title">Back the <span class="text-gradient">third option</span></h1>
+      <p class="mkt-lead">
+        We're crowdfunding the work to take our live beta to a finished, self-hostable v1.0 — a <strong>$13,000</strong>,
+        all-or-nothing campaign with <strong>100% digital</strong> rewards, so nearly every dollar goes to shipping it.
+      </p>
+      <div class="mkt-cta-row">
+        <a href={KS} target="_blank" rel="noopener noreferrer" class="ks-btn"><img src="/brand/kickstarter-k-white.png" alt="" /><span>Follow on Kickstarter</span></a>
+        <a href="#tiers" class="btn border border-white/20 hover:border-coral">See the rewards ↓</a>
+      </div>
+    </section>
+
+    <section class="mkt-section" id="tiers">
+      <p class="mkt-label eyebrow text-gradient">Reward Tiers</p>
+      <h2 class="display mkt-section__title">Pick your pledge</h2>
+      <p class="mkt-section__sub">
+        Each tier builds on the ones before it. Digital-only, delivery targeting January 2027. The
+        <span class="text-gradient">vs. v1.0</span> line shows what the included subscription will cost at retail
+        when v1.0 launches — back early, lock it in.
+      </p>
+      <div class="mkt-grid mkt-grid--3">
+        {tiers.map((t) => (
+          <div class:list={['tier', 'ks-tier', 'reveal', t.featured && 'tier--featured']}>
+            {t.limit && <span class="ks-limit">Limited · {t.limit}</span>}
+            <p class="tier__name eyebrow text-gradient">{t.name}</p>
+            <p class="ks-pledge display">{t.price}</p>
+            {t.v1 && (
+              <p class="ks-vs">1&nbsp;yr of <strong>{t.v1.plan}</strong> — <span class="text-gradient">{t.v1.monthly}/mo</span> · <span class="text-gradient">{t.v1.price}/yr</span> at v1.0</p>
+            )}
+            <ul class="checklist">{t.includes.map((i) => <li>{i}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mkt-section" id="stretch">
+      <p class="mkt-label eyebrow text-gradient">Stretch Goals</p>
+      <h2 class="display mkt-section__title">If we go further</h2>
+      <p class="mkt-section__sub">Each one a commitment to <em>work on</em> it if funding clears the bar.</p>
+      <div class="mkt-grid mkt-grid--3">
+        {stretch.map((s) => (
+          <div class="feat ks-goal reveal">
+            <p class="ks-goal__amt display text-gradient">{s.amt}</p>
+            <h3 class="ks-goal__t">{s.title}</h3>
+            <p class="ks-goal__ship">→ {s.ship}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mkt-cta reveal">
+      <p class="eyebrow text-gold">All-or-nothing · January 2027 delivery</p>
+      <h2 class="display mkt-cta__title">Be there when it goes live.</h2>
+      <p class="mkt-cta__sub">Follow the campaign to be notified the moment it launches — and lock in an early tier. The full story lives on Kickstarter.</p>
+      <a href={KS} target="_blank" rel="noopener noreferrer" class="ks-btn" style="margin-top:1.5rem;"><img src="/brand/kickstarter-k-white.png" alt="" /><span>Follow on Kickstarter</span></a>
+    </section>
+  </main>
+
+  <Footer />
+
+  <style>
+    .ks-tier { position: relative; }
+    .ks-pledge { font-size: clamp(2.2rem, 6vw, 3rem); line-height: 1; margin: 0.15rem 0 0.5rem; }
+    .ks-limit { position: absolute; top: 1rem; right: 1rem; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.18rem 0.5rem; border-radius: 9999px; border: 1px solid color-mix(in oklab, var(--color-coral) 45%, transparent); color: var(--color-coral); }
+    .ks-vs { font-size: 0.82rem; color: var(--color-mist); margin: 0 0 0.9rem; padding: 0.45rem 0.6rem; border-radius: 0.6rem; background: color-mix(in oklab, var(--color-paper) 5%, transparent); border: 1px solid color-mix(in oklab, var(--color-gold) 22%, transparent); }
+    .ks-vs strong { color: var(--color-paper); }
+
+    .ks-goal { text-align: center; }
+    .ks-goal__amt { font-size: clamp(1.9rem, 5vw, 2.5rem); line-height: 1; }
+    .ks-goal__t { font-weight: 700; color: var(--color-gold); margin: 0.35rem 0 0.3rem; }
+    .ks-goal__ship { font-weight: 600; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-gold); }
+  </style>
+</Layout>

@@ -10,15 +10,15 @@
 const DEV = import.meta.env.DEV;
 
 const product = [
-  { label: 'Overview',         path: '/app',            live: false },
-  { label: 'Personal Pricing', path: '/pricing', live: false },
-  { label: 'Groups & Teams Pricing', path: '/teams', live: false },
-  { label: 'Self-Hosting',     path: '/self-hosting',   live: false },
-  { label: 'Enterprise & MSP', path: '/enterprise-msp', live: false },
+  { label: 'Overview',         path: '/app',            live: true },
+  { label: 'Personal Pricing', path: '/pricing', live: true },
+  { label: 'Groups & Teams Pricing', path: '/teams', live: true },
+  { label: 'Self-Hosting',     path: '/self-hosting',   live: true },
+  { label: 'Enterprise & MSP', path: '/enterprise-msp', live: true },
 ];
 const links = [
-  { label: 'Blog',  path: '/blog',     live: false },
-  { label: 'About', path: '/about-us', live: false },
+  { label: 'Blog',  path: '/blog',     live: true },
+  { label: 'About', path: '/about-us', live: true },
 ];
 
 const shown = (it: { live: boolean }) => DEV || it.live;

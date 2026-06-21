@@ -1,0 +1,97 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import '@styles/marketing.css';
+
+// Migrated from the Squarespace "The App" page. Draft — lives in src/pages/drafts/
+// (gitignored + build-stripped); promote by moving to src/pages/app.astro.
+// Uses the shared marketing kit (@styles/marketing.css) so heroes, section kickers, cards,
+// and the closing CTA stay consistent with the rest of the site.
+const groups = [
+  {
+    label: 'Communication',
+    items: [
+      { t: 'Crystal-Clear Voice Calls', d: 'Real-time voice powered by WebRTC and a mediasoup Selective Forwarding Unit — the same architecture used by large-scale conferencing platforms. Low latency, high quality, no fuss.' },
+      { t: 'Seven Audio Quality Tiers', d: 'From bandwidth-conscious Minimum mode to Studio-quality streams, you control exactly how much fidelity you need. Admins can set quality floors and ceilings per channel.' },
+      { t: 'Video Calling & Screen Sharing', d: 'Full video with codec selection — AV1, H.264, VP9, and VP8. Share your screen in a click; codec priorities adjust automatically to your hardware and connection.' },
+      { t: 'Direct Messages', d: 'Private 1:1 conversations with the same end-to-end encryption as channel messages. No one in the middle.' },
+      { t: 'Real-Time Presence', d: "See who's online, in a voice channel, or away — live, without refreshing. Presence flows through WebSocket connections kept in sync across all your devices." },
+      { t: 'Picture-in-Picture Voice', d: "Keep voice controls visible while you do other things, with a compact floating PiP window." },
+    ],
+  },
+  {
+    label: 'Privacy & Security',
+    items: [
+      { t: 'End-to-End Encrypted by Default', d: 'Every message in every channel is encrypted with AES-256-GCM before it leaves your device. Keys are wrapped with RSA-OAEP 4096-bit and never accessible to our servers. Not even we can read your messages.' },
+      { t: 'Credentials Stay on Your Device', d: "Auth tokens live in your OS's native secure storage — macOS Keychain, Windows DPAPI, or Linux libsecret. Concord Voice never stores plaintext credentials anywhere." },
+      { t: 'Single-Use Refresh Tokens', d: 'Every refresh issues a new token and invalidates the old one. If a token is ever reused out of sequence, Concord Voice detects a potential breach and flags it automatically.' },
+      { t: 'No Biometric Requirements', d: "Where we can legally get away with it, we don't require a phone number, government ID, or biometric to make an account. Where the law requires it, we apply the minimum controls and purge data we no longer need." },
+      { t: 'Rate Limiting & Account Protection', d: 'Redis-backed per-IP and per-user rate limiting guards against brute force. After five failed logins, accounts lock temporarily with exponential backoff.' },
+    ],
+  },
+  {
+    label: 'Make It Yours',
+    items: [
+      { t: 'Servers, Channels & Categories', d: 'Organize your community exactly how you want — create servers, build channel hierarchies with drag-and-drop categories, and tidy everything with server folders.' },
+      { t: 'Custom Themes', d: 'A 3-color theme system that lets you tune the feel. Make Concord Voice look exactly how you want it.' },
+      { t: 'Profile Cards & Avatars', d: 'Custom banners, avatars, and color accents on every profile. Show up as yourself.' },
+      { t: 'Emoji Picker', d: 'A full emoji picker with search, lazy-loaded so it never slows you down.' },
+    ],
+  },
+];
+---
+<Layout
+  title="The App — Concord Voice"
+  description="A complete, end-to-end encrypted communications platform — crystal-clear voice, seven audio tiers, video, screen sharing, and privacy by architecture, in one native app."
+>
+  <Header />
+
+  <main class="mx-auto w-full max-w-6xl px-6 pb-24 pt-10">
+    <section class="mkt-hero">
+      <p class="eyebrow text-gradient">The App</p>
+      <h1 class="display mkt-hero__title">
+        Encrypted voice, video &amp; messaging — <span class="text-gradient">in one native app</span>
+      </h1>
+      <p class="mkt-lead">
+        Concord isn't a stripped-down privacy tool or a feature-bloated enterprise suite. It's a complete
+        communications platform that doesn't ask you to trade convenience for control.
+      </p>
+      <div class="mkt-cta-row">
+        <a href="https://www.kickstarter.com/projects/concord-mark/concord-voice" target="_blank" rel="noopener noreferrer" class="ks-btn">
+          <img src="/brand/kickstarter-k-white.png" alt="" />
+          <span>Follow on Kickstarter</span>
+        </a>
+        <a href="/blog/understanding-how-concord-voice-works" class="btn border border-white/20 hover:border-coral">How it works →</a>
+      </div>
+    </section>
+
+    {groups.map((g) => (
+      <section class="mkt-section reveal">
+        <p class="mkt-label eyebrow text-gradient">{g.label}</p>
+        <div class="mkt-grid mkt-grid--3">
+          {g.items.map((f) => (
+            <article class="feat">
+              <h3 class="feat__t">{f.t}</h3>
+              <p class="feat__d">{f.d}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <section class="mkt-cta reveal">
+      <p class="eyebrow text-gold">Want to see more?</p>
+      <h2 class="display mkt-cta__title">It's coming. Be first in.</h2>
+      <p class="mkt-cta__sub">
+        The app is in active development. Follow the Kickstarter to be notified the moment the beta opens.
+      </p>
+      <a href="https://www.kickstarter.com/projects/concord-mark/concord-voice" target="_blank" rel="noopener noreferrer" class="ks-btn" style="margin-top:1.5rem;">
+        <img src="/brand/kickstarter-k-white.png" alt="" />
+        <span>Follow on Kickstarter</span>
+      </a>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
