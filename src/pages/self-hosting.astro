@@ -25,9 +25,9 @@ const spec = [
   ['Dependencies', 'Go 1.21+, Node 18+, PostgreSQL 15+, Redis 7+', 'Docker (handles it all)', 'Docker deployment configures every dependency automatically'],
 ];
 const deploy = [
-  { name: 'Docker', soon: false, desc: 'The fastest path from zero to running. Pull the image, set your environment variables, and launch.', code: ['docker pull concordvoice/concord:latest', 'docker compose up -d'], note: 'Includes the Go backend, mediasoup workers, PostgreSQL, and Redis — all pre-configured.', cta: 'View on GitHub', href: 'https://github.com/Concord-Voice/Concord-Voice' },
-  { name: 'Build from Source', soon: false, desc: 'Clone the repository and build everything yourself. Full control over every component.', code: ['git clone https://github.com/Concord-Voice/Concord-Voice.git', 'cd Concord-Voice && make build'], note: 'Requires Go 1.21+, Node 18+, and local PostgreSQL / Redis instances.', cta: 'View on GitHub', href: 'https://github.com/Concord-Voice/Concord-Voice' },
-  { name: 'Cloud Template', soon: true, desc: 'Deploy to a cloud provider with a pre-built template. One-click templates for popular cloud providers are on the way.', code: [], note: 'Planned for a future release — not yet available.', cta: null, href: null },
+  { name: 'Build from Source', soon: false, desc: 'Clone the repository and build everything yourself. Full control over every component, and the path that works today.', code: ['git clone https://github.com/Concord-Voice/Concord-Voice.git', 'cd Concord-Voice && make build'], note: 'Requires Go 1.21+, Node 18+, and local PostgreSQL / Redis instances.', cta: 'View on GitHub', href: 'https://github.com/Concord-Voice/Concord-Voice' },
+  { name: 'Docker', soon: true, desc: 'A prebuilt image for one-command deploys (Go backend, mediasoup workers, PostgreSQL, and Redis, all pre-configured) is on the way.', code: [], note: 'Planned for a future release. Build from source in the meantime.', cta: null, href: null },
+  { name: 'Cloud Template', soon: true, desc: 'Deploy to a cloud provider with a pre-built template. One-click templates for popular cloud providers are on the way.', code: [], note: 'Planned for a future release. Not yet available.', cta: null, href: null },
 ];
 const costs = [
   ['Small (10–50 members)', '5–15', '2 vCPU / 4 GB / 40 GB SSD', '$4–8/mo', 'A basic VPS handles this easily. Friends, small teams, gaming groups.'],
