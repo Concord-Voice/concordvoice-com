@@ -14,11 +14,12 @@ const product = [
   { label: 'Personal Pricing', path: '/pricing', live: true },
   { label: 'Groups & Teams Pricing', path: '/teams', live: true },
   { label: 'Self-Hosting',     path: '/self-hosting',   live: true },
-  { label: 'Enterprise & MSP', path: '/enterprise-msp', live: true },
+  { label: 'Enterprise & MSP', path: '/enterprise-msp', live: false },
 ];
 const links = [
-  { label: 'Blog',  path: '/blog',     live: true },
+  { label: 'Kickstarter', path: '/kickstarter', live: true },
   { label: 'About', path: '/about-us', live: true },
+  { label: 'Blog',  path: '/blog',     live: false },
 ];
 
 const shown = (it: { live: boolean }) => DEV || it.live;
