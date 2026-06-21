@@ -5,21 +5,27 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
-/** 'desktop-v0.2.0' -> '0.2.0'; returns null for anything that isn't desktop-vX.Y.Z. */
+/** 'desktop-v0.2.0' -> '0.2.0'; returns null for anything that isn't desktop-vX.Y.Z.
+ *  The version is rebuilt from Number()-parsed components, so the result is numeric-derived
+ *  (not raw network text) — a sanitized value safe to embed in the generated file. */
 export function tagToVersion(tag) {
-  const m = /^desktop-v(\d+\.\d+\.\d+)$/.exec(tag ?? '');
-  return m ? m[1] : null;
+  const m = /^desktop-v(\d+)\.(\d+)\.(\d+)$/.exec(tag ?? '');
+  return m ? `${Number(m[1])}.${Number(m[2])}.${Number(m[3])}` : null;
 }
 
-/** True only if the release publishes the macOS install assets for BOTH arches of `version`
- *  (the page advertises a recommended .dmg for arm64 and x64) — guards against adopting a
- *  half-mirrored release whose recommended download would 404. */
+/** True only if the release publishes the recommended download for every platform/arch the
+ *  page advertises (macOS .dmg + .zip, Windows Setup .exe, Linux .AppImage, for arm64 and
+ *  x64) — guards against adopting a half-mirrored release whose links would 404. */
 export function validateRelease(release, version) {
   const assets = Array.isArray(release?.assets) ? release.assets : [];
   const names = new Set(assets.map((a) => a?.name));
-  return ['arm64', 'x64'].every((arch) =>
-    names.has(`ConcordVoice-${version}-macos-${arch}.dmg`)
-    && names.has(`ConcordVoice-${version}-macos-${arch}.zip`));
+  const required = ['arm64', 'x64'].flatMap((arch) => [
+    `ConcordVoice-${version}-macos-${arch}.dmg`,
+    `ConcordVoice-${version}-macos-${arch}.zip`,
+    `ConcordVoice-${version}-windows-${arch}-Setup.exe`,
+    `ConcordVoice-${version}-linux-${arch}.AppImage`,
+  ]);
+  return required.every((name) => names.has(name));
 }
 
 const LATEST_URL = 'https://api.github.com/repos/Concord-Voice/Concord-Voice/releases/latest';
@@ -50,14 +56,16 @@ export async function main() {
     return;
   }
 
-  const tag = release?.tag_name;
-  const version = tagToVersion(tag);
-  if (!version) { console.warn(`[resolve-release] tag '${tag}' is not desktop-vX.Y.Z; keeping committed seed`); return; }
+  const version = tagToVersion(release?.tag_name);
+  if (!version) { console.warn(`[resolve-release] tag '${release?.tag_name}' is not desktop-vX.Y.Z; keeping committed seed`); return; }
   if (!validateRelease(release, version)) {
-    console.warn(`[resolve-release] release ${tag} is missing expected macOS assets (mirror lag?); keeping committed seed`);
+    console.warn(`[resolve-release] release desktop-v${version} is missing expected platform assets (mirror lag?); keeping committed seed`);
     return;
   }
 
+  // Build the written values from the sanitized version (numeric-derived), never the raw
+  // network tag — keeps the generated file injection-proof and free of tainted-data flow.
+  const tag = `desktop-v${version}`;
   const next = fileContents(version, tag);
   let current = '';
   try { current = await readFile(OUT, 'utf8'); } catch { /* will create */ }
