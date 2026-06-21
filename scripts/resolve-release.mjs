@@ -40,7 +40,7 @@ export async function main() {
   try {
     const headers = { 'User-Agent': 'concordvoice-com-build', Accept: 'application/vnd.github+json' };
     if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-    const res = await fetch(LATEST_URL, { headers });
+    const res = await fetch(LATEST_URL, { headers, signal: AbortSignal.timeout(10_000) });
     if (!res.ok) { console.warn(`[resolve-release] GitHub API ${res.status}; keeping committed seed`); return; }
     release = await res.json();
   } catch (err) {
@@ -65,6 +65,10 @@ export async function main() {
 }
 
 // Run only when executed directly (`node scripts/resolve-release.mjs`), not when imported by tests.
+// The .catch() backstops any unexpected rejection (e.g. a writeFile failure) so a build-time
+// run can NEVER exit non-zero and break `npm run build` — it always falls back to the seed.
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  main();
+  main().catch((err) => {
+    console.warn(`[resolve-release] unexpected error (${err?.message ?? err}); keeping committed seed`);
+  });
 }
