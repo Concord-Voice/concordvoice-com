@@ -12,7 +12,11 @@ import { PLATFORMS, VERSION, RELEASE_TAG, RELEASE_NOTES_URL } from '../data/down
   <Header />
 
   <main class="dl mx-auto max-w-6xl px-6 pb-24 pt-6">
-    <section class="dl-hero reveal">
+    <!-- Use .rise (a pure-CSS entrance animation that ends visible) rather than .reveal
+         (opacity:0 until the Layout's IntersectionObserver adds .in). The matrix is the
+         no-JS fallback, so it MUST be visible with JavaScript disabled — .rise guarantees
+         that; .reveal would leave a blank page for no-JS visitors. -->
+    <section class="dl-hero rise">
       <p class="eyebrow text-gold">Desktop App · v{VERSION} Beta</p>
       <h1 class="display dl-h1">Download Concord Voice</h1>
       <p class="text-mist dl-sub">
@@ -23,14 +27,14 @@ import { PLATFORMS, VERSION, RELEASE_TAG, RELEASE_NOTES_URL } from '../data/down
       <!-- Recommendation slot: this server-rendered fallback is replaced by the script
            below once the visitor's OS/arch is known. With JS off it stays as-is and the
            full matrix below remains fully usable. -->
-      <div class="dl-pick" id="dl-pick" data-state="detecting">
+      <div class="dl-pick" id="dl-pick" data-state="detecting" aria-live="polite" aria-atomic="true">
         <p class="dl-pick__detecting text-mist">
           Detecting your system… <a class="dl-link" href="#all-downloads">or choose your platform ↓</a>
         </p>
       </div>
     </section>
 
-    <section id="all-downloads" class="dl-all reveal">
+    <section id="all-downloads" class="dl-all rise" style="--d:.12s">
       <h2 class="display dl-all__h">All platforms</h2>
       <div class="dl-grid">
         {PLATFORMS.map((p) => (
