@@ -1,11 +1,18 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { assetUrl, recommendedBuild, platform, VERSION, RELEASE_TAG, MIRROR_REPO } from './downloads.ts';
+import { assetUrl, recommendedBuild, platform, VERSION, RELEASE_TAG, MIRROR_REPO, RELEASE_NOTES_URL } from './downloads.ts';
 
 test('version + tag constants are wired', () => {
   assert.equal(VERSION, '0.2.0');
   assert.equal(RELEASE_TAG, 'desktop-v0.2.0');
   assert.equal(MIRROR_REPO, 'Concord-Voice/Concord-Voice');
+});
+
+test('release notes URL points at the public mirror tag', () => {
+  assert.equal(
+    RELEASE_NOTES_URL,
+    'https://github.com/Concord-Voice/Concord-Voice/releases/tag/desktop-v0.2.0',
+  );
 });
 
 test('assetUrl builds the public mirror download URL', () => {
