@@ -167,6 +167,16 @@ import { PLATFORMS, VERSION, RELEASE_TAG, RELEASE_NOTES_URL } from '../data/down
     return arch === 'arm64' ? 'ARM64' : '64-bit';
   }
 
+  // Shown when detection can't produce a recommendation (data lookup miss or a rejected
+  // promise) — replaces the "Detecting…" copy so it never lingers; the matrix below is
+  // always usable.
+  function showFallback(slot: HTMLElement): void {
+    slot.dataset.state = 'fallback';
+    slot.innerHTML =
+      '<p class="dl-pick__msg text-mist">Choose your platform below.</p>' +
+      '<a class="btn btn-primary dl-pick__cta" href="#all-downloads"><span class="dl-pick__big">See all downloads ↓</span></a>';
+  }
+
   function render(slot: HTMLElement, nav: NavLike): void {
     const { os, arch, supported } = pickTarget(nav);
 
@@ -180,7 +190,7 @@ import { PLATFORMS, VERSION, RELEASE_TAG, RELEASE_NOTES_URL } from '../data/down
 
     const primary = recommendedBuild(os, arch);
     const plat = platform(os);
-    if (!primary || !plat) { slot.dataset.state = 'fallback'; return; }
+    if (!primary || !plat) { showFallback(slot); return; }
 
     const alts: string[] = [];
     if (os === 'mac') {
@@ -208,6 +218,6 @@ import { PLATFORMS, VERSION, RELEASE_TAG, RELEASE_NOTES_URL } from '../data/down
   if (slot) {
     resolveNav()
       .then((nav) => render(slot, nav))
-      .catch(() => { slot.dataset.state = 'fallback'; });
+      .catch(() => showFallback(slot));
   }
 </script>
