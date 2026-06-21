@@ -4,7 +4,7 @@ import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import '@styles/marketing.css';
 
-// Cloud pricing for COMMUNITIES & TEAMS. Draft — gitignored + build-stripped. Split out of
+// Cloud pricing for COMMUNITIES & TEAMS. Split out of
 // the old personal-use page (individual plans are on /pricing, the comparison on /compare).
 // Pricing finalized 2026-06-18.
 const money = (n: number) => (n === 0 ? '$0' : `$${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);

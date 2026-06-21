@@ -4,7 +4,7 @@ import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import '@styles/marketing.css';
 
-// Cloud pricing for INDIVIDUALS. Draft — gitignored + build-stripped. Renamed from the old
+// Cloud pricing for INDIVIDUALS. Renamed from the old
 // personal-use page; team/community plans now live on /teams, the comparison on /compare.
 // Prices toggle monthly/yearly (yearly = 11× monthly, one month free → computed in Layout JS).
 const money = (n: number) => (n === 0 ? '$0' : `$${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
