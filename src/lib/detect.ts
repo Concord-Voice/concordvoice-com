@@ -49,7 +49,13 @@ export function pickTarget(nav: NavLike): DetectResult {
   if (hintPlat === 'macos' || /mac/.test(ua) || /mac/.test(plat)) {
     return { os: 'mac', arch: archFromHint() ?? 'arm64', supported: true };
   }
-  if (hintPlat === 'windows' || /win/.test(ua) || /win/.test(plat)) {
+  // Match anchored Windows tokens (UA "windows nt…", navigator.platform "win32"/"win64")
+  // rather than a bare "win", so a stray substring (e.g. "darwin") can't be misread as
+  // Windows before the Linux branch is reached.
+  if (hintPlat === 'windows' || /windows|win32|win64/.test(ua) || /windows|win32|win64/.test(plat)) {
+    // Best-effort: Windows-on-ARM browsers often report "Win64; x64" with no arm token, so
+    // the UA-only fallback can under-detect ARM — the high-entropy hint (uaArch) is the
+    // reliable signal and takes precedence here.
     const arch = archFromHint() ?? (/arm64|aarch64/.test(ua) ? 'arm64' : 'x64');
     return { os: 'windows', arch, supported: true };
   }

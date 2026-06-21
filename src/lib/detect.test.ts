@@ -43,6 +43,22 @@ test('Linux aarch64', () => {
   assert.deepEqual(pickTarget({ userAgent: ua }), { os: 'linux', arch: 'arm64', supported: true });
 });
 
+test('Windows via navigator.platform only (no UA, no hints)', () => {
+  assert.deepEqual(pickTarget({ platform: 'Win32' }), { os: 'windows', arch: 'x64', supported: true });
+});
+
+test('high-entropy arch hint wins over a conflicting UA token', () => {
+  // Hint says x86 even though the UA carries an ARM64 token — the reliable hint wins.
+  const ua = 'Mozilla/5.0 (Windows NT 10.0; ARM64) AppleWebKit/537.36 (KHTML, like Gecko)';
+  assert.deepEqual(pickTarget({ uaPlatform: 'Windows', uaArch: 'x86', userAgent: ua }), { os: 'windows', arch: 'x64', supported: true });
+});
+
+test('a stray "darwin" substring is not misread as Windows', () => {
+  // Anchored Windows token matching: this Linux UA must classify as linux, not windows.
+  const ua = 'Mozilla/5.0 (X11; Linux x86_64; darwin-shim) AppleWebKit/537.36 (KHTML, like Gecko)';
+  assert.deepEqual(pickTarget({ userAgent: ua }), { os: 'linux', arch: 'x64', supported: true });
+});
+
 test('Android is unsupported (not classified as Linux)', () => {
   const ua = 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Mobile';
   assert.deepEqual(pickTarget({ userAgent: ua }), { os: null, arch: 'x64', supported: false });
