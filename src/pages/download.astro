@@ -47,7 +47,7 @@ import { PLATFORMS, VERSION, RELEASE_TAG, RELEASE_NOTES_URL } from '../data/down
                   <ul class="dl-builds">
                     {a.builds.map((b) => (
                       <li>
-                        <a class="dl-build" href={b.url} data-os={p.id} data-arch={a.id}>
+                        <a class="dl-build" href={b.url} data-os={p.id} data-arch={a.id} aria-label={`Download Concord Voice for ${p.label} ${a.label} (${b.label})`}>
                           <span class="dl-build__fmt">{b.label}</span>
                           <span class="dl-build__dl" aria-hidden="true">↓</span>
                         </a>
