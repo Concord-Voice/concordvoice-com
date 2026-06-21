@@ -9,16 +9,9 @@ import { defineMiddleware } from 'astro:middleware';
 // by the exclude-drafts-from-build integration and promoted pages already live at the root,
 // so no rewriting is needed (or possible — the deploy is fully static). Keep this list in sync
 // with the draft pages; drop a slug here when its page is promoted.
-const DRAFT_SEGMENTS = new Set([
-  'about-us',
-  'app',
-  'pricing',
-  'teams',
-  'compare',
-  'self-hosting',
-  'enterprise-msp',
-  'kickstarter',
-  'blog',
+const DRAFT_SEGMENTS = new Set<string>([
+  // All former drafts have been promoted to live routes. Add a slug here only
+  // while a new page is still a work-in-progress draft under src/pages/drafts/.
 ]);
 
 export const onRequest = defineMiddleware((context, next) => {

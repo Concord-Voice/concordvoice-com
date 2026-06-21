@@ -1,0 +1,231 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import '@styles/marketing.css';
+
+// Cloud pricing for INDIVIDUALS. Renamed from the old
+// personal-use page; team/community plans now live on /teams, the comparison on /compare.
+// Prices toggle monthly/yearly (yearly = 11× monthly, one month free → computed in Layout JS).
+const money = (n: number) => (n === 0 ? '$0' : `$${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
+const savePct = (m: number, y: number) => (m > 0 && y > 0 ? Math.round((1 - y / (m * 12)) * 100) : 0);
+
+const userTiers = [
+  { name: 'Sonic', monthly: 0, desc: 'For individuals and communities getting started',
+    items: ['Voice & video calls', 'End-to-end encrypted messaging', 'Up to five servers with unlimited channels', 'Standard audio (up to 96 kbps)', 'Screen sharing (up to 1080p · 30fps)', 'An assortment of themes & profile customization', 'Direct messages'] },
+  { name: 'Supersonic', monthly: 8.99, yearly: 98.89, featured: true, desc: 'For users who want the whole experience',
+    items: ['Priority support', 'Optional opt-in to early access', 'Everything in the Free tier', 'Full customization of theme colors', 'GIFs in your profile photos and banners', 'Profile card & page customization', 'Acoustically transparent 48kHz/16-bit audio (up to 510 kbps)*', 'Native resolution / frame-rate stream support*', '256 MB file uploads in any chat or DM', 'No cap on server creation', '180-day message-history search depth**'] },
+];
+const hyper = { monthly: 21.99, yearly: 241.89 };
+const hyperYou = ['Priority support', 'Optional opt-in to early access', 'Full theme-color customization', 'GIFs in profile photos and banners', 'Profile card & page customization', 'Acoustically transparent 48kHz/16-bit audio (up to 510 kbps)*', 'Native resolution / frame-rate stream support*', '256 MB file uploads anywhere', 'No cap on server creation', '180-day message-history search depth**'];
+const hyperServer = ['Priority support', 'GIF server photo & banner', 'Custom invite link', '125 custom emoji (incl. animated)', '75 custom stickers', '512MB per-file uploads, server-wide', 'Shared server file-storage pool', 'Up to 510 kbps audio, server-wide*', '1440p/60 video, server-wide*', 'List your server in the Public Directory (optional)'];
+const wing = { monthly: 14.99, yearly: 164.89 };
+
+---
+<Layout
+  title="Personal Pricing — Concord Voice"
+  description="Personal use of Concord Voice is free, always. Honest, no-dark-pattern cloud pricing for individuals — Sonic, Supersonic, and the all-in-one Hypersonic and Wing plans. Monthly or yearly."
+>
+  <Header />
+
+  <main class="mx-auto w-full max-w-7xl px-6 pb-24 pt-10">
+    <section class="mkt-hero">
+      <p class="eyebrow text-gradient">Personal Pricing</p>
+      <h1 class="display mkt-hero__title">Own Your Voice</h1>
+      <p class="mkt-lead">
+        We believe in a free and open platform — so personal use of Concord Voice is free, always and forever.
+        Whether you use a server on the Concord Voice Network or host it yourself, we'll never charge you for
+        privacy or messaging, or limit your communications. Community over profit.
+      </p>
+    </section>
+
+    <!-- ===== Cloud vs Self-Host fork ===== -->
+    <section class="mkt-section">
+      <p class="mkt-label eyebrow text-gradient">Two ways to run it</p>
+      <h2 class="display mkt-section__title">Our cloud, or your hardware</h2>
+      <p class="mkt-section__sub">
+        Same end-to-end encryption either way. Let us host it on the Concord Voice Network, or run the whole
+        platform yourself.
+      </p>
+      <div class="mkt-grid fork">
+        <div class="fork-card reveal">
+          <p class="fork-card__k eyebrow text-gradient">Cloud · we host it</p>
+          <h3 class="fork-card__t">Hosted by us</h3>
+          <p class="fork-card__d">
+            Sign up and start talking — we run the infrastructure, updates, and uptime. Free to use, with optional
+            premium plans for higher fidelity and extras. <strong>You are here.</strong>
+          </p>
+          <a href="#plans" class="btn border border-white/20 hover:border-coral">See cloud plans ↓</a>
+        </div>
+        <div class="fork-card reveal">
+          <p class="fork-card__k eyebrow text-gradient">Self-host · you run it</p>
+          <h3 class="fork-card__t">On your own hardware</h3>
+          <p class="fork-card__d">
+            Deploy on your own servers and audit the source. Free for personal and non-commercial use — every
+            premium feature unlocked, no subscription.
+          </p>
+          <a href="/self-hosting" class="btn border border-white/20 hover:border-coral">Self-hosting →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="mkt-section">
+      <p class="mkt-label eyebrow text-gradient">So, Why Offer Subscriptions?</p>
+      <div class="mkt-prose">
+        <p>We want subscriptions to fund a few things — without ever limiting the platform for everyone else:</p>
+        <ul class="checklist" style="margin:1rem 0 1.2rem;">
+          <li>An enhanced experience for those who want it, without gating the general platform for non-subscribers. <em>(Marketing calls it "maximizing value," or something like that.)</em></li>
+          <li>The infrastructure to grow and scale as our user base does — more servers for all you beautiful people, and the talented humans to keep it running. <em>(Ever tried to run Kubernetes? It's a special kind of pain.)</em></li>
+          <li>Ongoing development: new features, security improvements, and testing. <em>(The cost of compliance alone is miserable — who likes lawyers anyway?)</em></li>
+        </ul>
+        <p>Want to know where your money would go? Read the <a href="/about-us">About</a> page to meet the people behind the app.</p>
+      </div>
+    </section>
+
+    <section class="mkt-section" id="plans">
+      <p class="mkt-label eyebrow text-gradient">Cloud Plans</p>
+      <h2 class="display mkt-section__title">Honest. No Dark Patterns. No Shareholders.</h2>
+      <p class="mkt-section__sub">
+        Privacy isn't a premium feature — it's the baseline. Every account gets end-to-end encryption, voice and
+        video, and full messaging. Premium plans simply unlock higher fidelity and advanced capabilities.
+      </p>
+      <div class="bill-wrap">
+        <div class="bill-toggle" role="group" aria-label="Billing period">
+          <button type="button" class="bill-toggle__btn is-active" data-bill="monthly" aria-pressed="true">Monthly</button>
+          <button type="button" class="bill-toggle__btn" data-bill="yearly" aria-pressed="false">Yearly <span class="bill-toggle__tag">1 mo free</span></button>
+        </div>
+      </div>
+      <div class="mkt-grid">
+        {userTiers.map((t) => (
+          <div class:list={['tier', 'reveal', t.featured && 'tier--featured']}>
+            <p class="tier__name eyebrow text-gradient">{t.name}</p>
+            <p class="tier__price" data-m={money(t.monthly)} data-y={t.yearly ? money(t.yearly) : ''} data-save={t.yearly ? savePct(t.monthly, t.yearly) : 0} data-per={t.monthly > 0 ? '/month' : ''}>
+              <span class="tier__amt">{money(t.monthly)}</span><small class="tier__per">{t.monthly > 0 ? '/month' : ''}</small>
+              <span class="tier__save" hidden> · save {t.yearly ? savePct(t.monthly, t.yearly) : 0}%</span>
+            </p>
+            <p class="tier__desc">{t.desc}</p>
+            <ul class="checklist">{t.items.map((i) => <li>{i}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+      <p class="fineprint">
+        * Requires your device and network to support the necessary encoding and bitrates; otherwise expect
+        degraded quality. &nbsp; ** Searchable only while the messages still exist, per your retention policy.
+      </p>
+    </section>
+
+    <section class="mkt-section" id="hypersonic">
+      <p class="mkt-label eyebrow text-gradient">Hypersonic</p>
+      <h2 class="display mkt-section__title">Everything, in one plan</h2>
+      <p class="mkt-section__sub">
+        The complete experience — a Supersonic account <em>and</em> a bundled Mach 2 server boost (1440p/60 video, up to 510 kbps audio, server-wide), at a
+        better price than buying them separately. One account, one bill, everything on.
+      </p>
+      <div class="bill-wrap bill-wrap--inline">
+        <div class="bill-toggle" role="group" aria-label="Billing period">
+          <button type="button" class="bill-toggle__btn is-active" data-bill="monthly" aria-pressed="true">Monthly</button>
+          <button type="button" class="bill-toggle__btn" data-bill="yearly" aria-pressed="false">Yearly <span class="bill-toggle__tag">1 mo free</span></button>
+        </div>
+      </div>
+      <div class="hyper-band reveal">
+        <div class="hyper-band__head">
+          <p class="hyper-price__big display tier__price" data-m={money(hyper.monthly)} data-y={money(hyper.yearly)} data-save={savePct(hyper.monthly, hyper.yearly)} data-per="/month">
+            <span class="tier__amt">{money(hyper.monthly)}</span><small class="tier__per">/month</small>
+            <span class="tier__save" hidden> · save {savePct(hyper.monthly, hyper.yearly)}%</span>
+          </p>
+          <a href="https://www.kickstarter.com/projects/concord-mark/concord-voice" target="_blank" rel="noopener noreferrer" class="ks-btn" style="margin-top:1.1rem;">
+            <img src="/brand/kickstarter-k-white.png" alt="" />
+            <span>Follow on Kickstarter</span>
+          </a>
+        </div>
+        <div class="hyper-band__lists">
+          <div>
+            <p class="hyper-list__t eyebrow text-gradient">You — free tier, plus</p>
+            <ul class="checklist">{hyperYou.map((i) => <li>{i}</li>)}</ul>
+          </div>
+          <div>
+            <p class="hyper-list__t eyebrow text-gradient">Your server — free tier, plus</p>
+            <ul class="checklist">{hyperServer.map((i) => <li>{i}</li>)}</ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Wing (2-user) — PROPOSED pricing ===== -->
+    <section class="mkt-section" id="wing">
+      <p class="mkt-label eyebrow text-gradient">Wing</p>
+      <h2 class="display mkt-section__title">Bring your favorite person along</h2>
+      <p class="mkt-section__sub">
+        A two-person plan: <strong>Supersonic for you</strong> and <strong>Supersonic for your +1</strong>. Two
+        portable premium seats — your personal uplift travels with you to every server, boosted or not.
+      </p>
+      <div class="bill-wrap bill-wrap--inline">
+        <div class="bill-toggle" role="group" aria-label="Billing period">
+          <button type="button" class="bill-toggle__btn is-active" data-bill="monthly" aria-pressed="true">Monthly</button>
+          <button type="button" class="bill-toggle__btn" data-bill="yearly" aria-pressed="false">Yearly <span class="bill-toggle__tag">1 mo free</span></button>
+        </div>
+      </div>
+      <div class="wing-band reveal">
+        <p class="hyper-price__big display tier__price" data-m={money(wing.monthly)} data-y={money(wing.yearly)} data-save={savePct(wing.monthly, wing.yearly)} data-per="/month">
+          <span class="tier__amt">{money(wing.monthly)}</span><small class="tier__per">/month</small>
+          <span class="tier__save" hidden> · save {savePct(wing.monthly, wing.yearly)}%</span>
+        </p>
+        <div class="wing-seats">
+          <div><p class="hyper-list__t eyebrow text-gradient">You</p><p class="wing-seat__d">Full <strong>Supersonic</strong> — portable premium across every server and DM.</p></div>
+          <div><p class="hyper-list__t eyebrow text-gradient">Your +1</p><p class="wing-seat__d">Full <strong>Supersonic</strong> — portable premium across every server and DM.</p></div>
+        </div>
+      </div>
+      <p class="fineprint">Pricing finalized 2026-06-18. Wing bundles two Supersonic seats — portability for both of you, no server boost included.</p>
+    </section>
+
+    <!-- ===== Pointer to teams + compare ===== -->
+    <section class="mkt-section">
+      <p class="mkt-label eyebrow text-gradient">Bigger groups?</p>
+      <h2 class="display mkt-section__title">Running a community or team?</h2>
+      <p class="mkt-section__sub">
+        Hosted servers (Groundspeed &amp; Mach), the Squadron group plan, and crowd-funded Afterburner boosts have
+        their own page.
+      </p>
+      <div class="mkt-cta-row">
+        <a href="/teams" class="btn border border-white/20 hover:border-coral">Groups &amp; Teams pricing →</a>
+        <a href="/compare" class="btn border border-white/20 hover:border-coral">Compare every plan →</a>
+      </div>
+    </section>
+
+    <section class="mkt-cta reveal">
+      <p class="eyebrow text-gold">No credit card. No data sold.</p>
+      <h2 class="display mkt-cta__title">Start free. Upgrade only if you want to.</h2>
+      <a href="https://www.kickstarter.com/projects/concord-mark/concord-voice" target="_blank" rel="noopener noreferrer" class="ks-btn" style="margin-top:1.5rem;">
+        <img src="/brand/kickstarter-k-white.png" alt="" />
+        <span>Follow on Kickstarter</span>
+      </a>
+    </section>
+  </main>
+
+  <Footer />
+
+  <style>
+    .fineprint { max-width: 46rem; margin: 1.6rem auto 0; font-size: 0.78rem; line-height: 1.6; color: var(--color-mist); text-align: center; }
+    .fineprint a { color: var(--color-coral); }
+
+    /* Cloud vs Self-Host fork */
+    .fork-card { text-align: left; padding: 1.8rem; border: 1px solid color-mix(in oklab, var(--color-paper) 12%, transparent); border-radius: 1.2rem; background: color-mix(in oklab, var(--color-paper) 4%, transparent); display: flex; flex-direction: column; }
+    .fork-card__t { font-size: 1.4rem; margin: 0.3rem 0 0.6rem; }
+    .fork-card__d { color: var(--color-mist); line-height: 1.6; flex: 1; margin-bottom: 1.2rem; }
+    .fork-card .btn { align-self: flex-start; }
+
+    .hyper-band { max-width: 60rem; margin: 0 auto; padding: 2rem; border: 1px solid color-mix(in oklab, var(--color-coral) 45%, transparent); border-radius: 1.4rem; background: linear-gradient(160deg, color-mix(in oklab, var(--color-gold) 7%, transparent), color-mix(in oklab, var(--color-coral) 11%, transparent)); box-shadow: 0 30px 70px -42px var(--color-coral); }
+    .hyper-band__head { text-align: center; margin-bottom: 1.8rem; }
+    .hyper-price__big { font-size: clamp(2.6rem, 8vw, 4rem); line-height: 1; }
+    .hyper-price__big small { font-family: var(--font-body); font-weight: 600; font-size: 1rem; color: var(--color-mist); }
+    .hyper-band__lists { display: grid; gap: 1.6rem; grid-template-columns: 1fr; }
+    @media (min-width: 720px) { .hyper-band__lists { grid-template-columns: 1fr 1fr; } }
+    .hyper-list__t { margin-bottom: 0.75rem; }
+
+    /* Wing */
+    .wing-band { max-width: 48rem; margin: 0 auto; padding: 2rem; text-align: center; border: 1px solid color-mix(in oklab, var(--color-coral) 40%, transparent); border-radius: 1.4rem; background: linear-gradient(160deg, color-mix(in oklab, var(--color-gold) 6%, transparent), color-mix(in oklab, var(--color-coral) 10%, transparent)); }
+    .wing-seats { display: grid; gap: 1.2rem; grid-template-columns: 1fr; margin-top: 1.6rem; text-align: left; }
+    @media (min-width: 640px) { .wing-seats { grid-template-columns: 1fr 1fr; } }
+    .wing-seat__d { color: var(--color-mist); line-height: 1.55; font-size: .92rem; margin-top: .3rem; }
+  </style>
+</Layout>

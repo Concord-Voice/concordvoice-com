@@ -1,0 +1,180 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import '@styles/marketing.css';
+
+// Cloud pricing for COMMUNITIES & TEAMS. Split out of
+// the old personal-use page (individual plans are on /pricing, the comparison on /compare).
+// Pricing finalized 2026-06-18.
+const money = (n: number) => (n === 0 ? '$0' : `$${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
+const savePct = (m: number, y: number) => (m > 0 && y > 0 ? Math.round((1 - y / (m * 12)) * 100) : 0);
+
+const serverTiers = [
+  { name: 'Groundspeed', monthly: 0, desc: 'For friends, family, clans, guilds, and small communities',
+    items: ['Unlimited channels & categories', 'End-to-end encrypted messaging', 'Voice & video channels (standard quality)', 'Screen sharing (up to 1080p · 30fps)', 'Basic server icon & banner', '32MB file upload limit per file', '75 custom emoji (incl. animated)', '10 custom stickers'] },
+  { name: 'Mach 1', monthly: 4.99, yearly: 54.89, desc: 'Entry-level server boost for communities that want more',
+    items: ['Everything in Groundspeed', 'Animated GIF server banner', 'Up to 510 kbps audio, server-wide*', '1080p/60 video, server-wide*', '128 MB per-file uploads, server-wide', '250 GB server storage (fair-use ceiling)', '250 custom emoji / 75 stickers / 30 soundboards', 'List your server in the Public Directory (optional)'] },
+  { name: 'Mach 2', monthly: 14.99, yearly: 164.89, featured: true, desc: 'For active communities that want a step up in quality',
+    items: ['Everything in Mach 1', 'Custom invite links', '1440p/60 video, server-wide*', '256 MB per-file uploads, server-wide', '1 TB server storage', '350 custom emoji / 100 stickers / 40 soundboards', 'Server tag', 'Priority support'] },
+  { name: 'Mach 3', monthly: 34.99, yearly: 384.89, desc: 'Maximum quality for large, media-rich communities',
+    items: ['Everything in Mach 2', '4K/60 video, server-wide*', '512 MB per-file uploads, server-wide', '2.5 TB server storage', '500 custom emoji / 150 stickers / 55 soundboards'] },
+];
+// Plans (Concord-Voice-Alpha issue #1150). Squadron + Afterburner pricing finalized 2026-06-18.
+const squadron = [
+  { name: 'Squadron-4', members: 4, slots: 1, monthly: 42.99, yearly: 472.89, per: 10.75 },
+  { name: 'Squadron-8', members: 8, slots: 1, monthly: 72.99, yearly: 802.89, per: 9.12, featured: true },
+  { name: 'Squadron-12', members: 12, slots: 1, monthly: 104.99, yearly: 1154.89, per: 8.75 },
+];
+const afterburner = [
+  { tier: 'Mach 2', n: 2, per: 8.03, pool: 16.05 }, { tier: 'Mach 2', n: 3, per: 5.45, pool: 16.36 },
+  { tier: 'Mach 3', n: 5, per: 7.52, pool: 37.58 }, { tier: 'Mach 3', n: 7, per: 5.46, pool: 38.20 },
+];
+---
+<Layout
+  title="Groups & Teams Pricing — Concord Voice"
+  description="Pricing for communities and teams — Groundspeed (free) and Mach 1/2/3 hosted servers, the Squadron group plan, and crowd-funded Afterburner boosts. Monthly or yearly."
+>
+  <Header />
+
+  <main class="mx-auto w-full max-w-7xl px-6 pb-24 pt-10">
+    <section class="mkt-hero">
+      <p class="eyebrow text-gradient">Groups &amp; Teams Pricing</p>
+      <h1 class="display mkt-hero__title">For your whole crew</h1>
+      <p class="mkt-lead">
+        Run a community, a guild, or a team. Every hosted server starts free; premium plans unlock your server for
+        everyone in it — or boost your whole roster at once. Looking for individual plans?
+        <a href="/pricing" style="color:var(--color-coral)">See Personal Pricing →</a>
+      </p>
+    </section>
+
+    <section class="mkt-section" id="servers">
+      <p class="mkt-label eyebrow text-gradient">Hosted Server Pricing</p>
+      <h2 class="display mkt-section__title">Boost the whole server</h2>
+      <p class="mkt-section__sub">
+        Servers come in two flavors — hosted by us, or run by you. Either way, the basics are always free; a Mach
+        boost lifts quality and unlocks extras for <em>every</em> member, not just the person who pays. Audio quality is the
+        channel admin-set standard (server-gated, uplifting all members including free); video quality is the better of your
+        personal cap or the server floor.
+      </p>
+      <div class="bill-wrap">
+        <div class="bill-toggle" role="group" aria-label="Billing period">
+          <button type="button" class="bill-toggle__btn is-active" data-bill="monthly" aria-pressed="true">Monthly</button>
+          <button type="button" class="bill-toggle__btn" data-bill="yearly" aria-pressed="false">Yearly <span class="bill-toggle__tag">1 mo free</span></button>
+        </div>
+      </div>
+      <div class="mkt-grid">
+        {serverTiers.map((t) => (
+          <div class:list={['tier', 'reveal', t.featured && 'tier--featured']}>
+            <p class="tier__name eyebrow text-gradient">{t.name}</p>
+            <p class="tier__price" data-m={money(t.monthly)} data-y={t.yearly ? money(t.yearly) : ''} data-save={t.yearly ? savePct(t.monthly, t.yearly) : 0} data-per={t.monthly > 0 ? '/month' : ''}>
+              <span class="tier__amt">{money(t.monthly)}</span><small class="tier__per">{t.monthly > 0 ? '/month' : ''}</small>
+              <span class="tier__save" hidden> · save {t.yearly ? savePct(t.monthly, t.yearly) : 0}%</span>
+            </p>
+            <p class="tier__desc">{t.desc}</p>
+            <ul class="checklist">{t.items.map((i) => <li>{i}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+      <p class="fineprint">
+        Multi-server operators can add extra servers à la carte at the ladder price; Squadron members get an optional 10% off.
+        Need something bigger? Reach out via our <a href="/enterprise-msp">OEM page</a>. &nbsp;<br />
+        * Requires devices and networks that support the necessary encoding and bitrates; otherwise expect
+        degraded quality.
+      </p>
+    </section>
+
+    <!-- ===== Squadron (group plan) ===== -->
+    <section class="mkt-section" id="squadron">
+      <p class="mkt-label eyebrow text-gradient">Squadron</p>
+      <h2 class="display mkt-section__title">One subscription for your whole crew</h2>
+      <p class="mkt-section__sub">
+        Mach boosts your server; Squadron boosts your <em>people</em>. One bill, one Captain — every member gets
+        Supersonic that travels with them to every server, boosted or not. The Captain picks the Mach tier (Mach 2 default)
+        for the included boost; extra servers are à la carte at the ladder price (optional 10% off).
+      </p>
+      <div class="bill-wrap bill-wrap--inline">
+        <div class="bill-toggle" role="group" aria-label="Billing period">
+          <button type="button" class="bill-toggle__btn is-active" data-bill="monthly" aria-pressed="true">Monthly</button>
+          <button type="button" class="bill-toggle__btn" data-bill="yearly" aria-pressed="false">Yearly <span class="bill-toggle__tag">1 mo free</span></button>
+        </div>
+      </div>
+      <div class="mkt-grid mkt-grid--3">
+        {squadron.map((s) => (
+          <div class:list={['tier', 'reveal', s.featured && 'tier--featured']}>
+            <p class="tier__name eyebrow text-gradient">{s.name}</p>
+            <p class="tier__price" data-m={money(s.monthly)} data-y={money(s.yearly)} data-save={savePct(s.monthly, s.yearly)} data-per="/month">
+              <span class="tier__amt">{money(s.monthly)}</span><small class="tier__per">/month</small>
+              <span class="tier__save" hidden> · save {savePct(s.monthly, s.yearly)}%</span>
+            </p>
+            <p class="tier__desc">Up to {s.members} members · 1 Mach boost (Captain picks tier) · ~{money(s.per)}/member</p>
+            <ul class="checklist">
+              <li>Supersonic for up to {s.members} members — portable across DMs &amp; every server</li>
+              <li>1 Mach boost — Captain picks the tier (Mach 2 default); Mach 2 or Mach 3 eligible</li>
+              <li>The Captain manages the roster and one bill</li>
+              <li>Extra servers à la carte at the ladder price (optional 10% off)</li>
+            </ul>
+          </div>
+        ))}
+      </div>
+      <p class="fineprint">Built on “trust by design” — no IP tracking, no household checks, no nag banners. Members' premium is theirs; the Captain holds the bill.</p>
+    </section>
+
+    <!-- ===== Afterburner (crowd-funded boost) ===== -->
+    <section class="mkt-section" id="afterburner">
+      <p class="mkt-label eyebrow text-gradient">Afterburner</p>
+      <h2 class="display mkt-section__title">Crowd-fund a server boost</h2>
+      <p class="mkt-section__sub">
+        A fair pledge-to-unlock pool — nobody is charged until pledges reach the Mach tier price. Pick Mach 2 or Mach 3;
+        contributors pledge ~$5 or more each; when the pool hits the target the boost activates and everyone is billed their share.
+        <strong>Example: about $5.45/month each with 3 friends toward a Mach 2 boost.</strong> Split-billing fee included.
+      </p>
+      <div class="mkt-grid">
+        {afterburner.map((a) => (
+          <div class:list={['tier', 'ab-card', 'reveal', (a.tier === 'Mach 2' && a.n === 3) && 'tier--featured']}>
+            <p class="tier__name eyebrow text-gradient">{a.tier} · {a.n} contributors</p>
+            <p class="ab-price"><span class="ab-amt display">{money(a.per)}</span><small>/mo each</small></p>
+            <p class="tier__desc">Pool total {money(a.pool)}/mo</p>
+          </div>
+        ))}
+      </div>
+      <details class="faq__item ab-detail">
+        <summary class="faq__q">How is Afterburner priced?</summary>
+        <p class="faq__a">Afterburner is a pledge-to-unlock pool — nobody is charged a cent until enough contributors have pledged to cover the chosen Mach tier (Mach 2 or Mach 3). Once the pool reaches the tier price, everyone's card is charged their share and the boost activates. The minimum meaningful pledge is about $5/month. The honest catch: splitting one boost into several smaller payments means our payment processor charges a separate transaction fee on each contributor's share, so the pool total runs slightly above the solo price — roughly $16/mo for a 3-way Mach 2 pool, up to ~$38/mo for a 7-way Mach 3 pool. It's not a discount; it's a transparent way to share the cost without anyone being left holding an unfunded bill.</p>
+      </details>
+    </section>
+
+    <section class="mkt-section">
+      <p class="mkt-label eyebrow text-gradient">Just you?</p>
+      <h2 class="display mkt-section__title">Looking for personal pricing?</h2>
+      <p class="mkt-section__sub">Sonic (free), Supersonic, and the all-in-one Hypersonic and Wing plans live on the personal pricing page.</p>
+      <div class="mkt-cta-row">
+        <a href="/pricing" class="btn border border-white/20 hover:border-coral">Personal Pricing →</a>
+        <a href="/compare" class="btn border border-white/20 hover:border-coral">Compare every plan →</a>
+      </div>
+    </section>
+
+    <section class="mkt-cta reveal">
+      <p class="eyebrow text-gold">One bill. Everyone covered.</p>
+      <h2 class="display mkt-cta__title">Bring your community along.</h2>
+      <a href="https://www.kickstarter.com/projects/concord-mark/concord-voice" target="_blank" rel="noopener noreferrer" class="ks-btn" style="margin-top:1.5rem;">
+        <img src="/brand/kickstarter-k-white.png" alt="" />
+        <span>Follow on Kickstarter</span>
+      </a>
+    </section>
+  </main>
+
+  <Footer />
+
+  <style>
+    .fineprint { max-width: 46rem; margin: 1.6rem auto 0; font-size: 0.78rem; line-height: 1.6; color: var(--color-mist); text-align: center; }
+    .fineprint a { color: var(--color-coral); }
+
+    /* Afterburner */
+    .ab-card { text-align: center; }
+    .ab-price { margin: .35rem 0 .5rem; }
+    .ab-amt { font-size: clamp(1.8rem, 5vw, 2.4rem); line-height: 1; }
+    .ab-price small { color: var(--color-mist); font-size: .85rem; }
+    .ab-detail { max-width: 46rem; margin: 1.4rem auto 0; }
+  </style>
+</Layout>

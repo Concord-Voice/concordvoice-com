@@ -1,0 +1,29 @@
+---
+import BlogPost from './_components/BlogPost.astro';
+
+export async function getStaticPaths() {
+  const modules = import.meta.glob('./_posts/*.md', { eager: true });
+  const list = Object.entries(modules)
+    .map(([path, mod]: [string, any]) => ({
+      slug: mod.frontmatter.slug ?? path.split('/').pop()!.replace(/\.md$/, ''),
+      mod,
+    }))
+    .sort((a, b) => +new Date(b.mod.frontmatter.pubDate) - +new Date(a.mod.frontmatter.pubDate));
+
+  return list.map((p, i) => ({
+    params: { slug: p.slug },
+    props: {
+      mod: p.mod,
+      prev: list[i + 1] ? { slug: list[i + 1].slug, title: list[i + 1].mod.frontmatter.title } : null,
+      next: list[i - 1] ? { slug: list[i - 1].slug, title: list[i - 1].mod.frontmatter.title } : null,
+    },
+  }));
+}
+
+const { mod, prev, next } = Astro.props as any;
+const { Content, frontmatter } = mod;
+const headings = mod.getHeadings();
+---
+<BlogPost {...frontmatter} headings={headings} prev={prev} next={next}>
+  <Content />
+</BlogPost>
