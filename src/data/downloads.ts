@@ -6,8 +6,8 @@
 // are mirrored from the private Concord-Voice-Alpha repo to the PUBLIC
 // Concord-Voice/Concord-Voice repo, whose release assets download anonymously.
 
-export const VERSION = '0.2.0';
-export const RELEASE_TAG = 'desktop-v0.2.0';
+import { VERSION, RELEASE_TAG } from './release.generated.ts';
+export { VERSION, RELEASE_TAG };
 export const MIRROR_REPO = 'Concord-Voice/Concord-Voice';
 
 export const RELEASE_NOTES_URL = `https://github.com/${MIRROR_REPO}/releases/tag/${RELEASE_TAG}`;
