@@ -15,6 +15,12 @@ test('tagToVersion rejects non-matching tags', () => {
   assert.equal(tagToVersion(undefined), null);
 });
 
+test('tagToVersion rejects pre-release / 4-part tags (page never auto-adopts an RC)', () => {
+  assert.equal(tagToVersion('desktop-v0.2.0-rc1'), null);
+  assert.equal(tagToVersion('desktop-v0.2.0-beta'), null);
+  assert.equal(tagToVersion('desktop-v0.2.0.1'), null);
+});
+
 test('validateRelease requires the macOS dmg + zip for the version', () => {
   const ok = { assets: [
     { name: 'ConcordVoice-0.2.0-macos-arm64.dmg' },
@@ -32,4 +38,15 @@ test('validateRelease fails when the dmg is missing (mirror lag)', () => {
 test('validateRelease fails on empty or missing assets', () => {
   assert.equal(validateRelease({ assets: [] }, '0.2.0'), false);
   assert.equal(validateRelease({}, '0.2.0'), false);
+});
+
+test('validateRelease tolerates malformed asset entries (untrusted API JSON)', () => {
+  const messy = { assets: [
+    null,
+    42,
+    { name: null },
+    { name: 'ConcordVoice-0.2.0-macos-arm64.dmg' },
+    { name: 'ConcordVoice-0.2.0-macos-arm64.zip' },
+  ] };
+  assert.equal(validateRelease(messy, '0.2.0'), true);
 });
