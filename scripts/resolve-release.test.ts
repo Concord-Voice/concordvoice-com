@@ -21,18 +21,31 @@ test('tagToVersion rejects pre-release / 4-part tags (page never auto-adopts an 
   assert.equal(tagToVersion('desktop-v0.2.0.1'), null);
 });
 
-test('validateRelease requires the macOS dmg + zip for the version', () => {
+test('validateRelease requires the macOS dmg + zip for BOTH arches', () => {
   const ok = { assets: [
     { name: 'ConcordVoice-0.2.0-macos-arm64.dmg' },
     { name: 'ConcordVoice-0.2.0-macos-arm64.zip' },
+    { name: 'ConcordVoice-0.2.0-macos-x64.dmg' },
+    { name: 'ConcordVoice-0.2.0-macos-x64.zip' },
     { name: 'ConcordVoice-0.2.0-windows-x64-Setup.exe' },
   ] };
   assert.equal(validateRelease(ok, '0.2.0'), true);
 });
 
 test('validateRelease fails when the dmg is missing (mirror lag)', () => {
-  const noDmg = { assets: [{ name: 'ConcordVoice-0.2.0-macos-arm64.zip' }] };
+  const noDmg = { assets: [
+    { name: 'ConcordVoice-0.2.0-macos-arm64.zip' },
+    { name: 'ConcordVoice-0.2.0-macos-x64.zip' },
+  ] };
   assert.equal(validateRelease(noDmg, '0.2.0'), false);
+});
+
+test('validateRelease fails when only one arch is mirrored', () => {
+  const arm64Only = { assets: [
+    { name: 'ConcordVoice-0.2.0-macos-arm64.dmg' },
+    { name: 'ConcordVoice-0.2.0-macos-arm64.zip' },
+  ] };
+  assert.equal(validateRelease(arm64Only, '0.2.0'), false);
 });
 
 test('validateRelease fails on empty or missing assets', () => {
@@ -47,6 +60,8 @@ test('validateRelease tolerates malformed asset entries (untrusted API JSON)', (
     { name: null },
     { name: 'ConcordVoice-0.2.0-macos-arm64.dmg' },
     { name: 'ConcordVoice-0.2.0-macos-arm64.zip' },
+    { name: 'ConcordVoice-0.2.0-macos-x64.dmg' },
+    { name: 'ConcordVoice-0.2.0-macos-x64.zip' },
   ] };
   assert.equal(validateRelease(messy, '0.2.0'), true);
 });

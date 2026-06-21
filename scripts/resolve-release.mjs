@@ -11,13 +11,15 @@ export function tagToVersion(tag) {
   return m ? m[1] : null;
 }
 
-/** True only if the release publishes the macOS install assets for `version`
- *  (guards against adopting a half-mirrored release). */
+/** True only if the release publishes the macOS install assets for BOTH arches of `version`
+ *  (the page advertises a recommended .dmg for arm64 and x64) — guards against adopting a
+ *  half-mirrored release whose recommended download would 404. */
 export function validateRelease(release, version) {
   const assets = Array.isArray(release?.assets) ? release.assets : [];
   const names = new Set(assets.map((a) => a?.name));
-  return names.has(`ConcordVoice-${version}-macos-arm64.dmg`)
-    && names.has(`ConcordVoice-${version}-macos-arm64.zip`);
+  return ['arm64', 'x64'].every((arch) =>
+    names.has(`ConcordVoice-${version}-macos-${arch}.dmg`)
+    && names.has(`ConcordVoice-${version}-macos-${arch}.zip`));
 }
 
 const LATEST_URL = 'https://api.github.com/repos/Concord-Voice/Concord-Voice/releases/latest';
