@@ -66,7 +66,12 @@ const showNav = productItems.length > 0 || linkItems.length > 0;
   )}
 
   <nav class="header-actions flex items-center justify-self-end gap-3 sm:gap-4" aria-label="Quick links">
-    <span class="eyebrow text-mist hidden sm:inline">Coming Soon</span>
+    <a href="/download" class="dl-cta" aria-label="Download Concord Voice">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3v12" /><path d="m7 11 5 5 5-5" /><path d="M5 21h14" />
+      </svg>
+      <span class="dl-cta__label">Download</span>
+    </a>
     <a
       href="https://github.com/Concord-Voice"
       target="_blank"
@@ -225,6 +230,23 @@ const showNav = productItems.length > 0 || linkItems.length > 0;
     .nav-pop { transition: opacity 0.15s !important; transform: translateX(-50%) !important; }
     .nav-caret { transition: none !important; }
   }
+
+  /* Header Download CTA — compact primary button (replaces the old "Coming Soon" label).
+     Icon-only below sm so it stays usable on mobile; label appears from sm up. */
+  .dl-cta {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    padding: 0.5rem 0.8rem; border-radius: 9999px;
+    font-family: inherit; font-weight: 700; font-size: 0.9rem; line-height: 1;
+    color: #1a0b2e;
+    background: linear-gradient(100deg, var(--color-gold), var(--color-coral));
+    box-shadow: 0 8px 28px -14px var(--color-coral);
+    transition: transform 0.2s, filter 0.2s, box-shadow 0.2s;
+  }
+  .dl-cta:hover, .dl-cta:focus-visible { transform: translateY(-1px); filter: brightness(1.05); }
+  .dl-cta:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; }
+  .dl-cta svg { width: 1rem; height: 1rem; }
+  .dl-cta__label { display: none; }
+  @media (min-width: 640px) { .dl-cta__label { display: inline; } }
 </style>
 
 <script>
