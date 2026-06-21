@@ -23,12 +23,23 @@ test('assetUrl builds the public mirror download URL', () => {
 });
 
 test('recommended builds resolve to the exact mirrored filenames', () => {
-  assert.equal(recommendedBuild('mac', 'arm64')?.filename, 'ConcordVoice-0.2.0-macos-arm64.zip');
-  assert.equal(recommendedBuild('mac', 'x64')?.filename, 'ConcordVoice-0.2.0-macos-x64.zip');
+  assert.equal(recommendedBuild('mac', 'arm64')?.filename, 'ConcordVoice-0.2.0-macos-arm64.dmg');
+  assert.equal(recommendedBuild('mac', 'x64')?.filename, 'ConcordVoice-0.2.0-macos-x64.dmg');
   assert.equal(recommendedBuild('windows', 'x64')?.filename, 'ConcordVoice-0.2.0-windows-x64-Setup.exe');
   assert.equal(recommendedBuild('windows', 'arm64')?.filename, 'ConcordVoice-0.2.0-windows-arm64-Setup.exe');
   assert.equal(recommendedBuild('linux', 'x64')?.filename, 'ConcordVoice-0.2.0-linux-x64.AppImage');
   assert.equal(recommendedBuild('linux', 'arm64')?.filename, 'ConcordVoice-0.2.0-linux-arm64.AppImage');
+});
+
+test('macOS leads with the .dmg installer and keeps the .zip as an alternate', () => {
+  const mac = platform('mac')!;
+  for (const a of mac.arches) {
+    const kinds = a.builds.map((b) => b.kind).sort();
+    assert.deepEqual(kinds, ['dmg', 'zip'], a.id);
+    assert.equal(a.builds.find((b) => b.kind === 'dmg')?.recommended, true, a.id);
+    assert.equal(a.builds.find((b) => b.kind === 'zip')?.recommended, false, a.id);
+    assert.equal(a.builds.find((b) => b.kind === 'zip')?.filename, `ConcordVoice-0.2.0-macos-${a.id}.zip`);
+  }
 });
 
 test('linux exposes deb + rpm alternates per arch', () => {

@@ -19,7 +19,7 @@ export function assetUrl(filename: string): string {
 
 export type OsId = 'mac' | 'windows' | 'linux';
 export type ArchId = 'arm64' | 'x64';
-export type FormatKind = 'zip' | 'exe' | 'AppImage' | 'deb' | 'rpm';
+export type FormatKind = 'dmg' | 'zip' | 'exe' | 'AppImage' | 'deb' | 'rpm';
 
 export interface Build {
   kind: FormatKind;
@@ -46,6 +46,7 @@ export interface Platform {
 // inconsistent (PascalCase+hyphen for AppImage, kebab+underscore for .deb, kebab+hyphen
 // for .rpm).
 const fn = {
+  macDmg: (a: ArchId) => `ConcordVoice-${VERSION}-macos-${a}.dmg`,
   macZip: (a: ArchId) => `ConcordVoice-${VERSION}-macos-${a}.zip`,
   winExe: (a: ArchId) => `ConcordVoice-${VERSION}-windows-${a}-Setup.exe`,
   appImage: (a: ArchId) => `ConcordVoice-${VERSION}-linux-${a}.AppImage`,
@@ -60,11 +61,28 @@ function build(kind: FormatKind, label: string, filename: string, recommended = 
 export const PLATFORMS: Platform[] = [
   {
     id: 'mac',
+    // The .dmg is the install download (branded drag-to-Applications). The .zip is kept as
+    // an alternate — it is also electron-updater's auto-update artifact. Both are normalized
+    // to the same name scheme by the desktop release workflow (…-macos-<arch>.{dmg,zip}).
     label: 'macOS',
-    installHint: 'Unzip, then drag Concord Voice into your Applications folder.',
+    installHint: 'Open the .dmg and drag Concord Voice into your Applications folder.',
     arches: [
-      { id: 'arm64', label: 'Apple Silicon', builds: [build('zip', '.zip', fn.macZip('arm64'), true)] },
-      { id: 'x64', label: 'Intel', builds: [build('zip', '.zip', fn.macZip('x64'), true)] },
+      {
+        id: 'arm64',
+        label: 'Apple Silicon',
+        builds: [
+          build('dmg', '.dmg · installer', fn.macDmg('arm64'), true),
+          build('zip', '.zip', fn.macZip('arm64')),
+        ],
+      },
+      {
+        id: 'x64',
+        label: 'Intel',
+        builds: [
+          build('dmg', '.dmg · installer', fn.macDmg('x64'), true),
+          build('zip', '.zip', fn.macZip('x64')),
+        ],
+      },
     ],
   },
   {
