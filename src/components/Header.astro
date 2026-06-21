@@ -234,7 +234,10 @@ const showNav = productItems.length > 0 || linkItems.length > 0;
   /* Header Download CTA — compact primary button (replaces the old "Coming Soon" label).
      Icon-only below sm so it stays usable on mobile; label appears from sm up. */
   .dl-cta {
-    display: inline-flex; align-items: center; gap: 0.45rem;
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
+    /* Match the 2.5rem height of the adjacent .gh-btn / .ks-icon so the action row aligns
+       and the icon-only mobile tap target stays comfortable. */
+    min-height: 2.5rem;
     padding: 0.5rem 0.8rem; border-radius: 9999px;
     font-family: inherit; font-weight: 700; font-size: 0.9rem; line-height: 1;
     color: #1a0b2e;
