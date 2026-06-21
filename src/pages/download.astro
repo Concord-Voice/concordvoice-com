@@ -1,0 +1,227 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { PLATFORMS, VERSION, RELEASE_TAG, RELEASE_NOTES_URL } from '../data/downloads';
+---
+
+<Layout
+  title="Download Concord Voice"
+  description="Download the Concord Voice desktop app for macOS, Windows, and Linux. End-to-end encrypted voice, video, and messaging — private by default."
+>
+  <Header />
+
+  <main class="dl mx-auto max-w-6xl px-6 pb-24 pt-6">
+    <!-- Use .rise (a pure-CSS entrance animation that ends visible) rather than .reveal
+         (opacity:0 until the Layout's IntersectionObserver adds .in). The matrix is the
+         no-JS fallback, so it MUST be visible with JavaScript disabled — .rise guarantees
+         that; .reveal would leave a blank page for no-JS visitors. -->
+    <section class="dl-hero rise">
+      <p class="eyebrow text-gold">Desktop App · v{VERSION} Beta</p>
+      <h1 class="display dl-h1">Download Concord Voice</h1>
+      <p class="text-mist dl-sub">
+        Private by default, on every desktop. End-to-end encrypted voice, video, and
+        messaging for macOS, Windows, and Linux.
+      </p>
+
+      <!-- Recommendation slot: this server-rendered fallback is replaced by the script
+           below once the visitor's OS/arch is known. With JS off it stays as-is and the
+           full matrix below remains fully usable. -->
+      <div class="dl-pick" id="dl-pick" data-state="detecting" aria-live="polite" aria-atomic="true">
+        <p class="dl-pick__detecting text-mist">
+          Detecting your system… <a class="dl-link" href="#all-downloads">or choose your platform ↓</a>
+        </p>
+      </div>
+    </section>
+
+    <section id="all-downloads" class="dl-all rise" style="--d:.12s">
+      <h2 class="display dl-all__h">All platforms</h2>
+      <div class="dl-grid">
+        {PLATFORMS.map((p) => (
+          <article class="dl-card" data-os={p.id}>
+            <h3 class="dl-card__h">{p.label}</h3>
+            <div class="dl-card__arches">
+              {p.arches.map((a) => (
+                <div class="dl-arch">
+                  <p class="eyebrow text-mist dl-arch__label">{a.label}</p>
+                  <ul class="dl-builds">
+                    {a.builds.map((b) => (
+                      <li>
+                        <a class="dl-build" href={b.url} data-os={p.id} data-arch={a.id} aria-label={`Download Concord Voice for ${p.label} ${a.label} (${b.label})`}>
+                          <span class="dl-build__fmt">{b.label}</span>
+                          <span class="dl-build__dl" aria-hidden="true">↓</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <p class="dl-card__hint text-mist">{p.installHint}</p>
+          </article>
+        ))}
+      </div>
+
+      <p class="dl-foot text-mist">
+        Looking for checksums or other builds? See the
+        <a class="dl-link" href={RELEASE_NOTES_URL} target="_blank" rel="noopener noreferrer">{RELEASE_TAG} release notes</a>.
+        Prefer to self-host or build from source? Everything's on
+        <a class="dl-link" href="https://github.com/Concord-Voice" target="_blank" rel="noopener noreferrer">GitHub</a>.
+      </p>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .dl-hero { text-align: center; max-width: 46rem; margin: 0 auto; padding: 2.5rem 0 1rem; }
+  .dl-h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); margin: 0.4rem 0 0.8rem; }
+  .dl-sub { font-size: 1.05rem; line-height: 1.6; margin: 0 auto 1.8rem; max-width: 38rem; }
+
+  /* Recommendation slot — reserve height so the JS swap doesn't shift layout. */
+  .dl-pick { min-height: 7.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
+  .dl-pick__detecting { font-size: 0.95rem; }
+  .dl-pick__cta {
+    display: inline-flex; flex-direction: column; align-items: center; gap: 0.15rem;
+    padding: 1rem 2rem; min-width: 18rem;
+  }
+  .dl-pick__big { font-size: 1.1rem; }
+  .dl-pick__meta { font-size: 0.8rem; font-weight: 600; opacity: 0.8; }
+  .dl-pick__alts { font-size: 0.9rem; }
+  .dl-pick__hint { font-size: 0.85rem; max-width: 30rem; }
+  .dl-pick__msg { font-size: 1rem; }
+
+  .dl-link { color: var(--color-coral); font-weight: 600; }
+  .dl-link:hover, .dl-link:focus-visible { color: var(--color-gold); text-decoration: underline; }
+
+  .dl-all { margin-top: 3.5rem; }
+  .dl-all__h { font-size: 1.4rem; text-align: center; margin-bottom: 1.5rem; }
+  .dl-grid { display: grid; grid-template-columns: 1fr; gap: 1.1rem; }
+  @media (min-width: 768px) { .dl-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .dl-card {
+    display: flex; flex-direction: column; gap: 0.9rem;
+    padding: 1.4rem; border-radius: 1rem;
+    background: color-mix(in oklab, var(--color-paper) 4%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-paper) 14%, transparent);
+  }
+  .dl-card__h { font-size: 1.15rem; margin: 0; }
+  .dl-card__arches { display: flex; flex-direction: column; gap: 0.9rem; flex: 1; }
+  .dl-arch__label { margin: 0 0 0.4rem; }
+  .dl-builds { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
+
+  .dl-build {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.6rem;
+    padding: 0.6rem 0.85rem; border-radius: 0.6rem;
+    background: color-mix(in oklab, var(--color-paper) 5%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-paper) 12%, transparent);
+    color: var(--color-paper); font-weight: 600; font-size: 0.9rem;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  }
+  .dl-build:hover, .dl-build:focus-visible {
+    border-color: var(--color-coral);
+    background: color-mix(in oklab, var(--color-coral) 14%, transparent);
+    transform: translateY(-1px);
+  }
+  .dl-build__dl { color: var(--color-coral); }
+  .dl-card__hint { font-size: 0.82rem; line-height: 1.5; margin: 0; }
+
+  .dl-foot { text-align: center; font-size: 0.9rem; line-height: 1.6; margin-top: 2rem; }
+</style>
+
+<script>
+  // Progressive enhancement: detect the visitor's OS/arch and replace #dl-pick with a
+  // recommended-for-you button. All interpolated values come from our own static data
+  // module (no user input), so innerHTML is safe here. Any failure leaves the SSR
+  // fallback + the always-present matrix below.
+  import { pickTarget } from '../lib/detect';
+  import type { NavLike } from '../lib/detect';
+  import { recommendedBuild, platform, VERSION } from '../data/downloads';
+  import type { OsId, ArchId } from '../data/downloads';
+
+  const OS_LABEL: Record<OsId, string> = { mac: 'macOS', windows: 'Windows', linux: 'Linux' };
+
+  async function resolveNav(): Promise<NavLike> {
+    const uaData = (navigator as any).userAgentData;
+    const nav: NavLike = {
+      userAgent: navigator.userAgent,
+      platform: (navigator as any).platform,
+      maxTouchPoints: navigator.maxTouchPoints,
+      uaPlatform: uaData?.platform,
+    };
+    if (uaData?.getHighEntropyValues) {
+      try {
+        const hv = await uaData.getHighEntropyValues(['architecture', 'platform']);
+        nav.uaArch = hv.architecture;
+        if (hv.platform) nav.uaPlatform = hv.platform;
+      } catch {
+        // Keep UA fallback.
+      }
+    }
+    return nav;
+  }
+
+  function archNote(os: OsId, arch: ArchId): string {
+    if (os === 'mac') return arch === 'arm64' ? 'Apple Silicon' : 'Intel';
+    return arch === 'arm64' ? 'ARM64' : '64-bit';
+  }
+
+  // Shown when detection can't produce a recommendation (data lookup miss or a rejected
+  // promise) — replaces the "Detecting…" copy so it never lingers; the matrix below is
+  // always usable.
+  function showFallback(slot: HTMLElement): void {
+    slot.dataset.state = 'fallback';
+    slot.innerHTML =
+      '<p class="dl-pick__msg text-mist">Choose your platform below.</p>' +
+      '<a class="btn btn-primary dl-pick__cta" href="#all-downloads"><span class="dl-pick__big">See all downloads ↓</span></a>';
+  }
+
+  function render(slot: HTMLElement, nav: NavLike): void {
+    const { os, arch, supported } = pickTarget(nav);
+
+    if (!supported || !os) {
+      slot.dataset.state = 'unsupported';
+      slot.innerHTML =
+        '<p class="dl-pick__msg text-mist">Concord Voice desktop is built for <strong>macOS</strong>, <strong>Windows</strong> &amp; <strong>Linux</strong>. Pick a build below.</p>' +
+        '<a class="btn btn-primary dl-pick__cta" href="#all-downloads"><span class="dl-pick__big">See all downloads ↓</span></a>';
+      return;
+    }
+
+    const primary = recommendedBuild(os, arch);
+    const plat = platform(os);
+    if (!primary || !plat) { showFallback(slot); return; }
+
+    const alts: string[] = [];
+    if (os === 'mac') {
+      // Same-arch .zip (also the auto-update artifact) — always a working macOS link even
+      // if the .dmg mirror lags behind a release cut.
+      const zip = plat.arches.find((x) => x.id === arch)?.builds.find((b) => b.kind === 'zip');
+      if (zip) alts.push(`<a class="dl-link" href="${zip.url}">.zip</a>`);
+      const otherArch: ArchId = arch === 'arm64' ? 'x64' : 'arm64';
+      const other = recommendedBuild('mac', otherArch);
+      if (other) alts.push(`<a class="dl-link" href="${other.url}">${archNote('mac', otherArch)} Mac?</a>`);
+    } else if (os === 'linux') {
+      const a = plat.arches.find((x) => x.id === arch) ?? plat.arches[0];
+      for (const b of a.builds) {
+        if (!b.recommended) alts.push(`<a class="dl-link" href="${b.url}">${b.label}</a>`);
+      }
+    }
+
+    slot.dataset.state = 'ready';
+    slot.innerHTML =
+      `<a class="btn btn-primary dl-pick__cta" href="${primary.url}">` +
+        `<span class="dl-pick__big">Download for ${OS_LABEL[os]}</span>` +
+        `<span class="dl-pick__meta">${archNote(os, arch)} · ${primary.label} · v${VERSION}</span>` +
+      `</a>` +
+      (alts.length ? `<p class="dl-pick__alts text-mist">${alts.join(' &nbsp;·&nbsp; ')}</p>` : '') +
+      `<p class="dl-pick__hint text-mist">${plat.installHint}</p>`;
+  }
+
+  const slot = document.getElementById('dl-pick');
+  if (slot) {
+    resolveNav()
+      .then((nav) => render(slot, nav))
+      .catch(() => showFallback(slot));
+  }
+</script>
