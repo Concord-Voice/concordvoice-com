@@ -13,9 +13,9 @@ export function tagToVersion(tag) {
   return m ? `${Number(m[1])}.${Number(m[2])}.${Number(m[3])}` : null;
 }
 
-/** True only if the release publishes the recommended download for every platform/arch the
- *  page advertises (macOS .dmg + .zip, Windows Setup .exe, Linux .AppImage, for arm64 and
- *  x64) — guards against adopting a half-mirrored release whose links would 404. */
+/** True only if the release publishes every advertised download for every platform/arch
+ *  (macOS .dmg + .zip, Windows Setup .exe, Linux .AppImage/.deb/.rpm, for arm64 and x64)
+ *  — guards against adopting a half-mirrored release whose links would 404. */
 export function validateRelease(release, version) {
   const assets = Array.isArray(release?.assets) ? release.assets : [];
   const names = new Set(assets.map((a) => a?.name));
@@ -24,6 +24,8 @@ export function validateRelease(release, version) {
     `ConcordVoice-${version}-macos-${arch}.zip`,
     `ConcordVoice-${version}-windows-${arch}-Setup.exe`,
     `ConcordVoice-${version}-linux-${arch}.AppImage`,
+    `concord-voice_${version}_linux-${arch}.deb`,
+    `concord-voice-${version}-linux-${arch}.rpm`,
   ]);
   return required.every((name) => names.has(name));
 }
@@ -56,15 +58,23 @@ function keepSeedOrFail(reason) {
 // non-zero for local builds. Cloudflare/required builds fail closed so production cannot
 // silently publish an old release seed when GitHub or the mirror is unhealthy.
 export async function main() {
-  let release;
+  let res;
   try {
     const headers = { 'User-Agent': 'concordvoice-com-build', Accept: 'application/vnd.github+json' };
     if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-    const res = await fetch(LATEST_URL, { headers, signal: AbortSignal.timeout(10_000) });
-    if (!res.ok) { keepSeedOrFail(`GitHub API ${res.status}`); return; }
-    release = await res.json();
+    res = await fetch(LATEST_URL, { headers, signal: AbortSignal.timeout(10_000) });
   } catch (err) {
     keepSeedOrFail(`fetch failed (${err?.message ?? err})`);
+    return;
+  }
+
+  if (!res.ok) { keepSeedOrFail(`GitHub API ${res.status}`); return; }
+
+  let release;
+  try {
+    release = await res.json();
+  } catch (err) {
+    keepSeedOrFail(`GitHub API JSON parse failed (${err?.message ?? err})`);
     return;
   }
 

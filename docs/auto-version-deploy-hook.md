@@ -59,10 +59,9 @@ concordvoice-com → `prebuild` resolves the new version → links + version lab
 manual edits. Local builds fall back to the committed `src/data/release.generated.ts` value.
 Cloudflare/required builds fail closed if resolution fails, avoiding stale production downloads.
 
-## Note on the macOS `.dmg`
+## Note on advertised package assets
 
-`scripts/resolve-release.mjs` only adopts a release whose macOS `.dmg` **and** `.zip` are
-present (the page's recommended download is the `.dmg`, so it won't advertise one that 404s).
-Until the `.dmg` recut for `desktop-v0.2.0` is published and mirrored, the resolver keeps the
-committed seed (`0.2.0`) — which is already correct. Once the recut lands, it confirms
-`0.2.0`; subsequent releases that ship a `.dmg` are adopted automatically.
+`scripts/resolve-release.mjs` only adopts a release whose advertised macOS, Windows, and
+Linux assets are all present, including Linux `.deb` and `.rpm` alternates. If the public
+mirror lags or an asset is missing, local builds keep the committed seed and
+Cloudflare/required builds fail closed rather than publishing stale or broken download links.
