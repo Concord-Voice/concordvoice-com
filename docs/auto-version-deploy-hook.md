@@ -35,22 +35,29 @@ store it, do not commit it.
      env:
        HOOK: ${{ secrets.CF_PAGES_DEPLOY_HOOK }}
      run: |
-       if [ -n "$HOOK" ]; then
-         curl -fsS -X POST "$HOOK" && echo "Triggered concordvoice-com rebuild"
+       set -euo pipefail
+       if [ -z "${HOOK:-}" ]; then
+         echo "::error::CF_PAGES_DEPLOY_HOOK not set; refusing to leave concordvoice-com stale"
+         exit 1
+       fi
+       if curl -fsS --retry 3 --retry-all-errors --max-time 30 -X POST "$HOOK" >/dev/null; then
+         echo "Triggered concordvoice-com rebuild"
        else
-         echo "::warning::CF_PAGES_DEPLOY_HOOK not set; skipping site rebuild"
+         echo "::error::concordvoice-com rebuild trigger failed; rerun this release-mirror job after fixing the hook"
+         exit 1
        fi
    ```
 
    Ordering matters: fire it only after the public release + its assets exist, so the
-   resolver's asset-presence check passes and the new version is adopted.
+   resolver's asset-presence check passes and the new version is adopted. Hook failure is
+   fail-closed; otherwise the downloads page can keep serving the previously baked version.
 
 ## Result
 
 New desktop release → mirrored to the public repo → Deploy Hook → Cloudflare rebuilds
 concordvoice-com → `prebuild` resolves the new version → links + version label update. No
-manual edits. If resolution ever fails, the build falls back to the committed
-`src/data/release.generated.ts` value.
+manual edits. Local builds fall back to the committed `src/data/release.generated.ts` value.
+Cloudflare/required builds fail closed if resolution fails, avoiding stale production downloads.
 
 ## Note on the macOS `.dmg`
 

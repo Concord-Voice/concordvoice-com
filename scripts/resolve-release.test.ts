@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { tagToVersion, validateRelease } from './resolve-release.mjs';
+import { shouldFailClosed, tagToVersion, validateRelease } from './resolve-release.mjs';
 
 test('tagToVersion extracts semver from a desktop-v tag', () => {
   assert.equal(tagToVersion('desktop-v0.2.0'), '0.2.0');
@@ -58,4 +58,11 @@ test('validateRelease fails on empty or missing assets', () => {
 test('validateRelease tolerates malformed asset entries (untrusted API JSON)', () => {
   const messy = { assets: [null, 42, { name: null }, ...fullAssets('0.2.0')] };
   assert.equal(validateRelease(messy, '0.2.0'), true);
+});
+
+test('shouldFailClosed is enabled for Cloudflare Pages or explicit release builds only', () => {
+  assert.equal(shouldFailClosed({}), false);
+  assert.equal(shouldFailClosed({ CF_PAGES: '0', CONCORD_RELEASE_RESOLUTION_REQUIRED: 'false' }), false);
+  assert.equal(shouldFailClosed({ CF_PAGES: '1' }), true);
+  assert.equal(shouldFailClosed({ CONCORD_RELEASE_RESOLUTION_REQUIRED: 'true' }), true);
 });

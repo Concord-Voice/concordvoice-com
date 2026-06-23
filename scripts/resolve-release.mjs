@@ -41,25 +41,37 @@ export function fileContents(version, tag) {
   );
 }
 
+export function shouldFailClosed(env = process.env) {
+  return env.CF_PAGES === '1' || env.CONCORD_RELEASE_RESOLUTION_REQUIRED === 'true';
+}
+
+function keepSeedOrFail(reason) {
+  if (shouldFailClosed()) {
+    throw new Error(`[resolve-release] ${reason}; refusing production build to avoid stale download links`);
+  }
+  console.warn(`[resolve-release] ${reason}; keeping committed seed`);
+}
+
 // Resolve the latest release and write it to OUT only if it changed. Never throws or exits
-// non-zero — every failure path keeps the committed seed so the build can't break.
+// non-zero for local builds. Cloudflare/required builds fail closed so production cannot
+// silently publish an old release seed when GitHub or the mirror is unhealthy.
 export async function main() {
   let release;
   try {
     const headers = { 'User-Agent': 'concordvoice-com-build', Accept: 'application/vnd.github+json' };
     if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
     const res = await fetch(LATEST_URL, { headers, signal: AbortSignal.timeout(10_000) });
-    if (!res.ok) { console.warn(`[resolve-release] GitHub API ${res.status}; keeping committed seed`); return; }
+    if (!res.ok) { keepSeedOrFail(`GitHub API ${res.status}`); return; }
     release = await res.json();
   } catch (err) {
-    console.warn(`[resolve-release] fetch failed (${err?.message ?? err}); keeping committed seed`);
+    keepSeedOrFail(`fetch failed (${err?.message ?? err})`);
     return;
   }
 
   const version = tagToVersion(release?.tag_name);
-  if (!version) { console.warn(`[resolve-release] tag '${release?.tag_name}' is not desktop-vX.Y.Z; keeping committed seed`); return; }
+  if (!version) { keepSeedOrFail(`tag '${release?.tag_name}' is not desktop-vX.Y.Z`); return; }
   if (!validateRelease(release, version)) {
-    console.warn(`[resolve-release] release desktop-v${version} is missing expected platform assets (mirror lag?); keeping committed seed`);
+    keepSeedOrFail(`release desktop-v${version} is missing expected platform assets (mirror lag?)`);
     return;
   }
 
@@ -75,10 +87,15 @@ export async function main() {
 }
 
 // Run only when executed directly (`node scripts/resolve-release.mjs`), not when imported by tests.
-// The .catch() backstops any unexpected rejection (e.g. a writeFile failure) so a build-time
-// run can NEVER exit non-zero and break `npm run build` — it always falls back to the seed.
+// Local builds keep the old fallback behavior; Cloudflare/required builds fail closed.
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main().catch((err) => {
-    console.warn(`[resolve-release] unexpected error (${err?.message ?? err}); keeping committed seed`);
+    const message = err?.message ?? err;
+    if (shouldFailClosed()) {
+      console.error(String(message).startsWith('[resolve-release]') ? message : `[resolve-release] unexpected error (${message}); refusing production build to avoid stale download links`);
+      process.exitCode = 1;
+      return;
+    }
+    console.warn(`[resolve-release] unexpected error (${message}); keeping committed seed`);
   });
 }
