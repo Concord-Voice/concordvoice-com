@@ -4,9 +4,11 @@ This file is the single source of truth for skills that `/issue-creation`, `/pr-
 
 **Dispatch authorization is mode-dependent** (modes are defined by the autonomy-framework design, Component D; that spec lives in the repo that owns autonomy policy and may not be present in every consumer repo):
 
-- **Hand-Held mode:** every dispatch requires explicit user approval
-- **Careful mode:** dispatches at gated phases (2, 5, 6, 7, 8, 9) require approval; auto-dispatch in 3, 4
-- **Trusted / Weekly Deps / Overnight:** full dispatch authority per the mode's gate matrix
+- **In-the-Loop mode:** dispatches at gated phases (2, 5, 7, 9) require approval; auto-dispatch elsewhere (3, 4, 6, 8)
+- **On-the-Loop mode:** dispatches at gated phases (5, 9) require approval; auto-dispatch elsewhere
+- **Automated End-to-End mode:** full dispatch authority per the mode's gate matrix (only the Phase 9 merge gate remains)
+
+> The five-mode framework (Hand-Held / Careful / Trusted / Weekly Deps / Overnight) was consolidated to these three on 2026-06-20. See [`/dev-lifecycle` SKILL.md](../dev-lifecycle/SKILL.md) Phase 1.5 for the canonical matrix and the deprecated-alias mapping.
 
 > **Content status:** Each entry follows a 4-axis structure: Trigger / Use case / Example / Mode interaction. Always-dispatch entries omit the Trigger axis (they fire unconditionally subject to mode authorization). New entries require Repo Admin approval — see "Adding a new skill to the catalog" at the bottom of this file.
 
@@ -30,7 +32,7 @@ Billed/cloud-cost skills (§ Billed / cloud-cost skills) are never auto-dispatch
 
 Some skills incur real cost or run as cloud jobs. They are marked **`billed`** in their catalog entry and are governed by a preapproval gate that overrides normal mode authorization:
 
-- A **`billed`** skill requires **explicit user preapproval before dispatch in every mode — Overnight included.** Preapproval is per-dispatch, not a standing mode grant. No mode auto-runs a billed skill.
+- A **`billed`** skill requires **explicit user preapproval before dispatch in every mode — `Automated End-to-End` included.** Preapproval is per-dispatch, not a standing mode grant. No mode auto-runs a billed skill.
 - A skill additionally marked **`user-triggered`** cannot be dispatched by Claude at all (session-level skill governance forbids launching it). Claude surfaces the recommendation; the user runs it. (`user-triggered` ⊂ `billed`.)
 
 The canonical member is `/code-review ultra <PR#>` — see its entry under "## Recommend-only / billed" below.
@@ -64,7 +66,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example:** ADR-0002 "Actions-as-SoT deploys" — exactly this skill's shape: context, alternatives considered, decision, and consequences for the infrastructure choice of "GitHub Actions as the source of truth for production deploys." An ADR catalog under `docs/adr/` (in repos that keep one) shows the established ADR pattern.
 
-**Mode interaction:** Gated in Hand-Held and Careful (architecture decisions warrant explicit user buy-in). Auto-dispatch in Trusted / Weekly Deps / Overnight when triggers fire.
+**Mode interaction:** Auto-dispatch in all modes (Phase 1 is ungated in every mode under the consolidated matrix). Architecture decisions warrant explicit buy-in, but that gate lives at the Phase 2 PLAN boundary (gated in In-the-Loop), not at understand-time; the ADR is surfaced via the Phase 1 visibility line.
 
 ### `/operations:vendor-review` (candidate)
 
@@ -77,7 +79,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example (hypothetical):** Evaluating a third-party error-tracking SaaS as a Sentry replacement candidate. Would have applied to the Sentry-removal decision had it been entered through `/dev-lifecycle` rather than as a multi-issue ops-mode reversal.
 
-**Mode interaction:** Gated in Hand-Held and Careful (procurement is a stakeholder concern). Auto-dispatch in Trusted+ when triggers fire. Output is advisory; no contract is signed without explicit user action.
+**Mode interaction:** Auto-dispatch in all modes (Phase 1 is ungated). Output is advisory; no contract is signed without explicit user action, and the procurement decision is reviewed at the Phase 2 PLAN gate (gated in In-the-Loop).
 
 ### `/deep-research` (candidate)
 
@@ -89,7 +91,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example (hypothetical):** Choosing between two WebRTC simulcast strategies — `/deep-research` gathers and cross-checks sources before `/engineering:architecture` writes the ADR.
 
-**Mode interaction:** Gated in all modes by default. NOT `billed` (runs locally), but **token-heavy** — surface an estimate before dispatching in Overnight / Weekly Deps.
+**Mode interaction:** Auto-dispatch in all modes (Phase 1 is ungated). NOT `billed` (runs locally), but **token-heavy** — surface a cost estimate before dispatching (a cost caution, not a phase gate).
 
 ## Phase 2: PLAN
 
@@ -99,7 +101,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example:** This catalog content's spec (`docs/superpowers/specs/2026-05-22-1139-skill-catalog-content-design.md`, in the repo that owns it) was produced by this skill.
 
-**Mode interaction:** Always-dispatch at Phase 2 when no `*-NNN-*-design.md` spec exists for the issue. Mode controls whether the brainstorming output's gate (HARD-GATE on design approval) waits for explicit user reply or accepts inline approval from prior context. Hand-Held / Careful: waits explicitly. Trusted / Weekly Deps / Overnight: accepts pre-approved synthesis if design was just confirmed.
+**Mode interaction:** Always-dispatch at Phase 2 when no `*-NNN-*-design.md` spec exists for the issue. Mode controls whether the brainstorming output's gate (HARD-GATE on design approval) waits for explicit user reply or accepts inline approval from prior context. In-the-Loop: waits explicitly. On-the-Loop / Automated End-to-End: accepts pre-approved synthesis if design was just confirmed.
 
 ### `/superpowers:writing-plans` (always-dispatch)
 
@@ -122,7 +124,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example (hypothetical):** Writing a spec for a new pricing-tier UX flow before any engineering work begins. Would precede `/superpowers:brainstorming` in the engineering phase that follows.
 
-**Mode interaction:** Gated in Hand-Held and Careful. Auto-dispatch in Trusted+ when triggers fire. Often co-dispatched with `/product-management:product-brainstorming` upstream.
+**Mode interaction:** Gated in In-the-Loop. Auto-dispatch in On-the-Loop / Automated End-to-End when triggers fire. Often co-dispatched with `/product-management:product-brainstorming` upstream.
 
 ### `/engineering:system-design` (candidate)
 
@@ -137,7 +139,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example:** The autonomy framework spec (`2026-05-21-1109-autonomy-framework-design.md`) is a multi-component system design across hooks, skills, and CLI surfaces — exactly this skill's shape.
 
-**Mode interaction:** Gated in Hand-Held and Careful. Auto-dispatch in Trusted+ when triggers fire. Often co-dispatched with `/superpowers:brainstorming` (architecture-led brainstorm).
+**Mode interaction:** Gated in In-the-Loop. Auto-dispatch in On-the-Loop / Automated End-to-End when triggers fire. Often co-dispatched with `/superpowers:brainstorming` (architecture-led brainstorm).
 
 ### `/product-management:product-brainstorming` (candidate)
 
@@ -150,7 +152,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example (hypothetical):** Brainstorming what monetization tier structure makes sense before any engineering work begins on the licensing-authority service.
 
-**Mode interaction:** Gated in Hand-Held and Careful. Auto in Trusted+. Distinct from `/superpowers:brainstorming`, which terminates in an engineering spec; this skill terminates in product direction.
+**Mode interaction:** Gated in In-the-Loop. Auto in On-the-Loop / Automated End-to-End. Distinct from `/superpowers:brainstorming`, which terminates in an engineering spec; this skill terminates in product direction.
 
 ### `/frontend-design:frontend-design` (candidate)
 
@@ -165,7 +167,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example (hypothetical):** Designing the visual layout of a new "Server Settings" page from scratch, where the catalog's existing patterns don't dictate a specific shape.
 
-**Mode interaction:** Gated at Phase 2 in Hand-Held / Careful. Auto in Trusted+. Also surfaces at Phase 3 as a candidate when execution reveals a new component needs design treatment beyond what the plan anticipated.
+**Mode interaction:** Gated at Phase 2 in In-the-Loop. Auto in On-the-Loop / Automated End-to-End. Also surfaces at Phase 3 as a candidate when execution reveals a new component needs design treatment beyond what the plan anticipated (Phase 3 is ungated in all modes).
 
 ### `/design:design-handoff` (candidate)
 
@@ -180,7 +182,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example (hypothetical):** A Figma mockup for the new account-deletion confirmation flow being converted into a developer ticket with measurements, token references, and state transitions.
 
-**Mode interaction:** Gated in Hand-Held / Careful (handoff format is stakeholder-facing). Auto in Trusted+.
+**Mode interaction:** Gated in In-the-Loop (handoff format is stakeholder-facing). Auto in On-the-Loop / Automated End-to-End.
 
 ### `/design:ux-copy` (candidate)
 
@@ -195,7 +197,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example (hypothetical):** Writing the wording for the account-erasure confirmation dialog, where "Delete Account" vs "Erase Account" vs "Permanently remove your account" each carry different implications.
 
-**Mode interaction:** Gated in Hand-Held / Careful. Auto in Trusted+. Often co-dispatched with `/design:accessibility-review` (screen-reader copy).
+**Mode interaction:** Gated in In-the-Loop. Auto in On-the-Loop / Automated End-to-End. Often co-dispatched with `/design:accessibility-review` (screen-reader copy).
 
 ### `/design:accessibility-review` (candidate)
 
@@ -208,7 +210,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example (hypothetical):** An a11y audit on the new emoji-picker component before merging — ensuring keyboard arrow navigation, ARIA labels, and contrast on hovered states.
 
-**Mode interaction:** Gated at Phase 2 in Hand-Held / Careful. Auto at Phase 8 in Careful and above when label `domain: accessibility` is on the PR OR when new <frontend files> with interactive elements are in the diff (treated as a release-block check). Still gated in Hand-Held per the universal-gating principle.
+**Mode interaction:** Gated at Phase 2 in In-the-Loop. Auto at Phase 8 in all modes when label `domain: accessibility` is on the PR OR when new <frontend files> with interactive elements are in the diff (treated as a release-block check; Phase 8 is ungated under the consolidated matrix).
 
 ### `/engineering:testing-strategy` (candidate)
 
@@ -223,7 +225,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example (hypothetical):** Planning tests for a new state store (the repo's state-management library) with optimistic-update logic — what to unit-test vs what to cover via component/integration tests, and what belongs in an E2E.
 
-**Mode interaction:** Gated at Phase 2 in Hand-Held / Careful. Auto at Phase 4 in Careful and above when the repo's code-quality gate (if it ships one — see § Repo-local skills) reports a new-code-coverage threshold miss. Still gated in Hand-Held.
+**Mode interaction:** Gated at Phase 2 in In-the-Loop. Auto at Phase 4 in all modes when the repo's code-quality gate (if it ships one — see § Repo-local skills) reports a new-code-coverage threshold miss (Phase 4 is ungated under the consolidated matrix).
 
 ### `/engineering:tech-debt` (candidate)
 
@@ -236,7 +238,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example (hypothetical):** Recognizing during a `/dev-lifecycle` Phase 2 plan that the file being modified has grown to 1200 lines and that a focused split is in-scope for the current change (per the writing-plans skill's guidance).
 
-**Mode interaction:** Gated in Hand-Held / Careful. Auto in Trusted+. Output is advisory; no refactor happens without explicit acknowledgment in the plan.
+**Mode interaction:** Gated in In-the-Loop. Auto in On-the-Loop / Automated End-to-End. Output is advisory; no refactor happens without explicit acknowledgment in the plan.
 
 ### `/engineering:documentation` (candidate)
 
@@ -251,7 +253,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example (hypothetical):** A PR that adds a new env var also needs `deploy.env.example` + a runbook note; this skill produces them in-PR.
 
-**Mode interaction:** Gated in Hand-Held / Careful. Auto in Trusted+ when triggers fire.
+**Mode interaction:** Gated in In-the-Loop. Auto in On-the-Loop / Automated End-to-End when triggers fire.
 
 ### `/anthropic-skills:doc-coauthoring` (candidate)
 
@@ -263,7 +265,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example (hypothetical):** Drafting a multi-section migration-strategy doc that ships alongside the migration PR.
 
-**Mode interaction:** Gated in Hand-Held / Careful. Auto in Trusted+ when triggers fire.
+**Mode interaction:** Gated in In-the-Loop. Auto in On-the-Loop / Automated End-to-End when triggers fire.
 
 ## Phase 3: EXECUTE
 
@@ -273,7 +275,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example:** A docs-only issue's execution went inline via `/superpowers:executing-plans` because Phase 1.5 selected `Inline` for that lift.
 
-**Mode interaction:** Always-dispatch at Phase 3 once a plan exists. Mode affects gating (Hand-Held gates each task; others auto-progress through plan completion). The Phase 1.5 Implementation Approach (with tier-aware defaults per `_shared/model-capability-tiers.md`) determines which skill(s) fire and at what granularity. Tier never alters the gate matrix (see the tier catalog's "Invariants tiers may not alter").
+**Mode interaction:** Always-dispatch at Phase 3 once a plan exists. All modes auto-progress through plan completion — Phase 3 is ungated in every mode under the consolidated matrix (the former `Hand-Held` per-task gate was retired on 2026-06-20). The Phase 1.5 Implementation Approach (with tier-aware defaults per `_shared/model-capability-tiers.md`) determines which skill(s) fire and at what granularity. Tier never alters the gate matrix (see the tier catalog's "Invariants tiers may not alter").
 
 ### `/superpowers:test-driven-development` (candidate)
 
@@ -286,7 +288,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example (hypothetical):** A new <backend service> endpoint requiring happy-path + error-path tests. Both tests are written and fail before the handler implementation lands; the handler then brings them to green.
 
-**Mode interaction:** Gated in Hand-Held / Careful. Auto in Trusted+. The TDD discipline itself is rigid; the skill doesn't soften when modes loosen.
+**Mode interaction:** Auto-dispatch in all modes (Phase 3 is ungated). The TDD discipline itself is rigid; the skill doesn't soften when modes loosen.
 
 ### `/simplify` (candidate, maps to `pr-review-toolkit:code-simplifier`)
 
@@ -299,13 +301,13 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example (hypothetical):** After a bug-fix adds three null-checks to the same reducer, `/simplify` collapses them into a single early-return or extracts a guard helper.
 
-**Mode interaction:** Gated in Hand-Held / Careful (refactor scope is a judgment call). Auto in Trusted+. Co-firing with `/superpowers:test-driven-development` is expected — TDD writes the test, simplifier may suggest refactor of the implementation.
+**Mode interaction:** Auto-dispatch in all modes (Phase 3 is ungated). Co-firing with `/superpowers:test-driven-development` is expected — TDD writes the test, simplifier may suggest refactor of the implementation. Output is a suggested refactor — landing still requires explicit acknowledgment.
 
 ### `/frontend-design:frontend-design` (candidate, also in Phase 2)
 
 **Use case:** Same as the Phase 2 entry — execution-time fallback when a new component emerges that the plan didn't anticipate at Phase 2. See the Phase 2 entry for full triggers and examples.
 
-**Mode interaction:** Gated in Hand-Held / Careful (a mid-execution design dispatch warrants confirmation that the change is in scope). Auto in Trusted+.
+**Mode interaction:** Auto-dispatch in all modes (Phase 3 is ungated); a mid-execution design dispatch is surfaced via the Phase 3 visibility line so the developer can confirm the change is in scope.
 
 ## Phase 4: VALIDATE
 
@@ -332,7 +334,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example:** A relative-URL fix in a custom protocol handler — a `net::ERR_UNEXPECTED` error needed root-cause analysis traversing the custom URL scheme + WHATWG URL behavior before the fix path was clear.
 
-**Mode interaction:** Gated in Hand-Held / Careful (debugging is exploratory). Auto in Trusted+ if a single test failure is the trigger.
+**Mode interaction:** Auto-dispatch in all modes (Phase 4 is ungated) when a single test failure is the trigger; debugging is exploratory, so the dispatch is surfaced via the visibility line.
 
 ### `/superpowers:systematic-debugging` (candidate)
 
@@ -346,13 +348,13 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example:** A stranded-version-tag bug (versions bumped on the main branch but never tagged) required multi-cycle root-cause analysis traversing GitHub Actions transitive-skip semantics; exactly this skill's shape.
 
-**Mode interaction:** Auto-dispatch in any mode once `/engineering:debug` has run unsuccessfully in the same session. Gated otherwise.
+**Mode interaction:** Auto-dispatch in all modes once `/engineering:debug` has run unsuccessfully in the same session; otherwise dispatched per the standard Phase 4 / Phase 6 candidate rule (both phases are ungated under the consolidated matrix).
 
 ### `/engineering:testing-strategy` (candidate)
 
 **Use case:** Same as the Phase 2 entry — Phase 4 cross-dispatch when the repo's coverage check (e.g. a code-quality-gate skill, if the repo ships one — see § Repo-local skills) reports a coverage threshold miss. See the Phase 2 entry for full triggers.
 
-**Mode interaction:** Auto-dispatch in Careful and above at Phase 4 when coverage is below the 80% threshold for new code. Gated in Hand-Held. Output is a remediation plan; user approves before any test files land.
+**Mode interaction:** Auto-dispatch in all modes at Phase 4 when coverage is below the 80% threshold for new code (Phase 4 is ungated). Output is a remediation plan; user approves before any test files land.
 
 ### `/verify` (candidate)
 
@@ -364,7 +366,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example (hypothetical):** A new message-pinning UI flow — `/verify` drives the app to confirm the pin renders and persists.
 
-**Mode interaction:** Gated in Hand-Held. Auto in Trusted+ when triggers fire.
+**Mode interaction:** Auto-dispatch in all modes when triggers fire (Phase 4 is ungated under the consolidated matrix).
 
 ### `/run` (candidate)
 
@@ -375,7 +377,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example (hypothetical):** Bringing up the desktop client to screenshot a new settings page for the PR description.
 
-**Mode interaction:** Gated in Hand-Held. Auto in Trusted+ when triggers fire.
+**Mode interaction:** Auto-dispatch in all modes when triggers fire (Phase 4 is ungated under the consolidated matrix).
 
 ## Phase 5: COMMIT+DRAFT PR
 
@@ -385,7 +387,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example:** Every Phase 5 success path. The commit-push-pr boundary is the first visibility moment for the change — once pushed, the diff exists on GitHub and bot reviewers see it (on draft, only some run).
 
-**Mode interaction:** Gated in Hand-Held / Careful / Trusted (PR push is a visibility-boundary checkpoint). Auto in Weekly Deps / Overnight unless a content flag was raised in Phase 3 or 4. The mode matrix lives in [`/dev-lifecycle` SKILL.md](../dev-lifecycle/SKILL.md) Phase 1.5.
+**Mode interaction:** Gated in In-the-Loop and On-the-Loop (PR push is a shared-state visibility boundary). Auto in Automated End-to-End. The mode matrix lives in [`/dev-lifecycle` SKILL.md](../dev-lifecycle/SKILL.md) Phase 1.5.
 
 ### `/pr-creation` (always-dispatch after `gh pr create` succeeds)
 
@@ -393,7 +395,7 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example:** Every Phase 5 invocation after `gh pr create` returns a PR number. See [`pr-creation` SKILL.md](../pr-creation/SKILL.md) for the full lifecycle.
 
-**Mode interaction:** Always-dispatch in all modes — metadata-only operation, preapproved (no separate gate even in Careful). Phase 5 of `/pr-creation` is advisory and WARN-level only; it does not block.
+**Mode interaction:** Always-dispatch in all modes — metadata-only operation, preapproved (no separate gate even in In-the-Loop). Phase 5 of `/pr-creation` is advisory and WARN-level only; it does not block.
 
 ## Phase 6: CI MONITOR
 
@@ -403,19 +405,19 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Example:** Every Phase 6 invocation. For a pure-docs PR the relevant checks are pre-commit hooks (already passed locally), Semgrep SAST (no-op for `.md`), and the static-analysis gate (filters non-source files).
 
-**Mode interaction:** Always-dispatch at Phase 6. Mode affects whether Phase 6 stops at CI green (Hand-Held / Careful) or auto-progresses to Phase 7 (Trusted / Weekly Deps / Overnight).
+**Mode interaction:** Always-dispatch at Phase 6. All modes auto-progress once CI is green — Phase 6 is ungated under the consolidated matrix; `In-the-Loop` next pauses at the Phase 7 READY checkpoint, `On-the-Loop` / `Automated End-to-End` continue.
 
 ### `/engineering:debug` (candidate, CI test failure)
 
 **Use case:** Same as the Phase 4 entry — Phase 6 cross-dispatch when CI reports a test failure that didn't surface locally. See the Phase 4 entry for full triggers.
 
-**Mode interaction:** Auto-dispatch in Trusted / Weekly Deps / Overnight when CI test failure occurs. Gated in Hand-Held / Careful.
+**Mode interaction:** Auto-dispatch in all modes when a CI test failure occurs (Phase 6 is ungated under the consolidated matrix).
 
 ### `/superpowers:systematic-debugging` (candidate, CI test failure)
 
 **Use case:** Same as the Phase 4 entry — Phase 6 cross-dispatch when CI failure is reproducible only on CI infra (cache-cold builds, ephemeral container environments). See the Phase 4 entry for full triggers.
 
-**Mode interaction:** Auto-dispatch when `/engineering:debug` has run unsuccessfully against the same CI failure. Gated otherwise.
+**Mode interaction:** Auto-dispatch in all modes when `/engineering:debug` has run unsuccessfully against the same CI failure (Phase 6 is ungated under the consolidated matrix).
 
 ### `/reproduce-then-fix` (candidate, CI test failure with reproducible bug)
 
@@ -443,7 +445,7 @@ No skills dispatched — `gh pr ready` is a single command.
 
 **Non-deferrable findings (per enhanced-pr-review §2.5.0):** documentation findings the PR makes stale, and any finding in a file the PR modifies (the no-rot rule), are categorically non-deferrable — Fix-in-PR. The only escape for a disproportionately large preexisting fix is a lockstep companion PR with explicit developer approval (§2.5.6), never a follow-up issue.
 
-**Mode interaction:** Always-dispatch at Phase 8. The triage table presentation is read-only; the "apply fixes" sub-checkpoint is gated per mode (Hand-Held / Careful pause for approval; Trusted / Overnight auto-apply non-conflict findings).
+**Mode interaction:** Always-dispatch at Phase 8. The triage table presentation is read-only; the "apply fixes" sub-checkpoint auto-applies non-conflict findings in all modes (Phase 8 is ungated under the consolidated matrix). Conflicts (findings needing a human judgment call) always surface for an explicit decision regardless of mode, and the Phase 9 merge gate is the universal floor.
 
 ### `/superpowers:receiving-code-review` (candidate)
 
@@ -455,7 +457,7 @@ No skills dispatched — `gh pr ready` is a single command.
 
 **Example (hypothetical):** Copilot suggests "extract this into a helper" on a function that the spec deliberately keeps inline for locality; this skill defends the deliberate decision and replies with the rationale instead of agreeing reflexively.
 
-**Mode interaction:** Gated in all modes (judgment-call work). The skill itself enforces "no blind agreement" discipline — mode loosening doesn't change that.
+**Mode interaction:** Auto-dispatch in all modes (Phase 8 is ungated under the consolidated matrix). The "no blind agreement" discipline is a behavioral property of the skill, not a phase gate — genuine human-judgment conflicts surface for an explicit decision, the same way `/enhanced-pr-review` handles them.
 
 ### `/design:design-critique` (candidate)
 
@@ -467,19 +469,19 @@ No skills dispatched — `gh pr ready` is a single command.
 
 **Example (hypothetical):** A new modal layout for the server-settings flow being reviewed for visual hierarchy and primary-action prominence before merging.
 
-**Mode interaction:** Gated in Hand-Held / Careful. Auto in Trusted+ when triggers fire.
+**Mode interaction:** Auto-dispatch in all modes when triggers fire (Phase 8 is ungated under the consolidated matrix).
 
 ### `/design:accessibility-review` (candidate)
 
 **Use case:** Same as the Phase 2 entry — Phase 8 dispatch when the PR includes new interactive UI elements regardless of whether Phase 2 audited them. See the Phase 2 entry for triggers and examples.
 
-**Mode interaction:** Auto-dispatch in Careful and above at Phase 8 when label `domain: accessibility` is on the PR OR when new <frontend files> with interactive elements are in the diff. Still gated in Hand-Held.
+**Mode interaction:** Auto-dispatch in all modes at Phase 8 when label `domain: accessibility` is on the PR OR when new <frontend files> with interactive elements are in the diff (Phase 8 is ungated under the consolidated matrix).
 
 ### `/simplify` (candidate)
 
 **Use case:** Same as the Phase 3 entry — Phase 8 dispatch when a reviewer (subagent or bot) flags a function as overly complex. See the Phase 3 entry for triggers.
 
-**Mode interaction:** Gated in Hand-Held / Careful. Auto in Trusted+. Output is a suggested refactor — landing requires explicit user buy-in even when auto-dispatched.
+**Mode interaction:** Auto-dispatch in all modes (Phase 8 is ungated under the consolidated matrix). Output is a suggested refactor — landing requires explicit user buy-in even when auto-dispatched.
 
 ### `/code-review ultra` (billed + user-triggered — see "Recommend-only / billed" section below)
 
@@ -494,7 +496,7 @@ No skills dispatched — `gh pr ready` is a single command.
 
 **Example (hypothetical):** A PR touching a token-manager + the refresh-token rotation path — `/security-review` runs a dedicated pass before merge.
 
-**Mode interaction:** Gated in Hand-Held / Careful. Auto in Trusted+ when triggers fire. Read-only; surfaces findings into the Phase 8 reconciliation table.
+**Mode interaction:** Auto-dispatch in all modes when triggers fire (Phase 8 is ungated under the consolidated matrix; the dispatch is read-only). Surfaces findings into the Phase 8 reconciliation table.
 
 ### `/engineering:code-review` (candidate)
 
@@ -506,7 +508,7 @@ No skills dispatched — `gh pr ready` is a single command.
 
 **Example (hypothetical):** A <backend service> PR with new query-building logic — `/engineering:code-review` checks for parameterization and N+1 patterns.
 
-**Mode interaction:** Gated in Hand-Held / Careful. Auto in Trusted+ when triggers fire.
+**Mode interaction:** Auto-dispatch in all modes when triggers fire (Phase 8 is ungated under the consolidated matrix).
 
 ## Phase 9: MERGE-READY
 
@@ -516,7 +518,7 @@ No skills dispatched — `gh pr ready` is a single command.
 
 **Example:** Every `/dev-lifecycle` Phase 9 invocation, after the user explicitly approves.
 
-**Mode interaction:** ALWAYS gated regardless of mode. The merge gate is the universal floor — explicit user approval is required even in Overnight. No mode can auto-merge.
+**Mode interaction:** ALWAYS gated regardless of mode. The merge gate is the universal floor — explicit user approval is required even in `Automated End-to-End`. No mode can auto-merge.
 
 ### `/release-notes` (candidate, when version tag will be cut)
 
@@ -540,7 +542,7 @@ No skills dispatched — `gh pr ready` is a single command.
 
 **Example (hypothetical):** A <backend service> PR that adds a new env var and consuming logic; the checklist verifies the provision-secrets workflow updates have landed before merge.
 
-**Mode interaction:** Gated in all modes (production-impact). The checklist is the developer's preflight; auto-progression after checklist completion only in Trusted+.
+**Mode interaction:** Gated in all modes (production-impact). The checklist is the developer's preflight; auto-progression after checklist completion only in On-the-Loop / Automated End-to-End.
 
 ## Cross-cutting (not phase-aligned)
 
@@ -562,7 +564,7 @@ Replaces `/dev-lifecycle` for batch dependabot PR handling.
 
 **Example:** Tuesday's batch of dependabot PRs, including periodic security-data refresh PRs from GitHub Actions bots.
 
-**Mode interaction:** Maps to `Weekly Deps` mode. Auto end-to-end except for content flags (major-version bumps, framework changes, or unexpected surface-area expansion).
+**Mode interaction:** Maps to `Automated End-to-End` mode (the former `Weekly Deps` mode folded into it on 2026-06-20). Auto end-to-end except for content flags (major-version bumps, framework changes, or unexpected surface-area expansion), which surface for developer review through `/weekly-deps`'s own risk-tier triage rather than a mode-matrix special case.
 
 ### `/issue-creation`
 
@@ -628,7 +630,7 @@ The triggers below use the same file-path / label / keyword axes as the main cat
 
 **Example (hypothetical):** Before a change to a DM key-epoch handling path, this skill confirms which files the epoch ledger touches.
 
-**Mode interaction:** Gated in Hand-Held / Careful. Auto in Trusted+ when triggers fire. Read-only.
+**Mode interaction:** Auto-dispatch in all modes (Phase 1 is ungated); read-only, which already justifies no gate.
 
 ### `/scaffold-component` (candidate — execute-time, Phase 3; user-invoked only)
 
@@ -685,7 +687,7 @@ The triggers below use the same file-path / label / keyword axes as the main cat
 
 **Example (hypothetical):** A PR adding a new `window:*` handler — `/ipc-channel-audit` confirms it carries the documented sender-frame validation (or the accepted-exception pattern).
 
-**Mode interaction:** Auto-dispatch at Phase 8 in Careful+ when the relevant trust-boundary paths are in the diff (release-block check). Gated in Hand-Held.
+**Mode interaction:** Auto-dispatch at Phase 8 in all modes when the relevant trust-boundary paths are in the diff (release-block check; Phase 8 is ungated under the consolidated matrix).
 
 ### `/release-checklist` (candidate — merge-ready, Phase 9, when a version tag will be cut; user-invoked only)
 
@@ -723,7 +725,7 @@ For **always-dispatch** entries:
 
 **Example:** [Real PR/issue reference, or a "Hypothetical:" scenario marked explicitly.]
 
-**Mode interaction:** [How dispatch behaves per mode — auto in Trusted/Overnight, gated in Careful/Hand-Held, special cases noted.]
+**Mode interaction:** [How dispatch behaves per mode — auto in On-the-Loop / Automated End-to-End, gated in In-the-Loop at its gated phases (2, 5, 7, 9), special cases noted.]
 ```
 
 For **candidate** entries, add a `**Trigger:**` block before `**Use case:**`:
