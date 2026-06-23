@@ -65,3 +65,5 @@ Cloudflare/required builds fail closed if resolution fails, avoiding stale produ
 Linux assets are all present, including Linux `.deb` and `.rpm` alternates. If the public
 mirror lags or an asset is missing, local builds keep the committed seed and
 Cloudflare/required builds fail closed rather than publishing stale or broken download links.
+The companion Alpha release workflow gates this same asset contract before publishing a tag,
+so a blocked production build means the mirror or release pipeline needs repair.

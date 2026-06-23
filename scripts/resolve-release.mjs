@@ -19,6 +19,10 @@ export function tagToVersion(tag) {
 export function validateRelease(release, version) {
   const assets = Array.isArray(release?.assets) ? release.assets : [];
   const names = new Set(assets.map((a) => a?.name));
+  // Keep this list aligned with the download page's rendered links. The Alpha
+  // release workflow gates the same asset set before tag/release; a failure
+  // here means mirror lag or a release-pipeline regression, not an optional
+  // package omission that production should silently publish around.
   const required = ['arm64', 'x64'].flatMap((arch) => [
     `ConcordVoice-${version}-macos-${arch}.dmg`,
     `ConcordVoice-${version}-macos-${arch}.zip`,
