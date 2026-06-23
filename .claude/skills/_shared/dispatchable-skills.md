@@ -267,13 +267,13 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 ## Phase 3: EXECUTE
 
-### `/superpowers:subagent-driven-development` OR `/superpowers:executing-plans` (always-dispatch, depending on Implementation Approach selected at Phase 1.5)
+### `/superpowers:subagent-driven-development` OR `/superpowers:executing-plans` (always-dispatch, per the Implementation Approach selected at Phase 1.5)
 
-**Use case:** Execute an approved plan task-by-task. `subagent-driven-development` dispatches a fresh subagent per task with two-stage review between them (high isolation, higher token cost). `executing-plans` runs tasks inline in the current session with batch checkpoints (lower cost, less isolation). Selection driven by Phase 1.5 Implementation Approach (Inline / Subagent Driven / Hybrid).
+**Use case:** Execute an approved plan task-by-task. Under `Inline`, `executing-plans` runs the whole plan in-session with batch checkpoints (lower cost, less isolation). Under `Subagent Driven`, `subagent-driven-development` dispatches a fresh subagent per task with two-stage review (high isolation, higher token cost). Under `Dynamic` (#1420), `executing-plans` is the session spine and the orchestrator decides inline-vs-subagent **per task** against the D1–D5 criteria in `/dev-lifecycle` Phase 3, sized by the tier profile's batch axis (`_shared/model-capability-tiers.md`); subagent-decided tasks follow the `subagent-driven-development` per-task contract, and every decision emits an auditable visibility line. On the `generic` tier, Dynamic degrades to a plan-time static split.
 
 **Example:** A docs-only issue's execution went inline via `/superpowers:executing-plans` because Phase 1.5 selected `Inline` for that lift.
 
-**Mode interaction:** Always-dispatch at Phase 3 once a plan exists. Mode affects gating (Hand-Held gates each task; others auto-progress through plan completion). Implementation Approach selection at Phase 1.5 determines which of the two skills fires.
+**Mode interaction:** Always-dispatch at Phase 3 once a plan exists. Mode affects gating (Hand-Held gates each task; others auto-progress through plan completion). The Phase 1.5 Implementation Approach (with tier-aware defaults per `_shared/model-capability-tiers.md`) determines which skill(s) fire and at what granularity. Tier never alters the gate matrix (see the tier catalog's "Invariants tiers may not alter").
 
 ### `/superpowers:test-driven-development` (candidate)
 
@@ -630,7 +630,7 @@ The triggers below use the same file-path / label / keyword axes as the main cat
 
 **Mode interaction:** Gated in Hand-Held / Careful. Auto in Trusted+ when triggers fire. Read-only.
 
-### `/scaffold-component` (candidate — execute-time, Phase 3)
+### `/scaffold-component` (candidate — execute-time, Phase 3; user-invoked only)
 
 **Trigger:**
 - **File paths in diff:** new component files under <frontend files>
@@ -640,9 +640,9 @@ The triggers below use the same file-path / label / keyword axes as the main cat
 
 **Example (hypothetical):** A new settings-panel component — `/scaffold-component` lays down the component + styles + test skeleton to convention.
 
-**Mode interaction:** Gated in Hand-Held / Careful. Auto in Trusted+ when triggers fire.
+**Mode interaction:** user-invoked only — surfaced as a developer suggestion when triggers fire; the model never invokes it in any mode (`disable-model-invocation: true`, restored per #1387 after the #1391 sync regression).
 
-### `/scaffold-endpoint` (candidate — execute-time, Phase 3)
+### `/scaffold-endpoint` (candidate — execute-time, Phase 3; user-invoked only)
 
 **Trigger:**
 - **File paths in diff:** a new handler/route under the repo's backend service tree
@@ -652,9 +652,9 @@ The triggers below use the same file-path / label / keyword axes as the main cat
 
 **Example (hypothetical):** A new `GET /api/v1/servers/:id/audit-log` route — `/scaffold-endpoint` lays down the handler + tests + registration.
 
-**Mode interaction:** Gated in Hand-Held / Careful. Auto in Trusted+ when triggers fire.
+**Mode interaction:** user-invoked only — surfaced as a developer suggestion when triggers fire; the model never invokes it in any mode (`disable-model-invocation: true`, restored per #1387 after the #1391 sync regression).
 
-### `/create-migration` (candidate — execute-time, Phase 3)
+### `/create-migration` (candidate — execute-time, Phase 3; user-invoked only)
 
 **Trigger:**
 - **Keywords in body/title:** `"migration"`, `"schema"`, `"new table"`, `"new column"`, `"alter table"`
@@ -665,7 +665,7 @@ The triggers below use the same file-path / label / keyword axes as the main cat
 
 **Example (hypothetical):** Adding a `user_preferences` table — `/create-migration` produces the numbered `.up.sql` + `.down.sql` pair to convention.
 
-**Mode interaction:** Gated in Hand-Held / Careful (schema changes are often access-control / encryption-sensitive). Auto in Trusted+ for non-sensitive tables when triggers fire.
+**Mode interaction:** user-invoked only — surfaced as a developer suggestion when triggers fire (schema changes are often access-control / encryption-sensitive); the model never invokes it in any mode (`disable-model-invocation: true`, restored per #1387 after the #1391 sync regression).
 
 ### `/verify-quality-gate` (always-dispatch when present — validate-time, Phase 4)
 
@@ -687,7 +687,7 @@ The triggers below use the same file-path / label / keyword axes as the main cat
 
 **Mode interaction:** Auto-dispatch at Phase 8 in Careful+ when the relevant trust-boundary paths are in the diff (release-block check). Gated in Hand-Held.
 
-### `/release-checklist` (candidate — merge-ready, Phase 9, when a version tag will be cut)
+### `/release-checklist` (candidate — merge-ready, Phase 9, when a version tag will be cut; user-invoked only)
 
 **Trigger:**
 - **Keywords in body/title:** `"release"`, `"version bump"`, `"cut tag"`, `"ship"`
@@ -698,7 +698,7 @@ The triggers below use the same file-path / label / keyword axes as the main cat
 
 **Example (hypothetical):** Before cutting a new tag, run `/release-checklist <version>` to verify CI green on the main branch, no open P1/P2 issues for the milestone, and no critical dependency alerts.
 
-**Mode interaction:** Always gated regardless of mode — the skill carries `disable-model-invocation: true` in its frontmatter, so it must be invoked explicitly via the slash command. Claude does not auto-dispatch it even in Trusted / Overnight.
+**Mode interaction:** user-invoked only — surfaced as a developer suggestion when triggers fire; the model never invokes it in any mode (`disable-model-invocation: true`, restored per #1387 after the #1391 sync regression).
 
 ---
 
