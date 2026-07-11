@@ -14,7 +14,7 @@ const userTiers = [
   { name: 'Sonic', monthly: 0, desc: 'For individuals and communities getting started',
     items: ['Voice & video calls', 'End-to-end encrypted messaging', 'Up to five servers with unlimited channels', 'Standard audio (up to 96 kbps)', 'Screen sharing (up to 1080p · 30fps)', 'An assortment of themes & profile customization', 'Direct messages'] },
   { name: 'Supersonic', monthly: 8.99, yearly: 98.89, featured: true, desc: 'For users who want the whole experience',
-    items: ['Priority support', 'Optional opt-in to early access', 'Everything in the Free tier', 'Full customization of theme colors', 'GIFs in your profile photos and banners', 'Profile card & page customization', 'Acoustically transparent 48kHz/16-bit audio (up to 510 kbps)*', 'Native resolution / frame-rate stream support*', '256 MB file uploads in any chat or DM', 'No cap on server creation', '180-day message-history search depth**'] },
+    items: ['Priority support', 'Optional opt-in to early access', 'Everything in the Free tier', 'Full customization of theme colors', 'GIFs in your profile photos and banners', 'Profile card & page customization', 'Acoustically transparent 48kHz/16-bit audio (up to 510 kbps)*', 'Native resolution / frame-rate stream support*', 'In group DMs, up to 16 screen shares and 25 cameras at once†', '256 MB file uploads in any chat or DM', 'No cap on server creation', '180-day message-history search depth**'] },
 ];
 const hyper = { monthly: 21.99, yearly: 241.89 };
 const hyperYou = ['Priority support', 'Optional opt-in to early access', 'Full theme-color customization', 'GIFs in profile photos and banners', 'Profile card & page customization', 'Acoustically transparent 48kHz/16-bit audio (up to 510 kbps)*', 'Native resolution / frame-rate stream support*', '256 MB file uploads anywhere', 'No cap on server creation', '180-day message-history search depth**'];
@@ -110,7 +110,10 @@ const wing = { monthly: 14.99, yearly: 164.89 };
       </div>
       <p class="fineprint">
         * Requires your device and network to support the necessary encoding and bitrates; otherwise expect
-        degraded quality. &nbsp; ** Searchable only while the messages still exist, per your retention policy.
+        degraded quality. &nbsp; ** Searchable only while the messages still exist, per your retention policy. &nbsp;<br />
+        † Group-DM screen-share and camera limits are separate, not a shared pool: 8 of each by default, raised to
+        16 screen shares and 25 cameras when anyone in the call is on Supersonic or higher. Per-channel concurrency
+        inside a server follows that server's plan, not your personal one. Applies once personal plans are on sale.
       </p>
     </section>
 
