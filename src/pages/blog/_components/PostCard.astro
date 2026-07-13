@@ -1,0 +1,22 @@
+---
+import './blog.css';
+
+interface Props {
+  post: Record<string, any>;
+  base: string;
+  featured?: boolean;
+}
+const { post, base, featured = false } = Astro.props;
+const date = new Date(post.pubDate);
+const dateLabel = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+const href = `${base}/${post.slug}`;
+---
+<a href={href} class:list={['post-card', 'reveal', featured && 'post-card--featured']}>
+  <span class="post-card__rule" aria-hidden="true"></span>
+  <p class="post-card__cat eyebrow">{post.category}</p>
+  <h2 class="post-card__title display">{post.title}</h2>
+  {post.description && <p class="post-card__desc">{post.description}</p>}
+  <p class="post-card__meta eyebrow">
+    <time datetime={date.toISOString().slice(0, 10)}>{dateLabel}</time>{post.readingTime ? ` · ${post.readingTime} min` : ''}
+  </p>
+</a>
