@@ -45,7 +45,7 @@ Compared to us, that's not a clone-vs-original distinction; that's a soul distin
 
 These are the projects people usually mean when they say "just use a Discord alternative."
 
-Soat, recently rebranded from Revolt, is the one I'm most sympathetic to. It's open-source, AGPL-3.0, self-hostable via Docker, north of 600,000 users, and clearly built by people who care. Honestly, this value is aligned with us. The catch is the same catch we're open about on our own unfinished pieces: end-to-end encryption is still on their roadmap, not shipped. So today it's open and self-hostable, but not yet private-by-crypto. No shade here, just a status check, and I respect that they haven't slapped an "E2EE" sticker on something that isn't done. (I have opinions about companies that do. See... well most of this post.)
+Stoat, recently rebranded from Revolt, is the one I'm most sympathetic to. It's open-source, AGPL-3.0, self-hostable via Docker, north of 600,000 users, and clearly built by people who care. Honestly, this value is aligned with us. The catch is the same catch we're open about on our own unfinished pieces: end-to-end encryption is still on their roadmap, not shipped. So today it's open and self-hostable, but not yet private-by-crypto. No shade here, just a status check, and I respect that they haven't slapped an "E2EE" sticker on something that isn't done. (I have opinions about companies that do. See... well most of this post.)
 
 Guilded I'll keep short, because there's nothing left to keep long. Roblox bought it, and then Roblox shut it down on December 19th, 2025, folding it into "Roblox Communities." It is a former competitor. Pour one out (oof).
 

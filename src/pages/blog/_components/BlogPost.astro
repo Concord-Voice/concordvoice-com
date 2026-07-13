@@ -18,8 +18,7 @@ interface Props {
 }
 const { title, description, category, pubDate, readingTime, headings = [], prev = null, next = null } = Astro.props;
 
-// Base path resolves from the live blog route.
-const base = new URL('.', Astro.url).pathname.replace(/\/$/, '');
+const base = '/blog';
 const date = new Date(pubDate);
 const dateLabel = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 const dateISO = date.toISOString().slice(0, 10);
