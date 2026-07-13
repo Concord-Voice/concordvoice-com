@@ -116,6 +116,13 @@
 .legal.post-prose h4 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700; color: var(--color-gold); margin-top: 1.7rem; margin-bottom: 0.5rem; }
 .legal.post-prose h2 + h3, .legal.post-prose h3 + h4 { margin-top: 1rem; }
 
+/* Markdown lists need explicit markers because the global reset removes browser defaults. */
+.legal.post-prose :is(ul, ol) { margin: 1rem 0 1.4rem; padding-left: 1.35rem; }
+.legal.post-prose ul { list-style: disc; }
+.legal.post-prose ol { list-style: decimal; }
+.legal.post-prose li { padding-left: 0.25rem; margin: 0.45rem 0; }
+.legal.post-prose li::marker { color: var(--color-coral); }
+
 /* Floated code/figure aside beside body text (stacks full-width on narrow screens). */
 .post-aside { margin: 0.3rem 0 1.1rem; }
 .post-aside--right { float: right; clear: right; width: min(30rem, 52%); margin-left: 1.6rem; }

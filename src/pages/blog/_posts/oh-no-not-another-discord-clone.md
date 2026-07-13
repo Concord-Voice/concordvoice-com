@@ -10,11 +10,11 @@ slug: "oh-no-not-another-discord-clone"
 
 Yes, But Also, Emphatically No, and the Difference Is the Whole Point
 
-TL;DR
+## TL;DR
 
 Yes, it looks like Discord. No, it isn't another Discord clone. We kept the part of Discord that's genuinely good (the way it feels to hang out in a server with your people; a true virtual third space), and we threw out the part where a company reads the room and sells what it learns. Concord Voice is end-to-end encrypted everywhere, not as a toggle you have to find, but as a structural fact of the app. It's source-available. You can self-host the whole thing. Nobody makes money off your conversations, because nobody, including us, can read them. Everything below is me showing my work on why "it looks like Discord" and "it is Discord" are two very different sentences.
 
-Wall of Text Me (WOTM)
+## Wall of Text Me (WOTM)
 
 Let's just get the accusation out of the way, because I've heard it a dozen times and I'll hear it a dozen more: "Oh great, another Discord clone."
 
@@ -24,13 +24,14 @@ But "does it look like Discord" is the wrong question. The right question, the o
 
 So here's how I'm going to judge everybody in this post, us included. Four axes:
 
-Is it actually end-to-end encrypted, and where? Not "encrypted" (everyone says that; it usually just means TLS to their server, where they can read it). We mean End-to-end, and which parts (text, group voice, video? Or one nice-sounding surface while the rest is in the clear?)
-Who profits from your data? Ads? Metadata harvesting? An AI model getting fed? A per-seat invoice? Or nobody?
-Can you see the code and run it yourself? Open, source-available, or closed-source. Is it actually self-hostable, or a black box you rent?
-Is voice a first-class citizen? Some of these were built voice-first. Some bolted a phone icon onto a chat app and called it a day. You can tell.
+- Is it actually end-to-end encrypted, and where? Not "encrypted" (everyone says that; it usually just means TLS to their server, where they can read it). We mean End-to-end, and which parts (text, group voice, video? Or one nice-sounding surface while the rest is in the clear?)
+- Who profits from your data? Ads? Metadata harvesting? An AI model getting fed? A per-seat invoice? Or nobody?
+- Can you see the code and run it yourself? Open, source-available, or closed-source. Is it actually self-hostable, or a black box you rent?
+- Is voice a first-class citizen? Some of these were built voice-first. Some bolted a phone icon onto a chat app and called it a day. You can tell.
+
 Grab a drink. This is a long one (it's called Wall of Text Me for a reason).
 
-The Incumbent Titan: Discord
+## The Incumbent Titan: Discord
 
 Credit where it's due, and I want to be really clear about this because it sets up everything else: Discord is good at the thing Discord is for. The UX is excellent. The social model (persistent servers, roles, voice rooms you can just fall into) is the reason a whole generation stopped using anything else. We're not here to tell you Discord is bad software. It isn't.
 
@@ -40,7 +41,7 @@ Here's my problem, though, and it's a big one: your text isn't encrypted, and Di
 
 Compared to us, that's not a clone-vs-original distinction; that's a soul distinction. We look like Discord, and we encrypt the text channels too, structurally, so that we, the company, physically cannot read them. Same clothes. Opposite priorities. (And if you want the extended version of why heavy-handed platform policy pushed a lot of people to start looking for exits in early 2026, hold that thought — it comes back at the end, and it ties directly to my last Dev Series post.)
 
-The Other "Discord But ___" Crowd: Stoat (formerly Revolt), Guilded, TeamSpeak
+## The Other "Discord But ___" Crowd: Stoat (formerly Revolt), Guilded, TeamSpeak
 
 These are the projects people usually mean when they say "just use a Discord alternative."
 
@@ -50,7 +51,7 @@ Guilded I'll keep short, because there's nothing left to keep long. Roblox bough
 
 TeamSpeak is the granddad of "host your own voice server," and I have real affection for it (and PTSD from a-many of ARMA lobbies). When you self-host TeamSpeak, they collect zero data from your server; that's their whole model, and it's a genuinely privacy-respecting one. Voice traffic is encrypted, the server's yours, nobody's mining it. If you just want a low-latency voice box you fully own, it still slaps. Where it isn't us: it's voice-first to the point of being voice-only in spirit, the UX is from another era, it's proprietary, and TeamSpeak 6 has been sitting in beta with the self-hosted server still not feature-complete (a lot of people are still on TS3 for stability). It's a great voice server. It is not an encrypted-everything community platform, and it isn't trying to be.
 
-The Open, Federated Idealists: Element (Matrix) and Rocket.Chat
+## The Open, Federated Idealists: Element (Matrix) and Rocket.Chat
 
 This is the section where I have to be careful, because these folks are on the right side of the argument, and I'm not going to pretend otherwise for a cheap point.
 
@@ -60,7 +61,7 @@ Here's the fork in the road, and it's a difference of shape, not quality: Matrix
 
 Rocket.Chat is open-source, self-hostable, and aimed squarely at regulated and enterprise "mission-critical" comms. Good stuff, and again, values-adjacent. The distinction: their end-to-end encryption is opt-in, per conversation, off by default, and only covers DMs and private channels, while public channels can't be E2E encrypted at all. And to be fair to everyone here, including them, independent academic analyses in 2024 found real weaknesses in that E2EE implementation's confidentiality and integrity guarantees (several since patched). That's not me dunking, crypto is f**king hard (Michael and I spent tons of hours getting it right), which is exactly why we treat it as a structural invariant reviewed to death rather than a feature you flip on. When encryption is opt-in, most people never opt in, and "private" becomes a thing you have to know to go find. Ours isn't a setting. It's the floor.
 
-The Enterprise Suits: Slack, Teams, and Skype (RIP)
+## The Enterprise Suits: Slack, Teams, and Skype (RIP)
 
 Different universe, mostly, but people ask, so:
 
@@ -70,7 +71,7 @@ Microsoft Teams does have E2EE, but only for one-to-one calls, off by default; a
 
 Skype, my beloved, my nostalgia, my "for the memes" entry, is dead (shocker for those who still didn't know). Microsoft retired it on May 5th, 2025, after 22 years and shoved everyone toward Teams. I include it purely so I can say: the OG "call your friends over the internet" app didn't lose to a competitor, it lost to a corporate reorg. Rest easy, little phone icon.
 
-The Messengers: WhatsApp, Telegram, and Signal
+## The Messengers: WhatsApp, Telegram, and Signal
 
 Now the ones everyone reaches for when they say "but MY app is encrypted."
 
@@ -80,7 +81,7 @@ Telegram is the one everybody assumes is encrypted, and mostly isn't. Credit fir
 
 Signal is the gold standard, and I will fight you about it. Nonprofit (a real 501(c)(3), the Signal Foundation), end-to-end encrypted everything, open-source, no ads, no data business, the crypto everyone else licenses. If you want the single most private way to message one person, it's Signal, full stop. We admire it, even to the point that a lot of our thinking is downstream of the standard they set. Where we're a different animal: Signal is a messenger, not a community. No servers-you-gather-in, no roles, no drop-in voice rooms for forty people. And even after adding optional usernames in 2024 (which do let you hide your number from other users), you still register with a phone number, so your identity is tied to a SIM. We're not trying to out-Signal Signal at one-to-one messaging. We're trying to be what Signal would look like if it were a place instead of a conversation.
 
-The Stuff Already On Your Phone: SMS, RCS, iMessage
+## The Stuff Already On Your Phone: SMS, RCS, iMessage
 
 Because "why not just text" is a fair question.
 
@@ -90,7 +91,7 @@ RCS is the interesting one, because it's genuinely getting better, and I won't p
 
 iMessage is legitimately excellent crypto. It's end-to-end encrypted by default, and Apple's PQ3 made it the first mainstream messenger with post-quantum protection (which, side note, is the direction we're headed to; more on that in a second). The asterisks: your iCloud Backup isn't end-to-end encrypted unless you specifically turn on Advanced Data Protection, so by default there's often a readable copy sitting in the cloud; it's Apple-only (the green-bubble apartheid is a feature to them, not a bug); you can't self-host it; and again, it's a messenger, not a community you own.
 
-Okay, But Would You Hand My Data Over Too?
+## Okay, But Would You Hand My Data Over Too?
 
 Yes. Obviously. So does everyone else on this list, and anybody who tells you otherwise is either lying or just hasn't been asked yet.
 
@@ -100,7 +101,7 @@ The real differentiator is what there even is to hand over, and that's architect
 
 We're aiming for the Signal end of that spectrum. Our channels are end-to-end encrypted, so a request for content gets ciphertext we genuinely cannot read, the same as Proton can't read your email. And we hold as little metadata as we can get away with, because the only data you can be sure never leaks is the data the company never had. We're not above the law, and we won't pretend to be. We just worked very hard to make sure that when the law comes knocking, there's almost nothing worth handing over.
 
-So, Where Does Concord Voice Get It Right?
+## So, Where Does Concord Voice Get It Right?
 
 Here's the honest synthesis, because after over a dozen competitors, you deserve the actual thesis and not just a victory lap.
 
@@ -108,19 +109,21 @@ Look back at that list. Almost everyone is strong on one axis. Signal nails priv
 
 Concord Voice is the bet that you shouldn't have to choose the corner. Concretely:
 
-End-to-end encrypted everywhere, as a structural invariant, not a toggle. Text channels and per-frame encrypted group voice and video (AES-256-GCM, RSA-4096 key wrapping). There is no "turn on encryption" setting because there's no way to turn it off — it's built into how the app works, which means we, the company, physically cannot read your messages. Very few products on this entire list support encrypted text, encrypted group voice, and the community model. That intersection is the whole reason we exist.
-Nobody profits from your data, because nobody can see it. No ads. No telemetry. We actually ripped Sentry back out (that's its own Dev Series story). No data business. Subscriptions and a self-host option, and that's the entire model. E2EE-everywhere isn't just a privacy feature; it's a business-model commitment we can't quietly walk back later.
-Source-available today, and it outlives us. Concord is source-available under our CVSL 1.0 license, which converts to AGPL-3.0 automatically in 2030. If the company gets hit by a bus, the project doesn't die with it. We drop it open source like the Martyrdom deathstreak in MW2 (have I shown my age yet with some of these memes?)
-You can self-host it, and self-hosting is segregated on purpose. Run your own server, keep local accounts, and if you do, that instance doesn't sync to our network or show up in any public directory. That's deliberate: it's how families, gaming groups, and folks who want full control get private, secure comms entirely outside our walls. (Status check, because I don't do vaporware: the self-hosted installer is real and usable today; the comprehensive air-gapped/admin-panel version is in active development, not done.)
-Voice is first-class, not bolted on. We're in the Discord/TeamSpeak lineage, not the Slack/Teams "we added a call button" lineage. We have a real SFU media stack, per-frame E2EE, and tier-aware quality. Voice was the point from day one. It's literally in the name.
-And one more, since it ties two of these Dev Series posts together: yes, we age-gate too; a 16+ floor and, where the law demands it, age verification. We didn't have a choice about whether. We had a choice about how, and we built it to be identity-blind: the record is signed on your device, and the server literally never receives your birthday, your age, or your location. If you want the deep dive, it's the last post in this series ("Proving You're Old Enough Without Proving Who You Are"). The relevant bit here: the exact thing that drove a wave of people off Discord in early 2026 (heavy-handed age verification) is a thing we sat down and engineered to do without the surveillance. That's not a coincidence. That's the entire design philosophy showing up twice.
+- End-to-end encrypted everywhere, as a structural invariant, not a toggle. Text channels and per-frame encrypted group voice and video (AES-256-GCM, RSA-4096 key wrapping). There is no "turn on encryption" setting because there's no way to turn it off — it's built into how the app works, which means we, the company, physically cannot read your messages. Very few products on this entire list support encrypted text, encrypted group voice, and the community model. That intersection is the whole reason we exist.
+- Nobody profits from your data, because nobody can see it. No ads. No telemetry. We actually ripped Sentry back out (that's its own Dev Series story). No data business. Subscriptions and a self-host option, and that's the entire model. E2EE-everywhere isn't just a privacy feature; it's a business-model commitment we can't quietly walk back later.
+- Source-available today, and it outlives us. Concord is source-available under our CVSL 1.0 license, which converts to AGPL-3.0 automatically in 2030. If the company gets hit by a bus, the project doesn't die with it. We drop it open source like the Martyrdom deathstreak in MW2 (have I shown my age yet with some of these memes?)
+- You can self-host it, and self-hosting is segregated on purpose. Run your own server, keep local accounts, and if you do, that instance doesn't sync to our network or show up in any public directory. That's deliberate: it's how families, gaming groups, and folks who want full control get private, secure comms entirely outside our walls. (Status check, because I don't do vaporware: the self-hosted installer is real and usable today; the comprehensive air-gapped/admin-panel version is in active development, not done.)
+- Voice is first-class, not bolted on. We're in the Discord/TeamSpeak lineage, not the Slack/Teams "we added a call button" lineage. We have a real SFU media stack, per-frame E2EE, and tier-aware quality. Voice was the point from day one. It's literally in the name.
+- And one more, since it ties two of these Dev Series posts together: yes, we age-gate too; a 16+ floor and, where the law demands it, age verification. We didn't have a choice about whether. We had a choice about how, and we built it to be identity-blind: the record is signed on your device, and the server literally never receives your birthday, your age, or your location. If you want the deep dive, it's the last post in this series ("Proving You're Old Enough Without Proving Who You Are"). The relevant bit here: the exact thing that drove a wave of people off Discord in early 2026 (heavy-handed age verification) is a thing we sat down and engineered to do without the surveillance. That's not a coincidence. That's the entire design philosophy showing up twice.
 
-Where We're Going
+## Where We're Going
 
-We're in Beta now, marching toward a v1.0 general-availability release in (hopefully) January 2027.
-Post-quantum is on the map. A post-quantum hybrid handshake is a candidate for our next milestone. Apple did PQ3; we're not going to be the app still on yesterday's math when the quantum bill comes due.
-Mobile and the full self-hosted bundle (air-gapped install, admin panel, the works) are further out; real roadmap items, not shipped, and I'll flag them as done when they're done and not a second sooner. Their current target is v1.0.
-The Verdict on "Just Another Discord Clone"
+- We're in Beta now, marching toward a v1.0 general-availability release in (hopefully) January 2027.
+- Post-quantum is on the map. A post-quantum hybrid handshake is a candidate for our next milestone. Apple did PQ3; we're not going to be the app still on yesterday's math when the quantum bill comes due.
+- Mobile and the full self-hosted bundle (air-gapped install, admin panel, the works) are further out; real roadmap items, not shipped, and I'll flag them as done when they're done and not a second sooner. Their current target is v1.0.
+
+
+## The Verdict on "Just Another Discord Clone"
 
 In my humble opinion: No.
 
@@ -128,16 +131,16 @@ We wear the same clothes as Discord because the clothes work, and reinventing th
 
 If that's the thing you want, backing the next place you and your people hang out, back us, or just follow along.
 
-Sincerely,
+***Sincerely,***
 
-Mark
-Co-Founder
-Wrote a competitive analysis and somehow made it a personality
+***Mark, Co-Founder***
 
-Legal Jargon, Disclaimers, and footnotes so we don't get litigated:
+***Wrote a competitive analysis and somehow made it a personality***
+
+## Legal Jargon, Disclaimers, and footnotes so we don't get litigated:
 A few notes, because this post names names. All product and company names, logos, and trademarks are the property of their respective owners; references here are for identification and comparison only and do not imply any affiliation, sponsorship, or endorsement. Comparisons reflect publicly available information believed accurate as of July 2026 — this is a fast-moving space and details change, so treat specifics as a snapshot, not gospel. Statements characterizing competitors' design choices, business models, or track records are our honest opinion based on the sources cited below. Anything about our own roadmap (release dates, post-quantum work, future self-hosting) is a forward-looking statement of current intent, not a guarantee; we ship things when they're done, and we'll say so when they are. Nothing here is legal or security advice.
 
-Sources:
+## Sources:
 
 Discord "every voice and video call… E2EE by default… DAVE… audited by Trail of Bits"
 
