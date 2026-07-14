@@ -2,9 +2,10 @@
 import { rm } from 'node:fs/promises';
 import { defineConfig } from 'astro/config';
 
+import tailwindcss from '@tailwindcss/vite';
+
 // Static output (default) — deploys directly to Cloudflare Pages.
-// Tailwind v4 runs via PostCSS (see postcss.config.mjs); the @tailwindcss/vite
-// plugin is incompatible with Astro 6's rolldown-vite as of 2026-06.
+// Tailwind v4 uses the official Vite plugin.
 
 /**
  * Draft pages live in src/pages/drafts/ (gitignored, so they never reach the
@@ -29,4 +30,8 @@ function excludeDraftsFromBuild() {
 export default defineConfig({
   site: 'https://concordvoice.com',
   integrations: [excludeDraftsFromBuild()],
+
+  vite: {
+    plugins: [tailwindcss()]
+  }
 });
