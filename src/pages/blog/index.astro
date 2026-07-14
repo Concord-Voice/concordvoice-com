@@ -1,0 +1,46 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import PostCard from './_components/PostCard.astro';
+import './_components/blog.css';
+
+// Read every draft post; newest first. Glob is relative, so it keeps working
+// The glob stays relative to this live blog route.
+const modules = import.meta.glob('./_posts/*.md', { eager: true });
+const posts = Object.entries(modules)
+  .map(([path, mod]: [string, any]) => ({
+    slug: mod.frontmatter.slug ?? path.split('/').pop()!.replace(/\.md$/, ''),
+    ...mod.frontmatter,
+  }))
+  .sort((a, b) => +new Date(b.pubDate) - +new Date(a.pubDate));
+
+const base = Astro.url.pathname.replace(/\/$/, '');
+const [featured, ...rest] = posts;
+---
+<Layout
+  title="The Signal — Concord Voice Blog"
+  description="Field notes on privacy, encryption, moderation, and the choices behind a platform you can actually trust."
+>
+  <Header />
+
+  <main class="mx-auto w-full max-w-6xl px-6 pb-24 pt-10">
+    <header class="blog-masthead">
+      <p class="eyebrow text-gradient">The Concord Voice Blog</p>
+      <h1 class="display blog-masthead__title">The Signal</h1>
+      <p class="blog-masthead__sub">
+        Field notes on privacy, encryption, moderation, and the choices behind a platform you can actually trust.
+      </p>
+    </header>
+
+    {featured && <PostCard post={featured} base={base} featured={true} />}
+
+    {rest.length > 0 && (
+      <div class="blog-grid">
+        {rest.map((post) => <PostCard post={post} base={base} />)}
+      </div>
+    )}
+  </main>
+
+  <Footer />
+</Layout>

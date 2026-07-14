@@ -1,9 +1,8 @@
 ---
 // Site header — symbol + wordmark (left), centered page nav (middle), CTAs (right).
 //
-// DEV-AWARE NAV: almost every destination is still a gitignored DRAFT that 404s in a
-// production build. So in `npm run dev` the full categorized nav renders, pointing at
-// /drafts/*; in the production build only items flagged `live` appear.
+// DEV-AWARE NAV: draft destinations 404 in production. So in `npm run dev` the
+// full categorized nav renders; in the production build only items flagged `live` appear.
 // When a page is promoted out of src/pages/drafts/, flip its `live` to true — it then
 // shows in production. Links use FINAL production paths; a dev-only middleware
 // (src/middleware.ts) serves the draft version of those paths in local preview.
@@ -19,7 +18,7 @@ const product = [
 const links = [
   { label: 'Kickstarter', path: '/kickstarter', live: true },
   { label: 'About', path: '/about-us', live: true },
-  { label: 'Blog',  path: '/blog',     live: false },
+  { label: 'Blog',  path: '/blog',     live: true },
 ];
 
 const shown = (it: { live: boolean }) => DEV || it.live;
