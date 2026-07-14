@@ -68,6 +68,8 @@ When the jurisdiction step lands, entering your DoB will let your client use the
 
 For the technically inclined, this is what the server actually stores. It’s identity-blind by construction; the privacy guarantee is the schema, not a policy we ask you to trust.
 
+![Age & Jurisdiction Verification Record schema](/blog/age-record-schema.png)
+
 
 With it, the client processes it and creates an Age & Jurisdiction Verification Record, which is signed with your RSA key and stored on the server alongside your user profile. The privacy trick is that the record is identity-blind by design. That stuff never leaves your client or machine, only the yes/no result does. To put it bluntly, here’s the entire list of things this record will never contain:
 
