@@ -92,12 +92,12 @@ strong, b { color: var(--color-gold); }
    Atmosphere: aurora glow + film grain + starfield
    (the dusk cloud bank lives in the footer — see .cloudscape)
    ============================================================ */
-.aurora, .grain, .starfield { position: fixed; inset: 0; pointer-events: none; }
-.starfield { z-index: 1; }
+.starfield { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
 .layer { position: relative; z-index: 3; }
 
 /* Top-of-page glows only. The bottom horizon is owned by the footer cloudscape. */
 .aurora {
+  position: fixed; inset: 0; pointer-events: none;
   z-index: 0;
   background:
     radial-gradient(38rem 30rem at 74% -10%, color-mix(in oklab, var(--color-coral) 40%, transparent), transparent 70%),
@@ -112,6 +112,7 @@ strong, b { color: var(--color-gold); }
 }
 
 .grain {
+  position: fixed; inset: 0; pointer-events: none;
   z-index: 2;
   opacity: 0.05;
   mix-blend-mode: overlay;
