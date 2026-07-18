@@ -1,0 +1,63 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/markd/Dev/Concord-Voice/concordvoice-com/.codex/hooks/destructive-commands.sh'"
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/markd/Dev/Concord-Voice/concordvoice-com/.codex/hooks/protect-env-files.sh'"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/markd/Dev/Concord-Voice/concordvoice-com/.codex/hooks/protect-sensitive.sh'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/markd/Dev/Concord-Voice/concordvoice-com/.codex/hooks/auto-format.sh'"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/markd/Dev/Concord-Voice/concordvoice-com/.codex/hooks/test-reminder.sh'"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/markd/Dev/Concord-Voice/concordvoice-com/.codex/hooks/detect-secrets.sh'"
+          }
+        ]
+      }
+    ]
+  }
+}

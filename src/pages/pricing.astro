@@ -23,21 +23,23 @@ const wing = { monthly: 14.99, yearly: 164.89 };
 
 ---
 <Layout
-  title="Personal Pricing — Concord Voice"
-  description="Personal use of Concord Voice is free, always. Honest, no-dark-pattern cloud pricing for individuals — Sonic, Supersonic, and the all-in-one Hypersonic and Wing plans. Monthly or yearly."
+  title="Personal Use — Concord Voice"
+  description="Honest personal pricing for Concord Voice: private voice, video, and chat for the places you share with your people, with no dark patterns."
 >
   <Header />
 
   <main class="mx-auto w-full max-w-7xl px-6 pb-24 pt-10">
     <section class="mkt-hero">
-      <p class="eyebrow text-gradient">Personal Pricing</p>
-      <h1 class="display mkt-hero__title">Own Your Voice</h1>
+      <p class="eyebrow text-gradient">Personal Use</p>
+      <h1 class="display mkt-hero__title">A private place, priced honestly</h1>
       <p class="mkt-lead">
         We believe in a free and open platform — so personal use of Concord Voice is free, always and forever.
         Whether you use a server on the Concord Voice Network or host it yourself, we'll never charge you for
         privacy or messaging, or limit your communications. Community over profit.
       </p>
     </section>
+
+    <section class="mkt-section"><p class="mkt-label eyebrow text-gradient">Choose the shape of your support</p><h2 class="display mkt-section__title">Start with your people, not a price card.</h2><p class="mkt-section__sub">Everyone gets a private place to talk for free. Personal Use is for higher fidelity, more expression, or helping a small circle. If you are improving a shared home for everyone inside it, Groups &amp; Communities is the better fit.</p></section>
 
     <!-- ===== Cloud vs Self-Host fork ===== -->
     <section class="mkt-section">
@@ -131,15 +133,15 @@ const wing = { monthly: 14.99, yearly: 164.89 };
         </div>
       </div>
       <div class="hyper-band reveal">
-        <div class="hyper-band__head">
+        <div class="hyper-band__head"><div class="plan-config">
           <p class="hyper-price__big display tier__price" data-m={money(hyper.monthly)} data-y={money(hyper.yearly)} data-save={savePct(hyper.monthly, hyper.yearly)} data-per="/month">
             <span class="tier__amt">{money(hyper.monthly)}</span><small class="tier__per">/month</small>
             <span class="tier__save" hidden> · save {savePct(hyper.monthly, hyper.yearly)}%</span>
-          </p>
+          </p><div class="mach-card-picker" data-mach-picker><p class="fineprint" style="margin:0 0 .55rem">Included Mach boost</p><div class="bill-toggle" role="group" aria-label="Choose Mach tier"><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="-10" data-yearly="-110">Mach 1</button><button type="button" class="bill-toggle__btn is-active" data-mach-option data-monthly="0" data-yearly="0" aria-pressed="true">Mach 2</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="20" data-yearly="220">Mach 3</button></div></div>
           <a href="https://www.kickstarter.com/projects/concord-mark/concord-voice" target="_blank" rel="noopener noreferrer" class="ks-btn" style="margin-top:1.1rem;">
             <img src="/brand/kickstarter-k-white.png" alt="" />
             <span>Follow on Kickstarter</span>
-          </a>
+          </a></div>
         </div>
         <div class="hyper-band__lists">
           <div>
@@ -159,7 +161,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
       <p class="mkt-label eyebrow text-gradient">Wing</p>
       <h2 class="display mkt-section__title">Bring your favorite person along</h2>
       <p class="mkt-section__sub">
-        A two-person plan: <strong>Supersonic for you</strong> and <strong>Supersonic for your +1</strong>. Two
+        A two-person plan: <strong data-wing-summary-plan>Supersonic for you</strong> and <strong>Supersonic for your +1</strong>. Two
         portable premium seats — your personal uplift travels with you to every server, boosted or not.
       </p>
       <div class="bill-wrap bill-wrap--inline">
@@ -168,17 +170,16 @@ const wing = { monthly: 14.99, yearly: 164.89 };
           <button type="button" class="bill-toggle__btn" data-bill="yearly" aria-pressed="false">Yearly <span class="bill-toggle__tag">1 mo free</span></button>
         </div>
       </div>
-      <div class="wing-band reveal">
+      <div class="wing-band reveal"><div class="plan-config">
         <p class="hyper-price__big display tier__price" data-m={money(wing.monthly)} data-y={money(wing.yearly)} data-save={savePct(wing.monthly, wing.yearly)} data-per="/month">
           <span class="tier__amt">{money(wing.monthly)}</span><small class="tier__per">/month</small>
           <span class="tier__save" hidden> · save {savePct(wing.monthly, wing.yearly)}%</span>
-        </p>
+        </p><div class="mach-card-picker" data-mach-picker><p class="fineprint" style="margin:0 0 .55rem">Shared server boost</p><div class="bill-toggle" role="group" aria-label="Choose Wing server boost"><button type="button" class="bill-toggle__btn is-active" data-mach-option data-monthly="0" data-yearly="0" aria-pressed="true">No boost</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="4.99" data-yearly="54.89">Mach 1</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="14.99" data-yearly="164.89">Mach 2</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="34.99" data-yearly="384.89">Mach 3</button></div></div></div>
         <div class="wing-seats">
-          <div><p class="hyper-list__t eyebrow text-gradient">You</p><p class="wing-seat__d">Full <strong>Supersonic</strong> — portable premium across every server and DM.</p></div>
+          <div><p class="hyper-list__t eyebrow text-gradient">You</p><p class="wing-seat__d">Full <strong data-wing-primary-plan>Supersonic</strong> — portable premium across every server and DM<span data-wing-boost-copy></span>.</p></div>
           <div><p class="hyper-list__t eyebrow text-gradient">Your +1</p><p class="wing-seat__d">Full <strong>Supersonic</strong> — portable premium across every server and DM.</p></div>
         </div>
       </div>
-      <p class="fineprint">Pricing finalized 2026-06-18. Wing bundles two Supersonic seats — portability for both of you, no server boost included.</p>
     </section>
 
     <!-- ===== Pointer to teams + compare ===== -->
@@ -190,8 +191,17 @@ const wing = { monthly: 14.99, yearly: 164.89 };
         their own page.
       </p>
       <div class="mkt-cta-row">
-        <a href="/teams" class="btn border border-white/20 hover:border-coral">Groups &amp; Teams pricing →</a>
+        <a href="/teams" class="btn border border-white/20 hover:border-coral">Groups &amp; Communities →</a>
         <a href="/compare" class="btn border border-white/20 hover:border-coral">Compare every plan →</a>
+      </div>
+    </section>
+
+    <section class="mkt-section" id="pricing-faq">
+      <p class="mkt-label eyebrow text-gradient">Pricing FAQ</p>
+      <div class="faq">
+        <details class="faq__item"><summary class="faq__q">When do paid subscriptions start?</summary><p class="faq__a">Paid upgrades are planned for v1.0 General Availability. They are not active during beta.</p></details>
+        <details class="faq__item"><summary class="faq__q">Can paid prices change?</summary><p class="faq__a">Yes. The paid prices shown are planned values and may change before General Availability.</p></details>
+        <details class="faq__item"><summary class="faq__q">What stays free?</summary><p class="faq__a">Sonic accounts, personal-use basics, and self-hosted servers stay free. Paid plans add optional upgraded features.</p></details>
       </div>
     </section>
 
@@ -223,12 +233,12 @@ const wing = { monthly: 14.99, yearly: 164.89 };
     .hyper-price__big small { font-family: var(--font-body); font-weight: 600; font-size: 1rem; color: var(--color-mist); }
     .hyper-band__lists { display: grid; gap: 1.6rem; grid-template-columns: 1fr; }
     @media (min-width: 720px) { .hyper-band__lists { grid-template-columns: 1fr 1fr; } }
-    .hyper-list__t { margin-bottom: 0.75rem; }
+    .hyper-list__t { margin-bottom: 0.75rem; } .plan-config { display:grid; justify-items:center; gap:.9rem; } .mach-card-picker { text-align:center; } .mach-card-picker .bill-toggle { flex-wrap:wrap; justify-content:center; } @media (min-width:720px) { .plan-config { grid-template-columns:auto auto; align-items:center; justify-content:center; } .mach-card-picker { text-align:left; } }
 
     /* Wing */
     .wing-band { max-width: 48rem; margin: 0 auto; padding: 2rem; text-align: center; border: 1px solid color-mix(in oklab, var(--color-coral) 40%, transparent); border-radius: 1.4rem; background: linear-gradient(160deg, color-mix(in oklab, var(--color-gold) 6%, transparent), color-mix(in oklab, var(--color-coral) 10%, transparent)); }
     .wing-seats { display: grid; gap: 1.2rem; grid-template-columns: 1fr; margin-top: 1.6rem; text-align: left; }
     @media (min-width: 640px) { .wing-seats { grid-template-columns: 1fr 1fr; } }
     .wing-seat__d { color: var(--color-mist); line-height: 1.55; font-size: .92rem; margin-top: .3rem; }
-  </style>
+  </style><script>const formatMachMoney=v=>"$"+v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});document.querySelectorAll("[data-mach-picker]").forEach(picker=>{const scope=picker.closest(".tier")||picker.closest(".hyper-band")||picker.closest(".wing-band");const prices=scope.querySelectorAll(".tier__price");prices.forEach(price=>{price.dataset.baseM??=price.dataset.m;price.dataset.baseY??=price.dataset.y});picker.querySelectorAll("[data-mach-option]").forEach(button=>button.addEventListener("click",()=>{picker.querySelectorAll("[data-mach-option]").forEach(option=>{const active=option===button;option.classList.toggle("is-active",active);option.setAttribute("aria-pressed",active?"true":"false")});prices.forEach(price=>{const monthly=Number(price.dataset.baseM.replace(/[^0-9.]/g,""))+Number(button.dataset.monthly);const yearly=Number(price.dataset.baseY.replace(/[^0-9.]/g,""))+Number(button.dataset.yearly);price.dataset.m=formatMachMoney(monthly);price.dataset.y=formatMachMoney(yearly);const annual=document.querySelector("[data-bill].is-active")?.dataset.bill==="yearly";price.querySelector(".tier__amt").textContent=annual?price.dataset.y:price.dataset.m});if(picker.closest("#wing")){const boosted=button.dataset.monthly!=="0";const plan=document.querySelector("[data-wing-primary-plan]");if(plan)plan.textContent=boosted?"Hypersonic":"Supersonic";const summaryPlan=document.querySelector("[data-wing-summary-plan]");if(summaryPlan)summaryPlan.textContent=boosted?"Hypersonic for you":"Supersonic for you";const boostCopy=document.querySelector("[data-wing-boost-copy]");if(boostCopy)boostCopy.textContent=boosted?" + a Mach server boost":""}}))})</script>
 </Layout>

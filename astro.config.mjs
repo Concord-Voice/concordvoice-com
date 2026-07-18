@@ -7,11 +7,10 @@ import { defineConfig } from 'astro/config';
 // plugin is incompatible with Astro 6's rolldown-vite as of 2026-06.
 
 /**
- * Draft pages live in src/pages/drafts/ (gitignored, so they never reach the
- * public repo). They render normally in `astro dev` for local preview, but this
- * integration removes them from the build output — so they can never be
- * published by any deploy path: Cloudflare's Git build or a manual
- * `wrangler pages deploy dist`.
+ * Draft pages live in src/pages/drafts/. They render normally in `astro dev`
+ * for local preview, but this integration removes them from the build output —
+ * so they can never be published by any deploy path: Cloudflare's Git build or
+ * a manual `wrangler pages deploy dist`.
  * @returns {import('astro').AstroIntegration}
  */
 function excludeDraftsFromBuild() {

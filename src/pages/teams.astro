@@ -6,7 +6,6 @@ import '@styles/marketing.css';
 
 // Cloud pricing for COMMUNITIES & TEAMS. Split out of
 // the old personal-use page (individual plans are on /pricing, the comparison on /compare).
-// Pricing finalized 2026-06-18.
 const money = (n: number) => (n === 0 ? '$0' : `$${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
 const savePct = (m: number, y: number) => (m > 0 && y > 0 ? Math.round((1 - y / (m * 12)) * 100) : 0);
 
@@ -20,7 +19,7 @@ const serverTiers = [
   { name: 'Mach 3', monthly: 34.99, yearly: 384.89, desc: 'Maximum quality for large, media-rich communities',
     items: ['Everything in Mach 2', '4K/60 video, server-wide*', '512 MB per-file uploads, server-wide', '2.5 TB server storage', '500 custom emoji / 150 stickers / 55 soundboards'] },
 ];
-// Plans (Concord-Voice-Alpha issue #1150). Squadron + Afterburner pricing finalized 2026-06-18.
+// Plans (Concord-Voice-Alpha issue #1150). Paid subscription pricing is planned for v1.0 GA.
 const squadron = [
   { name: 'Squadron-4', members: 4, slots: 1, monthly: 42.99, yearly: 472.89, per: 10.75 },
   { name: 'Squadron-8', members: 8, slots: 1, monthly: 72.99, yearly: 802.89, per: 9.12, featured: true },
@@ -32,21 +31,22 @@ const afterburner = [
 ];
 ---
 <Layout
-  title="Groups & Teams Pricing — Concord Voice"
-  description="Pricing for communities and teams — Groundspeed (free) and Mach 1/2/3 hosted servers, the Squadron group plan, and crowd-funded Afterburner boosts. Monthly or yearly."
+  title="Groups & Communities — Concord Voice"
+  description="Pricing for a private community home: hosted servers, group plans, and upgrades that lift the experience for everyone in your crew."
 >
   <Header />
 
   <main class="mx-auto w-full max-w-7xl px-6 pb-24 pt-10">
     <section class="mkt-hero">
-      <p class="eyebrow text-gradient">Groups &amp; Teams Pricing</p>
-      <h1 class="display mkt-hero__title">For your whole crew</h1>
+      <p class="eyebrow text-gradient">Groups &amp; Communities</p>
+      <h1 class="display mkt-hero__title">For the people who make your place feel like home</h1>
       <p class="mkt-lead">
-        Run a community, a guild, or a team. Every hosted server starts free; premium plans unlock your server for
-        everyone in it — or boost your whole roster at once. Looking for individual plans?
-        <a href="/pricing" style="color:var(--color-coral)">See Personal Pricing →</a>
+        Run a community, guild, or team with a space that belongs to all of you. Every hosted server starts free; premium plans lift the experience for everyone in it. Looking for individual plans?
+        <a href="/pricing" style="color:var(--color-coral)">See Personal Use →</a>
       </p>
     </section>
+
+    <section class="mkt-section"><p class="mkt-label eyebrow text-gradient">Choose what you are lifting up</p><h2 class="display mkt-section__title">A shared place works better when the upgrade helps everyone.</h2><p class="mkt-section__sub">Start a community free, then choose the support that matches how your people gather: improve one server, carry premium with a crew, or split the cost together. The price follows the benefit—not the other way around.</p></section>
 
     <section class="mkt-section" id="servers">
       <p class="mkt-label eyebrow text-gradient">Hosted Server Pricing</p>
@@ -109,11 +109,11 @@ const afterburner = [
             <p class="tier__price" data-m={money(s.monthly)} data-y={money(s.yearly)} data-save={savePct(s.monthly, s.yearly)} data-per="/month">
               <span class="tier__amt">{money(s.monthly)}</span><small class="tier__per">/month</small>
               <span class="tier__save" hidden> · save {savePct(s.monthly, s.yearly)}%</span>
-            </p>
-            <p class="tier__desc">Up to {s.members} members · 1 Mach boost (Captain picks tier) · ~{money(s.per)}/member</p>
+            </p><div class="mach-card-picker" data-mach-picker><p class="fineprint" style="margin:0 0 .55rem">Included Mach boost</p><div class="bill-toggle" role="group" aria-label="Choose Mach tier"><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="-10" data-yearly="-110">Mach 1</button><button type="button" class="bill-toggle__btn is-active" data-mach-option data-monthly="0" data-yearly="0" aria-pressed="true">Mach 2</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="20" data-yearly="220">Mach 3</button></div></div>
+            <p class="tier__desc">Up to {s.members} members · 1 Mach boost (Captain picks Mach 1, Mach 2, or Mach 3) · ~{money(s.per)}/member</p>
             <ul class="checklist">
               <li>Supersonic for up to {s.members} members — portable across DMs &amp; every server</li>
-              <li>1 Mach boost — Captain picks the tier (Mach 2 default); Mach 2 or Mach 3 eligible</li>
+              <li>1 Mach boost — Captain picks Mach 1, Mach 2 (default), or Mach 3</li>
               <li>The Captain manages the roster and one bill</li>
               <li>Extra servers à la carte at the ladder price (optional 10% off)</li>
             </ul>
@@ -152,8 +152,17 @@ const afterburner = [
       <h2 class="display mkt-section__title">Looking for personal pricing?</h2>
       <p class="mkt-section__sub">Sonic (free), Supersonic, and the all-in-one Hypersonic and Wing plans live on the personal pricing page.</p>
       <div class="mkt-cta-row">
-        <a href="/pricing" class="btn border border-white/20 hover:border-coral">Personal Pricing →</a>
+        <a href="/pricing" class="btn border border-white/20 hover:border-coral">Personal Use →</a>
         <a href="/compare" class="btn border border-white/20 hover:border-coral">Compare every plan →</a>
+      </div>
+    </section>
+
+    <section class="mkt-section" id="pricing-faq">
+      <p class="mkt-label eyebrow text-gradient">Pricing FAQ</p>
+      <div class="faq">
+        <details class="faq__item"><summary class="faq__q">When do paid subscriptions start?</summary><p class="faq__a">Paid upgrades are planned for v1.0 General Availability. They are not active during beta.</p></details>
+        <details class="faq__item"><summary class="faq__q">Can paid prices change?</summary><p class="faq__a">Yes. The paid prices shown are planned values and may change before General Availability.</p></details>
+        <details class="faq__item"><summary class="faq__q">What stays free?</summary><p class="faq__a">Groundspeed hosted servers and the core community experience stay free. Paid plans add optional upgrades.</p></details>
       </div>
     </section>
 
@@ -178,6 +187,6 @@ const afterburner = [
     .ab-price { margin: .35rem 0 .5rem; }
     .ab-amt { font-size: clamp(1.8rem, 5vw, 2.4rem); line-height: 1; }
     .ab-price small { color: var(--color-mist); font-size: .85rem; }
-    .ab-detail { max-width: 46rem; margin: 1.4rem auto 0; }
-  </style>
+    .ab-detail { max-width: 46rem; margin: 1.4rem auto 0; } .plan-config { display:grid; justify-items:center; gap:.9rem; } .mach-card-picker { text-align:center; } .mach-card-picker .bill-toggle { flex-wrap:wrap; justify-content:center; } @media (min-width:720px) { .plan-config { grid-template-columns:auto auto; align-items:center; justify-content:center; } .mach-card-picker { text-align:left; } }
+  </style><script>const formatMachMoney=v=>"$"+v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});document.querySelectorAll("[data-mach-picker]").forEach(picker=>{const scope=picker.closest(".tier")||picker.closest(".hyper-band")||picker.closest(".wing-band");const prices=scope.querySelectorAll(".tier__price");prices.forEach(price=>{price.dataset.baseM??=price.dataset.m;price.dataset.baseY??=price.dataset.y});picker.querySelectorAll("[data-mach-option]").forEach(button=>button.addEventListener("click",()=>{picker.querySelectorAll("[data-mach-option]").forEach(option=>{const active=option===button;option.classList.toggle("is-active",active);option.setAttribute("aria-pressed",active?"true":"false")});prices.forEach(price=>{const monthly=Number(price.dataset.baseM.replace(/[^0-9.]/g,""))+Number(button.dataset.monthly);const yearly=Number(price.dataset.baseY.replace(/[^0-9.]/g,""))+Number(button.dataset.yearly);price.dataset.m=formatMachMoney(monthly);price.dataset.y=formatMachMoney(yearly);const annual=document.querySelector("[data-bill].is-active")?.dataset.bill==="yearly";price.querySelector(".tier__amt").textContent=annual?price.dataset.y:price.dataset.m});if(picker.closest("#wing")){const plan=document.querySelector("[data-wing-primary-plan]");if(plan)plan.textContent=button.dataset.monthly==="0"?"Supersonic":"Hypersonic"}}))})</script>
 </Layout>

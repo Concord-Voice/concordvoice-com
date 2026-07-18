@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "competitive-strategy": {
+      "source": "refoundai/lenny-skills",
+      "sourceType": "github",
+      "skillPath": "skills/competitive-strategy/SKILL.md",
+      "computedHash": "3d0f477fc719d70cbb75a58f12b76406eab45e7f333a1237fe7c411f7d4196de"
+    },
+    "product-marketing": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/product-marketing/SKILL.md",
+      "computedHash": "b8a9cd747705923a7a29cda12e478594e3a5062d8f7c7bfbf19d7fc0b24cee76"
+    }
+  }
+}
