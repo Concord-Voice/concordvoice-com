@@ -20,10 +20,14 @@ _design-reference/
 !.claude/skills/
 !.claude/agents/
 
-# draft pages — work-in-progress (e.g. Squarespace migrations). Kept off the
-# public repo, and stripped from the production build by astro.config.mjs so
-# they can never be published. Preview locally via `npm run dev` (/drafts/*).
-src/pages/drafts/
+# draft pages — stripped from the production build by astro.config.mjs so they
+# can never be published. Most scratch drafts stay local; enterprise + blog are
+# preserved in git while unpublished.
+src/pages/drafts/*
+!src/pages/drafts/enterprise-msp.astro
+!src/pages/drafts/blog/
+!src/pages/drafts/blog/**
+src/pages/drafts/blog/_HANDOFF.md
 
 # os
 .DS_Store

@@ -45,6 +45,7 @@ const gcPricing = [['1 Year', '$120', '$120/yr', '—'], ['2 Years', '$204', '$1
 const licFree = ['Deploy and run with all features', 'No license key or activation', 'No user limits', 'No feature restrictions', 'Full source-code access for audit', 'Use it forever'];
 const licCommercial = ['Business or enterprise internal communications', 'Hosting Concord Voice servers as a paid service', 'Bundling Concord Voice into a commercial product', 'Any deployment supporting revenue-generating activity'];
 const faq = [
+  { q: "Does Ground Control pricing apply during beta?", a: "No. Ground Control is an optional hosted-service subscription planned for v1.0 General Availability. Its pricing may change before then and does not apply during beta." },
   { q: 'Do I need a license to self-host?', a: 'For personal and non-commercial use — no. Deploy it, run it, use every feature. No license key, no activation, no restrictions. If you deploy Concord in a business or commercial context, the CVSL requires a commercial license. See our License page for details.' },
   { q: 'Are any features locked on self-hosted servers?', a: 'No. Self-hosting unlocks every feature with no hosted-tier caps — custom emoji, stickers, uncapped audio and video, file uploads — every feature unlocked, hardware-limited (you run your own media plane). We don\'t charge for feature flags on your hardware.' },
   { q: 'What do I lose without Ground Control?', a: "Your server works perfectly fine standalone, and every feature stays unlocked. You just won't have access to the Concord Voice Network, your server won't appear in the Public Directory, and you won't have official email support. Community resources on GitHub are always available." },
@@ -154,7 +155,7 @@ const faq = [
               <tbody>{gcPricing.map((r) => <tr><td>{r[0]}</td><td>{r[1]}</td><td>{r[2]}</td><td class="yes">{r[3]}</td></tr>)}</tbody>
             </table>
           </div>
-          <p class="feat__d" style="margin-top:.8rem;">Per server. Multi-year discounts apply per subscription.</p>
+          <p class="feat__d" style="margin-top:.8rem;">Per server. See the FAQ below for beta and subscription details.</p>
         </div>
       </div>
     </section>

@@ -11,14 +11,14 @@ import '@styles/marketing.css';
 // What sets the platform apart — Concord vs. the broader market (category-based, no brands).
 const caps = [
   { f: 'End-to-end encrypted messages, on by default', cv: 'Always on', market: 'Rare — even platforms now adding encrypted calls still leave your messages readable' },
-  { f: 'End-to-end encrypted voice & video', cv: 'Always on', market: 'Increasingly common for calls; often not on by default, and rarely paired with encrypted messages' },
+  { f: 'End-to-end encrypted voice & video', cv: 'Always on', market: 'Increasingly common for calls; not every platform extends the same privacy model to messages, ownership, or business incentives' },
   { f: 'Self-host the entire platform', cv: 'Free — every feature unlocked, hardware-limited (you run your own media plane)', market: 'Almost never on mainstream apps; only niche or open tools, often capped or per-seat' },
   { f: 'No ads · no data sale · no profiling', cv: 'Funded by subscriptions', market: 'Many monetize through ads or metadata; only a handful avoid both' },
   { f: 'Open-source path', cv: 'License converts to AGPL-3.0', market: 'Usually fully proprietary; a few open the client only' },
   { f: 'Studio-grade voice — seven quality tiers', cv: 'Up to 510 kbps', market: 'Often capped low or gated behind stacked paid “boosts”' },
   { f: 'Community servers, roles & channels', cv: 'Included', market: 'Community apps, yes; messengers and team tools, mostly no' },
   { f: 'Screen shares and cameras at once in a room', cv: 'Free: 8 screens, 8 cameras. Mach server: 16 screens, 25 cameras.', market: 'Often just 1–2, or gated behind stacked paid boosts' },
-  { f: 'All of the above, in one platform', cv: 'Yes', market: 'No single platform combines them' },
+  { f: 'A private place for a whole community', cv: 'Voice, chat, expression, and ownership in one product', market: 'Different tools optimize different parts of the job' },
 ];
 
 // Price-by-price, against the going market RANGE for each category (not named quotes).
@@ -39,7 +39,7 @@ const compare = [
 ---
 <Layout
   title="Compare Plans — Concord Voice"
-  description="How Concord Voice compares to the market — end-to-end encryption by default, self-hosting, no ads, and studio-grade voice, against the going rates for comparable voice, chat, and community platforms. Brand-free, category-based."
+  description="Compare Concord Voice with the broader market: a private, voice-first community space with E2EE, ownership options, no advertising, and high-quality media."
 >
   <Header />
 
@@ -58,8 +58,8 @@ const compare = [
       <p class="mkt-label eyebrow text-gradient">What sets it apart</p>
       <h2 class="display mkt-section__title">The combination is the point</h2>
       <p class="mkt-section__sub">
-        Plenty of platforms do one or two of these well. The thing none of them do is all of it at once —
-        encryption you can't turn off, hardware you can own, and a business model that isn't you.
+        Different platforms optimize for different tradeoffs. Concord brings private-by-design communication,
+        high-quality voice, community expression, and meaningful ownership into one place.
       </p>
       <div class="mkt-table-wrap">
         <table class="mkt-table caps-table">
@@ -108,9 +108,17 @@ const compare = [
       <h2 class="display mkt-section__title">Ready to pick a plan?</h2>
       <p class="mkt-section__sub">Full feature lists live on the pricing pages — personal plans for individuals, group plans for communities and teams.</p>
       <div class="mkt-cta-row">
-        <a href="/pricing" class="btn border border-white/20 hover:border-coral">Personal Pricing →</a>
-        <a href="/teams" class="btn border border-white/20 hover:border-coral">Groups &amp; Teams pricing →</a>
+        <a href="/pricing" class="btn border border-white/20 hover:border-coral">Personal Use →</a>
+        <a href="/teams" class="btn border border-white/20 hover:border-coral">Groups &amp; Communities →</a>
         <a href="/self-hosting" class="btn border border-white/20 hover:border-coral">Self-hosting →</a>
+      </div>
+    </section>
+
+    <section class="mkt-section" id="pricing-faq">
+      <p class="mkt-label eyebrow text-gradient">Pricing FAQ</p>
+      <div class="faq">
+        <details class="faq__item"><summary class="faq__q">When do paid subscriptions start?</summary><p class="faq__a">Paid upgrades are planned for v1.0 General Availability. They are not active during beta.</p></details>
+        <details class="faq__item"><summary class="faq__q">Can paid prices change?</summary><p class="faq__a">Yes. The paid prices shown are planned values and may change before General Availability.</p></details>
       </div>
     </section>
 

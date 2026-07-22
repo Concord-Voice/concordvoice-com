@@ -23,16 +23,19 @@ const features = [
 ];
 
 const stats = [
-  { big: 'AES-256', label: 'Message Encryption' },
-  { big: '4096-bit', label: 'Key Wrapping' },
-  { big: '0', label: 'Messages We Can Read' },
-  { big: '0', label: 'Compromises' },
+  { big: 'Drop in', label: 'Rooms, DMs & group calls' },
+  { big: 'Your place', label: 'Themes, roles & channels' },
+  { big: 'Private', label: 'End-to-end encryption, no data sales' },
+  { big: 'Your rules', label: 'Hosted or self-hosted' },
 ];
 
 const KS = 'https://www.kickstarter.com/projects/concord-mark/concord-voice';
 ---
 
-<Layout>
+<Layout
+  title="Concord Voice — A Private Place for Your People"
+  description="A private, voice-first community space for your people. Drop in to voice, video, and chat; make the space yours; and know your conversations stay private by design."
+>
   <Header />
 
   <main id="home">
@@ -41,21 +44,21 @@ const KS = 'https://www.kickstarter.com/projects/concord-mark/concord-voice';
       <div class="pd-hero__copy">
         <div class="pd-lockup rise" style="--d:0s">
           <img src="/brand/symbol.png" alt="" width="40" height="40" />
-          <span class="eyebrow text-gold">Open Beta — June 21st, 2026</span>
+          <span class="eyebrow text-gold">Voice, video &amp; chat for your people</span>
         </div>
         <h1 class="display rise pd-h1" style="--d:.12s">
-          Private by default. <span class="text-gradient">Yours by design.</span>
+          A private place for <span class="text-gradient">your people.</span>
         </h1>
         <p class="rise pd-sub text-mist" style="--d:.24s">
-          Your messages are encrypted before they leave your device. Clear, private voice, free to
-          start. And you can run the whole thing on your own hardware, with every feature unlocked.
+          Drop in, hang out, and make the space yours. Concord brings voice, video, and chat
+          together, with privacy by design instead of a setting you have to hunt down.
         </p>
         <div class="rise pd-cta-row" style="--d:.36s">
           <a href={KS} target="_blank" rel="noopener noreferrer" class="ks-btn">
             <img src="/brand/kickstarter-k-white.png" alt="" />
             <span>Follow on Kickstarter</span>
           </a>
-          <a href="#proof-encryption" class="btn border border-white/20 hover:border-coral">See the proof</a>
+          <a href="#proof-encryption" class="btn border border-white/20 hover:border-coral">Why private by design</a>
         </div>
       </div>
 
@@ -86,10 +89,9 @@ const KS = 'https://www.kickstarter.com/projects/concord-mark/concord-voice';
 
     <!-- ============ MANIFESTO ============ -->
     <section id="why" class="reveal mx-auto max-w-4xl px-6 py-16 text-center">
-      <blockquote class="display text-2xl leading-snug sm:text-4xl">
-        “We got tired of telling people to protect their data while watching the tools we used every
-        day do the opposite. <span class="text-gradient">So we built the alternative.</span>”
-      </blockquote>
+      <p class="display text-2xl leading-snug sm:text-4xl">
+        The internet has enough places that want your attention. <span class="text-gradient">We built one for your people.</span>
+      </p>
     </section>
 
     <!-- ============ PROOF 1 — E2E encryption (image left) ============ -->
@@ -103,11 +105,11 @@ const KS = 'https://www.kickstarter.com/projects/concord-mark/concord-voice';
         </div>
         <div class="proof__copy">
           <p class="eyebrow text-gold">End-to-End Encrypted</p>
-          <h2 class="display proof__h">We can't read your messages. The math won't let us.</h2>
+          <h2 class="display proof__h">Your conversations stay yours.</h2>
           <p class="text-mist proof__p">
-            AES-256-GCM on every message, with 4096-bit RSA key wrapping. We can't read your
-            conversations; the math won't allow it. There's no "private mode" to switch on,
-            because there's no other mode.
+            End-to-end encryption means only the people in a conversation can read its messages
+            or hear its calls. Every message is encrypted before it leaves your device. There's no
+            “private mode” to switch on, because there's no other mode.
           </p>
         </div>
       </div>
@@ -124,12 +126,11 @@ const KS = 'https://www.kickstarter.com/projects/concord-mark/concord-voice';
         </div>
         <div class="proof__copy">
           <p class="eyebrow text-gold">Voice &amp; Video</p>
-          <h2 class="display proof__h">Voice this clear shouldn't cost your privacy.</h2>
+          <h2 class="display proof__h">The room is open. Come in when you're free.</h2>
           <p class="text-mist proof__p">
-            Real-time encrypted calls, screen sharing, and channels, with nothing listening in.
-            Several voice quality tiers, from bandwidth-light to virtually studio-grade. Private
-            voice is free to start, with the Supersonic plan and up unlocking higher quality tiers,
-            while self-hosting unlocks everything.
+            Real-time encrypted calls, screen sharing, and channels make it easy to drop in and
+            stay awhile. Choose the voice quality that fits your people, from bandwidth-light to
+            virtually studio-grade, without putting someone else in the room with you.
           </p>
           <a href={KS} target="_blank" rel="noopener noreferrer" class="ks-btn proof__cta">
             <img src="/brand/kickstarter-k-white.png" alt="" />
@@ -152,11 +153,11 @@ const KS = 'https://www.kickstarter.com/projects/concord-mark/concord-voice';
         </div>
         <div class="proof__copy">
           <p class="eyebrow text-gold">Custom Themes</p>
-          <h2 class="display proof__h">Make it yours. Without making it theirs.</h2>
+          <h2 class="display proof__h">A place should feel like your place.</h2>
           <p class="text-mist proof__p">
-            Make it yours: custom themes, colors, and emoji. Light, dark, cotton-candy, or full
-            hacker-green. The customization is the part you see; the no-tracking, no-ads part is
-            why it feels different.
+            Themes, colors, and emoji let a group make its shared space feel inhabited. The
+            customization is what you see; the no-tracking, no-ads foundation is why it can stay
+            yours.
           </p>
           <div class="theme-chips" role="group" aria-label="Preview a theme" data-theme-chips>
             <button type="button" class="pill" data-theme="0" aria-pressed="true">Dark</button>
@@ -184,10 +185,11 @@ const KS = 'https://www.kickstarter.com/projects/concord-mark/concord-voice';
         </div>
         <div class="proof__copy">
           <p class="eyebrow text-gold">Self-Hostable</p>
-          <h2 class="display proof__h">Your server. Your rules. Every feature unlocked.</h2>
+          <h2 class="display proof__h">Keep the space yours, all the way down.</h2>
           <p class="text-mist proof__p">
-            Run the entire platform on your own hardware and audit the source. Self-hosting unlocks
-            every feature — and your data never has to touch our servers.
+            Use Concord hosted, or run the entire platform on your own hardware and audit the
+            source. Self-hosting unlocks every feature, and your community's data never has to
+            touch our servers.
           </p>
           <a href={KS} target="_blank" rel="noopener noreferrer" class="ks-btn proof__cta">
             <img src="/brand/kickstarter-k-white.png" alt="" />
@@ -200,7 +202,7 @@ const KS = 'https://www.kickstarter.com/projects/concord-mark/concord-voice';
     <!-- ============ FEATURE RECAP — the full pillar set (incl. what the ladder can't show) ============ -->
     <section class="reveal mx-auto max-w-5xl px-6 py-16 text-center">
       <p class="eyebrow text-gold">The Whole Platform</p>
-      <h2 class="display pd-recap__h">Everything in one place.</h2>
+      <h2 class="display pd-recap__h">Everything your people need to be together.</h2>
       <ul class="pd-pills">
         {features.map((f) => (
           <li>
@@ -217,11 +219,11 @@ const KS = 'https://www.kickstarter.com/projects/concord-mark/concord-voice';
         <Shot name="dms-hero" alt="" sizes="60vw" />
       </div>
       <div class="pd-cta__inner mx-auto max-w-2xl px-6 py-24 text-center">
-        <p class="eyebrow text-gold">Pre-Launch</p>
-        <h2 class="display pd-cta__h">Be first through the door.</h2>
+        <p class="eyebrow text-gold">Build it with us</p>
+        <h2 class="display pd-cta__h">Open the door for your people.</h2>
         <p class="text-mist pd-cta__p">
-          Open beta opens June 21st, 2026. Follow the Kickstarter to be notified the moment it goes
-          live, and back the case that communication can be private, self-hostable, and ad-free for good.
+          Follow along on Kickstarter and help build a better kind of online place: private by
+          design, welcoming to shape, and not funded by watching the people inside it.
         </p>
         <a href={KS} target="_blank" rel="noopener noreferrer" class="ks-btn pd-cta__btn">
           <img src="/brand/kickstarter-k-white.png" alt="" />

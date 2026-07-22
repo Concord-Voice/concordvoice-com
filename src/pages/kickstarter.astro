@@ -5,8 +5,7 @@ import Footer from '@components/Footer.astro';
 import '@styles/marketing.css';
 
 // Kickstarter LANDING page — a lean teaser that drives to the campaign (the full story lives
-// on Kickstarter). "vs. v1.0" shows the retail yearly
-// price of the included subscription at launch (matches the Personal Use pricing).
+// on Kickstarter). "vs. v1.0" shows the planned yearly subscription value at GA.
 const KS = 'https://www.kickstarter.com/projects/concord-mark/concord-voice';
 
 const tiers = [
@@ -44,14 +43,14 @@ const stretch = [
 ---
 <Layout
   title="Back Us on Kickstarter — Concord Voice"
-  description="Back Concord Voice on Kickstarter — eight digital reward tiers from $5 to $850, plus five stretch goals. A $13,000 all-or-nothing campaign to take the beta to a finished, self-hostable v1.0."
+  description="Back Concord Voice on Kickstarter: a private place for communities to talk, hang out, and make their own, built without surveillance incentives."
 >
   <Header />
 
   <main class="mx-auto w-full max-w-6xl px-6 pb-24 pt-10">
     <section class="mkt-hero">
-      <p class="eyebrow text-gradient">Kickstarter · Open Beta June 21st, 2026</p>
-      <h1 class="display mkt-hero__title">Back the <span class="text-gradient">third option</span></h1>
+      <p class="eyebrow text-gradient">Kickstarter · Help shape the beta</p>
+      <h1 class="display mkt-hero__title">Back a better <span class="text-gradient">place to be together</span></h1>
       <p class="mkt-lead">
         We're crowdfunding the work to take our live beta to a finished, self-hostable v1.0 — a <strong>$13,000</strong>,
         all-or-nothing campaign with <strong>100% digital</strong> rewards, so nearly every dollar goes to shipping it.
@@ -67,8 +66,7 @@ const stretch = [
       <h2 class="display mkt-section__title">Pick your pledge</h2>
       <p class="mkt-section__sub">
         Each tier builds on the ones before it. Digital-only, delivery targeting January 2027. The
-        <span class="text-gradient">vs. v1.0</span> line shows what the included subscription will cost at retail
-        when v1.0 launches — back early, lock it in.
+        <span class="text-gradient">vs. v1.0</span> line estimates the value of the included future subscription.
       </p>
       <div class="mkt-grid mkt-grid--3">
         {tiers.map((t) => (
@@ -77,7 +75,7 @@ const stretch = [
             <p class="tier__name eyebrow text-gradient">{t.name}</p>
             <p class="ks-pledge display">{t.price}</p>
             {t.v1 && (
-              <p class="ks-vs">1&nbsp;yr of <strong>{t.v1.plan}</strong> — <span class="text-gradient">{t.v1.monthly}/mo</span> · <span class="text-gradient">{t.v1.price}/yr</span> at v1.0</p>
+              <p class="ks-vs">1&nbsp;yr of <strong>{t.v1.plan}</strong> — <span class="text-gradient">{t.v1.monthly}/mo</span> · <span class="text-gradient">{t.v1.price}/yr</span></p>
             )}
             <ul class="checklist">{t.includes.map((i) => <li>{i}</li>)}</ul>
           </div>
@@ -100,10 +98,18 @@ const stretch = [
       </div>
     </section>
 
+    <section class="mkt-section" id="pricing-faq">
+      <p class="mkt-label eyebrow text-gradient">Subscription FAQ</p>
+      <div class="faq">
+        <details class="faq__item"><summary class="faq__q">Are subscriptions active during beta?</summary><p class="faq__a">No. Kickstarter rewards can include future subscription time, but paid subscriptions are planned for v1.0 General Availability.</p></details>
+        <details class="faq__item"><summary class="faq__q">Can the listed subscription values change?</summary><p class="faq__a">Yes. They are planned values and may change before General Availability.</p></details>
+      </div>
+    </section>
+
     <section class="mkt-cta reveal">
       <p class="eyebrow text-gold">All-or-nothing · January 2027 delivery</p>
       <h2 class="display mkt-cta__title">Be there when it goes live.</h2>
-      <p class="mkt-cta__sub">Follow the campaign to be notified the moment it launches — and lock in an early tier. The full story lives on Kickstarter.</p>
+      <p class="mkt-cta__sub">Follow the campaign to be notified the moment it launches and choose an early tier. The full story lives on Kickstarter.</p>
       <a href={KS} target="_blank" rel="noopener noreferrer" class="ks-btn" style="margin-top:1.5rem;"><img src="/brand/kickstarter-k-white.png" alt="" /><span>Follow on Kickstarter</span></a>
     </section>
   </main>
