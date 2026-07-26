@@ -262,24 +262,8 @@ strong, b { color: var(--color-gold); }
 }
 .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 18px 52px -12px var(--color-coral); }
 
-/* Kickstarter CTA — official Kickstarter green so it's instantly recognisable */
-.ks-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-weight: 700;
-  border-radius: 9999px;
-  padding: 0.85rem 1.6rem;
-  color: var(--color-night);
-  background: #05ce78;
-  box-shadow: 0 10px 40px -12px #05ce78;
-  transition: transform 0.25s, box-shadow 0.25s, filter 0.25s;
-}
-.ks-btn:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 18px 52px -12px #05ce78; }
-.ks-btn img { height: 1.05em; width: auto; filter: brightness(0); }
-
-/* Header icon buttons — GitHub (ghost) + Kickstarter (green) as matched square icons. */
-.gh-btn, .ks-icon {
+/* Header icon button — GitHub. */
+.gh-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -301,13 +285,6 @@ strong, b { color: var(--color-gold); }
   transform: translateY(-1px);
 }
 .gh-btn svg { width: 1.2rem; height: 1.2rem; }
-.ks-icon {
-  background: #05ce78;
-  box-shadow: 0 8px 26px -12px #05ce78;
-}
-.ks-icon:hover { transform: translateY(-1px); filter: brightness(1.05); box-shadow: 0 14px 36px -12px #05ce78; }
-.ks-icon img { height: 1.2rem; width: auto; }
-
 /* Footer social icon links */
 .social-link {
   display: inline-flex;
