@@ -32,7 +32,7 @@ test('draft source is preserved in git', () => {
   }
 });
 
-test('the published blog contains only the Kickstarter release posts', () => {
+test('the published blog contains only the release posts', () => {
   for (const path of publishedPosts) {
     assert.equal(existsSync(path), true, path + ' should exist');
     assert.equal(isGitIgnored(path), false, path + ' should not be ignored');
