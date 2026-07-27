@@ -41,13 +41,13 @@ const wing = { monthly: 14.99, yearly: 164.89 };
 
     <section class="mkt-section"><p class="mkt-label eyebrow text-gradient">Choose the shape of your support</p><h2 class="display mkt-section__title">Start with your people, not a price card.</h2><p class="mkt-section__sub">Everyone gets a private place to talk for free. Personal Use is for higher fidelity, more expression, or helping a small circle. If you are improving a shared home for everyone inside it, Groups &amp; Communities is the better fit.</p></section>
 
-    <!-- ===== Cloud vs Self-Host fork ===== -->
+    <!-- ===== Hosted service + self-hosting early access ===== -->
     <section class="mkt-section">
-      <p class="mkt-label eyebrow text-gradient">Two ways to run it</p>
-      <h2 class="display mkt-section__title">Our cloud, or your hardware</h2>
+      <p class="mkt-label eyebrow text-gradient">Hosted service and early access</p>
+      <h2 class="display mkt-section__title">Start on the Concord Voice Network.</h2>
       <p class="mkt-section__sub">
-        Same end-to-end encryption either way. Let us host it on the Concord Voice Network, or run the whole
-        platform yourself.
+        The hosted service is available today. Self-hosting early access is operator-assisted, not a supported
+        downloadable installer.
       </p>
       <div class="mkt-grid fork">
         <div class="fork-card reveal">
@@ -60,13 +60,13 @@ const wing = { monthly: 14.99, yearly: 164.89 };
           <a href="#plans" class="btn border border-white/20 hover:border-coral">See cloud plans ↓</a>
         </div>
         <div class="fork-card reveal">
-          <p class="fork-card__k eyebrow text-gradient">Self-host · you run it</p>
-          <h3 class="fork-card__t">On your own hardware</h3>
+          <p class="fork-card__k eyebrow text-gradient">Self-hosting · early access</p>
+          <h3 class="fork-card__t">Operator-assisted pilot</h3>
           <p class="fork-card__d">
-            Deploy on your own servers and audit the source. Free for personal and non-commercial use, with every
-            premium feature unlocked, no subscription.
+            Concord Voice source is public; the supported self-hosted installer and deployment guide are not
+            publicly released yet. Commercial self-hosting requires a <a href="/commercial-license">Concord Voice commercial license</a>.
           </p>
-          <a href="/self-hosting" class="btn border border-white/20 hover:border-coral">Self-hosting →</a>
+          <a href="mailto:contact-us@concordvoice.com?subject=Self-hosted%20early-access%20pilot" class="btn border border-white/20 hover:border-coral">Interested in a self-hosted early-access pilot? Contact us.</a>
         </div>
       </div>
     </section>
@@ -186,7 +186,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
         <details class="faq__item"><summary class="faq__q">So, why offer subscriptions?</summary><div class="faq__a mkt-prose"><p>We want subscriptions to fund a few things without ever limiting the platform for everyone else:</p><ul class="checklist" style="margin:1rem 0 1.2rem;"><li>An enhanced experience for those who want it, without gating the general platform for non-subscribers. <em>(Marketing calls it "maximizing value," or something like that.)</em></li><li>The infrastructure to grow and scale as our user base does. More servers for all you beautiful people, and the talented humans to keep it running. <em>(Ever tried to run Kubernetes? It's a special kind of pain.)</em></li><li>Ongoing development: new features, security improvements, and testing. <em>(The cost of compliance alone is miserable. Who likes lawyers anyway?)</em></li></ul><p>Want to know where your money would go? Read the <a href="/about-us">About</a> page to meet the people behind the app.</p></div></details>
         <details class="faq__item"><summary class="faq__q">When do paid subscriptions start?</summary><p class="faq__a">Paid upgrades are planned for v1.0 General Availability. They are not active during Beta.</p></details>
         <details class="faq__item"><summary class="faq__q">Can paid prices change?</summary><p class="faq__a">Yes. The paid prices shown are planned values and may change before General Availability.</p></details>
-        <details class="faq__item"><summary class="faq__q">What stays free?</summary><p class="faq__a">Sonic accounts, personal-use basics, and self-hosted servers stay free. Paid plans add optional upgraded features.</p></details>
+        <details class="faq__item"><summary class="faq__q">What stays free?</summary><p class="faq__a">Sonic accounts and personal-use basics stay free. Paid plans add optional upgraded features.</p></details>
       </div>
     </section>
 
@@ -203,7 +203,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
     .fineprint { max-width: 46rem; margin: 1.6rem auto 0; font-size: 0.78rem; line-height: 1.6; color: var(--color-mist); text-align: center; }
     .fineprint a { color: var(--color-coral); }
 
-    /* Cloud vs Self-Host fork */
+    /* Hosted service + self-hosting early access */
     .fork-card { text-align: left; padding: 1.8rem; border: 1px solid color-mix(in oklab, var(--color-paper) 12%, transparent); border-radius: 1.2rem; background: color-mix(in oklab, var(--color-paper) 4%, transparent); display: flex; flex-direction: column; }
     .fork-card__t { font-size: 1.4rem; margin: 0.3rem 0 0.6rem; }
     .fork-card__d { color: var(--color-mist); line-height: 1.6; flex: 1; margin-bottom: 1.2rem; }
