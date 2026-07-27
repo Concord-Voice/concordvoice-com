@@ -48,7 +48,7 @@ export function fileContents(version, tag) {
 }
 
 export function shouldFailClosed(env = process.env) {
-  return env.CF_PAGES === '1' || env.CONCORD_RELEASE_RESOLUTION_REQUIRED === 'true';
+  return (env.CF_PAGES === '1' && env.CF_PAGES_BRANCH === 'main') || env.CONCORD_RELEASE_RESOLUTION_REQUIRED === 'true';
 }
 
 function keepSeedOrFail(reason) {
@@ -59,8 +59,8 @@ function keepSeedOrFail(reason) {
 }
 
 // Resolve the latest release and write it to OUT only if it changed. Never throws or exits
-// non-zero for local builds. Cloudflare/required builds fail closed so production cannot
-// silently publish an old release seed when GitHub or the mirror is unhealthy.
+// non-zero for local builds. Production Cloudflare/required builds fail closed so production
+// cannot silently publish an old release seed when GitHub or the mirror is unhealthy.
 export async function main() {
   let res;
   try {
@@ -101,7 +101,7 @@ export async function main() {
 }
 
 // Run only when executed directly (`node scripts/resolve-release.mjs`), not when imported by tests.
-// Local builds keep the old fallback behavior; Cloudflare/required builds fail closed.
+// Local and preview builds keep the fallback behavior; production Cloudflare/required builds fail closed.
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main().catch((err) => {
     const message = err?.message ?? err;
