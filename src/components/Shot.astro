@@ -28,7 +28,7 @@ const {
 const base = '/brand/shots';
 const srcset = (ext: string) =>
   widths.map((w) => `${base}/${name}-${w}.${ext} ${w}w`).join(', ');
-// Fallback (no-srcset path) is derived from the configured widths — never hardcoded —
+// Fallback (no-srcset path) is derived from the configured widths ; never hardcoded ;
 // so it always points at a variant the pipeline actually emitted. Pick a middle width.
 const fallbackW = widths[Math.floor(widths.length / 2)] ?? widths[0];
 ---

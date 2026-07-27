@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Concord Voice — POC design system
-   Aesthetic: "signal in the dark" — deep private night,
+   Concord Voice : POC design system
+   Aesthetic: "signal in the dark" : deep private night,
    warm brand gradient as the human signal flowing through it.
    Brand source of truth: branding/Concord-Voice/colors/color-rules.txt
    ============================================================ */
@@ -55,6 +55,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 }
 .eyebrow {
   font-family: var(--font-mono);
+  font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   font-size: 0.72rem;
@@ -82,15 +83,15 @@ h1, h2 { color: var(--color-coral); }
 h3, h4, h5, h6 { color: var(--color-gold); }
 strong, b { color: var(--color-gold); }
 /* A heading that contains a gradient (whole or part) keeps its non-gradient text in the
-   original white (body color) — so a partial-gradient title reads as "white + gradient
+   original white (body color) : so a partial-gradient title reads as "white + gradient
    accent" rather than "magenta + gradient," which looked like a broken gradient. The
-   .text-gradient child keeps its own transparent gradient fill — this rule recolors only
+   .text-gradient child keeps its own transparent gradient fill : this rule recolors only
    the heading's own direct text, not the span. */
 :is(h1, h2, h3, h4, h5, h6):has(.text-gradient) { color: var(--color-paper); }
 
 /* ============================================================
    Atmosphere: aurora glow + film grain + starfield
-   (the dusk cloud bank lives in the footer — see .cloudscape)
+   (the dusk cloud bank lives in the footer : see .cloudscape)
    ============================================================ */
 .starfield { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
 .layer { position: relative; z-index: 3; }
@@ -135,7 +136,7 @@ strong, b { color: var(--color-gold); }
    drifting white fog of varying density that reveals it.
    ============================================================ */
 
-/* Night sky — behind the fog, revealed wherever the fog thins. NOT masked,
+/* Night sky : behind the fog, revealed wherever the fog thins. NOT masked,
    so the stars persist up into the dark above the horizon glow. */
 .footer-sky {
   position: absolute;
@@ -147,7 +148,7 @@ strong, b { color: var(--color-gold); }
 .footer-glow {
   position: absolute;
   inset: 0;
-  /* Faint warm horizon only — the dark blue night is the dominant backdrop so it
+  /* Faint warm horizon only : the dark blue night is the dominant backdrop so it
      reads through the morphing pink clouds. */
   background: linear-gradient(
     to top,
@@ -166,7 +167,7 @@ strong, b { color: var(--color-gold); }
   animation: twinkle 5s ease-in-out infinite;
 }
 
-/* Fog container — masked so the whole bank dissolves up into the night. */
+/* Fog container : masked so the whole bank dissolves up into the night. */
 .cloudscape {
   position: absolute;
   inset: 0;
@@ -176,7 +177,7 @@ strong, b { color: var(--color-gold); }
   -webkit-mask-image: linear-gradient(to top, #000 22%, transparent 92%);
   mask-image: linear-gradient(to top, #000 22%, transparent 92%);
 }
-/* WebGL fog — a GPU fragment shader (in Footer.astro) renders animated FBM noise
+/* WebGL fog : a GPU fragment shader (in Footer.astro) renders animated FBM noise
    as pink/magenta fog with per-pixel alpha: it morphs fluidly and reveals the
    dark-blue night through the thin spots, GPU-driven so it stays smooth + cool. */
 .fog-canvas {
@@ -187,7 +188,7 @@ strong, b { color: var(--color-gold); }
   display: block;
 }
 
-/* Legibility scrim — dark vignette behind footer text so light type passes WCAG AA
+/* Legibility scrim : dark vignette behind footer text so light type passes WCAG AA
    over the bright pink, while the dusk still glows below and around it. */
 .footer-scrim {
   position: absolute;
@@ -225,7 +226,7 @@ strong, b { color: var(--color-gold); }
   transform: translateY(-2px);
 }
 .pill:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; }
-/* Pinned pill — its blurb is the one showing in the panel below. */
+/* Pinned pill : its blurb is the one showing in the panel below. */
 .pill.is-active {
   border-color: var(--color-coral);
   background: color-mix(in oklab, var(--color-coral) 18%, transparent);
@@ -262,7 +263,7 @@ strong, b { color: var(--color-gold); }
 }
 .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 18px 52px -12px var(--color-coral); }
 
-/* Header icon button — GitHub. */
+/* Header icon button : GitHub. */
 .gh-btn {
   display: inline-flex;
   align-items: center;
@@ -315,7 +316,7 @@ strong, b { color: var(--color-gold); }
 .field:focus { outline: none; border-color: var(--color-gold); box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-gold) 25%, transparent); }
 .field::placeholder { color: var(--color-mist); }
 
-/* License page — the CVSL rendered verbatim. Preformatted so clause
+/* License page : the CVSL rendered verbatim. Preformatted so clause
    indentation survives; wraps long lines (and URLs) on small screens. */
 .legal-license {
   margin-top: 2rem;
@@ -333,7 +334,7 @@ strong, b { color: var(--color-gold); }
 }
 
 /* ============================================================
-   "No cookie banner" — a tongue-in-cheek non-banner. The whole
+   "No cookie banner" : a tongue-in-cheek non-banner. The whole
    joke is the ABSENCE of a consent prompt, so it sets no cookie:
    dismissal is remembered in sessionStorage (cleared on tab close).
    Sits in the corner a cookie banner would, then says the opposite.
@@ -426,7 +427,7 @@ strong, b { color: var(--color-gold); }
 .legal th, .legal td { border: 1px solid color-mix(in oklab, var(--color-paper) 14%, transparent); padding: 0.5rem 0.75rem; text-align: left; vertical-align: top; }
 
 /* ============================================================
-   Reduced motion — respect entrance / hover MOVEMENT, but keep the
+   Reduced motion : respect entrance / hover MOVEMENT, but keep the
    slow ambient background drift (clouds, aurora, stars). It never
    displaces content and is part of the brand. (Site-owner choice.)
    ============================================================ */

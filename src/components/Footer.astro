@@ -1,5 +1,5 @@
 ---
-// Footer — shared across landing + legal pages.
+// Footer ; shared across landing + legal pages.
 // Layering (back → front): night sky (dark blue + faint dusk glow + stars, z-0) →
 // WebGL fog canvas (animated FBM, pink/magenta, reveals the blue, z-0) →
 // legibility scrim (z-1) → content (z-10).
@@ -44,7 +44,6 @@ const socials = [
     <div class="mx-auto grid max-w-7xl gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-4">
       <div>
         <img src="/brand/wordmark.png" alt="Concord Voice" class="mb-3 h-7 w-auto" />
-        <p class="max-w-xs text-sm text-mist">Own Your Voice. Private by design, self-hostable by choice.</p>
       </div>
       <div>
         <p class="eyebrow mb-3 text-mist">Contact</p>
@@ -144,7 +143,7 @@ const socials = [
     let raf = 0, onScreen = false, tabHidden = false, last = -1e9;
     const frame = (t: number) => {
       raf = requestAnimationFrame(frame);
-      if (t - last < 33) return; // cap ~30fps — slow fog needs no more, and it halves GPU load
+      if (t - last < 33) return; // cap ~30fps ; slow fog needs no more, and it halves GPU load
       last = t;
       resize();
       gl.uniform2f(uRes, canvas.width, canvas.height);

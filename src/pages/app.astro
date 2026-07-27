@@ -11,11 +11,11 @@ const groups = [
   {
     label: 'Communication',
     items: [
-      { t: 'Crystal-Clear Voice Calls', d: 'Real-time voice powered by WebRTC and a mediasoup Selective Forwarding Unit — the same architecture used by large-scale conferencing platforms. Low latency, high quality, no fuss.' },
+      { t: 'Crystal-Clear Voice Calls', d: 'Real-time voice powered by WebRTC and a mediasoup Selective Forwarding Unit ; the same architecture used by large-scale conferencing platforms. Low latency, high quality, no fuss.' },
       { t: 'Seven Audio Quality Tiers', d: 'From bandwidth-conscious Minimum mode to Studio-quality streams, you control exactly how much fidelity you need. Admins can set quality floors and ceilings per channel.' },
-      { t: 'Video Calling & Screen Sharing', d: 'Full video with codec selection — AV1, H.264, VP9, and VP8. Share your screen in a click; codec priorities adjust automatically to your hardware and connection.' },
+      { t: 'Video Calling & Screen Sharing', d: 'Full video with codec selection ; AV1, H.264, VP9, and VP8. Share your screen in a click; codec priorities adjust automatically to your hardware and connection.' },
       { t: 'Direct Messages', d: 'Private 1:1 conversations with the same end-to-end encryption as channel messages. No one in the middle.' },
-      { t: 'Real-Time Presence', d: "See who's online, in a voice channel, or away — live, without refreshing. Presence flows through WebSocket connections kept in sync across all your devices." },
+      { t: 'Real-Time Presence', d: "See who's online, in a voice channel, or away ; live, without refreshing. Presence flows through WebSocket connections kept in sync across all your devices." },
       { t: 'Picture-in-Picture Voice', d: "Keep voice controls visible while you do other things, with a compact floating PiP window." },
     ],
   },
@@ -23,7 +23,7 @@ const groups = [
     label: 'Privacy & Security',
     items: [
       { t: 'End-to-End Encrypted by Default', d: 'Every message in every channel is encrypted with AES-256-GCM before it leaves your device. Keys are wrapped with RSA-OAEP 4096-bit and never accessible to our servers. Not even we can read your messages.' },
-      { t: 'Credentials Stay on Your Device', d: "Auth tokens live in your OS's native secure storage — macOS Keychain, Windows DPAPI, or Linux libsecret. Concord Voice never stores plaintext credentials anywhere." },
+      { t: 'Credentials Stay on Your Device', d: "Auth tokens live in your OS's native secure storage ; macOS Keychain, Windows DPAPI, or Linux libsecret. Concord Voice never stores plaintext credentials anywhere." },
       { t: 'Single-Use Refresh Tokens', d: 'Every refresh issues a new token and invalidates the old one. If a token is ever reused out of sequence, Concord Voice detects a potential breach and flags it automatically.' },
       { t: 'No Biometric Requirements', d: "Where we can legally get away with it, we don't require a phone number, government ID, or biometric to make an account. Where the law requires it, we apply the minimum controls and purge data we no longer need." },
       { t: 'Rate Limiting & Account Protection', d: 'Redis-backed per-IP and per-user rate limiting guards against brute force. After five failed logins, accounts lock temporarily with exponential backoff.' },
@@ -32,7 +32,7 @@ const groups = [
   {
     label: 'Make It Yours',
     items: [
-      { t: 'Servers, Channels & Categories', d: 'Organize your community exactly how you want — create servers, build channel hierarchies with drag-and-drop categories, and tidy everything with server folders.' },
+      { t: 'Servers, Channels & Categories', d: 'Organize your community exactly how you want ; create servers, build channel hierarchies with drag-and-drop categories, and tidy everything with server folders.' },
       { t: 'Custom Themes', d: 'A 3-color theme system that lets you tune the feel. Make Concord Voice look exactly how you want it.' },
       { t: 'Profile Cards & Avatars', d: 'Custom banners, avatars, and color accents on every profile. Show up as yourself.' },
       { t: 'Emoji Picker', d: 'A full emoji picker with search, lazy-loaded so it never slows you down.' },
@@ -41,7 +41,7 @@ const groups = [
 ];
 ---
 <Layout
-  title="The App — Concord Voice"
+  title="The App  | Concord Voice"
   description="A private, voice-first community space for your people: drop into voice, video, and chat, make it yours, and keep conversations private by design."
 >
   <Header />
@@ -56,7 +56,7 @@ const groups = [
         Concord is a complete space for your people: voice, video, chat, and the details that make a
         group feel at home. Privacy is built in, so convenience never asks you to give up control.
       </p>
-      <div class="mkt-cta-row"><a href="/download" class="btn btn-primary">Download the beta</a></div>
+      <div class="mkt-cta-row"><a href="/download" class="btn btn-primary">Download the Beta</a></div>
     </section>
 
     {groups.map((g) => (
@@ -75,11 +75,13 @@ const groups = [
 
     <section class="mkt-cta reveal">
       <p class="eyebrow text-gold">Want to see more?</p>
-      <h2 class="display mkt-cta__title">It's here. Come on in.</h2>
-      <p class="mkt-cta__sub">
-        The beta is ready to download for macOS, Windows, and Linux.
-      </p>
-      <a href="/download" class="btn btn-primary" style="margin-top:1.5rem;">Download the beta</a>
+      <h2 class="display mkt-cta__title">See how Concord Voice is built.</h2>
+      <p class="mkt-cta__sub">Explore the architecture and design, inspect the source, or take the Beta for a spin.</p>
+      <div class="mkt-cta-row">
+        <a href="/architecture" class="btn btn-primary">Architecture &amp; Design</a>
+        <a href="https://github.com/Concord-Voice/Concord-Voice" target="_blank" rel="noopener noreferrer" class="btn border border-white/20 hover:border-coral">GitHub source</a>
+        <a href="/download" class="btn border border-white/20 hover:border-coral">Download the Beta</a>
+      </div>
     </section>
   </main>
 

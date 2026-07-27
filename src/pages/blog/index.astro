@@ -19,7 +19,7 @@ const base = Astro.url.pathname.replace(/\/$/, '');
 const [featured, ...rest] = posts;
 ---
 <Layout
-  title="The Signal — Concord Voice Blog"
+  title="The Signal | Concord Voice Blog"
   description="Field notes on building a private place for communities: belonging, privacy, moderation, and the choices behind a platform people can trust."
 >
   <Header />
@@ -27,7 +27,9 @@ const [featured, ...rest] = posts;
   <main class="mx-auto w-full max-w-6xl px-6 pb-24 pt-10">
     <header class="blog-masthead">
       <p class="eyebrow text-gradient">The Concord Voice Blog</p>
+
       <h1 class="display blog-masthead__title">The Signal</h1>
+
       <p class="blog-masthead__sub">
         Field notes on privacy, encryption, moderation, and the choices behind a platform you can actually trust.
       </p>

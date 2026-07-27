@@ -1,6 +1,6 @@
 ---
 title: "Understanding How Concord Voice Works"
-description: "A guided tour of the three layers that move your voice — the control plane, the media plane, and the end-to-end lock wrapped around both."
+description: "A guided tour of the three layers that move your voice ; the control plane, the media plane, and the end-to-end lock wrapped around both."
 pubDate: 2026-05-28
 category: "Product"
 tags: ["architecture", "encryption", "self-hosting"]
@@ -20,13 +20,13 @@ The Control Plane is the central nervous system of Concord Voice. It's a Go back
 
 When you create an account, join a server, send a text message, manage your friends list, or check who's online, all of that goes through the Control Plane. It manages:
 
-**Authentication** — Logging you in, managing your sessions, making sure *you* are actually *you*. Your password is hashed with Argon2id (the current gold standard, not MD5, not SHA-256, not bcrypt; we went with the one that OWASP actually recommends). Sessions use short-lived JWT tokens (15 minutes) paired with longer-lived refresh tokens stored in HttpOnly cookies, so even if someone sniffs your traffic, they've got a very narrow window before that token is worthless.
+**Authentication** ; Logging you in, managing your sessions, making sure *you* are actually *you*. Your password is hashed with Argon2id (the current gold standard, not MD5, not SHA-256, not bcrypt; we went with the one that OWASP actually recommends). Sessions use short-lived JWT tokens (15 minutes) paired with longer-lived refresh tokens stored in HttpOnly cookies, so even if someone sniffs your traffic, they've got a very narrow window before that token is worthless.
 
-**Servers and Channels** — "Servers" in Concord are communities. You create one, invite people, set up channels (text, voice, bulletin boards), organize them into categories, and manage who can do what. If you've used Discord, the concept is familiar, but the underlying architecture is... well, keep reading.
+**Servers and Channels** ; "Servers" in Concord are communities. You create one, invite people, set up channels (text, voice, bulletin boards), organize them into categories, and manage who can do what. If you've used Discord, the concept is familiar, but the underlying architecture is... well, keep reading.
 
-**Real-Time Signaling** — When someone sends a message in a channel, you see it instantly. That's WebSocket connections managed by the Control Plane. But here's a fun detail: WebSocket connections don't just use your normal authentication token. They use a single-use ticket that expires in 30 seconds. You request the ticket, you use it once, and it's gone. This prevents a whole class of token-theft attacks that other platforms are still vulnerable to (or just don't care about).
+**Real-Time Signaling** ; When someone sends a message in a channel, you see it instantly. That's WebSocket connections managed by the Control Plane. But here's a fun detail: WebSocket connections don't just use your normal authentication token. They use a single-use ticket that expires in 30 seconds. You request the ticket, you use it once, and it's gone. This prevents a whole class of token-theft attacks that other platforms are still vulnerable to (or just don't care about).
 
-**Presence and Coordination** — Who's online, who just joined a voice channel, who's typing — all real-time, all flowing through here.
+**Presence and Coordination** ; Who's online, who just joined a voice channel, who's typing ; all real-time, all flowing through here.
 
 What the Control Plane *does not do* is touch your actual message content (if E2EE is enabled) or your voice/video streams. It's the postal service that knows where to deliver the letter, but never opens the envelope.
 
@@ -42,19 +42,19 @@ Here's why that matters. Most voice platforms use one of two approaches:
 
 **MCU (Multipoint Control Unit):** Everyone sends audio to a central server, the server *mixes all the streams together* into one combined audio stream, and sends that back to everyone. Efficient for bandwidth, but the server literally decodes, processes, and re-encodes your audio. If the server is compromised, so is your call. Also, latency increases because mixing takes time.
 
-Concord uses **option 3: the SFU.** You send your audio once to the Media Plane. The Media Plane then *forwards* your encrypted packet — unchanged, untouched, un-decoded — to every other participant. Your audio is literally just being passed along, like handing a sealed envelope down a line of people. Nobody in the middle opens it.
+Concord uses **option 3: the SFU.** You send your audio once to the Media Plane. The Media Plane then *forwards* your encrypted packet ; unchanged, untouched, un-decoded ; to every other participant. Your audio is literally just being passed along, like handing a sealed envelope down a line of people. Nobody in the middle opens it.
 
 This gives us:
 
-**Low latency** — No mixing step. Packets arrive in roughly 50ms same-region, ~150ms cross-region.
+**Low latency** ; No mixing step. Packets arrive in roughly 50ms same-region, ~150ms cross-region.
 
-**High quality** — Seven quality tiers, from "I'm on satellite internet in Antarctica" (16 kbps) to "I'm recording a podcast and need studio quality" (510 kbps). Server admins can cap the quality per-channel if bandwidth is a concern.
+**High quality** ; Seven quality tiers, from "I'm on satellite internet in Antarctica" (16 kbps) to "I'm recording a podcast and need studio quality" (510 kbps). Server admins can cap the quality per-channel if bandwidth is a concern.
 
-**True E2EE compatibility** — Because the server never decodes the audio, end-to-end encryption actually works for voice. More on that in a moment.
+**True E2EE compatibility** ; Because the server never decodes the audio, end-to-end encryption actually works for voice. More on that in a moment.
 
-**Lower server costs** — No CPU-intensive mixing or transcoding means the Media Plane can handle more users per machine.
+**Lower server costs** ; No CPU-intensive mixing or transcoding means the Media Plane can handle more users per machine.
 
-The same approach applies to video and screen sharing. When you share your screen, it's encoded on your machine (using AV1, H.264, VP9, or VP8, depending on what your hardware supports) and forwarded to viewers through the SFU. The server never renders or processes your screen — it's just a relay.
+The same approach applies to video and screen sharing. When you share your screen, it's encoded on your machine (using AV1, H.264, VP9, or VP8, depending on what your hardware supports) and forwarded to viewers through the SFU. The server never renders or processes your screen ; it's just a relay.
 
 ### How Joining a Voice Channel Actually Works
 
@@ -62,7 +62,7 @@ For the curious, here's the step-by-step:
 
 You click "Join" on a voice channel.
 
-Your client asks the Control Plane, "Hey, can I join this channel?" The Control Plane checks your permissions, confirms you're allowed, and responds with the Media Plane's address and ICE server details (those are the STUN/TURN servers that help you punch through firewalls and NATs — the things that make WebRTC work in the real world, where everyone is behind a router).
+Your client asks the Control Plane, "Hey, can I join this channel?" The Control Plane checks your permissions, confirms you're allowed, and responds with the Media Plane's address and ICE server details (those are the STUN/TURN servers that help you punch through firewalls and NATs ; the things that make WebRTC work in the real world, where everyone is behind a router).
 
 Your client connects to the Media Plane via Socket.IO and says, "I'm here, put me in this room."
 
@@ -80,7 +80,7 @@ The symmetry is clean: you send once, everyone else receives. Nobody's machine i
 
 Here's where Concord's "privacy-first" claim actually has to put up or shut up.
 
-End-to-End Encryption means that your messages and calls are encrypted *on your device* before they ever leave it, and can only be decrypted *by the intended recipients*. The servers in between — whether it's our cloud, your self-hosted instance, or anything in the network path — see nothing but scrambled data. Not metadata about what you said, not the content, not even the length of the original message (it's padded).
+End-to-End Encryption means that your messages and calls are encrypted *on your device* before they ever leave it, and can only be decrypted *by the intended recipients*. The servers in between ; whether it's our cloud, your self-hosted instance, or anything in the network path ; see nothing but scrambled data. Not metadata about what you said, not the content, not even the length of the original message (it's padded).
 
 ### How E2EE Works in Concord
 
@@ -88,7 +88,7 @@ When you create an account, your client generates an RSA-4096 key pair. That's a
 
 When a channel is created, the creator generates a random AES-256-GCM symmetric key (the Channel Symmetric Key, or CSK). This is the key that actually encrypts and decrypts messages in the channel. The creator wraps (encrypts) this CSK with their own public key and stores the wrapped version on the server.
 
-When you're invited to the channel, the creator (or someone with the key) fetches your public key, wraps a copy of the CSK with *your* public key, and sends that wrapped copy to you via the server. Your client unwraps it with your private key, and now you can read and write in the channel. The server only ever sees wrapped (encrypted) copies of the CSK — it can't use them without your private key, which it doesn't have.
+When you're invited to the channel, the creator (or someone with the key) fetches your public key, wraps a copy of the CSK with *your* public key, and sends that wrapped copy to you via the server. Your client unwraps it with your private key, and now you can read and write in the channel. The server only ever sees wrapped (encrypted) copies of the CSK ; it can't use them without your private key, which it doesn't have.
 
 For voice calls, the same principle applies but uses the WebRTC Insertable Streams API, which lets us encrypt media frames *after* encoding but *before* they hit the network. The Media Plane forwards packets it literally cannot decrypt.
 
@@ -126,11 +126,11 @@ The fundamental problem: your private key is wrapped with a key derived from you
 
 But there are ways to solve this without compromising the encryption model. We implemented three:
 
-**Recovery Key.** When you create your account, you're offered a recovery key — a base58-encoded string (looks like a long serial number with dashes). This key independently wraps a separate copy of your private key using its own Argon2id-derived encryption key, with a unique salt. You store this key somewhere safe: a password manager, a piece of paper in a drawer (*probably shouldn’t*), whatever works. If you lose your password, you enter the recovery key, it unwraps your private key, and you set a new password. Your encrypted message history is fully preserved. We never see the recovery key. It's generated on your device and never transmitted.
+**Recovery Key.** When you create your account, you're offered a recovery key ; a base58-encoded string (looks like a long serial number with dashes). This key independently wraps a separate copy of your private key using its own Argon2id-derived encryption key, with a unique salt. You store this key somewhere safe: a password manager, a piece of paper in a drawer (*probably shouldn’t*), whatever works. If you lose your password, you enter the recovery key, it unwraps your private key, and you set a new password. Your encrypted message history is fully preserved. We never see the recovery key. It's generated on your device and never transmitted.
 
 **Trusted Device Recovery.** If you're still logged in on another device (say, your desktop), you can approve a recovery request from that device. Here's how it works under the hood: the recovering device generates a temporary ECDH key pair and sends the public half to the server. Your trusted device gets notified, generates its own ECDH key pair, and the two devices perform a Diffie-Hellman key exchange to derive a shared secret that the server never knows. The trusted device then encrypts your raw private key with that shared secret and sends it over. The recovering device decrypts it, you set a new password, and you're back in. The server only ever sees encrypted blobs moving between the two devices.
 
-**Recovery Circle (Social Recovery).** This one's our favorite. You pick 3 to 7 trusted friends on the platform and create a Recovery Circle. Behind the scenes, your private key is split using Shamir's Secret Sharing — a cryptographic technique where the key is divided into multiple "shares," and you need a minimum threshold (say, 3 out of 5) to reconstruct the original. Each friend's share is encrypted with their public key, so even they can't see it in plaintext — it's just an opaque blob sitting on the server tied to their account. If you need to recover, you initiate a social recovery request. Your friends get notified, approve the request, and their shares are sent back to you encrypted via ECDH (same ephemeral key exchange as trusted device recovery). Once enough friends respond and you hit the threshold, the shares are recombined, your private key is reconstructed on your device, and you set a new password. No single friend ever has enough information to reconstruct your key on their own. The server never sees any plaintext shares.
+**Recovery Circle (Social Recovery).** This one's our favorite. You pick 3 to 7 trusted friends on the platform and create a Recovery Circle. Behind the scenes, your private key is split using Shamir's Secret Sharing ; a cryptographic technique where the key is divided into multiple "shares," and you need a minimum threshold (say, 3 out of 5) to reconstruct the original. Each friend's share is encrypted with their public key, so even they can't see it in plaintext ; it's just an opaque blob sitting on the server tied to their account. If you need to recover, you initiate a social recovery request. Your friends get notified, approve the request, and their shares are sent back to you encrypted via ECDH (same ephemeral key exchange as trusted device recovery). Once enough friends respond and you hit the threshold, the shares are recombined, your private key is reconstructed on your device, and you set a new password. No single friend ever has enough information to reconstruct your key on their own. The server never sees any plaintext shares.
 
 **And if none of those work?** Account reset. You get a new key pair, your account, servers, friends, and settings are preserved, but all past encrypted message history is permanently gone. We make you acknowledge this explicitly before proceeding; a checkbox, a warning banner, the works. It's the nuclear option, and it's there because sometimes life happens.
 
@@ -138,19 +138,19 @@ The point is: we built a system where *you* have multiple paths to recover your 
 
 ## What About Everything Else? (Metadata and the Stuff Encryption Doesn't Cover)
 
-Here's where most "privacy-focused" platforms stop talking. They'll spend 45 minutes explaining how messages are end-to-end encrypted and then go suspiciously quiet about everything *around* those messages. Because here's the uncomfortable truth about E2EE: encrypting the message content is only half the problem. The *metadata* — who you talk to, when, how often, from where, what your settings are, which servers you're in — can be just as revealing as the messages themselves. Intelligence agencies have publicly stated they can work with metadata alone. So let's talk about what we've done about it, and where we're still working on it.
+Here's where most "privacy-focused" platforms stop talking. They'll spend 45 minutes explaining how messages are end-to-end encrypted and then go suspiciously quiet about everything *around* those messages. Because here's the uncomfortable truth about E2EE: encrypting the message content is only half the problem. The *metadata* ; who you talk to, when, how often, from where, what your settings are, which servers you're in ; can be just as revealing as the messages themselves. Intelligence agencies have publicly stated they can work with metadata alone. So let's talk about what we've done about it, and where we're still working on it.
 
 ### Your Settings Are Encrypted Too
 
-This one surprises people. When you configure your theme, font size, layout preferences, server folder organization, or compact mode — all of that gets encrypted on your device using AES-256-GCM with a domain-separated Argon2id-derived key before being synced to the server. "Domain-separated" means we derive a *different* encryption key for your preferences than the one used to wrap your private key, even though both come from your password. This is a deliberate cryptographic hygiene measure: compromising one key doesn't compromise the other.
+This one surprises people. When you configure your theme, font size, layout preferences, server folder organization, or compact mode ; all of that gets encrypted on your device using AES-256-GCM with a domain-separated Argon2id-derived key before being synced to the server. "Domain-separated" means we derive a *different* encryption key for your preferences than the one used to wrap your private key, even though both come from your password. This is a deliberate cryptographic hygiene measure: compromising one key doesn't compromise the other.
 
-The server stores your preferences as an opaque, encrypted blob. It can sync that blob between your devices, but it cannot read it. It doesn't know your theme, your layout, your folder structure, nothing. This matters because preferences are contextual metadata — your notification settings, your muted servers, and how you organize your communities paint a picture of how you use the platform, and that's nobody's business but yours.
+The server stores your preferences as an opaque, encrypted blob. It can sync that blob between your devices, but it cannot read it. It doesn't know your theme, your layout, your folder structure, nothing. This matters because preferences are contextual metadata ; your notification settings, your muted servers, and how you organize your communities paint a picture of how you use the platform, and that's nobody's business but yours.
 
 ### Privacy Controls That Actually Do Something
 
 We built a granular privacy settings system that's enforced server-side, not just client-side cosmetics:
 
-**DM Privacy Levels (0–3):** You control who can initiate direct messages with you. Level 0 is completely off — nobody can DM you. Level 1 is friends only. Level 2 (the default) is friends and people who share a server with you. Level 3 is open to all. There is also a toggle to allow ‘Friends of Friends’ for Level 1 and Level 2 (it’s turned off on Level 0 and on with Level 3 by default). These aren't suggestions; the server checks your privacy settings before allowing anyone to open a conversation with you and returns a hard 403 if they don't qualify.
+**DM Privacy Levels (0–3):** You control who can initiate direct messages with you. Level 0 is completely off ; nobody can DM you. Level 1 is friends only. Level 2 (the default) is friends and people who share a server with you. Level 3 is open to all. There is also a toggle to allow ‘Friends of Friends’ for Level 1 and Level 2 (it’s turned off on Level 0 and on with Level 3 by default). These aren't suggestions; the server checks your privacy settings before allowing anyone to open a conversation with you and returns a hard 403 if they don't qualify.
 
 **Discoverability:** By default, you are *not* searchable by username, email, or phone number. All three are toggled off out of the box. You opt *in* to being discoverable, not out. This is the opposite of what most platforms do, where you have to go digging through settings to turn off "let people find me by my phone number" after they've already indexed it.
 
@@ -162,33 +162,33 @@ We built a granular privacy settings system that's enforced server-side, not jus
 
 Let's be explicit, because vague privacy claims are worthless:
 
-**Message content** — Encrypted client-side. The server stores ciphertext.
+**Message content** ; Encrypted client-side. The server stores ciphertext.
 
-**DM content** — All DMs are encrypted by default. The server enforces this; it literally rejects plaintext messages sent to encrypted conversations.
+**DM content** ; All DMs are encrypted by default. The server enforces this; it literally rejects plaintext messages sent to encrypted conversations.
 
-**Your preferences and settings** — Encrypted blob. The server can't decrypt it.
+**Your preferences and settings** ; Encrypted blob. The server can't decrypt it.
 
-**Your private encryption keys** — Wrapped with your password-derived key, stored on your device. The server only has the wrapped version, which it can't unwrap.
+**Your private encryption keys** ; Wrapped with your password-derived key, stored on your device. The server only has the wrapped version, which it can't unwrap.
 
-**Your password** — Hashed with Argon2id. We don't have it; we have a one-way hash of it.
+**Your password** ; Hashed with Argon2id. We don't have it; we have a one-way hash of it.
 
-**Your date of birth, IP address, timezone, or geolocation during age verification** — Processed locally on your client, never transmitted. Only the resulting boolean flags leave your machine. (Curious? See [this article](/blog/age-verification-and-right-to-privacy) about age verification.)
+**Your date of birth, IP address, timezone, or geolocation during age verification** ; Processed locally on your client, never transmitted. Only the resulting boolean flags leave your machine. (Curious? See [this article](/blog/age-verification-and-right-to-privacy) about age verification.)
 
 ### What the Server Can See
 
 We're not going to pretend the server is completely blind. It isn't. Here's what it knows:
 
-**Your username and email** — We need *something* to identify your account.
+**Your username and email** ; We need *something* to identify your account.
 
-**Who you're friends with and which servers you're in** — Necessary for routing messages and enforcing privacy settings. We can't check "is this person your friend?" without knowing who your friends are.
+**Who you're friends with and which servers you're in** ; Necessary for routing messages and enforcing privacy settings. We can't check "is this person your friend?" without knowing who your friends are.
 
-**When you're online** — Presence is tracked in Redis with a 120-second TTL for real-time status. We need this for the "who's online" indicators.
+**When you're online** ; Presence is tracked in Redis with a 120-second TTL for real-time status. We need this for the "who's online" indicators.
 
-**Message timestamps and sender IDs** — The server needs to know *who* sent a message and *when* to deliver it in the right order, even though it can't read *what* was sent.
+**Message timestamps and sender IDs** ; The server needs to know *who* sent a message and *when* to deliver it in the right order, even though it can't read *what* was sent.
 
-**Voice channel participation** — The server knows who is in which voice channel. It has to in order to coordinate media routing.
+**Voice channel participation** ; The server knows who is in which voice channel. It has to in order to coordinate media routing.
 
-**Session metadata** — IP address, user agent, and device name are stored with your session for token theft detection. This is a security-vs-privacy tradeoff: machine ID comparison is how we detect if someone steals your refresh token and tries to use it from a different device.
+**Session metadata** ; IP address, user agent, and device name are stored with your session for token theft detection. This is a security-vs-privacy tradeoff: machine ID comparison is how we detect if someone steals your refresh token and tries to use it from a different device.
 
 The honest framing: Concord is a *hybrid* zero-knowledge system. Content is zero-knowledge (we can't read it). Metadata is *minimized* but not zero (we need some of it to make the platform function). The question isn't "does the server know anything?", it's "does the server know the *minimum* necessary to function, and nothing more?" That's the bar we're trying to hit.
 
@@ -200,7 +200,7 @@ One of the principles we follow is: if data doesn't need to persist, it shouldn'
 
 **Mentions using the ‘@’ tagging system** use an *addendum* that’s pinned to the original message and obfuscated with encoding (still encrypted on the wire). They’re transmitted to the server for contextual routing and to engage push notifications for users tagged in a message; then the addendum is dropped in microseconds after decoding for message routing, never being logged to the server. The recipients never receive the actual addendum itself; only the sender and server knew it ever existed, and it falls out of scope once it is processed. The recipients who were tagged simply receive a message with a tagged flag attached.
 
-**Presence status** (who's online) lives in Redis with a 120-second TTL. Your client sends a heartbeat, and the TTL refreshes. If your client crashes or loses connection, the key expires automatically in 2 minutes, and you go offline. A background cleanup job also sweeps for any stale presence keys that outlived their TTL. When you disconnect, your presence key is immediately deleted — not marked as "offline," *deleted*. The only thing that remains is a last_seen timestamp, so the platform can display "last seen 3 hours ago" for friends.
+**Presence status** (who's online) lives in Redis with a 120-second TTL. Your client sends a heartbeat, and the TTL refreshes. If your client crashes or loses connection, the key expires automatically in 2 minutes, and you go offline. A background cleanup job also sweeps for any stale presence keys that outlived their TTL. When you disconnect, your presence key is immediately deleted ; not marked as "offline," *deleted*. The only thing that remains is a last_seen timestamp, so the platform can display "last seen 3 hours ago" for friends.
 
 **WebSocket authentication tickets** live for 30 seconds. You request one, use it once, and it's atomically consumed via a Redis Lua script (GET and DELETE in a single operation; no race-condition window). If it's not used in 30 seconds, it evaporates.
 
@@ -210,7 +210,7 @@ One of the principles we follow is: if data doesn't need to persist, it shouldn'
 
 **NATS** (our inter-service message broker) runs in pure pub/sub mode. There is no persistence, no replay, no message history. Voice events, such as "user joined channel," flow through NATS from the Media Plane to the Control Plane, are processed, and then vanish. If the Control Plane is briefly down, those messages are simply lost, and the next heartbeat from the Media Plane reconciles the state.
 
-On the client side, the same principle applies. **Age verification data** — your date of birth, IP-based geolocation inference, timezone — is processed entirely in your client's memory. The client computes two boolean flags (valid_age, nsfw_auth), signs them, and sends only those flags to the server. The raw data is never written to disk or transmitted, and falls out of scope as soon as the computation is complete.
+On the client side, the same principle applies. **Age verification data** ; your date of birth, IP-based geolocation inference, timezone ; is processed entirely in your client's memory. The client computes two boolean flags (valid_age, nsfw_auth), signs them, and sends only those flags to the server. The raw data is never written to disk or transmitted, and falls out of scope as soon as the computation is complete.
 
 **Decrypted messages** exist only in memory for display. There's no local cache of plaintext messages. If you scroll back up in a channel, those messages are re-fetched from the server (as ciphertext) and re-decrypted in real-time. Close the app, and the plaintext is gone.
 
@@ -218,29 +218,29 @@ On the client side, the same principle applies. **Age verification data** — yo
 
 **ECDH ephemeral key pairs** used during trusted device recovery or social recovery exist for the duration of a single key exchange, typically a few seconds, and then fall out of scope.
 
-The general philosophy: data that exists for a moment should only *exist* for a moment. Every piece of data that lingers is vulnerable to compromise, subpoena, or accidental leak. Short TTLs, atomic deletion, and fire-and-forget patterns aren't just good engineering — they're a privacy strategy.
+The general philosophy: data that exists for a moment should only *exist* for a moment. Every piece of data that lingers is vulnerable to compromise, subpoena, or accidental leak. Short TTLs, atomic deletion, and fire-and-forget patterns aren't just good engineering ; they're a privacy strategy.
 
 ### Obfuscation: Hardening Data That Is Plaintext
 
 Even for data that *does* need to persist, we apply layers of obfuscation so that raw sensitive values aren't sitting in databases or flying over API responses in plaintext.
 
-**Refresh tokens are never stored raw.** When you log in and receive a refresh token, the server immediately SHA-256 hashes it before writing to the database. The plaintext token is sent to you once and never stored on our end. Every subsequent validation compares hashes, not tokens. If someone dumps the refresh_tokens table, they get a pile of irreversible hashes. The token hash field is also tagged json:"-" in the codebase — a defense-in-depth measure that prevents it from ever accidentally appearing in an API response, even if a developer makes a serialization mistake.
+**Refresh tokens are never stored raw.** When you log in and receive a refresh token, the server immediately SHA-256 hashes it before writing to the database. The plaintext token is sent to you once and never stored on our end. Every subsequent validation compares hashes, not tokens. If someone dumps the refresh_tokens table, they get a pile of irreversible hashes. The token hash field is also tagged json:"-" in the codebase ; a defense-in-depth measure that prevents it from ever accidentally appearing in an API response, even if a developer makes a serialization mistake.
 
 **Verification codes get the same treatment. **Email verification codes and recovery codes are SHA-256 hashed before being stored in Redis, and validated using constant-time comparison to prevent timing attacks. Even a Redis breach yields nothing usable.
 
 **IP addresses are masked in API responses.** When you view your active sessions, the IP address you see is partially obscured: for IPv4, the last octet is replaced (e.g., 192.168.1.x); for IPv6, everything beyond the /48 prefix is masked. The raw IP *is* stored in the database for security audit purposes (we need it to detect suspicious login patterns and token theft), but it's never exposed to you or other users in its full form.
 
-**Your profile has two faces. **The API uses explicit allowlist methods to construct responses — not "dump the database row and hope for the best." When *you* request your own profile, you get one projection (PublicUser): your email, username, display name, avatar, settings. When *someone else* views your profile, they get a different, smaller projection (ProfileForOthers): username, display name, avatar, color scheme. No email, no verification status, no internal fields. Sensitive fields like password_hash carry json:"-" tags as a second safety net, so even if someone accidentally returns the raw model, the hash is silently dropped from serialization.
+**Your profile has two faces. **The API uses explicit allowlist methods to construct responses ; not "dump the database row and hope for the best." When *you* request your own profile, you get one projection (PublicUser): your email, username, display name, avatar, settings. When *someone else* views your profile, they get a different, smaller projection (ProfileForOthers): username, display name, avatar, color scheme. No email, no verification status, no internal fields. Sensitive fields like password_hash carry json:"-" tags as a second safety net, so even if someone accidentally returns the raw model, the hash is silently dropped from serialization.
 
-**All identifiers are UUIDs.** User IDs, channel IDs, server IDs, token IDs — all UUID v4. No sequential integers, no auto-increment counters. You can't scrape user 1, user 2, and user 3 to enumerate accounts. Each ID is a random 128-bit value with no relationship to creation order or any other metadata.
+**All identifiers are UUIDs.** User IDs, channel IDs, server IDs, token IDs ; all UUID v4. No sequential integers, no auto-increment counters. You can't scrape user 1, user 2, and user 3 to enumerate accounts. Each ID is a random 128-bit value with no relationship to creation order or any other metadata.
 
-**Friend codes are opaque.** When you want to add someone as a friend, you exchange 8-character random codes — not usernames. The codes use a safe character set (ambiguous characters like I, l, O, 0 are excluded to avoid confusion) and are generated with cryptographic randomness. A friend code reveals nothing about the user behind it.
+**Friend codes are opaque.** When you want to add someone as a friend, you exchange 8-character random codes ; not usernames. The codes use a safe character set (ambiguous characters like I, l, O, 0 are excluded to avoid confusion) and are generated with cryptographic randomness. A friend code reveals nothing about the user behind it.
 
-**Machine IDs are random UUIDs**, not hardware fingerprints. Generated once per app installation using Node's cryptographic randomUUID(), stored locally, and used solely for token theft detection. It's not a hash of your MAC address or serial number — it's just entropy, tied to nothing identifiable about your hardware.
+**Machine IDs are random UUIDs**, not hardware fingerprints. Generated once per app installation using Node's cryptographic randomUUID(), stored locally, and used solely for token theft detection. It's not a hash of your MAC address or serial number ; it's just entropy, tied to nothing identifiable about your hardware.
 
-**Uploaded images are re-encoded from raw pixels.** When you upload an avatar or banner image, the server decodes it to raw pixel data, resizes it, and re-encodes it as a fresh JPEG or PNG. This process *automatically strips all EXIF, IPTC, and XMP metadata* — GPS coordinates, camera model, software version, timestamps, everything. The output image is synthesized from scratch; no bytes from the original file are preserved, except for the visual content itself.
+**Uploaded images are re-encoded from raw pixels.** When you upload an avatar or banner image, the server decodes it to raw pixel data, resizes it, and re-encodes it as a fresh JPEG or PNG. This process *automatically strips all EXIF, IPTC, and XMP metadata* ; GPS coordinates, camera model, software version, timestamps, everything. The output image is synthesized from scratch; no bytes from the original file are preserved, except for the visual content itself.
 
-**Error messages are generic. **API errors return messages like "Failed to create account" or "Authentication required" — never SQL error details, stack traces, table names, or internal state. Detailed errors are logged server-side for debugging, but the client only ever sees a human-readable summary that reveals nothing about the system's internals.
+**Error messages are generic. **API errors return messages like "Failed to create account" or "Authentication required" ; never SQL error details, stack traces, table names, or internal state. Detailed errors are logged server-side for debugging, but the client only ever sees a human-readable summary that reveals nothing about the system's internals.
 
 ### Anti-Fingerprinting and Session Hardening
 
@@ -250,7 +250,7 @@ A few more details for the security-conscious:
 
 **Token theft detection** uses your device's machine ID (which we calculate using system information). If a refresh token is suddenly used from a different machine after a 30-second grace period, the system flags it as suspected theft and triggers additional verification.
 
-**Username changes** have a one-year cooldown. This prevents identity cycling — where someone changes their username repeatedly to evade blocks or impersonate others.
+**Username changes** have a one-year cooldown. This prevents identity cycling ; where someone changes their username repeatedly to evade blocks or impersonate others.
 
 **Custom headers are validated** before reaching any handler. X-Machine-Id must be a valid UUID format, X-Device-Name must be a valid UTF-8 string under 255 characters with no control characters. Malformed inputs are rejected at the middleware layer.
 
@@ -260,11 +260,11 @@ A few more details for the security-conscious:
 
 Most platforms give you a binary choice: use our cloud, or go home. Concord gives you three options:
 
-**Use our cloud (**[**concordvoice.chat**](https://concordvoice.chat)**)** — Sign up, start chatting. We host the infrastructure, manage updates, and handle the operational overhead. Your messages are still E2EE. We can't read them. You just don't have to think about servers.
+**Use our cloud (**[**concordvoice.chat**](https://concordvoice.chat)**)** ; Sign up, start chatting. We host the infrastructure, manage updates, and handle the operational overhead. Your messages are still E2EE. We can't read them. You just don't have to think about servers.
 
-**Self-host** — Deploy Concord on your own hardware. Docker Compose on a single VM, Kubernetes if you're feeling ambitious. You control the database, the network, the storage, everything. We receive *nothing* from your self-hosted instance. For personal or non-commercial use, it's free. Businesses need a commercial license.
+**Self-host** ; Deploy Concord on your own hardware. Docker Compose on a single VM, Kubernetes if you're feeling ambitious. You control the database, the network, the storage, everything. We receive *nothing* from your self-hosted instance. For personal or non-commercial use, it's free. Businesses need a commercial license.
 
-**Hybrid** — This is the interesting one. A user with a Concord cloud account can participate in *both* cloud-hosted servers and self-hosted servers. One identity, multiple communities, across different infrastructures. Your client connects to one server at a time (no simultaneous multi-server connections, that's a deliberate security choice to prevent state leakage between trust boundaries), but you can switch between them.
+**Hybrid** ; This is the interesting one. A user with a Concord cloud account can participate in *both* cloud-hosted servers and self-hosted servers. One identity, multiple communities, across different infrastructures. Your client connects to one server at a time (no simultaneous multi-server connections, that's a deliberate security choice to prevent state leakage between trust boundaries), but you can switch between them.
 
 The self-hosted option isn't just a checkbox feature. The entire codebase is source-available under the Concord Voice Source License (CVSL), which means you can read every line of code, audit it, modify it for your own use, and after 4 years, each version becomes fully open source under AGPL-3.0. If we disappear tomorrow, the code doesn't go with us.
 
@@ -274,7 +274,7 @@ This is also how we handle the families-and-kids situation mentioned in the age 
 
 For the infrastructure-curious (skip this section if your eyes glaze over at the word "PostgreSQL"):
 
-**Database:** PostgreSQL. Your account data, server structures, channel configurations, encrypted message history, and key metadata — all stored here. Self-hosted users control their own database entirely.
+**Database:** PostgreSQL. Your account data, server structures, channel configurations, encrypted message history, and key metadata ; all stored here. Self-hosted users control their own database entirely.
 
 **Cache:** Redis. Session tracking, rate limiting (per-IP, per-user, per-WebSocket; we're not just slapping a global rate limit on and calling it a day), presence data, and pub/sub for real-time events.
 

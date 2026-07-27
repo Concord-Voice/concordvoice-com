@@ -46,7 +46,7 @@ The impact of that has its own consequences, leaving some without a space to occ
 
 So… How do we handle age verification when required? We’ve approached this in a few ways.
 
-One thing up front, because we don’t do vaporware: some of what follows is live in the beta today and some is still on the bench. I’ve flagged the status on each piece as we go. What’s live right now: the 16+ floor, the identity-blind signed record, the local date-of-birth check for NSFW, and the auto-disable if you come back underage. The rest is designed and coming.
+One thing up front, because we don’t do vaporware: some of what follows is live in the Beta today and some is still on the bench. I’ve flagged the status on each piece as we go. What’s live right now: the 16+ floor, the identity-blind signed record, the local date-of-birth check for NSFW, and the auto-disable if you come back underage. The rest is designed and coming.
 
 ### At Account Creation
 
@@ -54,7 +54,7 @@ Account creation leverages the honor system, in which you simply certify that yo
 
 - LA, TX, UT, AR, MS, MT, NC, VA, FL
 
-More annoyingly, this list keeps growing — it’s north of two dozen states as of mid-2026, and climbing fast since the Supreme Court upheld these laws in 2025, so treat it as a snapshot, not gospel. And to be clear, this isn’t legal advice; the specifics shift constantly. There are actually two different flavors of law in play here: adult-content laws that target sites that are mostly pornographic (which we are not) and app-store accountability laws that ask every app to grab an age range. The second is the one that actually reaches something like us, and it’s why the Google/Apple APIs further down exist.
+More annoyingly, this list keeps growing ; it’s north of two dozen states as of mid-2026, and climbing fast since the Supreme Court upheld these laws in 2025, so treat it as a snapshot, not gospel. And to be clear, this isn’t legal advice; the specifics shift constantly. There are actually two different flavors of law in play here: adult-content laws that target sites that are mostly pornographic (which we are not) and app-store accountability laws that ask every app to grab an age range. The second is the one that actually reaches something like us, and it’s why the Google/Apple APIs further down exist.
 
 To account for this, we will eventually begin asking users to certify that they aren’t in these 'higher obligation' jurisdictions. If they do not check (please help us follow the law), an additional layer is triggered by our legal requirements, and we will ask you to attest to your age using your date of birth at that time. This is something you are also later required to do to be able to toggle NSFW Content Access, but you won’t be prohibited from making an account unless you are below the age of 16 (and it isn’t illegal for you to be here).
 
@@ -87,7 +87,7 @@ Users who do not go through this additional flow now (likely because your jurisd
 
 ### Google and Apple SSO
 
-Status: designed, not in the current beta yet, but here’s how it’ll work when it lands.
+Status: designed, not in the current Beta yet, but here’s how it’ll work when it lands.
 
 When you use Single Sign-On (SSO) with Google or Apple, we can call these APIs to perform an inferred age check. Google and Apple announced these APIs in 2025 and are switching them on jurisdiction-by-jurisdiction through 2026, letting developers perform age checks for apps in the app store without rolling their own solution (likely because they’ll begin requiring Age Verification in the app store, and unfortunately, we can’t help with that). This is acceptable for us because all we need is to pull the age range they hand back; a bracket like “18+”, not your exact age or birthday (whatever they already know about you; we aren’t asking for anything new). Using this method gives us something called Age Assurance (or technically, “age assurance” is the umbrella term for all of this, and what we’re specifically doing is its lightest-touch flavor, age inference), which is basically ‘diet’ Age Verification, where we’re assured by a trusted third party about a piece of data.  Note that not all Apple and Google accounts will have a valid age range, so this won’t work for everyone.
 
@@ -103,9 +103,9 @@ Status: the personal DoB gate and the nsfw_auth flag are live today. The server-
 
 ### Stripe Payments
 
-Status: designed, not in the current beta yet.
+Status: designed, not in the current Beta yet.
 
-A final form we can use if it’s a last resort. When a user subscribes to one of our premium tiers and uses a credit line (explicitly only credit, since contract law generally prohibits someone under 18 from having a credit card), we can infer age assurance as well. The client can fetch very basic metadata from Stripe, our payment processor. What it will do is validate the name, username, and that a credit line was used. Once that is applied, we can automatically fulfil age assurance to the user, unless there is an indication that the user is not the same person as the cardholder. (Worth being honest that this one’s a soft signal, not proof — a minor can be an authorized user on a parent’s card — which is exactly why it’s the last resort.)
+A final form we can use if it’s a last resort. When a user subscribes to one of our premium tiers and uses a credit line (explicitly only credit, since contract law generally prohibits someone under 18 from having a credit card), we can infer age assurance as well. The client can fetch very basic metadata from Stripe, our payment processor. What it will do is validate the name, username, and that a credit line was used. Once that is applied, we can automatically fulfil age assurance to the user, unless there is an indication that the user is not the same person as the cardholder. (Worth being honest that this one’s a soft signal, not proof ; a minor can be an authorized user on a parent’s card ; which is exactly why it’s the last resort.)
 
 ## What Happens if Age Falls Below Thresholds?
 

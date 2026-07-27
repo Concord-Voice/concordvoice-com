@@ -23,7 +23,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
 
 ---
 <Layout
-  title="Personal Use — Concord Voice"
+  title="Personal Use | Concord Voice"
   description="Honest personal pricing for Concord Voice: private voice, video, and chat for the places you share with your people, with no dark patterns."
 >
   <Header />
@@ -33,7 +33,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
       <p class="eyebrow text-gradient">Personal Use</p>
       <h1 class="display mkt-hero__title">A private place, priced honestly</h1>
       <p class="mkt-lead">
-        We believe in a free and open platform — so personal use of Concord Voice is free, always and forever.
+        We believe in a free and open platform, so personal use of Concord Voice is free, always and forever.
         Whether you use a server on the Concord Voice Network or host it yourself, we'll never charge you for
         privacy or messaging, or limit your communications. Community over profit.
       </p>
@@ -54,7 +54,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
           <p class="fork-card__k eyebrow text-gradient">Cloud · we host it</p>
           <h3 class="fork-card__t">Hosted by us</h3>
           <p class="fork-card__d">
-            Sign up and start talking — we run the infrastructure, updates, and uptime. Free to use, with optional
+            Sign up and start talking. We run the infrastructure, updates, and uptime. Free to use, with optional
             premium plans for higher fidelity and extras. <strong>You are here.</strong>
           </p>
           <a href="#plans" class="btn border border-white/20 hover:border-coral">See cloud plans ↓</a>
@@ -63,7 +63,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
           <p class="fork-card__k eyebrow text-gradient">Self-host · you run it</p>
           <h3 class="fork-card__t">On your own hardware</h3>
           <p class="fork-card__d">
-            Deploy on your own servers and audit the source. Free for personal and non-commercial use — every
+            Deploy on your own servers and audit the source. Free for personal and non-commercial use, with every
             premium feature unlocked, no subscription.
           </p>
           <a href="/self-hosting" class="btn border border-white/20 hover:border-coral">Self-hosting →</a>
@@ -71,24 +71,11 @@ const wing = { monthly: 14.99, yearly: 164.89 };
       </div>
     </section>
 
-    <section class="mkt-section">
-      <p class="mkt-label eyebrow text-gradient">So, Why Offer Subscriptions?</p>
-      <div class="mkt-prose">
-        <p>We want subscriptions to fund a few things — without ever limiting the platform for everyone else:</p>
-        <ul class="checklist" style="margin:1rem 0 1.2rem;">
-          <li>An enhanced experience for those who want it, without gating the general platform for non-subscribers. <em>(Marketing calls it "maximizing value," or something like that.)</em></li>
-          <li>The infrastructure to grow and scale as our user base does — more servers for all you beautiful people, and the talented humans to keep it running. <em>(Ever tried to run Kubernetes? It's a special kind of pain.)</em></li>
-          <li>Ongoing development: new features, security improvements, and testing. <em>(The cost of compliance alone is miserable — who likes lawyers anyway?)</em></li>
-        </ul>
-        <p>Want to know where your money would go? Read the <a href="/about-us">About</a> page to meet the people behind the app.</p>
-      </div>
-    </section>
-
     <section class="mkt-section" id="plans">
       <p class="mkt-label eyebrow text-gradient">Cloud Plans</p>
       <h2 class="display mkt-section__title">Honest. No Dark Patterns. No Shareholders.</h2>
       <p class="mkt-section__sub">
-        Privacy isn't a premium feature — it's the baseline. Every account gets end-to-end encryption, voice and
+        Privacy isn't a premium feature. It's the baseline. Every account gets end-to-end encryption, voice and
         video, and full messaging. Premium plans simply unlock higher fidelity and advanced capabilities.
       </p>
       <div class="bill-wrap">
@@ -123,7 +110,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
       <p class="mkt-label eyebrow text-gradient">Hypersonic</p>
       <h2 class="display mkt-section__title">Everything, in one plan</h2>
       <p class="mkt-section__sub">
-        The complete experience — a Supersonic account <em>and</em> a bundled Mach 2 server boost (1440p/60 video, up to 510 kbps audio, server-wide), at a
+        The complete experience: a Supersonic account <em>and</em> a bundled Mach 2 server boost (1440p/60 video, up to 510 kbps audio, server-wide), at a
         better price than buying them separately. One account, one bill, everything on.
       </p>
       <div class="bill-wrap bill-wrap--inline">
@@ -142,24 +129,24 @@ const wing = { monthly: 14.99, yearly: 164.89 };
         </div>
         <div class="hyper-band__lists">
           <div>
-            <p class="hyper-list__t eyebrow text-gradient">You — free tier, plus</p>
+            <p class="hyper-list__t eyebrow text-gradient">You: free tier, plus</p>
             <ul class="checklist">{hyperYou.map((i) => <li>{i}</li>)}</ul>
           </div>
           <div>
-            <p class="hyper-list__t eyebrow text-gradient">Your server — free tier, plus</p>
+            <p class="hyper-list__t eyebrow text-gradient">Your server: free tier, plus</p>
             <ul class="checklist">{hyperServer.map((i) => <li>{i}</li>)}</ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== Wing (2-user) — PROPOSED pricing ===== -->
+    <!-- ===== Wing (2-user), PROPOSED pricing ===== -->
     <section class="mkt-section" id="wing">
       <p class="mkt-label eyebrow text-gradient">Wing</p>
       <h2 class="display mkt-section__title">Bring your favorite person along</h2>
       <p class="mkt-section__sub">
         A two-person plan: <strong data-wing-summary-plan>Supersonic for you</strong> and <strong>Supersonic for your +1</strong>. Two
-        portable premium seats — your personal uplift travels with you to every server, boosted or not.
+        portable premium seats. Your personal uplift travels with you to every server, boosted or not.
       </p>
       <div class="bill-wrap bill-wrap--inline">
         <div class="bill-toggle" role="group" aria-label="Billing period">
@@ -173,8 +160,8 @@ const wing = { monthly: 14.99, yearly: 164.89 };
           <span class="tier__save" hidden> · save {savePct(wing.monthly, wing.yearly)}%</span>
         </p><div class="mach-card-picker" data-mach-picker><p class="fineprint" style="margin:0 0 .55rem">Shared server boost</p><div class="bill-toggle" role="group" aria-label="Choose Wing server boost"><button type="button" class="bill-toggle__btn is-active" data-mach-option data-monthly="0" data-yearly="0" aria-pressed="true">No boost</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="4.99" data-yearly="54.89">Mach 1</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="14.99" data-yearly="164.89">Mach 2</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="34.99" data-yearly="384.89">Mach 3</button></div></div></div>
         <div class="wing-seats">
-          <div><p class="hyper-list__t eyebrow text-gradient">You</p><p class="wing-seat__d">Full <strong data-wing-primary-plan>Supersonic</strong> — portable premium across every server and DM<span data-wing-boost-copy></span>.</p></div>
-          <div><p class="hyper-list__t eyebrow text-gradient">Your +1</p><p class="wing-seat__d">Full <strong>Supersonic</strong> — portable premium across every server and DM.</p></div>
+          <div><p class="hyper-list__t eyebrow text-gradient">You</p><p class="wing-seat__d">Full <strong data-wing-primary-plan>Supersonic</strong>: portable premium across every server and DM<span data-wing-boost-copy></span>.</p></div>
+          <div><p class="hyper-list__t eyebrow text-gradient">Your +1</p><p class="wing-seat__d">Full <strong>Supersonic</strong>: portable premium across every server and DM.</p></div>
         </div>
       </div>
     </section>
@@ -196,7 +183,8 @@ const wing = { monthly: 14.99, yearly: 164.89 };
     <section class="mkt-section" id="pricing-faq">
       <p class="mkt-label eyebrow text-gradient">Pricing FAQ</p>
       <div class="faq">
-        <details class="faq__item"><summary class="faq__q">When do paid subscriptions start?</summary><p class="faq__a">Paid upgrades are planned for v1.0 General Availability. They are not active during beta.</p></details>
+        <details class="faq__item"><summary class="faq__q">So, why offer subscriptions?</summary><div class="faq__a mkt-prose"><p>We want subscriptions to fund a few things without ever limiting the platform for everyone else:</p><ul class="checklist" style="margin:1rem 0 1.2rem;"><li>An enhanced experience for those who want it, without gating the general platform for non-subscribers. <em>(Marketing calls it "maximizing value," or something like that.)</em></li><li>The infrastructure to grow and scale as our user base does. More servers for all you beautiful people, and the talented humans to keep it running. <em>(Ever tried to run Kubernetes? It's a special kind of pain.)</em></li><li>Ongoing development: new features, security improvements, and testing. <em>(The cost of compliance alone is miserable. Who likes lawyers anyway?)</em></li></ul><p>Want to know where your money would go? Read the <a href="/about-us">About</a> page to meet the people behind the app.</p></div></details>
+        <details class="faq__item"><summary class="faq__q">When do paid subscriptions start?</summary><p class="faq__a">Paid upgrades are planned for v1.0 General Availability. They are not active during Beta.</p></details>
         <details class="faq__item"><summary class="faq__q">Can paid prices change?</summary><p class="faq__a">Yes. The paid prices shown are planned values and may change before General Availability.</p></details>
         <details class="faq__item"><summary class="faq__q">What stays free?</summary><p class="faq__a">Sonic accounts, personal-use basics, and self-hosted servers stay free. Paid plans add optional upgraded features.</p></details>
       </div>
@@ -205,7 +193,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
     <section class="mkt-cta reveal">
       <p class="eyebrow text-gold">No credit card. No data sold.</p>
       <h2 class="display mkt-cta__title">Start free. Upgrade only if you want to.</h2>
-      <a href="/download" class="btn btn-primary" style="margin-top:1.5rem;">Download the beta</a>
+      <a href="/download" class="btn btn-primary" style="margin-top:1.5rem;">Download the Beta</a>
     </section>
   </main>
 
@@ -235,4 +223,108 @@ const wing = { monthly: 14.99, yearly: 164.89 };
     @media (min-width: 640px) { .wing-seats { grid-template-columns: 1fr 1fr; } }
     .wing-seat__d { color: var(--color-mist); line-height: 1.55; font-size: .92rem; margin-top: .3rem; }
   </style><script>const formatMachMoney=v=>"$"+v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});document.querySelectorAll("[data-mach-picker]").forEach(picker=>{const scope=picker.closest(".tier")||picker.closest(".hyper-band")||picker.closest(".wing-band");const prices=scope.querySelectorAll(".tier__price");prices.forEach(price=>{price.dataset.baseM??=price.dataset.m;price.dataset.baseY??=price.dataset.y});picker.querySelectorAll("[data-mach-option]").forEach(button=>button.addEventListener("click",()=>{picker.querySelectorAll("[data-mach-option]").forEach(option=>{const active=option===button;option.classList.toggle("is-active",active);option.setAttribute("aria-pressed",active?"true":"false")});prices.forEach(price=>{const monthly=Number(price.dataset.baseM.replace(/[^0-9.]/g,""))+Number(button.dataset.monthly);const yearly=Number(price.dataset.baseY.replace(/[^0-9.]/g,""))+Number(button.dataset.yearly);price.dataset.m=formatMachMoney(monthly);price.dataset.y=formatMachMoney(yearly);const annual=document.querySelector("[data-bill].is-active")?.dataset.bill==="yearly";price.querySelector(".tier__amt").textContent=annual?price.dataset.y:price.dataset.m});if(picker.closest("#wing")){const boosted=button.dataset.monthly!=="0";const plan=document.querySelector("[data-wing-primary-plan]");if(plan)plan.textContent=boosted?"Hypersonic":"Supersonic";const summaryPlan=document.querySelector("[data-wing-summary-plan]");if(summaryPlan)summaryPlan.textContent=boosted?"Hypersonic for you":"Supersonic for you";const boostCopy=document.querySelector("[data-wing-boost-copy]");if(boostCopy)boostCopy.textContent=boosted?" + a Mach server boost":""}}))})</script>
+  <script>
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const hypersonic = document.querySelector('#hypersonic');
+      const wing = document.querySelector('#wing');
+      const starfield = document.querySelector('.starfield');
+    if (hypersonic && wing && starfield) {
+      const seedStars = Array.from(starfield.querySelectorAll<HTMLElement>('.star'));
+      const download = document.querySelector('.mkt-cta .btn');
+      const wingHeading = wing.querySelector('h2');
+        const stars = Array.from({ length: 42 }, (_, index) => {
+          const star = seedStars[index] ?? document.createElement('span');
+          star.className = 'star';
+          star.style.left = '0px';
+          star.style.top = `${Math.random() * 100}%`;
+          star.style.height = '1px';
+          star.style.borderRadius = '0';
+          star.style.background = 'linear-gradient(to right, var(--color-paper) 0 2px, color-mix(in srgb, var(--color-paper) 62%, transparent) 14%, transparent)';
+          star.style.boxShadow = 'none';
+          star.style.animation = 'none';
+          star.style.transformOrigin = 'left center';
+          if (!star.isConnected) starfield.append(star);
+          return {
+            star,
+            distance: Math.random() * (window.innerWidth + 120),
+            speed: 0.93 + Math.random() * 0.14,
+            brightness: 0.5 + Math.random() * 0.5,
+            tail: 10 + Math.random() * 12,
+            tailLength: 0,
+          };
+        });
+        let targetIntensity = 0.12;
+        let intensity = targetIntensity;
+        let previous = performance.now();
+        let frame = 0;
+        let last = previous;
+        let atmosphere = false;
+        const frameInterval = 1000 / 45;
+
+        const updateIntensity = () => {
+          const viewport = window.innerHeight;
+          const hypersonicAt = Math.max(1, hypersonic.getBoundingClientRect().bottom + window.scrollY - viewport);
+          const wingHeaderAt = Math.max(hypersonicAt, wingHeading ? wingHeading.getBoundingClientRect().bottom + window.scrollY : hypersonicAt);
+          const downloadTop = download ? download.getBoundingClientRect().top + window.scrollY : document.documentElement.scrollHeight;
+          const downloadAt = Math.max(wingHeaderAt + 1, downloadTop - viewport);
+          const stopAt = downloadAt + 500;
+          atmosphere = window.scrollY >= stopAt;
+          if (window.scrollY < hypersonicAt) targetIntensity = 0.12 + 0.88 * (window.scrollY / hypersonicAt);
+          else if (window.scrollY <= wingHeaderAt) targetIntensity = 1;
+          else targetIntensity = Math.max(0, 1 - (window.scrollY - wingHeaderAt) / (stopAt - wingHeaderAt));
+          if (atmosphere) {
+            intensity = 0;
+            paintStars(performance.now(), 0);
+            stop();
+          } else start();
+        };
+
+        const paintStars = (now, elapsed) => {
+          const width = window.innerWidth + 120;
+          const peakSpeed = width / 1.65;
+          const visibleStars = 9 + intensity * 33;
+          stars.forEach((flight, index) => {
+            const velocity = 60 + intensity * (peakSpeed - 60) * flight.speed;
+            const travel = (flight.distance + elapsed * velocity) % (width + 80);
+            const tailLength = Math.round(3 + (velocity / peakSpeed) * flight.tail);
+            const visibility = Math.max(0, Math.min(1, visibleStars - index));
+            if (tailLength !== flight.tailLength) flight.star.style.width = `${tailLength}px`;
+            flight.tailLength = tailLength;
+            flight.star.style.transform = `translate3d(${width - travel}px, ${Math.sin(now / 600 + index) * intensity * 8}px, 0)`;
+            flight.star.style.opacity = String(visibility * Math.min(.88, .22 + intensity * .68 * flight.brightness));
+            flight.star.style.willChange = 'transform, opacity';
+            flight.distance = travel;
+          });
+        };
+
+        const animateStarfield = (now) => {
+          frame = requestAnimationFrame(animateStarfield);
+          if (now - last < frameInterval) return;
+          const elapsed = Math.min(0.067, (now - previous) / 1000);
+          previous = now;
+          last += Math.floor((now - last) / frameInterval) * frameInterval;
+          intensity += (targetIntensity - intensity) * Math.min(1, elapsed * 5);
+          paintStars(now, elapsed);
+        };
+
+        const stop = () => { cancelAnimationFrame(frame); frame = 0; };
+        const start = () => {
+          if (!frame && !document.hidden && !atmosphere) {
+            previous = performance.now();
+            last = previous;
+            frame = requestAnimationFrame(animateStarfield);
+          }
+        };
+
+        addEventListener('scroll', updateIntensity, { passive: true });
+        addEventListener('resize', updateIntensity);
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) stop();
+          else start();
+        });
+        updateIntensity();
+        start();
+      }
+    }
+  </script>
 </Layout>

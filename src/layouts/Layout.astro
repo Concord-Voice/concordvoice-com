@@ -10,7 +10,7 @@ interface Props {
 }
 
 const {
-  title = 'Concord Voice — A Private Place for Your People',
+  title = 'Concord Voice | A Private Place for Your People',
   description = 'A private, voice-first community space for your people. Hang out in encrypted voice, video, and chat; make the space yours; host it yourself if you want.',
 } = Astro.props;
 
@@ -57,11 +57,11 @@ const stars = [
     </div>
 
     <!-- Tongue-in-cheek "no cookie banner": the absence IS the message.
-         No cookie is ever set — dismissal is remembered in sessionStorage only
+         No cookie is ever set ; dismissal is remembered in sessionStorage only
          (cleared when the tab closes), so the "zero cookies" claim stays literally true. -->
     <aside class="cookie-note" id="cookie-note" aria-label="Cookie notice">
       <p class="cookie-note__text">
-        <strong>Looking for the cookie opt-out banner?</strong> It's not here — because
+        <strong>Looking for the cookie opt-out banner?</strong> It's not here ; because
         there are <strong>zero cookies</strong> on this site. Nothing tracked, nothing
         stored, nothing to opt out of.
       </p>
@@ -79,7 +79,7 @@ const stars = [
     </aside>
 
     <script>
-      // Scroll-reveal — zero dependencies. Reduced motion handled in CSS.
+      // Scroll-reveal ; zero dependencies. Reduced motion handled in CSS.
       const els = document.querySelectorAll<HTMLElement>('.reveal');
       if ('IntersectionObserver' in window) {
         const io = new IntersectionObserver(
@@ -98,7 +98,7 @@ const stars = [
         els.forEach((el) => el.classList.add('in'));
       }
 
-      // Tongue-in-cheek "no cookie banner" — dismissal lives in sessionStorage
+      // Tongue-in-cheek "no cookie banner" ; dismissal lives in sessionStorage
       // (NOT a cookie; cleared when the tab closes), keeping the joke honest.
       const note = document.getElementById('cookie-note');
       if (note) {
@@ -106,7 +106,7 @@ const stars = [
         try {
           dismissed = sessionStorage.getItem('ccv-cookie-note') === '1';
         } catch {
-          // sessionStorage unavailable (private mode / disabled) — show it anyway.
+          // sessionStorage unavailable (private mode / disabled) ; show it anyway.
         }
         if (!dismissed) {
           window.setTimeout(() => note.classList.add('is-visible'), 900);

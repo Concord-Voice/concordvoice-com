@@ -62,7 +62,7 @@ We recommend that you print a copy of these Legal Terms for your records.
 17. [DMCA Notice and Policy](#17-dmca-notice-and-policy)
 18. [Law Enforcement and Legal Process](#18-law-enforcement-and-legal-process)
 19. [Regulated Industries Disclaimer](#19-regulated-industries-disclaimer)
-20. [HIPAA — No Business Associate Agreement](#20-hipaa--no-business-associate-agreement)
+20. [HIPAA: No Business Associate Agreement](#20-hipaa-no-business-associate-agreement)
 21. [Export Controls and Sanctions](#21-export-controls-and-sanctions)
 22. [Third-Party Websites and Content](#22-third-party-websites-and-content)
 23. [Services Management](#23-services-management)
@@ -130,13 +130,13 @@ video content.
 **3.2** Concord Voice does not hold, store, or have access to the plaintext
 content of end-to-end encrypted communications. We are technically unable
 to read, scan, analyze, moderate, or disclose the content of encrypted
-messages — whether for internal purposes, advertising, machine learning,
-or in response to third-party requests — because we do not possess the
+messages ; whether for internal purposes, advertising, machine learning,
+or in response to third-party requests ; because we do not possess the
 decryption keys.
 
-**3.3** Unencrypted metadata necessary for service operation — including
+**3.3** Unencrypted metadata necessary for service operation ; including
 but not limited to account registration information, timestamps, IP
-addresses, server membership, channel membership, and presence status —
+addresses, server membership, channel membership, and presence status ;
 may be collected and processed as described in our Privacy Policy.
 
 **3.4** End-to-end encryption protects message content in transit and at
@@ -469,7 +469,7 @@ properties.
 ### 9.1 Hosted Service vs. Source Code License
 
 These Terms of Service govern your use of the Concord Voice **Hosted
-Service** — the servers, infrastructure, and services operated by
+Service** ; the servers, infrastructure, and services operated by
 Concord Voice at concordvoice.chat and associated domains.
 
 The Concord Voice **source code** is separately licensed under the
@@ -722,13 +722,13 @@ Service, as defined under the General Data Protection Regulation (EU
 **15.2 Legal Basis for Processing.** Concord processes personal data
 under the following legal bases:
 
-- **Contractual necessity** — processing required to provide the Concord
+- **Contractual necessity** ; processing required to provide the Concord
   Voice service, including account creation, authentication, message
   delivery, and voice/video connectivity;
-- **Legitimate interest** — processing necessary for platform security,
+- **Legitimate interest** ; processing necessary for platform security,
   abuse prevention, rate limiting, and service improvement, where such
   interests are not overridden by your rights and freedoms;
-- **Consent** — processing for optional features, marketing
+- **Consent** ; processing for optional features, marketing
   communications, and any data collection not covered by contractual
   necessity or legitimate interest. Consent may be withdrawn at any
   time.
@@ -736,17 +736,17 @@ under the following legal bases:
 **15.3 Your Rights.** Under applicable data protection law, you have the
 right to:
 
-- **Access** — request a copy of the personal data Concord Voice holds
+- **Access** ; request a copy of the personal data Concord Voice holds
   about you;
-- **Rectification** — request correction of inaccurate personal data;
-- **Erasure** — request deletion of your personal data ("right to be
+- **Rectification** ; request correction of inaccurate personal data;
+- **Erasure** ; request deletion of your personal data ("right to be
   forgotten");
-- **Restriction** — request that Concord Voice restrict processing of
+- **Restriction** ; request that Concord Voice restrict processing of
   your personal data in certain circumstances;
-- **Portability** — request a machine-readable copy of your personal
+- **Portability** ; request a machine-readable copy of your personal
   data for transfer to another service;
-- **Objection** — object to processing based on legitimate interest;
-- **Withdraw consent** — withdraw previously granted consent at any
+- **Objection** ; object to processing based on legitimate interest;
+- **Withdraw consent** ; withdraw previously granted consent at any
   time, without affecting the lawfulness of processing prior to
   withdrawal.
 
@@ -806,7 +806,7 @@ Concord Voice has designated an agent to receive notifications of
 claimed copyright infringement in accordance with the Digital Millennium
 Copyright Act, 17 U.S.C. § 512:
 
-> General Counsel — Copyright
+> General Counsel ; Copyright
 > Attn: Copyright Agent
 > 2008 Bremo Road, Suite 110
 > Richmond, VA 23226
@@ -939,7 +939,7 @@ Voice in a regulated environment.
 
 ---
 
-## 20. HIPAA — No Business Associate Agreement
+## 20. HIPAA: No Business Associate Agreement
 
 **20.1** Concord Voice does not currently operate as a Business
 Associate as defined under the Health Insurance Portability and
@@ -949,8 +949,8 @@ Accountability Act of 1996 (HIPAA) and its implementing regulations.
 Concord Voice and any user unless a separate written BAA has been
 individually negotiated and executed.
 
-**20.3** Users subject to HIPAA — including covered entities and their
-business associates — must not use Concord Voice to create, receive,
+**20.3** Users subject to HIPAA ; including covered entities and their
+business associates ; must not use Concord Voice to create, receive,
 maintain, or transmit protected health information ("PHI") or electronic
 protected health information ("ePHI") absent an executed BAA.
 
@@ -1203,8 +1203,8 @@ against us arising from any such loss or corruption of such data.
 Visiting the Services, sending us emails, and completing online forms
 constitute electronic communications. You consent to receive electronic
 communications, and you agree that all agreements, notices, disclosures,
-and other communications we provide to you electronically — via email
-and on the Services — satisfy any legal requirement that such
+and other communications we provide to you electronically ; via email
+and on the Services ; satisfy any legal requirement that such
 communication be in writing. YOU HEREBY AGREE TO THE USE OF ELECTRONIC
 SIGNATURES, CONTRACTS, ORDERS, AND OTHER RECORDS, AND TO ELECTRONIC
 DELIVERY OF NOTICES, POLICIES, AND RECORDS OF TRANSACTIONS INITIATED OR

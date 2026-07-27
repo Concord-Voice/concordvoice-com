@@ -12,25 +12,25 @@ We're going to keep this one simple, because the principle behind it is simple.
 
 Concord Voice exists to give people a place to communicate freely, privately, and without interference. If you use this platform to make it harder for other people to use this platform, you're violating our Terms of Service. That's the core of it.
 
-We're not trying to police speech. We're not going to moderate your opinions, your politics, your humor, or your taste in content (within the bounds of our NSFW and Prohibited Content policies, which are covered in detail in their own article). What we will act on is behavior that targets other users with the intent — or effect — of making them unsafe, silenced, or unable to use the platform freely.
+We're not trying to police speech. We're not going to moderate your opinions, your politics, your humor, or your taste in content (within the bounds of our NSFW and Prohibited Content policies, which are covered in detail in their own article). What we will act on is behavior that targets other users with the intent ; or effect ; of making them unsafe, silenced, or unable to use the platform freely.
 
 We think that's a reasonable line. Here's exactly where it sits.
 
 ## Our Guiding Framework
 
-The lines we draw in this policy are guided by the [**Universal Declaration of Human Rights**](https://en.wikipedia.org/wiki/Universal_Declaration_of_Human_Rights) — specifically the balance between several of its core articles.
+The lines we draw in this policy are guided by the [**Universal Declaration of Human Rights**](https://en.wikipedia.org/wiki/Universal_Declaration_of_Human_Rights) ; specifically the balance between several of its core articles.
 
-**Article 1 — Right to Equality and Non-Discrimination** holds that all humans are born free and equal in dignity and rights, entitled to those rights without distinction.
+**Article 1 ; Right to Equality and Non-Discrimination** holds that all humans are born free and equal in dignity and rights, entitled to those rights without distinction.
 
-**Article 12 — Right to Privacy** protects against arbitrary interference with privacy, attacks upon honor and reputation, and harassment.
+**Article 12 ; Right to Privacy** protects against arbitrary interference with privacy, attacks upon honor and reputation, and harassment.
 
-**Article 19 — Freedom of Expression** protects the right to hold opinions without interference and to seek, receive, and impart information and ideas through any medium.
+**Article 19 ; Freedom of Expression** protects the right to hold opinions without interference and to seek, receive, and impart information and ideas through any medium.
 
-**Article 20 — Freedom of Assembly and Association** protects the right to peaceful assembly and association.
+**Article 20 ; Freedom of Assembly and Association** protects the right to peaceful assembly and association.
 
-**Articles 26 & 27 — Right to Education and Culture** recognize the right to participate in the cultural life of the community and to access education.
+**Articles 26 & 27 ; Right to Education and Culture** recognize the right to participate in the cultural life of the community and to access education.
 
-Where these articles intersect — and occasionally pull against each other — is where this policy lives. We tried to draw every line at the point where one person's exercise of their rights becomes a direct attack on another person's rights.
+Where these articles intersect ; and occasionally pull against each other ; is where this policy lives. We tried to draw every line at the point where one person's exercise of their rights becomes a direct attack on another person's rights.
 
 One principle guides us when those rights come into direct conflict: **Article 1 is foundational.** The UDHR places equality first for a reason: *if equal access to rights is not guaranteed, then every right that follows is unequally protected by definition.* Freedom of expression, freedom of religion, and freedom of assembly are all rights we take seriously and actively protect on this platform, but none of them extends to using this platform to deny another person's equality or access to those same rights. Invoking religious belief, political conviction, or personal expression as justification for dehumanizing another person doesn't expand your rights; it attempts to contract theirs. In other words, using a right to suppress the rights and existence of others inherently makes those rights vulnerable to being used against you as well, rendering the rights themselves pointless.
 
@@ -42,7 +42,7 @@ We won't pretend every call is easy or that we'll always get it right. But this 
 
 Harassment is sustained, targeted behavior directed at a specific user or group of users with the intent to distress, intimidate, or drive them off the platform. This includes:
 
-**Targeted personal attacks.** Repeated messages, mentions, or contact directed at a specific user with the intent to demean, threaten, or distress them — particularly after they have indicated they want the contact to stop, or after you have been blocked.
+**Targeted personal attacks.** Repeated messages, mentions, or contact directed at a specific user with the intent to demean, threaten, or distress them ; particularly after they have indicated they want the contact to stop, or after you have been blocked.
 
 **Coordinated pile-ons.** Organizing or participating in a campaign where multiple accounts direct hostile content at a single user or group. Volume is a vector. "It was just one message" doesn't apply when you're part of a coordinated group.
 
@@ -104,11 +104,11 @@ Doxxing is the publication of someone's private personal information without the
 
 **Real name and identity disclosure** for users who have not publicly associated their identity with their username
 
-**Home address, workplace, or physical location** — current or historical
+**Home address, workplace, or physical location** ; current or historical
 
 **Phone numbers and personal email addresses** not publicly shared by the person themselves
 
-**Financial information** — account numbers, credit information, transaction history
+**Financial information** ; account numbers, credit information, transaction history
 
 **Family members' information**, particularly when shared as a means of indirect targeting
 
@@ -122,27 +122,27 @@ Creating an account or persona that falsely represents itself as another specifi
 
 ### Unsolicited Spam and Automation
 
-Using the platform to send bulk unsolicited messages, operate automated accounts without disclosure, or conduct coordinated inauthentic behavior — fake engagement, fake accounts, manufactured consensus — violates both the spirit of the platform and our Terms of Service.
+Using the platform to send bulk unsolicited messages, operate automated accounts without disclosure, or conduct coordinated inauthentic behavior ; fake engagement, fake accounts, manufactured consensus ; violates both the spirit of the platform and our Terms of Service.
 
 ## What We Don't Moderate
 
-To be explicit: we do not moderate based on political viewpoint, religion, ideology, lifestyle, or opinion. We do not remove content because it is controversial, offensive, or makes people uncomfortable. We do not adjudicate interpersonal disputes. We do not police what happens in your own server — that's what server moderation is for, and server owners set their own rules within the bounds of this policy and our Terms of Service.
+To be explicit: we do not moderate based on political viewpoint, religion, ideology, lifestyle, or opinion. We do not remove content because it is controversial, offensive, or makes people uncomfortable. We do not adjudicate interpersonal disputes. We do not police what happens in your own server ; that's what server moderation is for, and server owners set their own rules within the bounds of this policy and our Terms of Service.
 
 We moderate behavior that interferes with other users' ability to use the platform. Everything else is between you and your community.
 
 ## NSFW and Prohibited Content
 
-Content standards for explicit material, graphic violence, and absolutely prohibited content — including the full definitions and the Test of Intent for illustrated content — are covered in detail in our **NSFW** article. Those policies are incorporated into these Terms of Service by reference. The short version: NSFW content requires labeling, and a specific category of content (CSAM, trafficking, credible threats of violence, illegal services, and others) is prohibited on the entire network under any circumstances.
+Content standards for explicit material, graphic violence, and absolutely prohibited content ; including the full definitions and the Test of Intent for illustrated content ; are covered in detail in our **NSFW** article. Those policies are incorporated into these Terms of Service by reference. The short version: NSFW content requires labeling, and a specific category of content (CSAM, trafficking, credible threats of violence, illegal services, and others) is prohibited on the entire network under any circumstances.
 
 ## Taking Matters into Your Own Hands
 
-We believe the best moderation is the moderation you control yourself. The platform gives you real tools to manage your experience — use them. Here's where to find them and what they do.
+We believe the best moderation is the moderation you control yourself. The platform gives you real tools to manage your experience ; use them. Here's where to find them and what they do.
 
 ### Settings > Privacy & Security
 
 This is your first line of defense. A few settings here can dramatically change your experience:
 
-**Who Can DM You** is a slider with four positions — No One, Friends, Friends + Server Members (the default), and Everyone. If you're getting unwanted messages from people you don't know, slide it left. You won't miss anything important — people who matter can be added as friends first. If you want to be fully unreachable by everyone, set it to No One. This will effectively disable DMs.
+**Who Can DM You** is a slider with four positions ; No One, Friends, Friends + Server Members (the default), and Everyone. If you're getting unwanted messages from people you don't know, slide it left. You won't miss anything important ; people who matter can be added as friends first. If you want to be fully unreachable by everyone, set it to No One. This will effectively disable DMs.
 
 **Allow Friends-of-Friends** extends DM access to people who share a mutual friend with you. If you're getting contact from people two degrees removed from you that you'd rather not have, turn this off.
 
@@ -162,13 +162,13 @@ A moderation or reports channel where issues can be raised
 
 A community culture in public channels that seems like one you want to be part of
 
-Server owners set the standards for their own community. If a server's moderation isn't meeting your standard, you can leave, find a better-moderated community, or — if you want a space run your way — create your own.
+Server owners set the standards for their own community. If a server's moderation isn't meeting your standard, you can leave, find a better-moderated community, or ; if you want a space run your way ; create your own.
 
 ### Use the Reporting Feature for Egregious Violations
 
-The reporting feature exists for genuine policy violations — behavior from the list above that has crossed a clear line. It is not for content you personally dislike, disputes with other users, or interpersonal drama. Use it when something has clearly violated the policies described in this article or our NSFW and Prohibited Content policies.
+The reporting feature exists for genuine policy violations ; behavior from the list above that has crossed a clear line. It is not for content you personally dislike, disputes with other users, or interpersonal drama. Use it when something has clearly violated the policies described in this article or our NSFW and Prohibited Content policies.
 
-When you report, you can include a description of what occurred and, where relevant, select specific messages as evidence. Your identity as the reporter is not shared with the reported user or server. See our full explanation of how reporting works — including the cryptographic integrity protections on submitted evidence — in the reporting section of our NSFW article.
+When you report, you can include a description of what occurred and, where relevant, select specific messages as evidence. Your identity as the reporter is not shared with the reported user or server. See our full explanation of how reporting works ; including the cryptographic integrity protections on submitted evidence ; in the reporting section of our NSFW article.
 
 ### Settings > Notifications
 
@@ -178,7 +178,7 @@ Noise is its own form of friction. If the platform feels overwhelming due to not
 
 **Do Not Disturb** suppresses all notifications when you need focus time.
 
-**Suppress When Focused **silences sounds and notifications when you're actively viewing the relevant channel. Enabled by default — it prevents the redundant experience of getting a notification sound for a message you're already reading.
+**Suppress When Focused **silences sounds and notifications when you're actively viewing the relevant channel. Enabled by default ; it prevents the redundant experience of getting a notification sound for a message you're already reading.
 
 **Quiet Hours** lets you define a window of time during which no notifications are delivered at all. If you find yourself getting pinged at 2am, this is the setting you want.
 

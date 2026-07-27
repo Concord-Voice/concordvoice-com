@@ -48,7 +48,7 @@ test('Windows via navigator.platform only (no UA, no hints)', () => {
 });
 
 test('high-entropy arch hint wins over a conflicting UA token', () => {
-  // Hint says x86 even though the UA carries an ARM64 token — the reliable hint wins.
+  // Hint says x86 even though the UA carries an ARM64 token : the reliable hint wins.
   const ua = 'Mozilla/5.0 (Windows NT 10.0; ARM64) AppleWebKit/537.36 (KHTML, like Gecko)';
   assert.deepEqual(pickTarget({ uaPlatform: 'Windows', uaArch: 'x86', userAgent: ua }), { os: 'windows', arch: 'x64', supported: true });
 });
