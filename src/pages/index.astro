@@ -13,7 +13,7 @@ const stats = [
   { big: 'Drop in', label: 'Rooms, DMs & group calls' },
   { big: 'Your place', label: 'Themes, roles & channels' },
   { big: 'Private', label: 'End-to-end encryption, no data sales' },
-  { big: 'Your rules', label: 'Hosted or self-hosted' },
+  { big: 'Your rules', label: 'Private spaces, your way' },
 ];
 
 ---
@@ -149,32 +149,6 @@ const stats = [
       </div>
     </section>
 
-    <!-- ============ PROOF 4, Self-host + security (layered) + CTA #2 ============ -->
-    <section class="proof reveal mx-auto max-w-6xl px-6 py-16">
-      <div class="proof__grid proof__grid--rev">
-        <div class="proof__media" style="--ry:-6deg">
-          <div class="stack">
-            <figure class="shot-card stack__back" aria-hidden="true">
-              <Shot name="privacy" alt="" sizes="(max-width: 900px) 80vw, 440px" />
-            </figure>
-            <figure class="shot-card stack__front">
-              <Shot name="connect" alt="The Concord Voice connection selector, where you sign in to the hosted service or point the app at a server you run yourself." sizes="(max-width: 900px) 88vw, 500px" />
-              <figcaption class="shot-chip">self-hosted</figcaption>
-            </figure>
-          </div>
-        </div>
-        <div class="proof__copy">
-          <p class="eyebrow text-gold">Self-Hostable</p>
-          <h2 class="display proof__h">Keep the space yours, all the way down.</h2>
-          <p class="text-mist proof__p">
-            Use Concord hosted, or run the entire platform on your own hardware and audit the
-            source. Self-hosting unlocks every feature, and your community's data never has to
-            touch our servers.
-          </p>
-        </div>
-      </div>
-    </section>
-
     <!-- ============ FINAL CTA, faint dms-hero backdrop ============ -->
     <section class="pd-cta reveal">
       <div class="pd-cta__bg" aria-hidden="true">
@@ -268,10 +242,10 @@ const stats = [
     #home .proof__p { margin-top: 1rem; font-size: 1.05rem; line-height: 1.65; max-width: 40ch; }
     /* perspective tilt that straightens when the row scrolls in */
     #home .proof__media { perspective: 1400px; }
-    #home .proof .shot-card, #home .proof .shot-hero--framed, #home .proof .stack {
+    #home .proof .shot-card, #home .proof .shot-hero--framed {
       transform: rotateY(var(--ry, 0deg)); transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
     }
-    #home .proof.in .shot-card, #home .proof.in .shot-hero--framed, #home .proof.in .stack { transform: rotateY(0deg); }
+    #home .proof.in .shot-card, #home .proof.in .shot-hero--framed { transform: rotateY(0deg); }
 
     /* ---- Theme switcher ---- */
     #home .theme-stage { aspect-ratio: 16 / 10; }
@@ -280,15 +254,6 @@ const stats = [
     #home .theme-stage .theme-shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.32s ease; }
     #home .theme-stage .theme-shot.is-on { opacity: 1; }
     #home .theme-chips { margin-top: 1.4rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-
-    /* ---- Layered self-host cards ---- */
-    #home .stack { position: relative; }
-    #home .stack__front { position: relative; z-index: 2; width: 88%; }
-    #home .stack__back {
-      position: absolute; z-index: 1; right: 0; bottom: -1.6rem; width: 64%;
-      transform: scale(0.96); opacity: 0.5; filter: saturate(0.85);
-    }
-    @media (max-width: 899px) { #home .stack__front { width: 100%; } #home .stack__back { display: none; } }
 
     /* ---- Final CTA with faint backdrop ---- */
     #home .pd-cta { position: relative; overflow: hidden; }
@@ -305,7 +270,7 @@ const stats = [
     /* Respect reduced motion: flatten tilt + make the theme swap instant.
        (The global block already neutralizes .rise/.reveal entrance movement.) */
     @media (prefers-reduced-motion: reduce) {
-      #home .proof .shot-card, #home .proof .shot-hero--framed, #home .proof .stack { transform: none !important; transition: none !important; }
+      #home .proof .shot-card, #home .proof .shot-hero--framed { transform: none !important; transition: none !important; }
       #home .theme-stage .theme-shot { transition: none !important; }
     }
   </style>

@@ -69,10 +69,11 @@ test('validateRelease tolerates malformed asset entries (untrusted API JSON)', (
   assert.equal(validateRelease(messy, '0.2.0'), true);
 });
 
-test('shouldFailClosed is enabled for Cloudflare Pages or explicit release builds only', () => {
+test('shouldFailClosed is enabled for production Cloudflare Pages or explicit release builds only', () => {
   assert.equal(shouldFailClosed({}), false);
   assert.equal(shouldFailClosed({ CF_PAGES: '0', CONCORD_RELEASE_RESOLUTION_REQUIRED: 'false' }), false);
-  assert.equal(shouldFailClosed({ CF_PAGES: '1' }), true);
+  assert.equal(shouldFailClosed({ CF_PAGES: '1', CF_PAGES_BRANCH: 'codex/self-hosting-release-state' }), false);
+  assert.equal(shouldFailClosed({ CF_PAGES: '1', CF_PAGES_BRANCH: 'main' }), true);
   assert.equal(shouldFailClosed({ CONCORD_RELEASE_RESOLUTION_REQUIRED: 'true' }), true);
 });
 

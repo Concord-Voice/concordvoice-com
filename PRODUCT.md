@@ -20,12 +20,12 @@ End-to-end encryption and privacy take priority over productization. Privacy is 
 
 ## Operating Context
 
-People use Concord Voice through the cross-platform Electron desktop client and browser-based Admin Portal, in hosted communities or self-hosted deployments. Communities organize servers, channels, and direct messages for text, voice, video, screen sharing, and shared spaces. The public website is a static Astro site.
+People use Concord Voice through the cross-platform Electron desktop client and browser-based Admin Portal in hosted communities. Communities organize servers, channels, and direct messages for text, voice, video, screen sharing, and shared spaces. The public website is a static Astro site.
 
 ## Capabilities and Constraints
 
 - End-to-end encryption protects messages and voice/video communications.
-- Users can use a hosted service or self-host Concord Voice on their own infrastructure.
+- Concord Voice source is public; the supported self-hosted installer and deployment guide are not publicly released yet. Commercial self-hosting requires a Concord Voice commercial license.
 - The source is available under CVSL 1.0 and each version converts to AGPL-3.0-or-later on the earlier of 2030-02-15 or four years after its first public distribution.
 - The product must be accessible, transparent, and feature-rich without making privacy tools difficult to use.
 - The public website is privacy-first and uses no third-party trackers.

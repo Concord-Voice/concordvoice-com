@@ -1,0 +1,33 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import '@styles/marketing.css';
+---
+
+<Layout
+  title="Commercial Licensing | Concord Voice"
+  description="Commercial licensing for Concord Voice self-hosting."
+>
+  <Header />
+
+  <main class="mx-auto w-full max-w-6xl px-6 pb-24 pt-10">
+    <section class="mkt-hero">
+      <p class="eyebrow text-gradient">Licensing</p>
+      <h1 class="display mkt-hero__title">Commercial licensing</h1>
+      <p class="mkt-lead">Commercial self-hosting requires a Concord Voice commercial license.</p>
+    </section>
+
+    <section class="mkt-section">
+      <p class="mkt-section__sub">
+        Concord Voice source is public; the supported self-hosted installer and deployment guide are not publicly released yet.
+      </p>
+      <div class="mkt-cta-row">
+        <a href="mailto:contact-us@concordvoice.com?subject=Commercial%20licensing" class="btn btn-primary">Contact us about commercial licensing</a>
+        <a href="/license" class="btn border border-white/20 hover:border-coral">Read the CVSL 1.0 →</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

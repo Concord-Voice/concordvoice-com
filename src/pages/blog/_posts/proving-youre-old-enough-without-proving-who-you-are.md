@@ -42,7 +42,7 @@ We do believe, however, in the social welfare of children and how having an onli
 
 It’s also our opinion that parents should have the ultimate say over their kids’ internet access, not us, another business, or the government.
 
-The impact of that has its own consequences, leaving some without a space to occupy, especially a safe one. We didn’t want to limit families and friend groups. There are some tech-savvy kids out there, along with parents who love gaming together with their kids. That’s why our self-hosted option includes creating local accounts, and if those local accounts are enabled, the server isn’t allowed to sync with the Concord Voice Network or be listed in the Public Directory. This allows tech-savvy kids and parents who want moderation and control, but still allow for access to communications (especially secure, privacy-focused comms), to host and manage their own servers outside the bounds of our policies and controls, so it would be perfectly acceptable to have these hosted for private use that doesn’t link back to our network, keeping a layer of segregation.
+The impact of that has its own consequences, leaving some without a space to occupy, especially a safe one. We didn’t want to limit families and friend groups. There are some tech-savvy kids out there, along with parents who love gaming together with their kids. A self-hosted early-access pilot is operator-assisted: the operator runs the infrastructure and is responsible for its own policies, safeguards, and applicable legal obligations. Concord Voice does not operate or monitor that deployment. The pilot works from source rather than a supported downloadable installer. Concord Voice source is public; the supported self-hosted installer and deployment guide are not publicly released yet. Commercial self-hosting requires a [Concord Voice commercial license](/commercial-license). Anyone interested in a self-hosted early-access pilot can [contact us](mailto:contact-us@concordvoice.com?subject=Self-hosted%20early-access%20pilot).
 
 So… How do we handle age verification when required? We’ve approached this in a few ways.
 
@@ -125,11 +125,11 @@ Now, for age threshold rules:
 
 At this time, we have no intent to implement a full Age Verification integration, whether we develop it in-house or obtain it from a third party.
 
-This does restrict us in certain parts of the world. However, we can still offer Self-Hosted Servers to anyone at any time for their own personal use. This is vital to ensuring free access to private and secure communications for anyone.
+This does restrict us in certain parts of the world. We do not currently offer a public, supported self-hosting installation.
 
 Down the road, do I see this position changing? Unfortunately and transparently, it is likely, but we are unwilling participants. The current track record of government support for online ID tracking and verification is growing, and it has become a major concern of ours as we continue to develop ways that are minimally invasive of privacy and work around storing PII and other data on our hosted servers, specifically.
 
-It’s not our goal to regulate access to the platform or collect a whole bunch of data, especially PII. In this particular stage, what all of this is, is more of an enforcement/mandate, lest we just get completely screwed. Worst case, the business side of things will cease to exist, but the project doesn’t die with us: Concord Voice is source-available today, and under the CVSL 1.0 license it converts to AGPL-3.0 automatically, so the community can pick it up and run with it if it ever does go nuclear, of course.
+It’s not our goal to regulate access to the platform or collect a whole bunch of data, especially PII. In this particular stage, what all of this is, is more of an enforcement/mandate, lest we just get completely screwed. Worst case, the business side of things will cease to exist, but the project doesn’t die with us: Concord Voice is source-available today, and under the [CVSL 1.0 license](/license) it converts to AGPL-3.0 automatically, so the community has clear terms to audit and preserve the project if it ever does go nuclear, of course.
 
 The last thing we want is for this app to end up in the hands of malicious companies that use these verification laws to make more money…
 

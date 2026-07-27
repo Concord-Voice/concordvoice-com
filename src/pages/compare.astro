@@ -12,9 +12,8 @@ import '@styles/marketing.css';
 const caps = [
   { f: 'End-to-end encrypted messages, on by default', cv: 'Always on', market: 'Rare, even platforms now adding encrypted calls still leave your messages readable' },
   { f: 'End-to-end encrypted voice & video', cv: 'Always on', market: 'Increasingly common for calls; not every platform extends the same privacy model to messages, ownership, or business incentives' },
-  { f: 'Self-host the entire platform', cv: 'Free, every feature unlocked, hardware-limited (you run your own media plane)', market: 'Almost never on mainstream apps; only niche or open tools, often capped or per-seat' },
   { f: 'No ads · no data sale · no profiling', cv: 'Funded by subscriptions', market: 'Many monetize through ads or metadata; only a handful avoid both' },
-  { f: 'Open-source path', cv: 'License converts to AGPL-3.0', market: 'Usually fully proprietary; a few open the client only' },
+  { f: 'Source-available license', cv: 'CVSL 1.0 converts to AGPL-3.0-or-later on its Change Date', market: 'Usually fully proprietary; a few publish limited client code' },
   { f: 'Studio-grade voice, seven quality tiers', cv: 'Up to 510 kbps', market: 'Often capped low or gated behind stacked paid “boosts”' },
   { f: 'Community servers, roles & channels', cv: 'Included', market: 'Community apps, yes; messengers and team tools, mostly no' },
   { f: 'Screen shares and cameras at once in a room', cv: 'Free: 8 screens, 8 cameras. Mach server: 16 screens, 25 cameras.', market: 'Often just 1–2, or gated behind stacked paid boosts' },
@@ -33,8 +32,6 @@ const compare = [
   { plan: 'Mach 3 (hosted server)', price: '$34.99/mo', yearly: '$384.89/yr', avg: '~$20–$70/mo (boost-gated)', vs: '4K60 video, 512 MB files, 500 emoji/150 stickers/55 soundboards, 2.5 TB storage', notes: 'Top tier for large or media-heavy communities, 4K60 and 2.5 TB server storage.' },
   { plan: 'Squadron 4 / 8 / 12', price: '$42.99 / $72.99 / $104.99/mo', yearly: '$472.89 / $802.89 / $1,154.89/yr', avg: '~$4–$18 per user/mo', vs: 'Per-member Supersonic that travels, plus one Mach boost (captain picks the tier, Mach 2 default), one bill', notes: 'Roughly $9–$11/member; portable Supersonic for everyone + one Mach boost. Extra servers a-la-carte at ladder price.' },
   { plan: 'Afterburner: shared pledge pool', price: 'from ~$5/mo each', yearly: 'Not billed annually', avg: 'No flat equivalent', vs: 'Crowd-fund a Mach 2 or Mach 3 boost across friends, transparently', notes: 'Nobody is charged until pledges reach the tier price. Mach 2/3 only; about $5 minimum per share.' },
-  { plan: 'Self-Hosted', price: 'Free, all features', yearly: 'Free', avg: 'Free OSS → $55–$500/yr → ~$10/user/mo', vs: 'Every premium feature free; most mainstream platforms cannot self-host at all', notes: 'Every feature unlocked, hardware-limited (you run your own media plane). Commercial use needs a CVSL commercial license.' },
-  { plan: 'Ground Control (self-host add-on)', price: '$120/yr', yearly: '1yr $120 · 2yr $204 · 3yr $270', avg: 'No equivalent exists', vs: 'First of its kind, flat-rate network + support for self-hosters', notes: 'Network sync + Public Directory + email support. Commit longer, pay less.' },
 ];
 ---
 <Layout
@@ -81,7 +78,7 @@ const compare = [
       <p class="mkt-label eyebrow text-gradient">Comparisons &amp; Industry Averages</p>
       <h2 class="display mkt-section__title">Plan-by-plan</h2>
       <p class="mkt-section__sub">
-        Our price next to the typical range for that kind of plan, personal, community, and self-hosted.
+        Our price next to the typical range for personal and community plans.
       </p>
       <div class="mkt-table-wrap">
         <table class="mkt-table">
@@ -98,7 +95,7 @@ const compare = [
       </div>
       <p class="fineprint">
         Market ranges reflect publicly available rates and capabilities across comparable voice, chat, community,
-        and self-hostable platforms as of mid-2026, and may vary. Figures are category ranges, not named-competitor
+        and community platforms as of mid-2026, and may vary. Figures are category ranges, not named-competitor
         quotes. We benchmark against the major players but keep this chart brand-free on purpose.
       </p>
     </section>
@@ -110,7 +107,7 @@ const compare = [
       <div class="mkt-cta-row">
         <a href="/pricing" class="btn border border-white/20 hover:border-coral">Personal Use →</a>
         <a href="/teams" class="btn border border-white/20 hover:border-coral">Groups &amp; Communities →</a>
-        <a href="/self-hosting" class="btn border border-white/20 hover:border-coral">Self-hosting →</a>
+        <a href="/self-hosting" class="btn border border-white/20 hover:border-coral">Self-hosting early access →</a>
       </div>
     </section>
 
