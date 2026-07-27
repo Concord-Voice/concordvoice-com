@@ -49,7 +49,7 @@ products and features you use.
 end-to-end encryption (E2EE) for messages. We do not possess the keys
 necessary to decrypt your end-to-end encrypted content, and we are
 technically unable to read, scan, analyze, moderate, or disclose the
-content of encrypted messages — even when compelled by legal process.
+content of encrypted messages ; even when compelled by legal process.
 See [Section 2](#2-end-to-end-encryption-and-content-inaccessibility).
 
 **Do we process sensitive personal information?** Some of the information
@@ -77,11 +77,11 @@ Broadcast as an opt-in AI provider, identity providers for Single
 Sign-On). We do not sell your personal information. See
 [Section 5](#5-when-and-with-whom-do-we-share-your-personal-information).
 
-**Self-hosted Concord Voice — operator is the data controller.** If you
+**Self-hosted Concord Voice ; operator is the data controller.** If you
 use a Concord Voice instance hosted by an organization other than Concord
 Voice LLC (a "self-hosted" deployment under the [Concord Voice Source
-License 1.0](../LICENSE)), the operator of that instance — not Concord
-Voice LLC — is the data controller responsible for your personal
+License 1.0](../LICENSE)), the operator of that instance ; not Concord
+Voice LLC ; is the data controller responsible for your personal
 information on that instance. See
 [Section 18](#18-source-code-self-hosted-instances).
 
@@ -160,9 +160,9 @@ The personal information we collect may include the following:
 When necessary, with your consent or as otherwise permitted by applicable
 law, we process the following categories of sensitive information:
 
-- **Date of birth** — collected at registration for age-verification
+- **Date of birth** ; collected at registration for age-verification
   purposes consistent with applicable age-of-majority laws.
-- **Approximate geolocation** — collected for the limited purpose of
+- **Approximate geolocation** ; collected for the limited purpose of
   jurisdictional compliance with age-verification and online-services
   laws (see "Age Attestation, Assurance, and Verification" in
   [Section 3](#3-how-do-we-process-your-information)).
@@ -214,7 +214,7 @@ information if you choose to provide us with access or permission:
 This information is primarily needed to maintain the security and
 operation of our application(s), for troubleshooting, and for our
 internal analytics and reporting purposes. Concord Voice has a
-**low-telemetry architecture by design** — we collect only what is
+**low-telemetry architecture by design** ; we collect only what is
 necessary to operate the Service, and we do not collect crash dumps or
 behavioral analytics from the application.
 
@@ -224,8 +224,8 @@ information.
 
 ### Information Automatically Collected
 
-> **In Short:** Some information — such as your Internet Protocol (IP)
-> address and/or browser and device characteristics — is collected
+> **In Short:** Some information ; such as your Internet Protocol (IP)
+> address and/or browser and device characteristics ; is collected
 > automatically when you visit our Services.
 
 We automatically collect certain information when you visit, use, or
@@ -296,7 +296,7 @@ governed by this Privacy Notice.
 
 > **In Short:** Concord Voice uses end-to-end encryption (E2EE) for
 > messages. We do not possess the keys needed to decrypt your encrypted
-> content and cannot read, scan, analyze, moderate, or disclose it —
+> content and cannot read, scan, analyze, moderate, or disclose it ;
 > even when compelled by legal process.
 
 ### 2.1 Encryption of Message Content
@@ -312,7 +312,7 @@ the keys necessary to decrypt the content.
 
 Voice and video streams transmitted via our media plane (a mediasoup
 SFU) are **end-to-end encrypted at the frame level**. Media frames are
-encrypted on your device using **AES-128-GCM** via the WebRTC Encoded
+encrypted on your device using **AES-256-GCM** via the WebRTC Encoded
 Transform API before they reach our media server. The media server (a
 Selective Forwarding Unit, or SFU) forwards the encrypted RTP payloads
 to other participants in the same channel or call without seeing the
@@ -322,7 +322,7 @@ Frame encryption keys are derived from the same per-channel symmetric
 keys that protect text messages (see Section 2.1), using HKDF-SHA256
 key derivation. This means voice/video end-to-end encryption is bound
 to the same Role-Based Access Control as message end-to-end encryption
-— only members with access to a channel can derive the keys to decrypt
+; only members with access to a channel can derive the keys to decrypt
 voice and video from that channel. Keys are rotated on an epoch basis
 when channel membership changes, so users who leave a channel cannot
 decrypt subsequent voice or video on that channel.
@@ -332,7 +332,7 @@ between your device and our media server is protected by **DTLS-SRTP
 transport-layer encryption**, providing a defense-in-depth layer
 against passive network adversaries.
 
-Voice and video streams are **not persisted** on our servers — they
+Voice and video streams are **not persisted** on our servers ; they
 are forwarded in real time and discarded.
 
 Both server-channel voice/video rooms and direct-message 1:1 voice
@@ -345,8 +345,8 @@ For end-to-end encrypted content (messages):
 - We cannot read, listen to, watch, scan, analyze, moderate, train AI
   models on, advertise based on, or otherwise process the plaintext
   content.
-- We cannot disclose the plaintext content to third parties — including
-  law enforcement, government agencies, or any other requesting party —
+- We cannot disclose the plaintext content to third parties ; including
+  law enforcement, government agencies, or any other requesting party ;
   even when compelled by valid legal process. This is a **technical
   limitation, not a policy choice**.
 - We cannot recover end-to-end encrypted content that is lost due to
@@ -635,7 +635,7 @@ designed to enhance your experience.
 We provide the AI Products through third-party service providers ("AI
 Service Providers"), currently including:
 
-- **NVIDIA Broadcast** — opt-in audio/video enhancement (background
+- **NVIDIA Broadcast** ; opt-in audio/video enhancement (background
   noise removal, virtual background, eye-contact correction). Requires
   an NVIDIA RTX-Series GPU. Usage of NVIDIA Broadcast in the app is
   managed under Settings → Audio & Video.
@@ -651,7 +651,7 @@ Our AI Products are designed for the following functions:
 
 All personal information processed using our AI Products is handled in
 line with this Privacy Notice and our agreement with third parties.
-NVIDIA Broadcast runs **locally on your device** — your audio and
+NVIDIA Broadcast runs **locally on your device** ; your audio and
 video do not leave your device for AI processing. The NVIDIA Broadcast
 SDK is licensed under NVIDIA's terms; please review NVIDIA's privacy
 policy for details on any telemetry the SDK may transmit.
@@ -690,7 +690,7 @@ account.
 
 We will use the information we receive only for the purposes that are
 described in this Privacy Notice or that are otherwise made clear to
-you on the relevant Services — primarily for account creation and
+you on the relevant Services ; primarily for account creation and
 authentication. We do not request access to your social graph, contacts,
 or other data beyond what is necessary for sign-in.
 
@@ -724,8 +724,8 @@ those in your country.
 ### 9.1 Legal Basis for EEA / UK / Switzerland to United States Transfer
 
 Concord Voice LLC currently relies on **Article 49(1)(a) of the GDPR
-(and the equivalent UK GDPR provision)** — *explicit consent of the
-data subject* — as the legal basis for transferring personal data from
+(and the equivalent UK GDPR provision)** ; *explicit consent of the
+data subject* ; as the legal basis for transferring personal data from
 the EEA, UK, or Switzerland to the United States.
 
 By creating an account on the hosted Concord Voice Service (operated
@@ -735,7 +735,7 @@ informed of the following risks:
 
 - The United States does not currently have an adequacy decision from
   the European Commission (other than the EU-US Data Privacy Framework,
-  in which Concord Voice LLC does **not** participate — see Section 9.2).
+  in which Concord Voice LLC does **not** participate ; see Section 9.2).
 - US law enforcement and intelligence services may, under US law, have
   surveillance access to personal data transferred to US-based service
   providers, beyond what is permitted under EU/UK data protection law.
@@ -753,7 +753,7 @@ informed of the following risks:
 You may withdraw your consent at any time by deleting your account or
 by contacting us as described in [Section 12](#12-what-are-your-privacy-rights).
 
-### 9.2 EU-US Data Privacy Framework — Not Participating
+### 9.2 EU-US Data Privacy Framework: Not Participating
 
 **Concord Voice LLC is NOT currently certified under the EU-US Data
 Privacy Framework (DPF), the Swiss-US Data Privacy Framework, or the
@@ -763,7 +763,7 @@ is pursued in the future, this Privacy Notice will be updated and we
 will file the required certification with the US Department of
 Commerce.
 
-### 9.3 Standard Contractual Clauses (SCCs) — In Progress
+### 9.3 Standard Contractual Clauses (SCCs): In Progress
 
 Concord Voice LLC has **not yet executed** Standard Contractual Clauses
 with all of our third-party processors (see [Section 5.1](#51-service-providers)).
@@ -774,10 +774,10 @@ personal-data transfers to our processors rely on the same Article
 
 Once SCCs are executed, this Privacy Notice will be updated to identify
 SCCs as the primary legal basis for transfer, and the Article 49(1)(a)
-consent basis will be supplemented (not replaced — consent remains a
+consent basis will be supplemented (not replaced ; consent remains a
 defensible parallel basis).
 
-### 9.4 EU and UK Representative — Not Yet Appointed
+### 9.4 EU and UK Representative: Not Yet Appointed
 
 **Concord Voice LLC has not yet appointed a representative under
 Article 27 of the GDPR or under the equivalent provision of the UK
@@ -835,7 +835,7 @@ period of time in which you have an account with us.
 **Account data is deleted within 30 days of account deletion**, except
 where retention is required by law. End-to-end encrypted message
 content stored on our servers is also deleted within this window
-(though ciphertext is, by construction, not readable by us — only the
+(though ciphertext is, by construction, not readable by us ; only the
 deletion of the ciphertext copies is meaningful from our perspective).
 
 When we have no ongoing legitimate business need to process your
@@ -947,7 +947,7 @@ at any time by:
   [Section 20](#20-how-can-you-contact-us-about-this-notice).
 
 You will then be removed from any marketing lists. However, we may
-still communicate with you — for example, to send you service-related
+still communicate with you ; for example, to send you service-related
 messages that are necessary for the administration and use of your
 account, to respond to service requests, or for other non-marketing
 purposes (transactional communications).
@@ -1302,7 +1302,7 @@ the extent that:
   infrastructure (for example, the Concord Public Directory listing
   service, if you opt into it).
 - You separately interact with Concord Voice LLC's hosted Service
-  (concordvoice.chat) — for example, by creating an account.
+  (concordvoice.chat) ; for example, by creating an account.
 - You purchase a Commercial License (Enterprise or MSP/OEM) and Concord
   Voice LLC processes information about you as part of the licensing
   and support relationship.
@@ -1310,7 +1310,7 @@ the extent that:
 ### 18.3 Commercial Licensees
 
 If you have purchased a Commercial License under the CVSL (Enterprise
-or MSP/OEM track — see [commercial license documentation](legal/commercial-license.md)),
+or MSP/OEM track ; see [commercial license documentation](legal/commercial-license.md)),
 Concord Voice LLC may process personal information about you (such as
 your contact information, billing information, and support
 correspondence) for purposes of the licensing and support relationship.
