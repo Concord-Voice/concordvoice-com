@@ -14,7 +14,7 @@ import { PLATFORMS, VERSION, RELEASE_TAG, RELEASE_NOTES_URL } from '../data/down
   <main class="dl mx-auto max-w-6xl px-6 pb-24 pt-6">
     <!-- Use .rise (a pure-CSS entrance animation that ends visible) rather than .reveal
          (opacity:0 until the Layout's IntersectionObserver adds .in). The matrix is the
-         no-JS fallback, so it MUST be visible with JavaScript disabled — .rise guarantees
+         no-JS fallback, so it MUST be visible with JavaScript disabled, .rise guarantees
          that; .reveal would leave a blank page for no-JS visitors. -->
     <section class="dl-hero rise">
       <p class="eyebrow text-gold">Desktop App · v{VERSION} Beta</p>
@@ -79,7 +79,7 @@ import { PLATFORMS, VERSION, RELEASE_TAG, RELEASE_NOTES_URL } from '../data/down
   .dl-h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); margin: 0.4rem 0 0.8rem; }
   .dl-sub { font-size: 1.05rem; line-height: 1.6; margin: 0 auto 1.8rem; max-width: 38rem; }
 
-  /* Recommendation slot — reserve height so the JS swap doesn't shift layout. */
+  /* Recommendation slot, reserve height so the JS swap doesn't shift layout. */
   .dl-pick { min-height: 7.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
   .dl-pick__detecting { font-size: 0.95rem; }
   .dl-pick__cta {
@@ -168,7 +168,7 @@ import { PLATFORMS, VERSION, RELEASE_TAG, RELEASE_NOTES_URL } from '../data/down
   }
 
   // Shown when detection can't produce a recommendation (data lookup miss or a rejected
-  // promise) — replaces the "Detecting…" copy so it never lingers; the matrix below is
+  // promise), replaces the "Detecting…" copy so it never lingers; the matrix below is
   // always usable.
   function showFallback(slot: HTMLElement): void {
     slot.dataset.state = 'fallback';
@@ -194,7 +194,7 @@ import { PLATFORMS, VERSION, RELEASE_TAG, RELEASE_NOTES_URL } from '../data/down
 
     const alts: string[] = [];
     if (os === 'mac') {
-      // Same-arch .zip (also the auto-update artifact) — always a working macOS link even
+      // Same-arch .zip (also the auto-update artifact), always a working macOS link even
       // if the .dmg mirror lags behind a release cut.
       const zip = plat.arches.find((x) => x.id === arch)?.builds.find((b) => b.kind === 'zip');
       if (zip) alts.push(`<a class="dl-link" href="${zip.url}">.zip</a>`);

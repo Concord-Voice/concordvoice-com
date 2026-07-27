@@ -44,7 +44,7 @@ export interface Platform {
   arches: Arch[];
 }
 
-// Per-format filename templates — encoded individually because the real asset names are
+// Per-format filename templates : encoded individually because the real asset names are
 // inconsistent (PascalCase+hyphen for AppImage, kebab+underscore for .deb, kebab+hyphen
 // for .rpm).
 const fn = {
@@ -64,7 +64,7 @@ export const PLATFORMS: Platform[] = [
   {
     id: 'mac',
     // The .dmg is the install download (branded drag-to-Applications). The .zip is kept as
-    // an alternate — it is also electron-updater's auto-update artifact. Both are normalized
+    // an alternate : it is also electron-updater's auto-update artifact. Both are normalized
     // to the same name scheme by the desktop release workflow (…-macos-<arch>.{dmg,zip}).
     label: 'macOS',
     installHint: 'Open the .dmg and drag Concord Voice into your Applications folder.',

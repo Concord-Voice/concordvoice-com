@@ -4,18 +4,18 @@ import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import '@styles/marketing.css';
 
-// Plan + capability comparison — BRAND-FREE (compares against market ranges and the typical
+// Plan + capability comparison, BRAND-FREE (compares against market ranges and the typical
 // platform, never named competitors). Ranges informed by
 // a mid-2026 competitive scan of the major voice/chat/community/self-host players.
 
-// What sets the platform apart — Concord vs. the broader market (category-based, no brands).
+// What sets the platform apart, Concord vs. the broader market (category-based, no brands).
 const caps = [
-  { f: 'End-to-end encrypted messages, on by default', cv: 'Always on', market: 'Rare — even platforms now adding encrypted calls still leave your messages readable' },
+  { f: 'End-to-end encrypted messages, on by default', cv: 'Always on', market: 'Rare, even platforms now adding encrypted calls still leave your messages readable' },
   { f: 'End-to-end encrypted voice & video', cv: 'Always on', market: 'Increasingly common for calls; not every platform extends the same privacy model to messages, ownership, or business incentives' },
-  { f: 'Self-host the entire platform', cv: 'Free — every feature unlocked, hardware-limited (you run your own media plane)', market: 'Almost never on mainstream apps; only niche or open tools, often capped or per-seat' },
+  { f: 'Self-host the entire platform', cv: 'Free, every feature unlocked, hardware-limited (you run your own media plane)', market: 'Almost never on mainstream apps; only niche or open tools, often capped or per-seat' },
   { f: 'No ads · no data sale · no profiling', cv: 'Funded by subscriptions', market: 'Many monetize through ads or metadata; only a handful avoid both' },
   { f: 'Open-source path', cv: 'License converts to AGPL-3.0', market: 'Usually fully proprietary; a few open the client only' },
-  { f: 'Studio-grade voice — seven quality tiers', cv: 'Up to 510 kbps', market: 'Often capped low or gated behind stacked paid “boosts”' },
+  { f: 'Studio-grade voice, seven quality tiers', cv: 'Up to 510 kbps', market: 'Often capped low or gated behind stacked paid “boosts”' },
   { f: 'Community servers, roles & channels', cv: 'Included', market: 'Community apps, yes; messengers and team tools, mostly no' },
   { f: 'Screen shares and cameras at once in a room', cv: 'Free: 8 screens, 8 cameras. Mach server: 16 screens, 25 cameras.', market: 'Often just 1–2, or gated behind stacked paid boosts' },
   { f: 'A private place for a whole community', cv: 'Voice, chat, expression, and ownership in one product', market: 'Different tools optimize different parts of the job' },
@@ -23,22 +23,22 @@ const caps = [
 
 // Price-by-price, against the going market RANGE for each category (not named quotes).
 const compare = [
-  { plan: 'Sonic — free', price: 'Free', yearly: 'Free', avg: 'Free, but capped', vs: 'Free with E2EE, voice & video, and up to five servers — no ads', notes: 'The free tier is genuinely complete, not a nagware trial.' },
-  { plan: 'Supersonic', price: '$8.99/mo', yearly: '$98.89/yr', avg: '~$5–$10/mo', vs: 'Your uplift is portable — E2EE, studio-grade audio, and 256 MB uploads travel with you to every server, boosted or not', notes: 'Full customization, studio-grade audio, 256 MB personal file uploads, and expanded emoji — all portable across every server you join.' },
-  { plan: 'Hypersonic', price: '$21.99/mo', yearly: '$241.89/yr', avg: '~$40–$50 to assemble', vs: 'No mainstream platform bundles a premium account + a boosted server', notes: 'Supersonic + a Mach 2 server in one plan — cheaper than the equivalent anywhere.', featured: true },
-  { plan: 'Wing — 2 people', price: '$14.99/mo', yearly: '$164.89/yr', avg: '~2× individual premium', vs: 'Two premium seats on one bill — most platforms only sell per-seat', notes: '2 Supersonic seats, one bill. Your uplift travels to every server you join.' },
-  { plan: 'Groundspeed — free server', price: 'Free', yearly: 'Free', avg: 'Free, quality capped', vs: 'Unlimited channels + E2EE, free — no boost paywall to start', notes: 'Every hosted server starts free with the basics included.' },
-  { plan: 'Mach 1 (hosted server)', price: '$4.99/mo', yearly: '$54.89/yr', avg: '~$20–$70/mo (boost-gated)', vs: '1080p60 video, up to 510 kbps audio, 128 MB files, 250 emoji/75 stickers/30 soundboards, 250 GB storage', notes: 'Server-wide lift for every member — 1080p60 and studio audio, animated GIF banner included.' },
-  { plan: 'Mach 2 (hosted server)', price: '$14.99/mo', yearly: '$164.89/yr', avg: '~$20–$70/mo (boost-gated)', vs: '1440p60 video, custom invite links, 256 MB files, 350 emoji/100 stickers/40 soundboards, 1 TB storage, server tag', notes: 'Mid-tier sweet spot — custom invite links and 1440p60 for the whole community.' },
-  { plan: 'Mach 3 (hosted server)', price: '$34.99/mo', yearly: '$384.89/yr', avg: '~$20–$70/mo (boost-gated)', vs: '4K60 video, 512 MB files, 500 emoji/150 stickers/55 soundboards, 2.5 TB storage', notes: 'Top tier for large or media-heavy communities — 4K60 and 2.5 TB server storage.' },
-  { plan: 'Squadron 4 / 8 / 12', price: '$42.99 / $72.99 / $104.99/mo', yearly: '$472.89 / $802.89 / $1,154.89/yr', avg: '~$4–$18 per user/mo', vs: 'Per-member Supersonic that travels, plus one Mach boost (captain picks the tier, Mach 2 default) — one bill', notes: 'Roughly $9–$11/member; portable Supersonic for everyone + one Mach boost. Extra servers a-la-carte at ladder price.' },
-  { plan: 'Afterburner — shared pledge pool', price: 'from ~$5/mo each', yearly: '—', avg: 'No flat equivalent', vs: 'Crowd-fund a Mach 2 or Mach 3 boost across friends, transparently', notes: 'Nobody is charged until pledges reach the tier price. Mach 2/3 only; about $5 minimum per share.' },
-  { plan: 'Self-Hosted', price: 'Free — all features', yearly: 'Free', avg: 'Free OSS → $55–$500/yr → ~$10/user/mo', vs: 'Every premium feature free; most mainstream platforms cannot self-host at all', notes: 'Every feature unlocked, hardware-limited (you run your own media plane). Commercial use needs a CVSL commercial license.' },
-  { plan: 'Ground Control (self-host add-on)', price: '$120/yr', yearly: '1yr $120 · 2yr $204 · 3yr $270', avg: 'No equivalent exists', vs: 'First of its kind — flat-rate network + support for self-hosters', notes: 'Network sync + Public Directory + email support. Commit longer, pay less.' },
+  { plan: 'Sonic, free', price: 'Free', yearly: 'Free', avg: 'Free, but capped', vs: 'Free with E2EE, voice & video, and up to five servers, no ads', notes: 'The free tier is genuinely complete, not a nagware trial.' },
+  { plan: 'Supersonic', price: '$8.99/mo', yearly: '$98.89/yr', avg: '~$5–$10/mo', vs: 'Your uplift is portable, E2EE, studio-grade audio, and 256 MB uploads travel with you to every server, boosted or not', notes: 'Full customization, studio-grade audio, 256 MB personal file uploads, and expanded emoji, all portable across every server you join.' },
+  { plan: 'Hypersonic', price: '$21.99/mo', yearly: '$241.89/yr', avg: '~$40–$50 to assemble', vs: 'No mainstream platform bundles a premium account + a boosted server', notes: 'Supersonic + a Mach 2 server in one plan, cheaper than the equivalent anywhere.', featured: true },
+  { plan: 'Wing, 2 people', price: '$14.99/mo', yearly: '$164.89/yr', avg: '~2× individual premium', vs: 'Two premium seats on one bill, most platforms only sell per-seat', notes: '2 Supersonic seats, one bill. Your uplift travels to every server you join.' },
+  { plan: 'Groundspeed, free server', price: 'Free', yearly: 'Free', avg: 'Free, quality capped', vs: 'Unlimited channels + E2EE, free, no boost paywall to start', notes: 'Every hosted server starts free with the basics included.' },
+  { plan: 'Mach 1 (hosted server)', price: '$4.99/mo', yearly: '$54.89/yr', avg: '~$20–$70/mo (boost-gated)', vs: '1080p60 video, up to 510 kbps audio, 128 MB files, 250 emoji/75 stickers/30 soundboards, 250 GB storage', notes: 'Server-wide lift for every member, 1080p60 and studio audio, animated GIF banner included.' },
+  { plan: 'Mach 2 (hosted server)', price: '$14.99/mo', yearly: '$164.89/yr', avg: '~$20–$70/mo (boost-gated)', vs: '1440p60 video, custom invite links, 256 MB files, 350 emoji/100 stickers/40 soundboards, 1 TB storage, server tag', notes: 'Mid-tier sweet spot, custom invite links and 1440p60 for the whole community.' },
+  { plan: 'Mach 3 (hosted server)', price: '$34.99/mo', yearly: '$384.89/yr', avg: '~$20–$70/mo (boost-gated)', vs: '4K60 video, 512 MB files, 500 emoji/150 stickers/55 soundboards, 2.5 TB storage', notes: 'Top tier for large or media-heavy communities, 4K60 and 2.5 TB server storage.' },
+  { plan: 'Squadron 4 / 8 / 12', price: '$42.99 / $72.99 / $104.99/mo', yearly: '$472.89 / $802.89 / $1,154.89/yr', avg: '~$4–$18 per user/mo', vs: 'Per-member Supersonic that travels, plus one Mach boost (captain picks the tier, Mach 2 default), one bill', notes: 'Roughly $9–$11/member; portable Supersonic for everyone + one Mach boost. Extra servers a-la-carte at ladder price.' },
+  { plan: 'Afterburner: shared pledge pool', price: 'from ~$5/mo each', yearly: 'Not billed annually', avg: 'No flat equivalent', vs: 'Crowd-fund a Mach 2 or Mach 3 boost across friends, transparently', notes: 'Nobody is charged until pledges reach the tier price. Mach 2/3 only; about $5 minimum per share.' },
+  { plan: 'Self-Hosted', price: 'Free, all features', yearly: 'Free', avg: 'Free OSS → $55–$500/yr → ~$10/user/mo', vs: 'Every premium feature free; most mainstream platforms cannot self-host at all', notes: 'Every feature unlocked, hardware-limited (you run your own media plane). Commercial use needs a CVSL commercial license.' },
+  { plan: 'Ground Control (self-host add-on)', price: '$120/yr', yearly: '1yr $120 · 2yr $204 · 3yr $270', avg: 'No equivalent exists', vs: 'First of its kind, flat-rate network + support for self-hosters', notes: 'Network sync + Public Directory + email support. Commit longer, pay less.' },
 ];
 ---
 <Layout
-  title="Compare Plans — Concord Voice"
+  title="Compare Plans | Concord Voice"
   description="Compare Concord Voice with the broader market: a private, voice-first community space with E2EE, ownership options, no advertising, and high-quality media."
 >
   <Header />
@@ -48,7 +48,7 @@ const compare = [
       <p class="eyebrow text-gradient">Compare</p>
       <h1 class="display mkt-hero__title">How it stacks up</h1>
       <p class="mkt-lead">
-        Every plan in one place, against the going rate for comparable platforms — with end-to-end encryption as
+        Every plan in one place, against the going rate for comparable platforms, with end-to-end encryption as
         the baseline, not an upsell. We compare against the market by category, not by pointing fingers, and we'd
         rather you verify our claims than take our word for it.
       </p>
@@ -81,7 +81,7 @@ const compare = [
       <p class="mkt-label eyebrow text-gradient">Comparisons &amp; Industry Averages</p>
       <h2 class="display mkt-section__title">Plan-by-plan</h2>
       <p class="mkt-section__sub">
-        Our price next to the typical range for that kind of plan — personal, community, and self-hosted.
+        Our price next to the typical range for that kind of plan, personal, community, and self-hosted.
       </p>
       <div class="mkt-table-wrap">
         <table class="mkt-table">
@@ -106,7 +106,7 @@ const compare = [
     <section class="mkt-section">
       <p class="mkt-label eyebrow text-gradient">See the details</p>
       <h2 class="display mkt-section__title">Ready to pick a plan?</h2>
-      <p class="mkt-section__sub">Full feature lists live on the pricing pages — personal plans for individuals, group plans for communities and teams.</p>
+      <p class="mkt-section__sub">Full feature lists live on the pricing pages, personal plans for individuals, group plans for communities and teams.</p>
       <div class="mkt-cta-row">
         <a href="/pricing" class="btn border border-white/20 hover:border-coral">Personal Use →</a>
         <a href="/teams" class="btn border border-white/20 hover:border-coral">Groups &amp; Communities →</a>
@@ -117,7 +117,7 @@ const compare = [
     <section class="mkt-section" id="pricing-faq">
       <p class="mkt-label eyebrow text-gradient">Pricing FAQ</p>
       <div class="faq">
-        <details class="faq__item"><summary class="faq__q">When do paid subscriptions start?</summary><p class="faq__a">Paid upgrades are planned for v1.0 General Availability. They are not active during beta.</p></details>
+        <details class="faq__item"><summary class="faq__q">When do paid subscriptions start?</summary><p class="faq__a">Paid upgrades are planned for v1.0 General Availability. They are not active during Beta.</p></details>
         <details class="faq__item"><summary class="faq__q">Can paid prices change?</summary><p class="faq__a">Yes. The paid prices shown are planned values and may change before General Availability.</p></details>
       </div>
     </section>
@@ -125,7 +125,7 @@ const compare = [
     <section class="mkt-cta reveal">
       <p class="eyebrow text-gold">No credit card. No data sold.</p>
       <h2 class="display mkt-cta__title">Start free. Upgrade only if you want to.</h2>
-      <a href="/download" class="btn btn-primary" style="margin-top:1.5rem;">Download the beta</a>
+      <a href="/download" class="btn btn-primary" style="margin-top:1.5rem;">Download the Beta</a>
     </section>
   </main>
 
@@ -135,7 +135,7 @@ const compare = [
     .fineprint { max-width: 46rem; margin: 1.6rem auto 0; font-size: 0.78rem; line-height: 1.6; color: var(--color-mist); text-align: center; }
     .mkt-table tr.is-featured td { background: color-mix(in oklab, var(--color-coral) 12%, transparent); }
     .mkt-table tr.is-featured td:first-child { color: var(--color-gold); }
-    /* Capability matrix — highlight the Concord column so the differentiation reads at a glance. */
+    /* Capability matrix, highlight the Concord column so the differentiation reads at a glance. */
     .caps-table { min-width: 38rem; }
     .caps-table td:nth-child(2) { background: color-mix(in oklab, var(--color-coral) 8%, transparent); font-weight: 600; }
     .caps-table th:nth-child(2) { background: color-mix(in oklab, var(--color-coral) 14%, transparent); }

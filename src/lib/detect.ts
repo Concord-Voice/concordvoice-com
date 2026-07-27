@@ -6,7 +6,7 @@ export interface DetectResult {
   supported: boolean;
 }
 
-/** Minimal navigator shape we read — kept tiny so the function is pure + testable. */
+/** Minimal navigator shape we read : kept tiny so the function is pure + testable. */
 export interface NavLike {
   userAgent?: string;
   platform?: string;
@@ -54,7 +54,7 @@ export function pickTarget(nav: NavLike): DetectResult {
   // Windows before the Linux branch is reached.
   if (hintPlat === 'windows' || /windows|win32|win64/.test(ua) || /windows|win32|win64/.test(plat)) {
     // Best-effort: Windows-on-ARM browsers often report "Win64; x64" with no arm token, so
-    // the UA-only fallback can under-detect ARM — the high-entropy hint (uaArch) is the
+    // the UA-only fallback can under-detect ARM : the high-entropy hint (uaArch) is the
     // reliable signal and takes precedence here.
     const arch = archFromHint() ?? (/arm64|aarch64/.test(ua) ? 'arm64' : 'x64');
     return { os: 'windows', arch, supported: true };
