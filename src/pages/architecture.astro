@@ -1,0 +1,298 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import '@styles/marketing.css';
+
+const planes = [
+  {
+    title: 'Desktop client',
+    detail: 'Electron 43 wraps a React 19 renderer. A narrow preload bridge keeps the renderer away from Node, while Web Crypto encrypts content before it leaves the device.',
+    stack: 'Electron · React · TypeScript · Web Crypto',
+  },
+  {
+    title: 'Control plane',
+    detail: 'Go and Gin own authentication, permissions, community state, and the WebSocket hub. It persists application state and relays ciphertext; it does not need message plaintext to do its job.',
+    stack: 'Go · Gin · PostgreSQL · Redis · NATS',
+  },
+  {
+    title: 'Media plane',
+    detail: 'Node.js and mediasoup negotiate and route live media. RoomManager owns the transport lifecycle, with one router per room and encrypted frames kept opaque to the SFU.',
+    stack: 'Node.js · mediasoup · Socket.IO · WebRTC',
+  },
+];
+
+const flowPanels = [
+  {
+    id: 'sign-in',
+    label: 'Sign in',
+    title: 'A short-lived session, then a narrowly scoped real-time connection.',
+    summary: 'Authentication establishes identity before the client asks for access to real-time services.',
+    steps: [
+      ['Desktop client', 'Sends credentials to the control plane over TLS.'],
+      ['Control plane', 'Verifies the password with Argon2id and completes MFA when required.'],
+      ['Session', 'Returns a memory-only access token; Remember Me uses OS-backed secure storage for refresh material.'],
+      ['WebSocket', 'The client requests a 30-second, single-use ticket before opening its real-time connection.'],
+    ],
+    boundary: 'The renderer does not receive broad operating-system access, and the access token is not written to disk.',
+  },
+  {
+    id: 'messages',
+    label: 'Messages',
+    title: 'The hub routes ciphertext. The recipient decrypts it.',
+    summary: 'Message encryption happens before the WebSocket envelope is sent; the server validates and stores the encrypted result.',
+    steps: [
+      ['Sender device', 'encryptForChannel encrypts plaintext with AES-256-GCM before it enters the network path.'],
+      ['WebSocket hub', 'Checks membership, the key epoch, and envelope limits without inspecting message content.'],
+      ['PostgreSQL', 'Stores ciphertext verbatim alongside the metadata needed to deliver and order it.'],
+      ['Recipient device', 'Validates the inbound event, then decrypts locally with the channel key.'],
+    ],
+    boundary: 'The control plane has the routing and authorization context it needs, but not the plaintext it would need to read a conversation.',
+  },
+  {
+    id: 'calls',
+    label: 'Calls',
+    title: 'The SFU routes live media without becoming a media reader.',
+    summary: 'Signaling and media routing are separate from the client-side transform that encrypts each frame.',
+    steps: [
+      ['Desktop client', 'Attaches the E2EE transform before publishing audio or video.'],
+      ['Socket.IO', 'Negotiates WebRTC transports with the mediasoup media plane.'],
+      ['Media plane', 'RoomManager owns transport lifecycle; the SFU forwards opaque encrypted RTP frames.'],
+      ['Other devices', 'Decrypt frames locally; missing transforms or keys fail closed instead of exposing media.'],
+    ],
+    boundary: 'DTLS-SRTP protects transport to the SFU, while application-layer E2EE keeps frame content and frame keys out of the SFU.',
+  },
+  {
+    id: 'keys',
+    label: 'Key rotation',
+    title: 'Membership changes are also encryption-boundary changes.',
+    summary: 'Channels and DMs keep parallel epoch ledgers so removed members cannot keep using a superseded key.',
+    steps: [
+      ['Channel creator', 'Generates an AES-256-GCM channel key on the client.'],
+      ['Per-member wrapping', 'Wraps that channel key with each recipient public key using RSA-OAEP.'],
+      ['Control plane', 'Stores wrapped keys and tracks the key epoch plus revocation records.'],
+      ['Join or removal', 'Existing members re-wrap or rotate key material for the current membership set.'],
+    ],
+    boundary: 'The service can store and distribute wrapped key material and enforce epochs, but private keys are generated and unwrapped only on client devices.',
+  },
+];
+
+const boundaries = [
+  {
+    title: 'Encryption is structural',
+    detail: 'There is no server-side plaintext message store to switch off later. The service handles encrypted content, while recipients decrypt on their own devices.',
+  },
+  {
+    title: 'Privilege stays narrow',
+    detail: 'Electron isolates the renderer from privileged APIs, and the control and media planes each have a focused job instead of sharing a single all-powerful process.',
+  },
+  {
+    title: 'Operations are deliberately low-detail',
+    detail: 'Optional operational metrics are signed, fixed scalar snapshots. They exclude users, rooms, server names, addresses, hostnames, and free-form Docker metadata.',
+  },
+];
+
+---
+
+<Layout
+  title="Architecture | Concord Voice"
+  description="A technical overview of Concord Voice: its Electron desktop client, Go control plane, mediasoup media plane, and end-to-end encrypted data paths."
+>
+  <Header />
+
+  <main class="mx-auto w-full max-w-6xl px-6 pb-24 pt-10">
+    <section class="mkt-hero">
+      <p class="eyebrow text-gradient">Technical architecture</p>
+      <h1 class="display mkt-hero__title">Three service planes. One privacy boundary.</h1>
+      <p class="mkt-lead">
+        Concord Voice is a desktop-first communications system designed so that messages and media are
+        encrypted on the client, then routed by services that do not need to see their plaintext.
+      </p>
+      <nav class="anchor-nav" aria-label="Architecture sections">
+        <a href="#system" class="pill">System</a>
+        <a href="#data-flow" class="pill">Interactive flows</a>
+        <a href="#boundaries" class="pill">Boundaries</a>
+        <a href="#deployment" class="pill">Deployment</a>
+      </nav>
+    </section>
+
+    <section class="mkt-section" id="system">
+      <p class="mkt-label eyebrow text-gradient">System at a glance</p>
+      <pre class="architecture-map" aria-label="Desktop client communicates with the control and media planes; the control plane uses PostgreSQL, Redis, NATS and object storage, while the media plane uses Redis and NATS."><code>Desktop client
+  ├── HTTP + WebSocket ──&gt; Control plane ──&gt; PostgreSQL · Redis · object storage
+  └── Socket.IO + WebRTC ─&gt; Media plane ────&gt; Redis
+                                      │
+                                    NATS</code></pre>
+      <div class="mkt-grid mkt-grid--3" style="margin-top:1rem;">
+        {planes.map((plane) => (
+          <article class="feat reveal">
+            <h2 class="feat__t">{plane.title}</h2>
+            <p class="feat__d">{plane.detail}</p>
+            <p class="architecture-stack">{plane.stack}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="mkt-section architecture-flow architecture-flow--rail" id="data-flow">
+      <p class="mkt-label eyebrow text-gradient">Data flow</p>
+      <h2 class="display mkt-section__title">Follow the path that matters to you.</h2>
+      <p class="mkt-section__sub">Each view keeps the implementation detail visible without turning this page into the full architecture reference.</p>
+      <div class="architecture-flow-tabs" role="tablist" aria-label="Architecture flows">
+        {flowPanels.map((flow, index) => (
+          <button
+            type="button"
+            class="architecture-flow-tab"
+            role="tab"
+            id={`flow-${flow.id}-tab`}
+            aria-controls={`flow-${flow.id}-panel`}
+            aria-selected={index === 0 ? 'true' : 'false'}
+            tabindex={index === 0 ? 0 : -1}
+            data-flow-tab={flow.id}
+          >
+            {flow.label}
+          </button>
+        ))}
+      </div>
+      {flowPanels.map((flow, index) => (
+        <article
+          class="architecture-flow-panel"
+          role="tabpanel"
+          id={`flow-${flow.id}-panel`}
+          aria-labelledby={`flow-${flow.id}-tab`}
+          tabindex="0"
+          data-flow-panel={flow.id}
+          hidden={index !== 0}
+        >
+          <p class="architecture-flow-view">Signal rail</p>
+          <h3 class="display architecture-flow-title">{flow.title}</h3>
+          <p class="architecture-flow-summary">{flow.summary}</p>
+          <ol class="architecture-flow-diagram">
+            {flow.steps.map(([name, detail]) => (
+              <li class="architecture-flow-node">
+                <strong>{name}</strong>
+                <span>{detail}</span>
+              </li>
+            ))}
+          </ol>
+          <p class="architecture-flow-boundary"><strong>Boundary:</strong> {flow.boundary}</p>
+        </article>
+      ))}
+    </section>
+
+    <section class="mkt-section" id="boundaries">
+      <p class="mkt-label eyebrow text-gradient">Privacy boundaries</p>
+      <div class="mkt-grid mkt-grid--3">
+        {boundaries.map((boundary) => (
+          <article class="feat reveal">
+            <h2 class="feat__t">{boundary.title}</h2>
+            <p class="feat__d">{boundary.detail}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="mkt-section" id="deployment">
+      <p class="mkt-label eyebrow text-gradient">Deployment</p>
+      <h2 class="display mkt-section__title">The same system can run hosted or on your own infrastructure.</h2>
+      <div class="mkt-prose">
+        <p>
+          The hosted service uses the desktop client with Cloudflare-delivered renderer updates and a
+          bundled <code>app://</code> fallback. The service planes run as Docker Compose services, with
+          PostgreSQL, Redis, NATS, object storage, and TURN where needed.
+        </p>
+        <p>
+          Self-hosted deployments use the same code and service boundaries. That keeps the privacy model
+          and the operational model aligned whether Concord Voice runs on our infrastructure or yours.
+        </p>
+      </div>
+    </section>
+
+    <section class="mkt-section">
+      <p class="mkt-label eyebrow text-gradient">What is next</p>
+      <h2 class="display mkt-section__title">More places to use Concord. More ways to run it.</h2>
+      <ul class="checklist checklist--arrow mkt-prose" style="max-width:46rem;">
+        <li>Desktop is live today.</li>
+        <li>Browser and mobile clients are on the way.</li>
+        <li>Further deployment options, including Kubernetes and multi-region operation, remain future work.</li>
+      </ul>
+    </section>
+
+    <section class="mkt-cta reveal">
+      <p class="eyebrow text-gold">Read the implementation</p>
+      <h2 class="display mkt-cta__title">Start with the design. Verify it in the source.</h2>
+      <p class="mkt-cta__sub">The architecture document is maintained beside the implementation and names the responsible paths and components.</p>
+      <div class="mkt-cta-row">
+        <a href="https://github.com/Concord-Voice/Concord-Voice/blob/main/docs/architecture.md" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Read the full architecture</a>
+        <a href="https://github.com/Concord-Voice/Concord-Voice" target="_blank" rel="noopener noreferrer" class="btn border border-white/20 hover:border-coral">Browse GitHub</a>
+        <a href="/download" class="btn border border-white/20 hover:border-coral">Download the Beta</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <style>
+    .architecture-map { max-width: 58rem; margin: 1rem auto 0; padding: 1.25rem 1.4rem; overflow-x: auto; border: 1px solid color-mix(in oklab, var(--color-paper) 14%, transparent); border-radius: 0.9rem; background: color-mix(in oklab, #000 36%, transparent); color: color-mix(in oklab, var(--color-gold) 80%, var(--color-paper)); font-family: var(--font-mono); font-size: clamp(0.72rem, 1.8vw, 0.9rem); line-height: 1.7; }
+    .architecture-stack { margin-top: 1rem; color: var(--color-gold); font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.4; }
+    .mkt-prose code { color: var(--color-gold); font-family: var(--font-mono); font-size: 0.92em; }
+    .architecture-flow-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.55rem; margin: 1.5rem auto 0; }
+    .architecture-flow-tab { border: 1px solid color-mix(in oklab, var(--color-paper) 16%, transparent); border-radius: 9999px; background: transparent; color: var(--color-mist); cursor: pointer; font: inherit; font-weight: 700; padding: 0.55rem 0.9rem; transition: border-color .2s, background .2s, color .2s; }
+    .architecture-flow-tab:hover, .architecture-flow-tab:focus-visible { border-color: var(--color-coral); color: var(--color-paper); }
+    .architecture-flow-tab[aria-selected="true"] { border-color: transparent; background: linear-gradient(100deg, var(--color-gold), var(--color-coral)); color: #1a0b2e; }
+    .architecture-flow-panel { max-width: 62rem; margin: 1.8rem auto 0; }
+    .architecture-flow-title { text-align: center; font-size: clamp(1.25rem, 2.8vw, 1.8rem); line-height: 1.2; }
+    .architecture-flow-summary { max-width: 44rem; margin: 0.7rem auto 0; color: var(--color-mist); line-height: 1.6; text-align: center; }
+    .architecture-flow-diagram { display: flex; flex-direction: column; gap: 1.65rem; list-style: none; margin: 1.8rem 0; padding: 0; }
+    .architecture-flow-node { position: relative; display: grid; gap: 0.35rem; padding: 1rem 1.1rem; border: 1px solid color-mix(in oklab, var(--color-paper) 15%, transparent); border-radius: 0.75rem; background: color-mix(in oklab, var(--color-paper) 3%, transparent); color: var(--color-mist); font-size: 0.92rem; line-height: 1.55; text-align: center; }
+    .architecture-flow-node strong { color: var(--color-gold); font-size: 1rem; }
+    .architecture-flow-node:not(:last-child)::after { content: '↓'; position: absolute; bottom: -1.45rem; left: 50%; color: var(--color-coral); font-size: 1.35rem; font-weight: 700; transform: translateX(-50%); }
+    .architecture-flow-boundary { max-width: 48rem; margin: 0 auto; color: color-mix(in oklab, var(--color-paper) 86%, transparent); line-height: 1.65; text-align: center; }
+    .architecture-flow-boundary strong { color: var(--color-gold); }
+    .architecture-flow--rail .architecture-flow-panel { padding: clamp(1rem, 3vw, 2rem); border: 1px solid color-mix(in oklab, var(--color-gold) 38%, transparent); border-radius: 1rem; background: linear-gradient(145deg, color-mix(in oklab, var(--color-gold) 9%, #100a24), #100a24 46%, color-mix(in oklab, var(--color-coral) 9%, #100a24)); box-shadow: 0 20px 42px -34px #000; }
+    .architecture-flow--rail .architecture-flow-view { color: var(--color-gold); font-family: var(--font-mono); font-size: .72rem; letter-spacing: .15em; text-align: center; text-transform: uppercase; }
+    .architecture-flow--rail .architecture-flow-diagram { counter-reset: flow-step; gap: 2.1rem; }
+    .architecture-flow--rail .architecture-flow-node { counter-increment: flow-step; min-height: 8.7rem; padding: 1.35rem .8rem .9rem; border-color: color-mix(in oklab, var(--color-gold) 34%, transparent); background: color-mix(in oklab, var(--color-night) 84%, transparent); box-shadow: 0 16px 28px -28px #000; }
+    .architecture-flow--rail .architecture-flow-node::before { content: '0' counter(flow-step); position: absolute; top: -.7rem; left: 50%; display: grid; width: 1.45rem; height: 1.45rem; place-items: center; border-radius: 9999px; background: var(--color-gold); color: var(--color-night); font-family: var(--font-mono); font-size: .64rem; font-weight: 800; transform: translateX(-50%); }
+    .architecture-flow--rail .architecture-flow-node:not(:last-child)::after { color: var(--color-gold); }
+    @media (min-width: 760px) {
+      .architecture-flow-diagram { flex-direction: row; align-items: stretch; gap: 1.3rem; }
+      .architecture-flow-node { flex: 1 1 0; }
+      .architecture-flow-node:not(:last-child)::after { content: '→'; right: -1.03rem; bottom: auto; left: auto; top: 50%; transform: translateY(-50%); }
+    }
+  </style>
+
+  <script>
+    import { flowSelectionState, nextFlowIndex } from '../lib/flow-tabs';
+
+    const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-flow-tab]'));
+    const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-flow-panel]'));
+
+    const selectFlow = (id: string) => {
+      tabs.forEach((tab) => {
+        const state = flowSelectionState(tab.dataset.flowTab, id);
+        tab.setAttribute('aria-selected', String(state.selected));
+        tab.tabIndex = state.tabIndex;
+      });
+      panels.forEach((panel) => { panel.hidden = flowSelectionState(panel.dataset.flowPanel, id).hidden; });
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => {
+        const id = tab.dataset.flowTab;
+        if (id) selectFlow(id);
+      });
+      tab.addEventListener('keydown', (event) => {
+        const key = event.key;
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(key)) return;
+        event.preventDefault();
+        const next = nextFlowIndex(index, tabs.length, key as 'ArrowLeft' | 'ArrowRight' | 'Home' | 'End');
+        const nextTab = tabs[next];
+        const id = nextTab?.dataset.flowTab;
+        if (!nextTab || !id) return;
+        nextTab.focus();
+        selectFlow(id);
+      });
+    });
+  </script>
+</Layout>
