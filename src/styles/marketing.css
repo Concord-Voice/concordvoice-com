@@ -8,8 +8,8 @@
 /* ---- Hero ---- */
 .mkt-hero { max-width: 58rem; margin: 1rem auto 1rem; text-align: center; }
 /* Hero and section identities lead; their display lines are supporting subtitles. */
-.mkt-hero .mkt-hero__title { font-family: "Droidiga", var(--font-body); font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 400; line-height: 1.25; margin-top: 0.55rem; text-transform: uppercase; }
-.mkt-hero .eyebrow { font-family: "Droidiga", var(--font-body); font-size: clamp(1.45rem, 3.2vw, 2.2rem); font-weight: 400; letter-spacing: 0.2em; margin-bottom: 0.45rem; text-transform: none; }
+.mkt-hero .mkt-hero__title { font-family: Droidiga, var(--font-body); font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 400; line-height: 1.25; margin-top: 0.55rem; text-transform: uppercase; }
+.mkt-hero .eyebrow { font-family: Droidiga, var(--font-body); font-size: clamp(1.45rem, 3.2vw, 2.2rem); font-weight: 400; letter-spacing: 0.2em; margin-bottom: 0.45rem; text-transform: none; }
 .mkt-lead { max-width: 48rem; margin: 1.4rem auto 0; font-size: 1.15rem; line-height: 1.6; color: var(--color-mist); }
 .mkt-cta-row { margin-top: 2rem; display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
 
@@ -18,8 +18,8 @@
 .mkt-section--tight { margin-top: 3rem; }
 /* Section gradient kicker : bumped above the subheader so the header hierarchy reads right
    (kicker → big title → sub), instead of the kicker being smaller than its own sub. */
-.mkt-section .mkt-label { font-family: "Droidiga", var(--font-body); font-size: clamp(1.45rem, 3.2vw, 2.2rem); font-weight: 400; letter-spacing: 0.2em; margin-bottom: 0.45rem; text-align: center; text-transform: none; }
-.mkt-section .mkt-section__title { font-family: "Droidiga", var(--font-body); font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 400; line-height: 1.25; margin: 0 auto 0.55rem; text-align: center; text-transform: uppercase; }
+.mkt-section .mkt-label { font-family: Droidiga, var(--font-body); font-size: clamp(1.45rem, 3.2vw, 2.2rem); font-weight: 400; letter-spacing: 0.2em; margin-bottom: 0.45rem; text-align: center; text-transform: none; }
+.mkt-section .mkt-section__title { font-family: Droidiga, var(--font-body); font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 400; line-height: 1.25; margin: 0 auto 0.55rem; text-align: center; text-transform: uppercase; }
 .mkt-section__sub { text-align: center; max-width: 42rem; margin: 0.6rem auto 1.9rem; color: var(--color-mist); line-height: 1.6; }
 .mkt-prose { max-width: 44rem; margin: 0 auto; line-height: 1.75; color: color-mix(in oklab, var(--color-paper) 86%, transparent); }
 .mkt-prose p { margin-bottom: 1rem; }
@@ -56,7 +56,7 @@
 .tier { display: flex; flex-direction: column; padding: 1.8rem 1.6rem; border: 1px solid color-mix(in oklab, var(--color-paper) 12%, transparent); border-radius: 1.2rem; background: color-mix(in oklab, var(--color-paper) 4%, transparent); }
 .tier--featured { border-color: color-mix(in oklab, var(--color-coral) 55%, transparent); box-shadow: 0 24px 60px -34px var(--color-coral); }
 .tier__name { margin-bottom: .6rem; }
-.tier__price { font-family: "Droidiga", var(--font-body); font-weight: 700; font-size: clamp(1.9rem, 5vw, 2.5rem); line-height: 1; }
+.tier__price { font-family: Droidiga, var(--font-body); font-weight: 700; font-size: clamp(1.9rem, 5vw, 2.5rem); line-height: 1; }
 .tier__price small { font-family: var(--font-body); font-weight: 600; font-size: .9rem; color: var(--color-mist); }
 .tier__desc { color: var(--color-mist); font-size: .9rem; font-style: italic; margin: .5rem 0 1rem; }
 .tier__cta { margin-top: 1.4rem; }

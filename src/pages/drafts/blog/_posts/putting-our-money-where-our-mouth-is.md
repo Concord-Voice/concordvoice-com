@@ -1,6 +1,6 @@
 ---
 title: "Putting Our Money Where Our Mouth Is"
-description: "The organizations we fund and the pledge behind it ; why a privacy company should pay the people defending privacy."
+description: "The organizations we fund and the pledge behind it, why a privacy company should pay the people defending privacy."
 pubDate: 2026-04-28
 category: "Company"
 tags: ["values", "community", "transparency"]
@@ -14,7 +14,7 @@ But talk is cheap, and principles that don't cost you anything aren't really pri
 
 ## The Electronic Frontier Foundation
 
-If you spend any time in the privacy and digital rights space, you know who the EFF is. If you don't ; the short version: they're the oldest and most effective digital civil liberties organization in the world, founded in 1990 when most lawmakers didn't know what the internet was. They've been fighting the legal and policy battles that protect your rights online ever since.
+If you spend any time in the privacy and digital rights space, you know who the EFF is. If you don't, the short version: they're the oldest and most effective digital civil liberties organization in the world, founded in 1990 when most lawmakers didn't know what the internet was. They've been fighting the legal and policy battles that protect your rights online ever since.
 
 They were there when the government tried to mandate the Clipper Chip, a backdoor built into encryption hardware in the 1990s. They fought it. They won. They've fought SOPA, PIPA, FISA Section 702, EARN IT, KOSA, the UK's Online Safety Act, the EU's Chat Control proposals, and more government and corporate overreaches than we have space to list. They run Surveillance Self-Defense. They built Let's Encrypt (in partnership with others), which gave the entire internet free TLS certificates and helped push HTTPS adoption from a luxury to a standard. They file amicus briefs, litigate, publish, educate, and don't take money from the companies they hold accountable.
 
@@ -22,7 +22,7 @@ They also threatened to sue the NSA over PRISM, which, honestly, is just cool.
 
 ## The Citizen Lab
 
-If the EFF is the legal and policy arm of the digital rights movement, the Citizen Lab is the intelligence unit. Based at the University of Toronto's Munk School of Global Affairs, they do the kind of technical research that exposes what governments and surveillance vendors are actually doing to people ; not in theory, not as a policy argument, but with forensic evidence.
+If the EFF is the legal and policy arm of the digital rights movement, the Citizen Lab is the intelligence unit. Based at the University of Toronto's Munk School of Global Affairs, they do the kind of technical research that exposes what governments and surveillance vendors are actually doing to people, not in theory, not as a policy argument, but with forensic evidence.
 
 They're the team that exposed NSO Group's Pegasus spyware, which was used to target journalists, activists, lawyers, and heads of state across 45 countries. They uncovered FinFisher. They documented how China's Great Firewall works at a technical level. They've published reports on how authoritarian governments use commercial surveillance tools to track dissidents abroad, how VPN apps sold as "privacy" tools were exfiltrating user data to Chinese servers, and how SMS-based voter suppression worked in specific elections.
 
@@ -60,7 +60,7 @@ Effective today, Concord Voice commits to:
 
 **Publish it quarterly.** Alongside each quarterly transparency report, we'll publish which organization received the contribution that quarter and the exact amount. Not a vague "we support these organizations." Actual numbers, four times a year. You can hold us to it.
 
-**List all three as partners publicly.** Not as a marketing exercise ; as an acknowledgment that this work is collaborative. The EFF does the legal and policy work. The Citizen Lab does the technical research and accountability work. Stripe Climate funds the carbon removal. We build the infrastructure. All of it matters.
+**List all three as partners publicly.** Not as a marketing exercise, as an acknowledgment that this work is collaborative. The EFF does the legal and policy work. The Citizen Lab does the technical research and accountability work. Stripe Climate funds the carbon removal. We build the infrastructure. All of it matters.
 
 ## Why These Specifically
 
@@ -74,18 +74,18 @@ We chose Stripe Climate because it's a straightforward, verifiable way to direct
 
 ## If You Want to Do the Same
 
-You don't have to be a company to support this work. The EFF accepts individual donations and memberships at [eff.org](http://eff.org). The Citizen Lab Fund accepts donations through the University of Toronto Foundation at [citizenlab.ca](http://citizenlab.ca). Worth noting for U.S. donors: because the Citizen Lab is a Canadian charity, your donation is only tax-deductible on a U.S. return if you have Canadian-source income ; Canadian wages, dividends, capital gains, and similar. If that doesn't apply to you, the contribution isn't deductible, but it's still real money going to real research. See the disclosure at the bottom for the full details. Stripe Climate's portfolio and contribution details are public at [stripe.com/climate/contribute](http://stripe.com/climate/contribute).
+You don't have to be a company to support this work. The EFF accepts individual donations and memberships at [eff.org](http://eff.org). The Citizen Lab Fund accepts donations through the University of Toronto Foundation at [citizenlab.ca](http://citizenlab.ca). Worth noting for U.S. donors: because the Citizen Lab is a Canadian charity, your donation is only tax-deductible on a U.S. return if you have Canadian-source income, Canadian wages, dividends, capital gains, and similar. If that doesn't apply to you, the contribution isn't deductible, but it's still real money going to real research. See the disclosure at the bottom for the full details. Stripe Climate's portfolio and contribution details are public at [stripe.com/climate/contribute](http://stripe.com/climate/contribute).
 
 We're not going to tell you what to do with your money. But if you've ever been glad that someone was in a courtroom fighting for your right to have a private conversation, or publishing forensic proof that your government's surveillance tools were being used against people like you, or pulling carbon out of the air, one of those very likely could’ve been them.
 
 #### Disclosure:
 
-*This pledge is effective as of the date of this post. Contribution disclosures are published quarterly alongside our transparency reports. *
+*This pledge is effective as of the date of this post. Contribution disclosures are published quarterly alongside our transparency reports.*
 
-*The Electronic Frontier Foundation is a registered 501(c)(3) non-profit organization; donations are generally tax-deductible for U.S. taxpayers subject to standard IRS limits. *
+*The Electronic Frontier Foundation is a registered 501(c)(3) non-profit organization; donations are generally tax-deductible for U.S. taxpayers subject to standard IRS limits.*
 
-*The Citizen Lab Fund operates under the University of Toronto, a registered Canadian charitable institution. U.S. taxpayers may deduct donations to Canadian charities only if they have Canadian-source income, pursuant to Article XXI of the U.S.-Canada Income Tax Treaty; the deduction is capped at Canadian-source income and limited to 30% of adjusted gross income unless the charity provides documentation establishing U.S. public charity status, in which case the 50% limit may apply. Donors claiming this deduction must attach Form 8833 to their U.S. tax return. If you have no Canadian-source income, your contribution will not be deductible on a U.S. return. The Citizen Lab screens all donations for conflicts of interest and does not accept contributions from organizations that may be subjects of their research ; a policy we respect and consider a mark of genuine independence. If we ever become disqualified from donating due to conflicts of interest, we will develop a contingency. *
+*The Citizen Lab Fund operates under the University of Toronto, a registered Canadian charitable institution. U.S. taxpayers may deduct donations to Canadian charities only if they have Canadian-source income, pursuant to Article XXI of the U.S.-Canada Income Tax Treaty; the deduction is capped at Canadian-source income and limited to 30% of adjusted gross income unless the charity provides documentation establishing U.S. public charity status, in which case the 50% limit may apply. Donors claiming this deduction must attach Form 8833 to their U.S. tax return. If you have no Canadian-source income, your contribution will not be deductible on a U.S. return. The Citizen Lab screens all donations for conflicts of interest and does not accept contributions from organizations that may be subjects of their research, a policy we respect and consider a mark of genuine independence. If we ever become disqualified from donating due to conflicts of interest, we will develop a contingency.*
 
-*Stripe Climate is a business program offered by Stripe, Inc., and is not a charitable organization. *
+*Stripe Climate is a business program offered by Stripe, Inc., and is not a charitable organization.*
 
 *Nothing in this disclosure constitutes tax or legal advice; consult a qualified tax advisor regarding your specific situation.*

@@ -9,7 +9,7 @@
 
 /* ---- Brand display font (freeware, commercial-OK; self-hosted) ---- */
 @font-face {
-  font-family: "Droidiga";
+  font-family: Droidiga;
   src: url("/fonts/Droidiga.otf") format("opentype");
   font-weight: 400 900;
   font-display: swap;
@@ -48,14 +48,14 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 
 /* ---- Display type: Droidiga in Title Case reveals its dotted-o ---- */
 .display {
-  font-family: "Droidiga", var(--font-body);
+  font-family: Droidiga, var(--font-body);
   font-weight: 700;
   letter-spacing: -0.01em;
   line-height: 0.95;
 }
 .eyebrow {
   font-family: var(--font-mono);
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   font-size: 0.72rem;
@@ -226,30 +226,6 @@ strong, b { color: var(--color-gold); }
   transform: translateY(-2px);
 }
 .pill:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; }
-/* Pinned pill : its blurb is the one showing in the panel below. */
-.pill.is-active {
-  border-color: var(--color-coral);
-  background: color-mix(in oklab, var(--color-coral) 18%, transparent);
-  color: var(--color-paper);
-}
-
-/* One blurb panel under the feature-pill row (replaces the old per-pill tooltips).
-   Hover/focus previews a pill's text here; click pins it. */
-.pill-blurb {
-  max-width: 42rem;
-  min-height: 3rem;
-  margin: 1.5rem auto 0;
-  font-size: 0.95rem;
-  line-height: 1.55;
-  color: color-mix(in oklab, var(--color-paper) 88%, transparent);
-  text-align: center;
-  transition: color 0.2s ease;
-}
-.pill-blurb.is-hint {
-  color: color-mix(in oklab, var(--color-mist) 70%, transparent);
-  font-size: 0.85rem;
-}
-
 .btn {
   display: inline-flex; align-items: center; gap: 0.5rem;
   font-weight: 700; border-radius: 9999px;
@@ -411,8 +387,8 @@ strong, b { color: var(--color-gold); }
    Legal prose (renders canonical repo markdown)
    ============================================================ */
 .legal { max-width: 46rem; margin-inline: auto; color: color-mix(in oklab, var(--color-paper) 86%, transparent); line-height: 1.75; }
-.legal h1 { font-family: "Droidiga", var(--font-body); font-size: clamp(2rem, 5vw, 3rem); line-height: 1; margin-bottom: 0.5rem; }
-.legal h2 { font-family: "Droidiga", var(--font-body); font-size: 1.6rem; margin-top: 2.5rem; margin-bottom: 0.75rem; color: var(--color-coral); }
+.legal h1 { font-family: Droidiga, var(--font-body); font-size: clamp(2rem, 5vw, 3rem); line-height: 1; margin-bottom: 0.5rem; }
+.legal h2 { font-family: Droidiga, var(--font-body); font-size: 1.6rem; margin-top: 2.5rem; margin-bottom: 0.75rem; color: var(--color-coral); }
 .legal h3 { font-weight: 700; font-size: 1.2rem; margin-top: 1.5rem; margin-bottom: 0.4rem; color: var(--color-gold); }
 .legal h4 { font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-gold); margin-top: 1.4rem; margin-bottom: 0.4rem; }
 .legal p, .legal li { margin-bottom: 0.85rem; }

@@ -50,11 +50,9 @@ One thing up front, because we don’t do vaporware: some of what follows is liv
 
 ### At Account Creation
 
-Account creation leverages the honor system, in which you simply certify that you are at least 16 years old, or a legal adult when required by your jurisdiction’s laws. This isn’t foolproof or legally sound in some jurisdictions. Because of that, a growing number of U.S. states are pushing platforms to make reasonable attempts to check age, currently states like:
+Account creation leverages the honor system, in which you certify that you are at least 16 years old, or a legal adult when required by your jurisdiction’s laws. This is not foolproof or sufficient in every jurisdiction. Age-related requirements are changing, so we assess applicable obligations with counsel rather than treating a general state list as definitive. This is not legal advice.
 
-- LA, TX, UT, AR, MS, MT, NC, VA, FL
-
-More annoyingly, this list keeps growing ; it’s north of two dozen states as of mid-2026, and climbing fast since the Supreme Court upheld these laws in 2025, so treat it as a snapshot, not gospel. And to be clear, this isn’t legal advice; the specifics shift constantly. There are actually two different flavors of law in play here: adult-content laws that target sites that are mostly pornographic (which we are not) and app-store accountability laws that ask every app to grab an age range. The second is the one that actually reaches something like us, and it’s why the Google/Apple APIs further down exist.
+Two different types of rule can affect a service: adult-content laws that target sites that are mostly pornographic (which we are not), and platform or app-store accountability requirements that can ask an app to obtain an age range. The second category is why the Google and Apple APIs described below exist.
 
 To account for this, we will eventually begin asking users to certify that they aren’t in these 'higher obligation' jurisdictions. If they do not check (please help us follow the law), an additional layer is triggered by our legal requirements, and we will ask you to attest to your age using your date of birth at that time. This is something you are also later required to do to be able to toggle NSFW Content Access, but you won’t be prohibited from making an account unless you are below the age of 16 (and it isn’t illegal for you to be here).
 
@@ -68,7 +66,7 @@ When the jurisdiction step lands, entering your DoB will let your client use the
 
 For the technically inclined, this is what the server actually stores. It’s identity-blind by construction; the privacy guarantee is the schema, not a policy we ask you to trust.
 
-![Age & Jurisdiction Verification Record schema](/blog/age-record-schema.png)
+<img src="/blog/age-record-schema.png" alt="Age &amp; Jurisdiction Verification Record schema" loading="lazy" />
 
 
 With it, the client processes it and creates an Age & Jurisdiction Verification Record, which is signed with your RSA key and stored on the server alongside your user profile. The privacy trick is that the record is identity-blind by design. That stuff never leaves your client or machine, only the yes/no result does. To put it bluntly, here’s the entire list of things this record will never contain:
@@ -105,7 +103,7 @@ Status: the personal DoB gate and the nsfw_auth flag are live today. The server-
 
 Status: designed, not in the current Beta yet.
 
-A final form we can use if it’s a last resort. When a user subscribes to one of our premium tiers and uses a credit line (explicitly only credit, since contract law generally prohibits someone under 18 from having a credit card), we can infer age assurance as well. The client can fetch very basic metadata from Stripe, our payment processor. What it will do is validate the name, username, and that a credit line was used. Once that is applied, we can automatically fulfil age assurance to the user, unless there is an indication that the user is not the same person as the cardholder. (Worth being honest that this one’s a soft signal, not proof ; a minor can be an authorized user on a parent’s card ; which is exactly why it’s the last resort.)
+A paid subscription can be a weak server-side eligibility signal, not age assurance. Stripe does not validate a user’s age, username, or identity for this flow, so it cannot enable or replace age gating. At most, it can be a last-resort entitlement hint; an authorized user on another person’s card demonstrates why it is not proof.
 
 ## What Happens if Age Falls Below Thresholds?
 

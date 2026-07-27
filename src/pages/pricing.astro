@@ -222,8 +222,57 @@ const wing = { monthly: 14.99, yearly: 164.89 };
     .wing-seats { display: grid; gap: 1.2rem; grid-template-columns: 1fr; margin-top: 1.6rem; text-align: left; }
     @media (min-width: 640px) { .wing-seats { grid-template-columns: 1fr 1fr; } }
     .wing-seat__d { color: var(--color-mist); line-height: 1.55; font-size: .92rem; margin-top: .3rem; }
-  </style><script>const formatMachMoney=v=>"$"+v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});document.querySelectorAll("[data-mach-picker]").forEach(picker=>{const scope=picker.closest(".tier")||picker.closest(".hyper-band")||picker.closest(".wing-band");const prices=scope.querySelectorAll(".tier__price");prices.forEach(price=>{price.dataset.baseM??=price.dataset.m;price.dataset.baseY??=price.dataset.y});picker.querySelectorAll("[data-mach-option]").forEach(button=>button.addEventListener("click",()=>{picker.querySelectorAll("[data-mach-option]").forEach(option=>{const active=option===button;option.classList.toggle("is-active",active);option.setAttribute("aria-pressed",active?"true":"false")});prices.forEach(price=>{const monthly=Number(price.dataset.baseM.replace(/[^0-9.]/g,""))+Number(button.dataset.monthly);const yearly=Number(price.dataset.baseY.replace(/[^0-9.]/g,""))+Number(button.dataset.yearly);price.dataset.m=formatMachMoney(monthly);price.dataset.y=formatMachMoney(yearly);const annual=document.querySelector("[data-bill].is-active")?.dataset.bill==="yearly";price.querySelector(".tier__amt").textContent=annual?price.dataset.y:price.dataset.m});if(picker.closest("#wing")){const boosted=button.dataset.monthly!=="0";const plan=document.querySelector("[data-wing-primary-plan]");if(plan)plan.textContent=boosted?"Hypersonic":"Supersonic";const summaryPlan=document.querySelector("[data-wing-summary-plan]");if(summaryPlan)summaryPlan.textContent=boosted?"Hypersonic for you":"Supersonic for you";const boostCopy=document.querySelector("[data-wing-boost-copy]");if(boostCopy)boostCopy.textContent=boosted?" + a Mach server boost":""}}))})</script>
+  </style>
   <script>
+    import { machPrices, wingPlanCopy } from '../lib/pricing-interactions';
+
+    const formatMachMoney = (value: number) => '$' + value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    document.querySelectorAll<HTMLElement>('[data-mach-picker]').forEach((picker) => {
+      const scope = picker.closest<HTMLElement>('.tier, .hyper-band, .wing-band');
+      if (!scope) return;
+
+      const prices = scope.querySelectorAll<HTMLElement>('.tier__price');
+      prices.forEach((price) => {
+        price.dataset.baseM ??= price.dataset.m;
+        price.dataset.baseY ??= price.dataset.y;
+      });
+
+      picker.querySelectorAll<HTMLButtonElement>('[data-mach-option]').forEach((button) => button.addEventListener('click', () => {
+        picker.querySelectorAll<HTMLButtonElement>('[data-mach-option]').forEach((option) => {
+          const active = option === button;
+          option.classList.toggle('is-active', active);
+          option.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+
+        prices.forEach((price) => {
+          const prices = machPrices(
+            Number(price.dataset.baseM?.replace(/[^0-9.]/g, '')),
+            Number(price.dataset.baseY?.replace(/[^0-9.]/g, '')),
+            Number(button.dataset.monthly),
+            Number(button.dataset.yearly),
+          );
+          price.dataset.m = formatMachMoney(prices.monthly);
+          price.dataset.y = formatMachMoney(prices.yearly);
+          const annual = document.querySelector<HTMLElement>('[data-bill].is-active')?.dataset.bill === 'yearly';
+          const amount = price.querySelector<HTMLElement>('.tier__amt');
+          if (amount) amount.textContent = annual ? price.dataset.y : price.dataset.m;
+        });
+
+        if (!picker.closest('#wing')) return;
+        const copy = wingPlanCopy(Number(button.dataset.monthly));
+        const plan = document.querySelector<HTMLElement>('[data-wing-primary-plan]');
+        const summaryPlan = document.querySelector<HTMLElement>('[data-wing-summary-plan]');
+        const boostCopy = document.querySelector<HTMLElement>('[data-wing-boost-copy]');
+        if (plan) plan.textContent = copy.primaryPlan;
+        if (summaryPlan) summaryPlan.textContent = copy.summaryPlan;
+        if (boostCopy) boostCopy.textContent = copy.boostCopy;
+      }));
+    });
+  </script>
+  <script>
+    import { shouldAnimateStarfield, starfieldState } from '../lib/pricing-interactions';
+
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       const hypersonic = document.querySelector('#hypersonic');
       const wing = document.querySelector('#wing');
@@ -268,10 +317,9 @@ const wing = { monthly: 14.99, yearly: 164.89 };
           const downloadTop = download ? download.getBoundingClientRect().top + window.scrollY : document.documentElement.scrollHeight;
           const downloadAt = Math.max(wingHeaderAt + 1, downloadTop - viewport);
           const stopAt = downloadAt + 500;
-          atmosphere = window.scrollY >= stopAt;
-          if (window.scrollY < hypersonicAt) targetIntensity = 0.12 + 0.88 * (window.scrollY / hypersonicAt);
-          else if (window.scrollY <= wingHeaderAt) targetIntensity = 1;
-          else targetIntensity = Math.max(0, 1 - (window.scrollY - wingHeaderAt) / (stopAt - wingHeaderAt));
+          const state = starfieldState(window.scrollY, { hypersonicAt, wingHeaderAt, stopAt });
+          atmosphere = state.atmosphere;
+          targetIntensity = state.targetIntensity;
           if (atmosphere) {
             intensity = 0;
             paintStars(performance.now(), 0);
@@ -309,7 +357,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
 
         const stop = () => { cancelAnimationFrame(frame); frame = 0; };
         const start = () => {
-          if (!frame && !document.hidden && !atmosphere) {
+          if (!frame && shouldAnimateStarfield(document.hidden, atmosphere)) {
             previous = performance.now();
             last = previous;
             frame = requestAnimationFrame(animateStarfield);

@@ -1,9 +1,9 @@
 ---
-// Site header ; symbol + wordmark (left), centered page nav (middle), CTAs (right).
+// Site header: symbol + wordmark (left), centered page nav (middle), CTAs (right).
 //
 // DEV-AWARE NAV: draft destinations 404 in production. So in `npm run dev` the
 // full categorized nav renders; in the production build only items flagged `live` appear.
-// When a page is promoted out of src/pages/drafts/, flip its `live` to true ; it then
+// When a page is promoted out of src/pages/drafts/, flip its `live` to true. It then
 // shows in production. Links use FINAL production paths; a dev-only middleware
 // (src/middleware.ts) serves the draft version of those paths in local preview.
 const DEV = import.meta.env.DEV;
@@ -94,12 +94,12 @@ const showNav = productItems.length > 0 || linkItems.length > 0;
 </header>
 
 <style>
-  /* Centered page nav lives in the middle grid column. Hidden below lg ; the header
+  /* Centered page nav lives in the middle grid column. Hidden below lg. The header
      keeps logo + CTAs on small screens (a matching mobile menu can come later). */
   .site-nav { display: none; align-items: center; gap: 0.3rem; }
   @media (min-width: 1024px) { .site-nav { display: flex; } }
 
-  /* Mobile hamburger + slide-down menu ; shown below lg, where the centered nav is hidden. */
+  /* Mobile hamburger + slide-down menu shown below lg, where the centered nav is hidden. */
   .nav-burger {
     display: inline-flex; align-items: center; justify-content: center;
     width: 2.4rem; height: 2.4rem; border-radius: 0.6rem;
@@ -180,7 +180,7 @@ const showNav = productItems.length > 0 || linkItems.length > 0;
     visibility: hidden;
     pointer-events: none;
     /* visibility flips instantly on open (so menu items are focusable right away) but is
-       delayed on close (so the fade-out is visible) ; see the open rule below. */
+       delayed on close (so the fade-out is visible). See the open rule below. */
     transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
     z-index: 40;
   }
@@ -222,7 +222,7 @@ const showNav = productItems.length > 0 || linkItems.length > 0;
     .nav-caret { transition: none !important; }
   }
 
-  /* Header Download CTA ; compact primary button (replaces the old "Coming Soon" label).
+  /* Header Download CTA: compact primary button (replaces the old "Coming Soon" label).
      Icon-only below sm so it stays usable on mobile; label appears from sm up. */
   .beta-status {
     display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.5rem; box-sizing: border-box;
@@ -255,10 +255,11 @@ const showNav = productItems.length > 0 || linkItems.length > 0;
     .beta-status__long { display: none; }
     .beta-status__short { display: inline; }
   }
+  @media (max-width: 479px) { .beta-status { display: none; } }
 </style>
 
 <script>
-  // Product dropdown ; WAI-ARIA menu-button pattern. Mouse opens on :hover (CSS);
+  // Product dropdown: WAI-ARIA menu-button pattern. Mouse opens on :hover (CSS);
   // keyboard/touch use a managed open state with arrow-key navigation, Escape, and
   // focus return. aria-expanded is kept honest for hover and keyboard alike.
   const group = document.querySelector<HTMLElement>('[data-nav-group]');
@@ -282,7 +283,7 @@ const showNav = productItems.length > 0 || linkItems.length > 0;
       else if (e.key === 'Home') { e.preventDefault(); items[0]?.focus(); }
       else if (e.key === 'End') { e.preventDefault(); items[items.length - 1]?.focus(); }
     });
-    // Hover opens visually via CSS ; keep aria-expanded in sync for assistive tech.
+    // Hover opens visually via CSS. Keep aria-expanded in sync for assistive tech.
     group.addEventListener('mouseenter', () => expanded(true));
     group.addEventListener('mouseleave', () => expanded(group.hasAttribute('data-open')));
     // Close when focus leaves the group entirely (keyboard tab-out).

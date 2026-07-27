@@ -73,7 +73,7 @@ const flowPanels = [
       ['Control plane', 'Stores wrapped keys and tracks the key epoch plus revocation records.'],
       ['Join or removal', 'Existing members re-wrap or rotate key material for the current membership set.'],
     ],
-    boundary: 'The service can distribute wrapped keys and enforce epochs, but private keys remain wrapped on the client and recipients unwrap their own material.',
+    boundary: 'The service can store and distribute wrapped key material and enforce epochs, but private keys are generated and unwrapped only on client devices.',
   },
 ];
 
@@ -214,8 +214,7 @@ const boundaries = [
       <ul class="checklist checklist--arrow mkt-prose" style="max-width:46rem;">
         <li>Desktop is live today.</li>
         <li>Browser and mobile clients are on the way.</li>
-        <li>Concord Decky and Concord Watch are future ways to stay connected.</li>
-        <li>Kubernetes, multi-region deployment, and published SLAs are planned for v1.0.</li>
+        <li>Further deployment options, including Kubernetes and multi-region operation, remain future work.</li>
       </ul>
     </section>
 
@@ -264,27 +263,35 @@ const boundaries = [
   </style>
 
   <script>
-    const tabs = Array.from(document.querySelectorAll('[data-flow-tab]'));
-    const panels = Array.from(document.querySelectorAll('[data-flow-panel]'));
+    import { flowSelectionState, nextFlowIndex } from '../lib/flow-tabs';
 
-    const selectFlow = (id) => {
+    const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-flow-tab]'));
+    const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-flow-panel]'));
+
+    const selectFlow = (id: string) => {
       tabs.forEach((tab) => {
-        const selected = tab.dataset.flowTab === id;
-        tab.setAttribute('aria-selected', String(selected));
-        tab.tabIndex = selected ? 0 : -1;
+        const state = flowSelectionState(tab.dataset.flowTab, id);
+        tab.setAttribute('aria-selected', String(state.selected));
+        tab.tabIndex = state.tabIndex;
       });
-      panels.forEach((panel) => { panel.hidden = panel.dataset.flowPanel !== id; });
+      panels.forEach((panel) => { panel.hidden = flowSelectionState(panel.dataset.flowPanel, id).hidden; });
     };
 
     tabs.forEach((tab, index) => {
-      tab.addEventListener('click', () => selectFlow(tab.dataset.flowTab));
+      tab.addEventListener('click', () => {
+        const id = tab.dataset.flowTab;
+        if (id) selectFlow(id);
+      });
       tab.addEventListener('keydown', (event) => {
         const key = event.key;
         if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(key)) return;
         event.preventDefault();
-        const next = key === 'Home' ? 0 : key === 'End' ? tabs.length - 1 : (index + (key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
-        tabs[next].focus();
-        selectFlow(tabs[next].dataset.flowTab);
+        const next = nextFlowIndex(index, tabs.length, key as 'ArrowLeft' | 'ArrowRight' | 'Home' | 'End');
+        const nextTab = tabs[next];
+        const id = nextTab?.dataset.flowTab;
+        if (!nextTab || !id) return;
+        nextTab.focus();
+        selectFlow(id);
       });
     });
   </script>

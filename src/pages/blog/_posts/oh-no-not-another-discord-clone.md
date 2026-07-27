@@ -39,7 +39,7 @@ And, genuinely, they did something impressive recently. As of March 2026, every 
 
 Here's my problem, though, and it's a big one: your text isn't encrypted, and Discord has said it has no plans to change that. Every message you've ever typed into a Discord server sits on Discord's servers in a form Discord can read. The voice calls are private now; the giant searchable archive of everything your community has ever said is not. And Discord is an ad-and-Nitro business, and increasingly an ad business; those rewarded "Quests" ads have been rolling out since 2024, and so the content and the metadata are, ultimately, the asset.
 
-Compared to us, that's not a clone-vs-original distinction; that's a soul distinction. We look like Discord, and we encrypt the text channels too, structurally, so that we, the company, physically cannot read them. Same clothes. Opposite priorities. (And if you want the extended version of why heavy-handed platform policy pushed a lot of people to start looking for exits in early 2026, hold that thought ; it comes back at the end, and it ties directly to my last Dev Series post.)
+Compared to us, that's not a clone-vs-original distinction; that's a soul distinction. We look like Discord, and we encrypt the text channels too, structurally, so that we, the company, physically cannot read them. Same clothes. Opposite priorities. (And if you want the extended version of why heavy-handed platform policy pushed a lot of people to start looking for exits in early 2026, hold that thought, it comes back at the end, and it ties directly to my last Dev Series post.)
 
 ## The Other "Discord But ___" Crowd: Stoat (formerly Revolt), Guilded, TeamSpeak
 
@@ -109,7 +109,7 @@ Look back at that list. Almost everyone is strong on one axis. Signal nails priv
 
 Concord Voice is the bet that you shouldn't have to choose the corner. Concretely:
 
-- End-to-end encrypted everywhere, as a structural invariant, not a toggle. Text channels and per-frame encrypted group voice and video (AES-256-GCM, RSA-4096 key wrapping). There is no "turn on encryption" setting because there's no way to turn it off ; it's built into how the app works, which means we, the company, physically cannot read your messages. Very few products on this entire list support encrypted text, encrypted group voice, and the community model. That intersection is the whole reason we exist.
+- End-to-end encrypted everywhere, as a structural invariant, not a toggle. Text channels and per-frame encrypted group voice and video (AES-256-GCM, RSA-4096 key wrapping). There is no "turn on encryption" setting because there's no way to turn it off, it's built into how the app works, which means we, the company, physically cannot read your messages. Very few products on this entire list support encrypted text, encrypted group voice, and the community model. That intersection is the whole reason we exist.
 - Nobody profits from your data, because nobody can see it. No ads. No telemetry. We actually ripped Sentry back out (that's its own Dev Series story). No data business. Subscriptions and a self-host option, and that's the entire model. E2EE-everywhere isn't just a privacy feature; it's a business-model commitment we can't quietly walk back later.
 - Source-available today, and it outlives us. Concord is source-available under our CVSL 1.0 license, which converts to AGPL-3.0 automatically in 2030. If the company gets hit by a bus, the project doesn't die with it. We drop it open source like the Martyrdom deathstreak in MW2 (have I shown my age yet with some of these memes?)
 - You can self-host it, and self-hosting is segregated on purpose. Run your own server, keep local accounts, and if you do, that instance doesn't sync to our network or show up in any public directory. That's deliberate: it's how families, gaming groups, and folks who want full control get private, secure comms entirely outside our walls. (Status check, because I don't do vaporware: the self-hosted installer is real and usable today; the comprehensive air-gapped/admin-panel version is in active development, not done.)
@@ -138,7 +138,7 @@ If that's the thing you want, backing the next place you and your people hang ou
 ***Wrote a competitive analysis and somehow made it a personality***
 
 ## Legal Jargon, Disclaimers, and footnotes so we don't get litigated:
-A few notes, because this post names names. All product and company names, logos, and trademarks are the property of their respective owners; references here are for identification and comparison only and do not imply any affiliation, sponsorship, or endorsement. Comparisons reflect publicly available information believed accurate as of July 2026 ; this is a fast-moving space and details change, so treat specifics as a snapshot, not gospel. Statements characterizing competitors' design choices, business models, or track records are our honest opinion based on the sources cited below. Anything about our own roadmap (release dates, post-quantum work, future self-hosting) is a forward-looking statement of current intent, not a guarantee; we ship things when they're done, and we'll say so when they are. Nothing here is legal or security advice.
+A few notes, because this post names names. All product and company names, logos, and trademarks are the property of their respective owners; references here are for identification and comparison only and do not imply any affiliation, sponsorship, or endorsement. Comparisons reflect publicly available information believed accurate as of July 2026, this is a fast-moving space and details change, so treat specifics as a snapshot, not gospel. Statements characterizing competitors' design choices, business models, or track records are our honest opinion based on the sources cited below. Anything about our own roadmap (release dates, post-quantum work, future self-hosting) is a forward-looking statement of current intent, not a guarantee; we ship things when they're done, and we'll say so when they are. Nothing here is legal or security advice.
 
 ## Sources:
 
@@ -150,7 +150,7 @@ Discord "your text isn't encrypted… no plans to change that"
 DAVE scope is voice/video only (source above); "no plans" for text E2EE per Discord statements reported by BleepingComputer (2026).
 Discord "rewarded 'Quests' ads… rolling out since 2024"
 
-Discord Ads ; Quests, discord.com/ads/quests; Variety, "Discord Launches 'Arena Quests' Ad Product" (2025).
+Discord Ads, Quests, discord.com/ads/quests; Variety, "Discord Launches 'Arena Quests' Ad Product" (2025).
 Revolt "rebranded to Stoat… AGPL-3.0… self-hostable… 600,000 users"
 
 Stoat (software), Wikipedia; rebrand per AlternativeTo (Oct 2025); 600k+ figure per Stoat's own about page.
@@ -177,10 +177,10 @@ Rocket.Chat "E2EE is opt-in, per conversation, off by default… DMs and private
 Rocket.Chat, End-to-End Encryption Specifications, docs.rocket.chat.
 Rocket.Chat "independent academic analyses in 2024 found real weaknesses… (several since patched)"
 
-Kimura, Ito, Minematsu & Isobe, "Gravity of the Situation: Security Analysis on Rocket.Chat E2EE," IACR ePrint 2025/2300 / ACSAC ; responsibly disclosed (vendor contacted 30 May 2024; patches released).
+Kimura, Ito, Minematsu & Isobe, "Gravity of the Situation: Security Analysis on Rocket.Chat E2EE," IACR ePrint 2025/2300 / ACSAC, responsibly disclosed (vendor contacted 30 May 2024; patches released).
 "Slack (owned by Salesforce) is not end-to-end encrypted… Enterprise Key Management still leaves Slack able to access content"
 
-Salesforce acquisition of Slack (2021, public filings); Slack Enterprise Key Management docs (slack.com) ; customer-managed keys, not E2EE.
+Salesforce acquisition of Slack (2021, public filings); Slack Enterprise Key Management docs (slack.com), customer-managed keys, not E2EE.
 "Teams… E2EE… only for one-to-one calls, off by default"
 
 Microsoft Learn, End-to-end encryption for Microsoft Teams / Use E2EE for Teams calls (learn.microsoft.com).
@@ -201,7 +201,7 @@ Researchers at the University of Vienna reported a contact-discovery enumeration
 Meta/WhatsApp documentation on Meta AI (interactions with the AI assistant are not E2EE).
 Telegram "only 'Secret Chats' are end-to-end encrypted… one-to-one… default… not E2EE"
 
-Telegram FAQ / Privacy Policy (telegram.org) ; Secret Chats are E2EE and device-specific; Cloud Chats are not.
+Telegram FAQ / Privacy Policy (telegram.org), Secret Chats are E2EE and device-specific; Cloud Chats are not.
 "French police arrested founder Pavel Durov in 2024"
 
 Reuters / AP coverage of Durov's arrest and indictment in France (Aug 2024).
@@ -214,12 +214,12 @@ Signal Foundation (signalfoundation.org); IRS 501(c)(3) status.
 Signal "optional usernames in 2024… you still register with a phone number"
 
 Signal, "Keep your phone number private with Signal usernames" (signal.org/blog, Mar 2024).
-Signal "answers subpoenas with almost nothing ; a couple of timestamps"
+Signal "answers subpoenas with almost nothing, a couple of timestamps"
 
-Signal, published legal responses ("Big Brother"), signal.org/bigbrother ; returns account-creation and last-connection timestamps only.
+Signal, published legal responses ("Big Brother"), signal.org/bigbrother, returns account-creation and last-connection timestamps only.
 SMS "plaintext, no encryption, your carrier can read every word"
 
-General ; SMS/SS7 carry no E2EE; e.g., EFF, Surveillance Self-Defense.
+General, SMS/SS7 carry no E2EE; e.g., EFF, Surveillance Self-Defense.
 "GSMA standardized cross-platform E2EE for RCS in 2025 (on the MLS protocol)"
 
 GSMA Newsroom, "RCS Encryption: A Leap Towards Secure and Interoperable Messaging" (Mar 2025); RCS Universal Profile 3.0.
@@ -234,4 +234,4 @@ iMessage "iCloud Backup isn't end-to-end encrypted unless you turn on Advanced D
 Apple Support, Advanced Data Protection for iCloud (support.apple.com).
 Proton "can't read your message bodies… still holds metadata… handed… over through Swiss legal channels more than once"
 
-Proton, Transparency Report & Information for Law Enforcement (proton.me/legal/transparency, proton.me/legal/law-enforcement) ; E2EE content, metadata handed over under binding Swiss orders.
+Proton, Transparency Report & Information for Law Enforcement (proton.me/legal/transparency, proton.me/legal/law-enforcement), E2EE content, metadata handed over under binding Swiss orders.

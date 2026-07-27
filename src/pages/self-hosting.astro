@@ -10,23 +10,19 @@ const nav = [
   ['Costs', '#costs'], ['Ground Control', '#ground-control'], ['Licensing', '#licensing'], ['FAQ', '#faq'],
 ];
 const promise = [
-  { t: 'Every Feature. Unlocked.', d: 'Custom emoji, animated stickers, GIF banners, unlocked audio and video quality (no hosted-tier caps ; your hardware is the only limit), unlimited file uploads ; every capability is yours the moment you deploy. No license key required for personal and non-commercial use.' },
-  { t: 'Your Infrastructure. Your Data.', d: "Your messages, files, and metadata never touch our servers. You choose where your data lives ; your rack, your cloud, your closet. We have no access, no telemetry, no backdoor. That's not a policy. It's the architecture." },
-  { t: 'No Strings. No Surprises.', d: 'The Concord Voice Source License (CVSL) permits personal and non-commercial self-hosting with zero restrictions. After four years, each version converts automatically to AGPL-3.0. Your deployment outlives our company by design.' },
+  { t: 'Every Feature. Unlocked.', d: 'Custom emoji, animated stickers, GIF banners, unlocked audio and video quality (no hosted-tier caps, your hardware is the only limit), unlimited file uploads, every capability is yours the moment you deploy. The CVSL grants Personal Use and eligible Non-Profit Use.' },
+  { t: 'Your Infrastructure. Your Data.', d: "Your messages, files, and metadata never touch our servers. You choose where your data lives, your rack, your cloud, your closet. We have no access, no telemetry, no backdoor. That's not a policy. It's the architecture." },
+  { t: 'Source Available. Terms Clear.', d: 'The Concord Voice Source License (CVSL) permits Personal and Non-Profit Use. Commercial Use requires a Commercial License; Competing Use is prohibited unless separately authorized in writing. Each version converts to AGPL-3.0-or-later on its own Change Date.' },
 ];
 const core = ['Unlimited servers and channels', 'Channel categories with drag-and-drop reordering', 'End-to-end encrypted messaging (AES-256-GCM + RSA-OAEP 4096-bit)', 'Real-time voice via WebRTC / mediasoup SFU', 'Video calling and screen sharing', 'All seven audio quality tiers', 'All video codecs (VP9 SVC, AV1, VP8, H.264)', 'Direct messages', 'Real-time presence', 'Full source code access for audit', 'Local accounts'];
 const mach = ['Custom emoji uploads', 'Animated emoji', 'Custom stickers', 'GIF server photo and banner', 'Custom invite URL (with your own domain)', 'No file-upload size caps', 'Uncapped audio and video quality (hardware-limited)', 'Unlimited server file storage (your hardware is the only limit)', 'Custom themes and profile cards'];
 const spec = [
-  ['CPU', 'Dual-core 2 GHz', 'Quad-core 2.5 GHz+', 'Voice/video via mediasoup is CPU-bound ; more cores = more concurrent calls'],
-  ['RAM', '4 GB', '8 GB+', 'Go backend + Redis + PostgreSQL + mediasoup workers'],
-  ['Storage', '20 GB', '50 GB+ SSD', 'Base install is small; storage scales with uploads and history'],
-  ['Network', '10 Mbps symmetric', '100 Mbps+ symmetric', 'Voice/video scale with concurrent users ; bandwidth is your ceiling'],
-  ['OS', 'Linux (Ubuntu 22.04+, Debian 12+)', 'Ubuntu 24.04 LTS', 'macOS/Windows for dev; Linux for production'],
-  ['Dependencies', 'Go 1.21+, Node 18+, PostgreSQL 15+, Redis 7+', 'Docker (handles it all)', 'Docker deployment configures every dependency automatically'],
+  ['Source', 'Public repository', 'Supported installer', 'The source is public; the production installer and its requirements are pending public release.'],
+  ['Runtime', 'Do not rely on legacy runtime floors', 'Published with the installer', 'We will publish supported operating system, Docker, and hardware requirements with the installer.'],
 ];
 const deploy = [
-  { name: 'Build from Source', soon: false, desc: 'Clone the repository and build everything yourself. Full control over every component, and the path that works today.', code: ['git clone https://github.com/Concord-Voice/Concord-Voice.git', 'cd Concord-Voice && make build'], note: 'Requires Go 1.21+, Node 18+, and local PostgreSQL / Redis instances.', cta: 'View on GitHub', href: 'https://github.com/Concord-Voice/Concord-Voice' },
-  { name: 'Docker', soon: true, desc: 'A prebuilt image for one-command deploys (Go backend, mediasoup workers, PostgreSQL, and Redis, all pre-configured) is on the way.', code: [], note: 'Planned for a future release. Build from source in the meantime.', cta: null, href: null },
+  { name: 'Source Available', soon: false, desc: 'Browse and audit the public source while the supported production installer and operator guide are prepared for publication.', code: [], note: 'We do not publish unverified deployment commands. Follow the public repository for self-hosting release updates.', cta: 'View on GitHub', href: 'https://github.com/Concord-Voice/Concord-Voice' },
+  { name: 'Guided Installer', soon: true, desc: 'A supported single-host Linux installer and operational runbook are being prepared for public release.', code: [], note: 'Production deployment instructions will be published with the installer.', cta: null, href: null },
   { name: 'Cloud Template', soon: true, desc: 'Deploy to a cloud provider with a pre-built template. One-click templates for popular cloud providers are on the way.', code: [], note: 'Planned for a future release. Not yet available.', cta: null, href: null },
 ];
 const costs = [
@@ -36,29 +32,29 @@ const costs = [
   ['Very Large (1,000+ members)', '200+', 'Multiple servers / load-balanced', '$50–150+/mo', 'Multi-node deployment. Contact us for architecture guidance.'],
 ];
 const gcIncluded = [
-  { t: 'Concord Voice Network Sync', d: 'Connect your self-hosted server to the broader ecosystem ; discoverability, cross-network presence, and the infrastructure to be part of something bigger than a standalone instance.' },
-  { t: 'Public Directory Listing', d: 'Make your community discoverable in the Concord Public Directory so users can find and join. Toggle it on or off any time ; visibility is always your choice.' },
+  { t: 'Concord Voice Network Sync', d: 'Connect your self-hosted server to the broader ecosystem, discoverability, cross-network presence, and the infrastructure to be part of something bigger than a standalone instance.' },
+  { t: 'Public Directory Listing', d: 'Make your community discoverable in the Concord Public Directory so users can find and join. Toggle it on or off any time, visibility is always your choice.' },
   { t: 'Email Support (3 business days)', d: 'Official support from the team that built it. Submit a ticket, get a human response within 3 business days. Subscriber bug reports are prioritized.' },
 ];
 const gcNot = ['Installation, deployment, or migration assistance', 'Server configuration or performance tuning', 'Same-day, next-day, or guaranteed SLA response', 'Phone or live-chat support', 'Dedicated account manager'];
 const gcPricing = [['1 Year', '$120', '$120/yr', 'N/A'], ['2 Years', '$204', '$102/yr', 'Save $36 (15% off)'], ['3 Years', '$270', '$90/yr', 'Save $90 (25% off)']];
-const licFree = ['Deploy and run with all features', 'No license key or activation', 'No user limits', 'No feature restrictions', 'Full source-code access for audit', 'Use it forever'];
-const licCommercial = ['Business or enterprise internal communications', 'Hosting Concord Voice servers as a paid service', 'Bundling Concord Voice into a commercial product', 'Any deployment supporting revenue-generating activity'];
+const licFree = ['Personal Use by an individual', 'Non-Profit Use by an eligible organization', 'Full source-code access for audit', 'A future AGPL-3.0-or-later option on the applicable Change Date'];
+const licCommercial = ['Commercial Use requires a Commercial License', 'Hosting Concord Voice servers as a paid service', 'Bundling Concord Voice into a commercial product', 'Competing Use is prohibited unless separately authorized in writing'];
 const faq = [
   { q: "Does Ground Control pricing apply during Beta?", a: "No. Ground Control is an optional hosted-service subscription planned for v1.0 General Availability. Its pricing may change before then and does not apply during Beta." },
-  { q: 'Do I need a license to self-host?', a: 'For personal and non-commercial use ; no. Deploy it, run it, use every feature. No license key, no activation, no restrictions. If you deploy Concord in a business or commercial context, the CVSL requires a commercial license. See our License page for details.' },
-  { q: 'Are any features locked on self-hosted servers?', a: 'No. Self-hosting unlocks every feature with no hosted-tier caps ; custom emoji, stickers, uncapped audio and video, file uploads ; every feature unlocked, hardware-limited (you run your own media plane). We don\'t charge for feature flags on your hardware.' },
+  { q: 'Do I need a license to self-host?', a: 'Personal Use and eligible Non-Profit Use are permitted under the CVSL. Commercial Use requires a Commercial License; Competing Use is prohibited unless separately authorized in writing. See our License page for the complete terms.' },
+  { q: 'Are any features locked on self-hosted servers?', a: 'No. Self-hosting unlocks every feature with no hosted-tier caps, custom emoji, stickers, uncapped audio and video, file uploads, every feature unlocked, hardware-limited (you run your own media plane). We don\'t charge for feature flags on your hardware.' },
   { q: 'What do I lose without Ground Control?', a: "Your server works perfectly fine standalone, and every feature stays unlocked. You just won't have access to the Concord Voice Network, your server won't appear in the Public Directory, and you won't have official email support. Community resources on GitHub are always available." },
-  { q: 'Do I need Ground Control to self-host?', a: 'No. Network sync and Public Directory listing require an active Ground Control subscription because they use our infrastructure ; that is the only part of self-hosting that depends on us.' },
-  { q: 'How do I update my server?', a: 'Docker deployments can pull the latest image and restart. Source builds can pull from the repository and rebuild. We publish release notes and migration guides for every version on GitHub.' },
+  { q: 'Do I need Ground Control to self-host?', a: 'No. Network sync and Public Directory listing require an active Ground Control subscription because they use our infrastructure, that is the only part of self-hosting that depends on us.' },
+  { q: 'How do I update my server?', a: 'The supported update process will be published with the public installer. Until then, check the public repository for source changes and release notes.' },
   { q: 'Is Ground Control the same as enterprise support?', a: 'No. Ground Control is for self-hosters who manage their own infrastructure and want a safety net for bugs and questions. If you need SLAs, faster response, dedicated onboarding, or hands-on deployment help, see our Enterprise solutions.' },
-  { q: 'Can I run it on a Raspberry Pi?', a: 'Technically yes ; the Go backend cross-compiles to ARM. But mediasoup (the voice/video SFU) is CPU-intensive, so voice performance is limited. A Pi 5 with 8 GB RAM can handle a small group; we wouldn\'t recommend more than 10–15 concurrent voice users.' },
+  { q: 'Can I run it on a Raspberry Pi?', a: 'Technically yes, the Go backend cross-compiles to ARM. But mediasoup (the voice/video SFU) is CPU-intensive, so voice performance is limited. A Pi 5 with 8 GB RAM can handle a small group; we wouldn\'t recommend more than 10–15 concurrent voice users.' },
   { q: 'Can I run multiple servers on one machine?', a: 'Yes. Each instance needs its own port configuration and database, but nothing prevents multiple deployments on the same hardware. Docker Compose makes this straightforward. Each server that needs Ground Control requires its own subscription.' },
 ];
 ---
 <Layout
-  title="Self-Hosting  | Concord Voice"
-  description="Self-host Concord Voice on your own hardware ; every feature unlocked, free for personal and non-commercial use. Requirements, deploy steps, hosting costs, and licensing."
+  title="Self-Hosting | Concord Voice"
+  description="Self-host Concord Voice on your own hardware. The CVSL grants Personal Use and eligible Non-Profit Use; see the License for commercial and competing-use terms."
 >
   <Header />
 
@@ -87,7 +83,7 @@ const faq = [
         <div class="feat reveal"><h3 class="feat__t">Every feature unlocked, hardware-limited (you run your own media plane)</h3><ul class="checklist">{mach.map((i) => <li>{i}</li>)}</ul></div>
       </div>
       <p class="mkt-prose" style="margin-top:1.5rem; text-align:center; font-size:.95rem;">
-        On our hosted platform, these capabilities are gated behind Mach server subscriptions. On your own hardware, every feature is unlocked ;
+        On our hosted platform, these capabilities are gated behind Mach server subscriptions. On your own hardware, every feature is unlocked, and
         we don't believe in charging you to flip a switch on a server you already pay to run.
       </p>
     </section>
@@ -121,7 +117,7 @@ const faq = [
     <section class="mkt-section" id="costs">
       <p class="mkt-label eyebrow text-gradient">Hosting Cost Estimates</p>
       <h2 class="display mkt-section__title">What it actually costs to run</h2>
-      <p class="mkt-section__sub">Self-hosting is free on the software side. Here's what the hardware typically runs, based on real provider pricing.</p>
+      <p class="mkt-section__sub">Self-hosted infrastructure has its own costs. Here is what comparable hardware typically runs, based on real provider pricing.</p>
       <div class="mkt-table-wrap">
         <table class="mkt-table">
           <thead><tr><th>Community size</th><th>Concurrent</th><th>Server spec</th><th>Est. cost</th><th>Notes</th></tr></thead>
@@ -134,8 +130,8 @@ const faq = [
       <p class="mkt-label eyebrow text-gradient">Ground Control</p>
       <h2 class="display mkt-section__title">Network. Support. Connected.</h2>
       <p class="mkt-section__sub">
-        Self-hosting is free and every feature is unlocked. But if you want your server connected to the broader
-        Concord Voice ecosystem ; and official support when you need it ; Ground Control is how. Without it,
+        For Personal Use and eligible Non-Profit Use, the source is available and every feature is hardware-limited. But if you want your server connected to the broader
+        Concord Voice ecosystem, and official support when you need it, Ground Control is how. Without it,
         self-hosted servers receive no official support.
       </p>
       <div class="mkt-grid mkt-grid--3">
@@ -165,14 +161,14 @@ const faq = [
       <h2 class="display mkt-section__title">How the license works</h2>
       <div class="mkt-grid">
         <div class="feat reveal">
-          <h3 class="feat__t">Free ; personal &amp; non-commercial</h3>
+          <h3 class="feat__t">Personal &amp; Non-Profit Use</h3>
           <ul class="checklist">{licFree.map((i) => <li>{i}</li>)}</ul>
-          <p class="feat__d" style="margin-top:.9rem;">If your server exists to connect people and nobody's paying or being charged, you're covered.</p>
+          <p class="feat__d" style="margin-top:.9rem;">The CVSL grants Personal Use and eligible Non-Profit Use. Read the License for the complete definitions and conditions.</p>
         </div>
         <div class="feat reveal">
-          <h3 class="feat__t">Commercial license required (CVSL)</h3>
+          <h3 class="feat__t">Commercial or Competing Use</h3>
           <ul class="checklist checklist--arrow">{licCommercial.map((i) => <li>{i}</li>)}</ul>
-          <p class="feat__d" style="margin-top:.9rem;">Commercial licensing keeps the project funded. The CVSL converts to AGPL-3.0 automatically after 4 years ; your investment is permanent.</p>
+          <p class="feat__d" style="margin-top:.9rem;">Each version converts to AGPL-3.0-or-later on the earlier of February 15, 2030 or its fourth public-distribution anniversary.</p>
         </div>
       </div>
     </section>

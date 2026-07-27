@@ -26,7 +26,7 @@ People use Concord Voice through the cross-platform Electron desktop client and 
 
 - End-to-end encryption protects messages and voice/video communications.
 - Users can use a hosted service or self-host Concord Voice on their own infrastructure.
-- The source is available under CVSL 1.0 and converts to AGPL-3.0-or-later on 2030-02-15.
+- The source is available under CVSL 1.0 and each version converts to AGPL-3.0-or-later on the earlier of 2030-02-15 or four years after its first public distribution.
 - The product must be accessible, transparent, and feature-rich without making privacy tools difficult to use.
 - The public website is privacy-first and uses no third-party trackers.
 
@@ -38,7 +38,7 @@ Concord Voice is a secure, privacy-focused online third space. Product communica
 
 - Product screenshots and brand assets: `public/brand/`.
 - Public product, pricing, self-hosting, licensing, and comparison pages: `src/pages/`.
-- Canonical legal and encryption/privacy disclosures: `src/legal/`.
+- Published legal and encryption/privacy disclosures: `src/legal/`.
 - No fabricated testimonials, benchmarks, customer claims, pricing, or deployment claims.
 
 ## Product Principles
