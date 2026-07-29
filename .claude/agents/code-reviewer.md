@@ -3,8 +3,8 @@ name: code-reviewer
 description: Code quality review for PRs — checks patterns, conventions, readability, performance, and error handling. Use for pre-merge review or code quality analysis.
 tools: Read, Grep, Glob, Bash(git diff *), Bash(git log *), Bash(gh pr view *), Bash(gh pr diff *)
 model: opus
-maxTurns: 10
-effort: medium
+maxTurns: 30
+effort: xhigh
 color: blue
 ---
 
@@ -45,6 +45,24 @@ constraint for the surfaces it covers. Do not assume specific filenames; use wha
 - Code outside the PR's scope
 - Dev-mode defaults with production guards
 - `_` prefixed unused variables (intentional convention)
+
+## Turn Budget
+
+Your run is capped by `maxTurns` in this file's frontmatter. One turn is one
+assistant message no matter how many tool calls it batches, so **batch independent
+reads and greps into a single turn** rather than one per turn — it is the cheapest
+way to extend your effective reach.
+
+**Your final message IS your return value to the orchestrator.** If you hit the cap
+the harness stops you mid-flight and everything you have not yet written is lost:
+the orchestrator receives nothing, or a stray opening line it may mistake for a
+clean result. So do not narrate your progress, and never end your run on a tool
+call.
+
+Investigate the highest-value question first and write your report as soon as you
+can support it, marking any unverified area explicitly. A complete report on
+partial evidence is useful; a thorough investigation the orchestrator never sees
+is worthless.
 
 ## Output
 Findings by severity: CRITICAL > MAJOR > MINOR > APPROVED
