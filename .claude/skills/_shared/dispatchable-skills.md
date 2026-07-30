@@ -4,8 +4,8 @@ This file is the single source of truth for skills that `/issue-creation`, `/pr-
 
 **Dispatch authorization is mode-dependent** (modes are defined by the autonomy-framework design, Component D; that spec lives in the repo that owns autonomy policy and may not be present in every consumer repo):
 
-- **In-the-Loop mode:** dispatches at gated phases (2, 5, 7, 9) require approval; auto-dispatch elsewhere (3, 4, 6, 8)
-- **On-the-Loop mode:** dispatches at gated phases (5, 9) require approval; auto-dispatch elsewhere
+- **In-the-Loop mode:** dispatches at gated phases (2, 5, 7, 9) require approval; auto-dispatch elsewhere (1, 3, 4, 6, 8). Gates the *shared-state visibility* boundaries.
+- **On-the-Loop mode:** dispatches at gated phases (2, 8, 9) require approval; auto-dispatch elsewhere (1, 3, 4, 5, 6, 7). Gates the *judgment* boundaries — the design going in and the review outcome coming out (re-anchored 2026-07-24).
 - **Automated End-to-End mode:** full dispatch authority per the mode's gate matrix (only the Phase 9 merge gate remains)
 
 > The five-mode framework (Hand-Held / Careful / Trusted / Weekly Deps / Overnight) was consolidated to these three on 2026-06-20. See [`/dev-lifecycle` SKILL.md](../dev-lifecycle/SKILL.md) Phase 1.5 for the canonical matrix and the deprecated-alias mapping.
@@ -24,7 +24,7 @@ Every ingesting skill (`/issue-creation`, `/pr-creation`, `/dev-lifecycle`, `/en
 2. **Evaluate triggers.** For each catalog entry whose phase matches the current phase, test its `**Trigger:**` axes (Keywords / Labels / File paths / Other) against the signature, case-insensitively. Always-dispatch entries match unconditionally.
 3. **Dispatch every match — mandatory.** A matched skill is *required*. The mode controls only the *timing of the gate*: a gated phase pauses for approval **before** running the matched skill; it does **not** drop the skill from the required set. This supersedes any older "evaluate triggers / skip silently" phrasing — a matched candidate is never silently skipped.
 4. **Emit a visibility line** so dispatch is auditable: `Scoped skills (Phase N): [<skill> — matched on <trigger>; …]`.
-5. **No silent skip.** If a matched skill is intentionally withheld, log the reason: `withheld: <skill> — <mode-gate pending | billed: awaiting preapproval | unknown-skill WARN>`. The unknown-skill case reuses the catalog-dispatch-resilience rule at the bottom of this file.
+5. **No silent skip.** If a matched skill is intentionally withheld, log the reason: `withheld: <skill> — <mode-gate pending | billed: awaiting preapproval | awaiting research consent | unknown-skill WARN>`. The unknown-skill case reuses the catalog-dispatch-resilience rule at the bottom of this file. (`awaiting research consent` is the `/deep-research` supervised-mode ASK — distinct from `mode-gate pending`, which is a shared-state visibility gate; deep-research gates the token/context-spend axis instead.)
 
 Billed/cloud-cost skills (§ Billed / cloud-cost skills) are never auto-dispatched — they require explicit user preapproval in every mode. Design-class skills (§ Design-class sequencing) run *before* `/superpowers:brainstorming` within a phase's scoped set.
 
@@ -85,13 +85,17 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Trigger:**
 - **Keywords in body/title:** `"research"`, `"compare options"`, `"prior art"`, `"survey"`, `"investigate approaches"`
-- **Other:** the issue requires multi-source external research before a design can be committed
+- **Other:** the issue requires multi-source external research before a design can be committed; OR the user is in a multi-tiered Q&A research dive (layered follow-up questions on an external-fact topic).
 
-**Use case:** Fan-out web research that adversarially verifies claims and synthesizes a cited report. Use at understand-time when the issue's resolution depends on external facts (library comparisons, standards, prior art) rather than codebase knowledge.
+**Use case:** Fan-out web research that adversarially verifies claims and synthesizes a cited report. Use at understand-time when the issue's resolution depends on external facts (library comparisons, standards, prior art) rather than codebase knowledge. Dispatched via the **Workflow tool** (`name: deep-research`) — it runs as a background dynamic workflow, not an inline subagent.
 
 **Example (hypothetical):** Choosing between two WebRTC simulcast strategies — `/deep-research` gathers and cross-checks sources before `/engineering:architecture` writes the ADR.
 
-**Mode interaction:** Auto-dispatch in all modes (Phase 1 is ungated). NOT `billed` (runs locally), but **token-heavy** — surface a cost estimate before dispatching (a cost caution, not a phase gate).
+**Mode interaction (mode-conditional — this entry is the EXCEPTION to "dispatch every match"; the supervised-mode ASK overrides phase-ungating, like the `billed` preapproval gate):**
+- **Automated End-to-End → REQUIRED, automatic.** Auto-dispatch when triggered. No human is present to answer clarifying questions, so an autonomous deep-research pass substitutes for the Q&A a supervised session would get. Surface the cost estimate, then run.
+- **In-the-Loop / On-the-Loop → opportunistic + ASK FIRST.** When the trigger fires — especially a multi-tiered Q&A research dive — OFFER deep-research with a one-line cost/scope estimate and **WAIT for an explicit go-ahead before dispatching.** Offer to narrow scope (which sub-questions to research) given the user is mid-Q&A.
+- **The gated axis is token/context spend, NOT shared state.** "Phase 1 is ungated" governs *phase progression*, not authorization to launch a token-heavy fan-out; a read-only research workflow still spends a large budget. "NOT `billed` / runs locally" does **not** remove the consent requirement — the cost being gated is tokens and context, not dollars. A cost caution is necessary but **NOT sufficient** in supervised modes: obtain an explicit yes/no. Obvious research intent (`"compare options"`, an active Q&A) is **not** a substitute for that authorization.
+- **Default fail-closed to ASK** when the mode is ambiguous or unset.
 
 ## Phase 2: PLAN
 
@@ -267,6 +271,66 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 
 **Mode interaction:** Gated in In-the-Loop. Auto in On-the-Loop / Automated End-to-End when triggers fire.
 
+### `/cloudflare:wrangler` (candidate)
+
+**Trigger:**
+- **File paths in diff:** `client/desktop/functions/**`, `**/wrangler.toml`, `infrastructure/deploy/deploy-spa.sh`, any Cloudflare Worker source
+- **Keywords:** `cloudflare`, `wrangler`, `pages`, `worker`, `kv namespace`, `deploy-spa`
+
+**Use case:** Current Wrangler CLI/config contract for Pages and Workers work. Concord runs a Pages SPA deploy plus two Workers (Apple SSO, invite landing); the `--cwd` discovery foot-gun already caused a silent Function drop (#2173).
+
+**Example:** A change to the `/assets/*` caching Function — fetch the current Pages Functions + wrangler contract before editing.
+
+**Mode interaction:** Auto-dispatch when triggers fire (subject to the phase gate).
+
+### `/cloudflare:workers-best-practices` (candidate)
+
+**Trigger:**
+- **File paths in diff:** Cloudflare Worker source (`**/worker*.{js,ts}`, `client/desktop/functions/**`)
+- **Keywords:** `worker`, `durable object`, `edge`, `cf pages function`
+
+**Use case:** Edge-runtime idioms and limits for Worker code — request lifecycle, caching semantics, what does not exist at the edge.
+
+**Example:** Adding a route to the invite-landing Worker.
+
+**Mode interaction:** Auto-dispatch when triggers fire.
+
+### `/resend:resend` (candidate)
+
+**Trigger:**
+- **File paths in diff:** `**/email/**`, `**/mail*.go`, SMTP/`RESEND_*` config surfaces
+- **Keywords:** `email`, `smtp`, `resend`, `verification email`, `password reset email`
+
+**Use case:** Current Resend API contract. Resend is Concord's live transactional-mail path (`RESEND_API_KEY`, provisioned via Infisical); its API is past most training cutoffs.
+
+**Example:** Changing the account-verification mail template or send path.
+
+**Mode interaction:** Auto-dispatch when triggers fire.
+
+### `/resend:email-best-practices` (candidate)
+
+**Trigger:**
+- **Keywords:** `deliverability`, `spam`, `dmarc`, `spf`, `dkim`, `email template`, `bounce`
+- **Other:** the change alters what an outbound email contains or when it is sent
+
+**Use case:** Deliverability and template discipline — the failure mode is silent (mail lands in spam), so it is worth front-loading rather than discovering from user reports.
+
+**Example:** Adding a new notification email class.
+
+**Mode interaction:** Auto-dispatch when triggers fire.
+
+### `/design:design-system` (candidate · design-class)
+
+**Trigger:**
+- **File paths in diff:** `client/desktop/src/renderer/styles/**`, any `*.css` introducing a new custom property
+- **Keywords:** `design token`, `theme`, `color scheme`, `typography scale`, `design system`
+
+**Use case:** Token/system-level design work. Concord has 32 theme blocks (15 schemes x dark/light + root + generic light); a new token must resolve in ALL of them, which is a systems problem, not a component problem.
+
+**Example:** Introducing a semantic color token for a new surface class.
+
+**Mode interaction:** Auto-dispatch when triggers fire. Runs BEFORE `/superpowers:brainstorming` per design-class sequencing.
+
 ## Phase 3: EXECUTE
 
 ### `/superpowers:subagent-driven-development` OR `/superpowers:executing-plans` (always-dispatch, per the Implementation Approach selected at Phase 1.5)
@@ -308,6 +372,30 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 **Use case:** Same as the Phase 2 entry — execution-time fallback when a new component emerges that the plan didn't anticipate at Phase 2. See the Phase 2 entry for full triggers and examples.
 
 **Mode interaction:** Auto-dispatch in all modes (Phase 3 is ungated); a mid-execution design dispatch is surfaced via the Phase 3 visibility line so the developer can confirm the change is in scope.
+
+### `/superpowers:dispatching-parallel-agents` (candidate)
+
+**Trigger:**
+- **Other:** the plan (or one task) is a wide independent sweep — the D6 breadth rung — or two or more plan tasks are dispatched in parallel
+
+**Use case:** Discipline for fanning work out across agents: prompt shape, isolation, and how to review returns. Directly governs the named-agent fan-out in `lifecycle-agent-dispatch.md` Phase 3.
+
+**Example:** A migration touching 30 call sites, split across parallel `@backend-developer` dispatches.
+
+**Mode interaction:** Auto-dispatch when D1/D6 selects a parallel or Workflow path.
+
+### `/operations:runbook` (candidate)
+
+**Trigger:**
+- **File paths in diff:** `infrastructure/**`, `.github/workflows/**`, `docker-compose*.yml`, `services/*/Dockerfile`
+- **Labels:** `area: ops`, `area: ci-cd`
+- **Other:** the change introduces an operator-facing procedure (activation, rollback, refresh, incident response)
+
+**Use case:** Authoring an operator runbook. Concord ships runbooks WITH infra changes (`docs/runbooks/`); this skill supplies the structure so a procedure written under deadline is still followable at 3am.
+
+**Example:** A new guarded activation sequence needs its rollback procedure documented.
+
+**Mode interaction:** Auto-dispatch when triggers fire.
 
 ## Phase 4: VALIDATE
 
@@ -378,6 +466,28 @@ Catalog entries tagged **`design-class`** build out a design or plan (architectu
 **Example (hypothetical):** Bringing up the desktop client to screenshot a new settings page for the PR description.
 
 **Mode interaction:** Auto-dispatch in all modes when triggers fire (Phase 4 is ungated under the consolidated matrix).
+
+### `/sonarqube:sonar-quality-gate` (candidate)
+
+**Trigger:**
+- **Other:** always, once a PR exists; before a PR, whenever the branch is ready for validation
+
+**Use case:** Reads the SonarCloud Quality Gate directly via MCP. The QG is a MANDATORY merge gate; `/verify-quality-gate` runs the local check set, this reads the authoritative server verdict.
+
+**Example:** Confirming the >=80% new-code condition before flipping ready.
+
+**Mode interaction:** Auto-dispatch (Phase 4 is ungated).
+
+### `/sonarqube:sonar-coverage` (candidate)
+
+**Trigger:**
+- **Other:** new-code coverage is below the 80% gate, or the diff adds a source file with no matching test file
+
+**Use case:** Identifies the exact uncovered lines rather than guessing. The >=80% new-code condition is the most common Phase-4 failure; pair with `@test-writer` to close the gap.
+
+**Example:** A new Go handler lands at 62% new-code coverage.
+
+**Mode interaction:** Auto-dispatch when the gate is red.
 
 ## Phase 5: COMMIT+DRAFT PR
 
@@ -509,6 +619,29 @@ No skills dispatched — `gh pr ready` is a single command.
 **Example (hypothetical):** A <backend service> PR with new query-building logic — `/engineering:code-review` checks for parameterization and N+1 patterns.
 
 **Mode interaction:** Auto-dispatch in all modes when triggers fire (Phase 8 is ungated under the consolidated matrix).
+
+### `/sonarqube:sonar-fix-issue` (candidate)
+
+**Trigger:**
+- **Other:** SonarCloud reported new issues on this PR, or a finding needs a FALSE_POSITIVE transition
+
+**Use case:** Applies a Sonar finding's fix, and — critically — encodes the two-step `reopen` -> `falsepositive` transition SonarCloud's state machine requires for an ACCEPTED/RESOLVED issue. Aborting between those two calls leaves the finding open and regresses the Quality Gate. Every FP decision still requires an entry in `docs/ci/sonarqube-false-positive-register.md`.
+
+**Example:** A Go idiom flagged by a mis-calibrated rule needs an instance-level FP mark.
+
+**Mode interaction:** Auto-dispatch when Sonar findings are present. NEVER use it to suppress or tune a rule — AI-Code Assurance forbids rule-level suppression; instance-level FP only.
+
+### `/ponytail:ponytail-review` (candidate)
+
+**Trigger:**
+- **Other:** always, as the over-engineering lens on the diff
+- **Keywords in the diff:** a new abstraction with one implementation, a new config value that never varies, a new dependency, scaffolding for a future requirement
+
+**Use case:** Reviews the diff for over-engineering: code that did not need to exist, an abstraction with one caller, a dependency added for what a few lines would do. This is a DIFFERENT lens from `/simplify`, which refines code that should exist — ponytail asks whether it should exist at all. Complements `@scope-reviewer`, which applies the same lens against the issue's stated scope.
+
+**Example:** A PR adds a factory, an interface, and a config flag to support one call site.
+
+**Mode interaction:** Auto-dispatch at Phase 8. Advisory: its findings are recommendations, not blocking — a deliberate simplification refusal is a valid answer and should be recorded as such.
 
 ## Phase 9: MERGE-READY
 
@@ -710,7 +843,7 @@ Adding a new dispatchable skill = adding an entry to this file. The catalog is t
 
 ### Eligibility
 
-- Must be a registered skill invocable via the `Skill` tool (not a one-off agent, not an inline workflow).
+- Must be a **model-invocable target**: either a registered skill invocable via the `Skill` tool, OR a bundled/saved **dynamic workflow** invocable via the Workflow tool by name (e.g. `/deep-research`, dispatched as `name: deep-research`). NOT a one-off ad-hoc agent or an inline single-use workflow script. A workflow-dispatched entry MUST state its dispatch path in its Use case (see `/deep-research` for the precedent).
 - Must be present in the plugin inventory of the project — if the skill is only available locally, document that limitation in the entry's Use case section.
 - Must have a clear `/dev-lifecycle` phase placement (one of Phase 1–9 or Cross-cutting).
 
