@@ -104,16 +104,28 @@ check that ran nothing" sends the reader into a pointless investigation instead 
 approval someone has to give. Surface the required action. It still counts as a way a
 green-looking set lies, alongside `gh pr checks` reporting done early.
 
-**"No checks reported" has two causes and only one is worth waiting for.** Usually it is the
-post-create registration window — transient, so re-arm. But it is also what a merge-conflicted
-PR looks like *permanently*: with `mergeStateStatus: DIRTY`, GitHub dispatches no workflow at
-all, and `--watch` exits immediately with the same message and the same exit 1. Re-arming there
-waits forever for checks that will never be queued. So after one short grace period, establish
-which case it is before re-arming:
+**"No checks reported" has THREE causes and only one is worth waiting for.** Never re-arm
+blindly on an empty result — two of the three never resolve:
+
+1. **The post-create registration window** — transient. Re-arm once; this is the only case that
+   rewards waiting.
+2. **A merge conflict.** With `mergeStateStatus: DIRTY` the forge dispatches no workflow at all,
+   and `--watch` exits immediately with the same message and the same exit 1. Waiting is
+   futile; the fix is merging the base branch in.
+3. **A PR with no applicable checks at all** — the repo has no `pull_request` workflow, or every
+   workflow is excluded by path filters. A docs-only change in a lightly-configured repo hits
+   this routinely. It is a legitimately clean state, not a pending one: report it as "no checks
+   apply" and let the lifecycle proceed. `--watch` cannot conjure checks that will never be
+   registered.
+
+After one short grace period, tell them apart before deciding:
 
 ```bash
-gh pr view $0 --json mergeStateStatus --jq .mergeStateStatus   # DIRTY → merge main in, do not wait
+gh pr view $0 --json mergeStateStatus --jq .mergeStateStatus   # DIRTY → merge base in, do not wait
+gh pr checks $0 --json name --jq 'length'                      # still 0 and not DIRTY → case 3
 ```
+
+Distinguishing 3 from 1 is what stops an indefinite wait on a PR that is already done.
 
 `/loop 2m /ci-status $0` remains available when a developer explicitly wants a visible ticking
 poll, and as the fallback when the wait cannot be armed. It is not the default: it spends a turn
