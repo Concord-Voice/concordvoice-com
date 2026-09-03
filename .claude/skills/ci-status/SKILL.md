@@ -225,13 +225,22 @@ gh pr ready $0
 # The flip itself can DISPATCH checks: a workflow gated on `types: [ready_for_review]` runs for
 # the first time here. Re-check registration rather than carrying the draft's green verdict
 # forward — that verdict was computed against a check set the flip may have just enlarged.
-sleep 30
-after=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null)
-case "$after" in
-  ''|*[!0-9]*)
-    gh pr view $0 --json number >/dev/null 2>&1 && after=0 \
-      || { echo "UNKNOWN: cannot reach the API — re-run Step 1 rather than assuming"; exit 2; } ;;
-esac
+# ONE 30 s sample is not a window. This same file establishes four samples over 90 s as what
+# initial registration needs, and a ready_for_review-gated workflow is no faster to register than
+# any other — so a single sample that comes back unchanged is not evidence that nothing was
+# dispatched, and line "after > before" would then carry the draft's green verdict straight past
+# it. Same shape as the registration loop: sample at t=30/60/90, stop as soon as it grows.
+after=$before
+for i in 1 2 3; do
+  sleep 30
+  after=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null)
+  case "$after" in
+    ''|*[!0-9]*)
+      gh pr view $0 --json number >/dev/null 2>&1 && after=0 \
+        || { echo "UNKNOWN: cannot reach the API — re-run Step 1 rather than assuming"; exit 2; } ;;
+  esac
+  [ "$after" -gt "$before" ] && break
+done
 echo "checks before=$before after=$after"
 ```
 
