@@ -59,15 +59,27 @@ session when it exits, and this skill re-runs then. Do not hand-roll a poll loop
 
 ```bash
 # run_in_background: true — `gh` blocks natively until every check settles.
-# Non-zero exit is informative: 1 = a check failed, 8 = still pending at exit.
+# Non-zero exit is informative but AMBIGUOUS: 8 = still pending at exit; 1 = a check
+# failed OR no checks were reported at all. Never read a verdict from it.
 gh pr checks $0 --watch --interval 30
 ```
 
 
 **Exiting the wait is not a verdict.** It means "stop waiting", never "CI passed" — re-read the
-checks and report the real state, never the exit code. A `cancelled` conclusion is not a failure
-but is not a pass, `action_required` settles having run zero jobs, and `gh pr checks` can report
-done early. No checks reported at all means the post-create registration window, not green.
+checks and report the real state, never the exit code. A `cancelled` bucket stays on the
+non-green remediation path alongside `fail`, exactly as Step 2 routes it; `action_required`
+settles having run zero jobs; and `gh pr checks` can report done early.
+
+**"No checks reported" has two causes and only one is worth waiting for.** Usually it is the
+post-create registration window — transient, so re-arm. But it is also what a merge-conflicted
+PR looks like *permanently*: with `mergeStateStatus: DIRTY`, GitHub dispatches no workflow at
+all, and `--watch` exits immediately with the same message and the same exit 1. Re-arming there
+waits forever for checks that will never be queued. So after one short grace period, establish
+which case it is before re-arming:
+
+```bash
+gh pr view $0 --json mergeStateStatus --jq .mergeStateStatus   # DIRTY → merge main in, do not wait
+```
 
 `/loop 2m /ci-status $0` remains available when a developer explicitly wants a visible ticking
 poll, and as the fallback when the wait cannot be armed. It is not the default: it spends a turn
