@@ -149,13 +149,20 @@ fi
 # check set. `gh pr checks` exit codes cannot separate the two on their own — 1 means "a check
 # failed" OR "no checks reported" — so confirm reachability with a call that has no such
 # ambiguity before believing a zero.
+# Judge the VALUE, never the exit code — this file says so a few lines above and the first
+# version of this guard ignored it. `gh pr checks` exits 8 when checks are pending and 1 when
+# one has failed, both WITH a valid count on stdout, so `|| n=""` threw away a good answer and
+# turned every PR with a pending or failing check into UNKNOWN. A numeric stdout is the answer
+# whatever the exit code was; only a non-numeric one needs the reachability question asked, and
+# that is what separates "no checks" from "could not ask".
 n=0
 for i in 1 2 3 4; do
-  n=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null) || n=""
-  if [ -z "$n" ]; then
-    gh pr view $0 --json number >/dev/null 2>&1 && n=0 \
-      || { echo "UNKNOWN: cannot reach the API — an empty check set here is unobserved, not confirmed"; exit 2; }
-  fi
+  n=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null)
+  case "$n" in
+    ''|*[!0-9]*)
+      gh pr view $0 --json number >/dev/null 2>&1 && n=0 \
+        || { echo "UNKNOWN: cannot reach the API — an empty check set here is unobserved, not confirmed"; exit 2; } ;;
+  esac
   [ "${n:-0}" -gt 0 ] && break
   [ "$i" -lt 4 ] && sleep 30
 done
@@ -204,20 +211,34 @@ If yes:
 # PR back to Step 1 for no reason. The question is whether the count GREW.
 # Same fail-closed rule as the registration probe: a failed `before` silently becomes 0, which
 # makes any non-zero `after` look like growth and sends every PR back to Step 1.
-before=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null) \
-  || { echo "UNKNOWN: pre-flip check probe failed — not flipping on an unobserved baseline"; exit 2; }
+# Same rule, and the same trap in a second costume: a DRAFT with zero checks makes `gh pr
+# checks` exit non-zero, so an exit-code guard here refused to flip exactly the PR the draft
+# branch above was written to handle. Zero is a legitimate baseline; only an unreachable API is
+# a reason not to flip.
+before=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null)
+case "$before" in
+  ''|*[!0-9]*)
+    gh pr view $0 --json number >/dev/null 2>&1 && before=0 \
+      || { echo "UNKNOWN: cannot reach the API — not flipping on an unobserved baseline"; exit 2; } ;;
+esac
 gh pr ready $0
 # The flip itself can DISPATCH checks: a workflow gated on `types: [ready_for_review]` runs for
 # the first time here. Re-check registration rather than carrying the draft's green verdict
 # forward — that verdict was computed against a check set the flip may have just enlarged.
 sleep 30
-after=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null) \
-  || { echo "UNKNOWN: post-flip check probe failed — re-run Step 1 rather than assuming"; exit 2; }
+after=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null)
+case "$after" in
+  ''|*[!0-9]*)
+    gh pr view $0 --json number >/dev/null 2>&1 && after=0 \
+      || { echo "UNKNOWN: cannot reach the API — re-run Step 1 rather than assuming"; exit 2; } ;;
+esac
 echo "checks before=$before after=$after"
 ```
 
 `after > before` means the flip dispatched new checks: **go back to Step 1** and treat the PR as
-in-progress. An unchanged count carries the green verdict forward.
+in-progress — which routes those checks into the normal pending wait rather than leaving them
+unwatched, since a newly dispatched check is pending by definition and the pre-flip green verdict
+says nothing about it. An unchanged count carries that verdict forward.
 
 ## Step 5: If any checks failed
 
