@@ -163,7 +163,7 @@ fi
 # is genuinely empty, and anything else on stderr is a failure that must read UNKNOWN.
 # Takes the PR as an explicit argument: inside a function `$0` is the FUNCTION NAME, not this
 # skill's `$0` PR placeholder, so reading `$0` here would query a PR called "probe_checks".
-probe_checks() {  # $1 = PR number; echoes a count, or exits 2
+probe_checks() {  # $1 = PR number; echoes a count, or returns 2
   ERRF="${TMPDIR:-/tmp}/ci-status-$$.err"
   v=$(gh pr checks "$1" --json name --jq 'length' 2>"$ERRF")
   e=$(cat "$ERRF" 2>/dev/null); rm -f "$ERRF"
@@ -171,7 +171,7 @@ probe_checks() {  # $1 = PR number; echoes a count, or exits 2
     ''|*[!0-9]*)
       case "$e" in
         *"no checks reported"*) printf '0' ;;
-        *) echo "UNKNOWN: check probe failed — [$e]. An empty check set here is unobserved, not confirmed" >&2; exit 2 ;;
+        *) echo "UNKNOWN: check probe failed — [$e]. An empty check set here is unobserved, not confirmed" >&2; return 2 ;;
       esac ;;
     *) printf '%s' "$v" ;;
   esac
@@ -234,7 +234,7 @@ probe_checks() {  # $1 = PR number; echoes a count, or returns 2
     ''|*[!0-9]*)
       case "$e" in
         *"no checks reported"*) printf '0' ;;
-        *) echo "UNKNOWN: check probe failed — [$e]" >&2; return 2 ;;
+        *) echo "UNKNOWN: check probe failed — [$e]. An empty check set here is unobserved, not confirmed" >&2; return 2 ;;
       esac ;;
     *) printf '%s' "$v" ;;
   esac
