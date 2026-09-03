@@ -222,6 +222,24 @@ Ask the developer: "All checks passed. Mark PR as ready for review?"
 
 If yes:
 ```bash
+# Each fenced block is its OWN shell — a function defined in an earlier block does not exist
+# here. `probe_checks` was defined only in the registration block above, so this step died with
+# `probe_checks: command not found` and exited 2 before `gh pr ready`, breaking the green-to-ready
+# transition this skill exists to perform. Repeated here deliberately; keep the two in step.
+probe_checks() {  # $1 = PR number; echoes a count, or returns 2
+  ERRF="${TMPDIR:-/tmp}/ci-status-$$.err"
+  v=$(gh pr checks "$1" --json name --jq 'length' 2>"$ERRF")
+  e=$(cat "$ERRF" 2>/dev/null); rm -f "$ERRF"
+  case "$v" in
+    ''|*[!0-9]*)
+      case "$e" in
+        *"no checks reported"*) printf '0' ;;
+        *) echo "UNKNOWN: check probe failed — [$e]" >&2; return 2 ;;
+      esac ;;
+    *) printf '%s' "$v" ;;
+  esac
+}
+
 # Capture the count BEFORE the flip. "Non-zero afterwards" is not the question — a repo that
 # already ran checks on the draft is non-zero either way, and testing for it sends every such
 # PR back to Step 1 for no reason. The question is whether the count GREW.
