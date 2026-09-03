@@ -153,7 +153,10 @@ gh pr checks $0 --json name,link,bucket --jq '.[] | select(.bucket == "fail" or 
 
 - Does not fix failures automatically (suggests remediation only)
 - Does not mark PR as ready without developer confirmation
-- Does not poll automatically (use `/loop` plugin for that)
+- Does not poll on a fixed interval, and does not hand the wait back to the developer. It arms
+  `gh pr checks --watch` in the background and lets the harness re-invoke the session — see
+  "Waiting for pending checks". `/loop` is the fallback when that wait cannot be armed, not the
+  default
 - Does not give time estimates for pending checks
 
 ## Why This Skill Exists
