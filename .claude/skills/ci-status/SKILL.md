@@ -120,6 +120,14 @@ blindly on an empty result — two of the three never resolve:
    apply" and let the lifecycle proceed. `--watch` cannot conjure checks that will never be
    registered.
 
+   **On a DRAFT, an empty set is not evidence of case 3.** A workflow whose `pull_request`
+   trigger lists `types: [ready_for_review]` is not dispatched at all while the PR is a draft,
+   so every sample below legitimately comes back empty and the draft looks identical to a repo
+   with no checks. Concluding case 3 there sends the caller straight to a ready flip and on to
+   final review while checks that had not been dispatched yet are still to run — or to fail. So
+   on a draft, report "no checks registered **while draft**" rather than "no checks apply", and
+   re-check registration AFTER the flip (Step 4).
+
 **The grace period has to be an actual wait, not a sentence.** Two back-to-back queries take
 under a second, and checks routinely take longer than that to register — so concluding case 3
 immediately would mark a brand-new PR ready before CI ever starts, which is a worse failure than
@@ -173,7 +181,15 @@ Ask the developer: "All checks passed. Mark PR as ready for review?"
 If yes:
 ```bash
 gh pr ready $0
+# The flip itself can DISPATCH checks: a workflow gated on `types: [ready_for_review]` runs for
+# the first time here. Re-check registration rather than carrying the draft's green verdict
+# forward — that verdict was computed against a check set the flip may have just enlarged.
+sleep 30
+gh pr checks $0 --json name --jq 'length'
 ```
+
+A non-zero count means the flip dispatched new checks: **go back to Step 1** and treat the PR as
+in-progress. Only a count that stays at the pre-flip value carries the green verdict forward.
 
 ## Step 5: If any checks failed
 
