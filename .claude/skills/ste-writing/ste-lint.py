@@ -77,6 +77,17 @@ LIST_ITEM = r"^\s*(?:[-*+]|\d+[.)])\s+"
 # the length rule. Its marker is stripped and its lines join instead.
 STANDALONE = re.compile(r"^\s*(?:#{1,6}\s|[|]|```|~~~)")
 QUOTE_MARKER = r"^\s*>\s?"
+# Sentence boundary. "(" is deliberately NOT a sentence opener, and there is no
+# abbreviation guard. Measured against four cases -- "e.g. (" mid-sentence, a
+# standalone parenthetical sentence, "etc." genuinely ending a sentence, and a
+# capitalized "E.g." -- this plain form is correct on three. Admitting "(" is
+# correct on two, and adding fixed-width abbreviation lookbehinds is also
+# correct on two, because a guard that suppresses "e.g." mid-sentence equally
+# suppresses "etc." when it really does end one. That circularity has no regex
+# answer, so the plain form stands and the residue is a documented limit. Its
+# one failure -- a standalone parenthetical merging into the sentence before it
+# -- is a false positive, which is the safe direction for a linter.
+SENTENCE_SPLIT = r"(?<=[.!?])\s+(?=[A-Z0-9\"'\-*_\[`])"
 # Thematic break: three or more of the same -, *, or _ with optional spaces,
 # and nothing else on the line. Checked BEFORE LIST_ITEM, which it also matches.
 THEMATIC = re.compile(r"^[ \t]*(?:(?:\*[ \t]*){3,}|(?:-[ \t]*){3,}|(?:_[ \t]*){3,})$")
@@ -100,7 +111,10 @@ def unwrap(text):
             # list. Left to the branch below it would absorb the following
             # paragraph, and prose_sentences() would then drop that whole
             # paragraph as a list item -- exempting it from the length rule.
-            flush(); out.append(line)
+            # Emit a blank line, not the break itself: the boundary is what
+            # matters, and passing the separator through made it count as a
+            # seventh sentence and fail a valid six-sentence paragraph.
+            flush(); out.append("")
         elif re.match(LIST_ITEM, line):
             # A marker begins a new logical line and absorbs its continuations,
             # so a hard-wrapped numbered step is still measured whole. Flushing
@@ -124,10 +138,11 @@ def sentences(text):
         # Split on . ! ? only. A colon usually introduces a clause or a list
         # inside one sentence ("uses three services: Redis ..."), so treating it
         # as a boundary chopped long sentences into passing fragments.
-        # The lookahead must admit Markdown emphasis and link openers, or a
-        # sentence starting **like this** is merged into the previous one and
-        # the pair reports as one over-long sentence.
-        parts = re.split(r"(?<=[.!?])\s+(?=[A-Z0-9\"'\-*_\[`(])", s)
+        # The lookahead admits Markdown emphasis and link openers, or a
+        # sentence starting **like this** merges into the previous one and the
+        # pair reports as one over-long sentence. See SENTENCE_SPLIT for why
+        # "(" is excluded and why no abbreviation guard is used.
+        parts = re.split(SENTENCE_SPLIT, s)
         for p in parts:
             p = p.strip()
             if p: out.append(p)

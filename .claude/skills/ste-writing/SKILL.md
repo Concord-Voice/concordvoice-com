@@ -99,6 +99,7 @@ The linter reads Markdown with regular expressions, not a parser. It handles the
 - **Tables written without outer pipes** (`Name | Description`) are read as prose rather than table rows.
 - **Image openers** (`![alt](src)`) are not recognized as sentence starts, so an image-led sentence merges into the previous one.
 - **Stray unbalanced backtick runs** in prose can swallow the text between them, since a stray run is indistinguishable from an opening delimiter.
+- **A standalone parenthetical sentence** merges into the sentence before it, because `(` is not treated as a sentence opener. Admitting `(` would instead split `e.g. (the stored token)` at the abbreviation and let a long sentence escape the length check — a worse, silent failure. An abbreviation guard does not resolve this: suppressing the split after `e.g.` equally suppresses it after `etc.` when that genuinely ends a sentence, and the two are indistinguishable without knowing where the sentence ends. Measured across those cases, the current plain form is correct more often than either alternative, and its failure is a visible false positive rather than a silent miss.
 
 If a document trips one of these, fence the code or rephrase; do not treat the score as authoritative for that file.
 

@@ -45,10 +45,34 @@ CI Status — PR #$0 (in progress)
 ❌ Failed: N checks
 ⏳ Pending: N checks — [list names]
 
-Still running. Run /ci-status $0 again in a few minutes,
-or use /loop 2m /ci-status $0 to auto-poll.
+Still running. Waiting natively — you will be notified when
+the checks settle. No need to re-run this.
 ────────────────────────────────────────────────
 ```
+
+## Waiting for pending checks
+
+When checks are still pending, **do not tell the developer to re-run this skill, and do not
+interval-poll.** Use `gh`'s own blocking watch in a backgrounded Bash call; the harness re-invokes the
+session when it exits, and this skill re-runs then. Do not hand-roll a poll loop around
+`gh pr checks` — `--watch` is the native form.
+
+```bash
+# run_in_background: true — `gh` blocks natively until every check settles.
+# Non-zero exit is informative: 1 = a check failed, 8 = still pending at exit.
+gh pr checks $0 --watch --interval 30
+```
+
+
+**Exiting the wait is not a verdict.** It means "stop waiting", never "CI passed" — re-read the
+checks and report the real state, never the exit code. A `cancelled` conclusion is not a failure
+but is not a pass, `action_required` settles having run zero jobs, and `gh pr checks` can report
+done early. No checks reported at all means the post-create registration window, not green.
+
+`/loop 2m /ci-status $0` remains available when a developer explicitly wants a visible ticking
+poll, and as the fallback when the wait cannot be armed. It is not the default: it spends a turn
+per tick asking a question the harness answers for free, and it puts the developer back in the
+scheduler's seat.
 
 ## Step 4: If all checks passed
 
@@ -111,4 +135,4 @@ gh pr checks $0 --json name,link,bucket --jq '.[] | select(.bucket == "fail" or 
 
 ## Why This Skill Exists
 
-After pushing a PR, the developer currently runs `gh pr checks` manually, parses the output, and figures out what failed. This skill does that in one command with actionable remediation suggestions. It also handles the "all green → mark ready" transition that triggers Copilot review, bridging Phases 9-12 of the dev-lifecycle pipeline (#585).
+After pushing a PR, the developer currently runs `gh pr checks` manually, parses the output, and figures out what failed. This skill does that in one command with actionable remediation suggestions. It also handles the "all green → mark ready" transition from CI monitoring to review-ready (#585).
