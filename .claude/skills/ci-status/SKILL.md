@@ -69,11 +69,13 @@ gh pr checks $0 --watch --interval 30
 checks and report the real state, never the exit code.
 
 `gh pr checks --json bucket` sorts every check into exactly five values — `pass`, `fail`,
-`pending`, `skipping`, `cancel` — and **two of them are neither green nor red**. A `cancel`
-stays on the non-green remediation path alongside `fail`, exactly as Step 2 routes it. A
-`skipping` required check is not a satisfied one, and it renders identically to a pass in a
-casual read of the list. Route both explicitly rather than letting them fall through a
-pass/fail branch.
+`pending`, `skipping`, `cancel` — and **only `cancel` is the ambiguous one**. A conditionally
+or path-gated skipped job reports success and does not block a merge even when required, and
+this repo path-skips several deliberately, so `skipping` belongs on the **green** path
+alongside `pass` — which is exactly how `/dev-lifecycle`'s own detection computes it
+(`all(. == "pass" or . == "skipping")`). Do not route it for remediation; doing so would block
+every PR with conditional jobs. `cancel` is the one that is neither green nor red: it stays on
+the non-green remediation path alongside `fail`, as Step 2 routes it.
 
 Two vocabularies meet here, so keep them apart: `bucket` is `gh`'s own five-way categorisation,
 while `action_required` is a GitHub *conclusion* and never appears as a bucket — do not grep for
