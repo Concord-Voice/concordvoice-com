@@ -12,6 +12,22 @@ allowed-tools:
 
 # CI Status
 
+<PRIMITIVE-AVAILABILITY>
+This file is mirrored into `.codex/skills/` and `.github/skills/` and is read by harnesses that
+do not all expose the same tools — and the mirrors are **not** byte-identical, since the
+generator applies mechanical substitutions. So the sentences here avoid naming the owning
+vendor, and the waiting mechanism needs a stated fallback.
+
+**The wait below uses a backgrounded shell command plus the harness re-invoking the session when
+it exits.** Where your harness provides no background session, fall back in this order: any
+detached/exec session it does offer, then a **bounded foreground poll** with an explicit
+deadline. `/loop` is named later in this file as a fallback, but it is itself a built-in of one
+harness only — if you do not have it either, the bounded foreground poll is the floor.
+
+The floor is never "ask the developer to run this again". Every fallback still waits; what
+changes is how gracefully.
+</PRIMITIVE-AVAILABILITY>
+
 Check CI status for PR #$0, summarize results, and suggest next steps.
 
 ---
@@ -36,7 +52,7 @@ Group checks using the `bucket` field:
 
 ## Step 3: If checks are still running
 
-If any checks are Pending, report current status and offer to poll:
+If any checks are Pending, report current status and arm the wait described in "Waiting for pending checks" below. Do **not** offer the developer a polling command as the primary path — the output block below deliberately makes no such offer:
 
 ```
 CI Status — PR #$0 (in progress)
@@ -79,9 +95,14 @@ the non-green remediation path alongside `fail`, as Step 2 routes it.
 
 Two vocabularies meet here, so keep them apart: `bucket` is `gh`'s own five-way categorisation,
 while `action_required` is a GitHub *conclusion* and never appears as a bucket — do not grep for
-it in `--json bucket` output. It is the API-level signal for a check that settled having run
-zero jobs, which is the third way a green-looking check set lies, alongside `gh pr checks`
-reporting done early.
+it in `--json bucket` output; read it from the API conclusion instead.
+
+**`action_required` is a request for a human, not a puzzle about zero jobs.** It means a manual
+gate is waiting — a protected-environment approval, or a first-time-contributor workflow needing
+a maintainer to authorise the run. Zero jobs ran *because* of that gate, so reporting it as "a
+check that ran nothing" sends the reader into a pointless investigation instead of naming the
+approval someone has to give. Surface the required action. It still counts as a way a
+green-looking set lies, alongside `gh pr checks` reporting done early.
 
 **"No checks reported" has two causes and only one is worth waiting for.** Usually it is the
 post-create registration window — transient, so re-arm. But it is also what a merge-conflicted
