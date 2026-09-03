@@ -143,9 +143,19 @@ fi
 # `for _ in 1 2 3` with an unconditional trailing sleep observed only 60 s while claiming 90,
 # and burned a pointless 30 s before printing; a check registering in that final sleep was
 # missed and the PR was declared NO CHECKS APPLY.
+# `|| echo 0` here would be a fail-OPEN: an expired token, a rate limit, or an API outage
+# during this window becomes a genuine-looking zero, the block below prints NO CHECKS APPLY,
+# and the lifecycle advances past CI entirely. A failed probe is not evidence of an empty
+# check set. `gh pr checks` exit codes cannot separate the two on their own — 1 means "a check
+# failed" OR "no checks reported" — so confirm reachability with a call that has no such
+# ambiguity before believing a zero.
 n=0
 for i in 1 2 3 4; do
-  n=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null || echo 0)
+  n=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null) || n=""
+  if [ -z "$n" ]; then
+    gh pr view $0 --json number >/dev/null 2>&1 && n=0 \
+      || { echo "UNKNOWN: cannot reach the API — an empty check set here is unobserved, not confirmed"; exit 2; }
+  fi
   [ "${n:-0}" -gt 0 ] && break
   [ "$i" -lt 4 ] && sleep 30
 done
@@ -192,13 +202,17 @@ If yes:
 # Capture the count BEFORE the flip. "Non-zero afterwards" is not the question — a repo that
 # already ran checks on the draft is non-zero either way, and testing for it sends every such
 # PR back to Step 1 for no reason. The question is whether the count GREW.
-before=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null || echo 0)
+# Same fail-closed rule as the registration probe: a failed `before` silently becomes 0, which
+# makes any non-zero `after` look like growth and sends every PR back to Step 1.
+before=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null) \
+  || { echo "UNKNOWN: pre-flip check probe failed — not flipping on an unobserved baseline"; exit 2; }
 gh pr ready $0
 # The flip itself can DISPATCH checks: a workflow gated on `types: [ready_for_review]` runs for
 # the first time here. Re-check registration rather than carrying the draft's green verdict
 # forward — that verdict was computed against a check set the flip may have just enlarged.
 sleep 30
-after=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null || echo 0)
+after=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null) \
+  || { echo "UNKNOWN: post-flip check probe failed — re-run Step 1 rather than assuming"; exit 2; }
 echo "checks before=$before after=$after"
 ```
 
