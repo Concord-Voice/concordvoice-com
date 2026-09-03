@@ -6,6 +6,8 @@ allowed-tools:
   - Bash(gh pr *)
   - Bash(gh api *)
   - Bash(gh run *)
+  - Bash(sleep *)
+  - Bash(jq *)
   - Read
   - Grep
 ---
@@ -118,14 +120,31 @@ blindly on an empty result — two of the three never resolve:
    apply" and let the lifecycle proceed. `--watch` cannot conjure checks that will never be
    registered.
 
-After one short grace period, tell them apart before deciding:
+**The grace period has to be an actual wait, not a sentence.** Two back-to-back queries take
+under a second, and checks routinely take longer than that to register — so concluding case 3
+immediately would mark a brand-new PR ready before CI ever starts, which is a worse failure than
+the indefinite wait case 3 exists to prevent. Bound it and re-check:
 
 ```bash
-gh pr view $0 --json mergeStateStatus --jq .mergeStateStatus   # DIRTY → merge base in, do not wait
-gh pr checks $0 --json name --jq 'length'                      # still 0 and not DIRTY → case 3
+# run_in_background: true — decide only after the registration window has actually elapsed.
+if [ "$(gh pr view $0 --json mergeStateStatus --jq .mergeStateStatus)" = "DIRTY" ]; then
+  echo "DIRTY: no workflow will be dispatched — merge the base branch in"; exit 0
+fi
+# Re-check across a real 90s window before concluding that no checks apply.
+n=0
+for _ in 1 2 3; do
+  n=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null || echo 0)
+  [ "${n:-0}" -gt 0 ] && break
+  sleep 30
+done
+[ "${n:-0}" -gt 0 ] && echo "REGISTERED: $n checks — re-arm the watch" \
+                    || echo "NO CHECKS APPLY: none registered in 90s and the PR is not DIRTY"
 ```
 
-Distinguishing 3 from 1 is what stops an indefinite wait on a PR that is already done.
+Distinguishing 3 from 1 is what stops an indefinite wait on a PR that is already done — but
+only a real delay distinguishes them. If your harness cannot sleep, treat the ambiguous case as
+**case 1 and re-arm**: waiting on a finished PR costs time, while declaring a starting PR
+finished costs the CI gate.
 
 `/loop 2m /ci-status $0` remains available when a developer explicitly wants a visible ticking
 poll, and as the fallback when the wait cannot be armed. It is not the default: it spends a turn
