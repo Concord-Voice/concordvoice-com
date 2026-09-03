@@ -131,11 +131,15 @@ if [ "$(gh pr view $0 --json mergeStateStatus --jq .mergeStateStatus)" = "DIRTY"
   echo "DIRTY: no workflow will be dispatched — merge the base branch in"; exit 0
 fi
 # Re-check across a real 90s window before concluding that no checks apply.
+# Check at t=0/30/60/90 — four samples across a real 90 s, and NO sleep after the last one.
+# `for _ in 1 2 3` with an unconditional trailing sleep observed only 60 s while claiming 90,
+# and burned a pointless 30 s before printing; a check registering in that final sleep was
+# missed and the PR was declared NO CHECKS APPLY.
 n=0
-for _ in 1 2 3; do
+for i in 1 2 3 4; do
   n=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null || echo 0)
   [ "${n:-0}" -gt 0 ] && break
-  sleep 30
+  [ "$i" -lt 4 ] && sleep 30
 done
 [ "${n:-0}" -gt 0 ] && echo "REGISTERED: $n checks — re-arm the watch" \
                     || echo "NO CHECKS APPLY: none registered in 90s and the PR is not DIRTY"
