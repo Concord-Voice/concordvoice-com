@@ -59,16 +59,27 @@ session when it exits, and this skill re-runs then. Do not hand-roll a poll loop
 
 ```bash
 # run_in_background: true — `gh` blocks natively until every check settles.
-# Non-zero exit is informative but AMBIGUOUS: 8 = still pending at exit; 1 = a check
-# failed OR no checks were reported at all. Never read a verdict from it.
+# Non-zero exit is informative but AMBIGUOUS: 8 = checks still pending; 1 = a check
+# failed, OR an error such as "no checks reported". Never read a verdict from it.
 gh pr checks $0 --watch --interval 30
 ```
 
 
 **Exiting the wait is not a verdict.** It means "stop waiting", never "CI passed" — re-read the
-checks and report the real state, never the exit code. A `cancelled` bucket stays on the
-non-green remediation path alongside `fail`, exactly as Step 2 routes it; `action_required`
-settles having run zero jobs; and `gh pr checks` can report done early.
+checks and report the real state, never the exit code.
+
+`gh pr checks --json bucket` sorts every check into exactly five values — `pass`, `fail`,
+`pending`, `skipping`, `cancel` — and **two of them are neither green nor red**. A `cancel`
+stays on the non-green remediation path alongside `fail`, exactly as Step 2 routes it. A
+`skipping` required check is not a satisfied one, and it renders identically to a pass in a
+casual read of the list. Route both explicitly rather than letting them fall through a
+pass/fail branch.
+
+Two vocabularies meet here, so keep them apart: `bucket` is `gh`'s own five-way categorisation,
+while `action_required` is a GitHub *conclusion* and never appears as a bucket — do not grep for
+it in `--json bucket` output. It is the API-level signal for a check that settled having run
+zero jobs, which is the third way a green-looking check set lies, alongside `gh pr checks`
+reporting done early.
 
 **"No checks reported" has two causes and only one is worth waiting for.** Usually it is the
 post-create registration window — transient, so re-arm. But it is also what a merge-conflicted
