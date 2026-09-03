@@ -149,8 +149,17 @@ for i in 1 2 3 4; do
   [ "${n:-0}" -gt 0 ] && break
   [ "$i" -lt 4 ] && sleep 30
 done
-[ "${n:-0}" -gt 0 ] && echo "REGISTERED: $n checks — re-arm the watch" \
-                    || echo "NO CHECKS APPLY: none registered in 90s and the PR is not DIRTY"
+if [ "${n:-0}" -gt 0 ]; then
+  echo "REGISTERED: $n checks — re-arm the watch"
+elif [ "$(gh pr view $0 --json isDraft --jq .isDraft)" = "true" ]; then
+  # The draft qualification above is only worth the words if the SNIPPET honours it. Printing
+  # the case-3 verdict here regardless is how prose becomes decoration: an agent runs the block,
+  # reads NO CHECKS APPLY, and flips the PR ready with ready_for_review-gated workflows still
+  # undispatched — the exact outcome the note forbids.
+  echo "NO CHECKS REGISTERED WHILE DRAFT: ready_for_review-gated workflows have not been dispatched — re-check after the flip (Step 4)"
+else
+  echo "NO CHECKS APPLY: none registered in 90s, the PR is not DIRTY, and it is not a draft"
+fi
 ```
 
 Distinguishing 3 from 1 is what stops an indefinite wait on a PR that is already done — but
@@ -180,16 +189,21 @@ Ask the developer: "All checks passed. Mark PR as ready for review?"
 
 If yes:
 ```bash
+# Capture the count BEFORE the flip. "Non-zero afterwards" is not the question — a repo that
+# already ran checks on the draft is non-zero either way, and testing for it sends every such
+# PR back to Step 1 for no reason. The question is whether the count GREW.
+before=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null || echo 0)
 gh pr ready $0
 # The flip itself can DISPATCH checks: a workflow gated on `types: [ready_for_review]` runs for
 # the first time here. Re-check registration rather than carrying the draft's green verdict
 # forward — that verdict was computed against a check set the flip may have just enlarged.
 sleep 30
-gh pr checks $0 --json name --jq 'length'
+after=$(gh pr checks $0 --json name --jq 'length' 2>/dev/null || echo 0)
+echo "checks before=$before after=$after"
 ```
 
-A non-zero count means the flip dispatched new checks: **go back to Step 1** and treat the PR as
-in-progress. Only a count that stays at the pre-flip value carries the green verdict forward.
+`after > before` means the flip dispatched new checks: **go back to Step 1** and treat the PR as
+in-progress. An unchanged count carries the green verdict forward.
 
 ## Step 5: If any checks failed
 
