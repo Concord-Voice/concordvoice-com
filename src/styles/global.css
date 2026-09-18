@@ -22,6 +22,10 @@
   --color-coral: #fa709a;   /* Auxiliary 1 */
   --color-gold:  #ffe13f;   /* Auxiliary 2 */
   --color-mist:  #b9b2d6;   /* muted text on night (derived) */
+  --color-ink:   #1a0b2e;   /* "deep Night text": the dark type set ON the gold-to-coral
+                               gradient (buttons, active toggles, selected tabs). A warmer
+                               near-black than Night; the choice is tonal, not contrast --
+                               both pass AA. See DESIGN.md button-primary.textColor. */
 
   --font-body: "Source Sans 3", system-ui, -apple-system, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
@@ -90,7 +94,7 @@ strong, b { color: var(--color-gold); }
 :is(h1, h2, h3, h4, h5, h6):has(.text-gradient) { color: var(--color-paper); }
 
 /* ============================================================
-   Atmosphere: aurora glow + film grain + starfield
+   Atmosphere: aurora glow + starfield
    (the dusk cloud bank lives in the footer : see .cloudscape)
    ============================================================ */
 .starfield { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
@@ -103,7 +107,12 @@ strong, b { color: var(--color-gold); }
   background:
     radial-gradient(38rem 30rem at 74% -10%, color-mix(in oklab, var(--color-coral) 40%, transparent), transparent 70%),
     radial-gradient(32rem 26rem at 10% 4%,  color-mix(in oklab, var(--color-gold) 26%, transparent), transparent 70%);
-  filter: blur(6px) saturate(125%);
+  /* No blur here. The gradients already feather out to transparent, so a 6px blur was
+     visually undetectable (measured: mean drift 0.00/255 across the glow regions) while
+     forcing a full-viewport convolution every frame wherever the compositor is on the CPU
+     (hardware acceleration off, software WebRender, weak GPU). saturate() is a per-pixel
+     color matrix and stays. */
+  filter: saturate(125%);
   opacity: 0.6;
   animation: drift 24s ease-in-out infinite alternate;
 }
@@ -112,13 +121,16 @@ strong, b { color: var(--color-gold); }
   100% { transform: translate3d(-2%, 1.5%, 0) scale(1.07); }
 }
 
-.grain {
-  position: fixed; inset: 0; pointer-events: none;
-  z-index: 2;
-  opacity: 0.05;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
+/* The film-grain layer was removed. `mix-blend-mode: overlay` resolves to 2 x backdrop x
+   source on a dark backdrop, and against --color-night (#0d0821) that collapses below
+   8-bit precision: measured against a render with the layer deleted, it moved the page by
+   a mean of 0.11/255 (99.96% identical pixels, peak 10/255 on isolated edges) and left
+   0.00 stdev across a flat dark field -- its texture quantised away exactly where the site
+   spends most of its pixels, and read 0.01/255 over the bright CTA gradient. It was,
+   however, a fixed full-viewport blend layer, which forces the compositor to re-read and
+   re-blend the whole viewport every frame. Invisible output, real cost: deleted rather
+   than re-tuned. Reintroducing grain means a texture that survives a near-black backdrop
+   (baked-in dark noise at `mix-blend-mode: normal`), not another blend mode. */
 
 .star {
   position: absolute;
@@ -233,7 +245,7 @@ strong, b { color: var(--color-gold); }
   transition: transform 0.25s, box-shadow 0.25s, filter 0.25s, border-color 0.25s;
 }
 .btn-primary {
-  color: #1a0b2e;
+  color: var(--color-ink);
   background: linear-gradient(100deg, var(--color-gold), var(--color-coral));
   box-shadow: 0 10px 40px -12px var(--color-coral);
 }
@@ -360,7 +372,7 @@ strong, b { color: var(--color-gold); }
   border-radius: 9999px;
   font-weight: 700;
   font-size: 0.78rem;
-  color: #1a0b2e;
+  color: var(--color-ink);
   background: linear-gradient(100deg, var(--color-gold), var(--color-coral));
   cursor: pointer;
   transition: filter 0.2s, transform 0.2s;

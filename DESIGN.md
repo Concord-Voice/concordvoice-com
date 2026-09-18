@@ -7,6 +7,7 @@ colors:
   coral: "#fa709a"
   gold: "#ffe13f"
   mist: "#b9b2d6"
+  ink: "#1a0b2e"
 typography:
   display:
     fontFamily: "Droidiga, Source Sans 3, system-ui, sans-serif"
@@ -23,11 +24,26 @@ typography:
     fontSize: "0.72rem"
     fontWeight: 400
     letterSpacing: "0.28em"
+  scale:
+    micro: "0.72rem"
+    fine: "0.78rem"
+    compact: "0.8rem"
+    small: "0.9rem"
+    base: "0.95rem"
+    body: "1rem"
+    lead: "1.05rem"
+    title: "1.2rem"
+    headline: "1.4rem"
 rounded:
+  hairline: "3px"
   control: "0.6rem"
+  field: "0.8rem"
   card: "0.9rem"
   panel: "1rem"
+  band: "1.2rem"
+  bandLarge: "1.4rem"
   pill: "9999px"
+  circle: "50%"
 spacing:
   control: "0.5rem"
   component: "1rem"
@@ -35,7 +51,7 @@ spacing:
 components:
   button-primary:
     backgroundColor: "linear-gradient(100deg, #ffe13f, #fa709a)"
-    textColor: "#1a0b2e"
+    textColor: "{colors.ink}"
     rounded: "{rounded.pill}"
     padding: "0.85rem 1.6rem"
   chip:
@@ -56,7 +72,7 @@ components:
 
 **Creative North Star: "Signal in the Dark"**
 
-Concord Voice is a warm, candid, technically credible presence in a deep night field. The system makes privacy feel like an invitation to belong, not a warning label or an expert setting. A moon-and-two-stars symbol, dim aurora, grain, and a precise gold-to-coral signal carry the brand without competing with the product screenshots or the visitor's next action.
+Concord Voice is a warm, candid, technically credible presence in a deep night field. The system makes privacy feel like an invitation to belong, not a warning label or an expert setting. A moon-and-two-stars symbol, dim aurora, a sparse starfield, and a precise gold-to-coral signal carry the brand without competing with the product screenshots or the visitor's next action.
 
 This is deliberately not corporate security theatre, a Discord imitation, or crypto-neon spectacle. It is softly luminous and conversational: full-featured enough to feel current, restrained enough that the privacy commitment remains believable and legible.
 
@@ -85,6 +101,7 @@ The palette uses Night as the quiet field, Paper for clear reading, Coral for pr
 - **Night:** owns page backgrounds and anchored dark surfaces.
 - **Paper:** is reserved for primary readable text and the lightest visual signal.
 - **Mist:** carries secondary text and supporting navigation.
+- **Ink:** is the deep near-black purple used for type set *on* the gold-to-coral gradient — primary buttons, active toggles, selected tabs. It is a warmer, fractionally lifted near-black that sits against those warm fills without the flat hole Night punches in them. The choice is tonal, not a contrast requirement: both clear WCAG AA comfortably (Ink 14.2:1 on Gold, 6.9:1 on Coral; Night is marginally higher at 15.0:1 and 7.3:1). Ink is never a page background — that is Night's job.
 
 ### Named Rules
 
@@ -105,6 +122,14 @@ The palette uses Night as the quiet field, Paper for clear reading, Coral for pr
 - **Title** (700, 1.05–1.25 line-height): cards, plans, and local product groupings.
 - **Body** (400–700, 1.55–1.75 line-height): explanatory copy, kept in compact readable measures.
 - **Label** (400, compact size, uppercase, wide tracking): metadata, capabilities, and navigation signposts.
+
+### Size Scale
+
+Fixed sizes come from the `typography.scale` tokens in the frontmatter: `micro` (0.72rem), `fine` (0.78rem), `compact` (0.8rem), `small` (0.9rem), `base` (0.95rem), `body` (1rem), `lead` (1.05rem), `title` (1.2rem) and `headline` (1.4rem).
+
+Display and section headings are deliberately **not** on this ramp: they are responsive `clamp()` expressions so they track viewport width, and their min/max bounds are free to sit between steps. The ramp governs fixed sizes only.
+
+**Known drift.** Like the radius scale, this ramp describes what the site already does, and the stylesheets still carry roughly a dozen off-ramp values (0.52rem, 0.62rem, 0.66rem, 0.82rem, 0.85rem, 1.07rem, 1.12rem, 1.15rem, 1.35rem, 1.5rem, 1.6rem among them). Treat them as a migration backlog, not as licence to add more.
 
 ### Named Rules
 
@@ -133,6 +158,12 @@ Depth is atmospheric, not architectural. Night surfaces receive thin low-contras
 ## Shapes
 
 Controls are friendly and compact: pills are fully rounded, fields use a gently curved 0.8rem corner, and cards and panels stay between 0.9rem and 1rem. Hairline borders are deliberately translucent. Screenshot frames share the same gentle curvature, never fake browser chrome.
+
+### Radius Scale
+
+The `rounded` tokens in this file's frontmatter are the full sanctioned set: `hairline` (3px, focus outlines only), `control` (0.6rem), `field` (0.8rem), `card` (0.9rem), `panel` (1rem), `band` (1.2rem), `bandLarge` (1.4rem), `pill` (9999px) and `circle` (50%). Reach for the nearest step rather than a new value.
+
+**Known drift.** The scale was written from the values already shipping, and it does not yet cover every one of them — a handful of one-off radii (0.42rem, 0.55rem, 0.7rem, 0.75rem, 0.85rem, 2px, 14px) remain in the stylesheets and should migrate to the nearest step. They are drift, not precedent.
 
 The brand icon retains clear space of at least one-third of its enclosing square on every side. Use the main logo for primary brand presentation and the moon-and-two-stars symbol only where space calls for an icon.
 
