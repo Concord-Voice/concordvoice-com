@@ -12,7 +12,7 @@ slug: "founders-pricing"
 
 Hey there! So, the intro video went up on August 21 and then we went quiet, which from the outside looks exactly like every other project that posts one slick launch video and is never heard from again. Fair read. A wrong one, but fair. Let's get into what's been going on.
 
-So this is the first post on this blog, and from here on it runs alongside the monthly dev-vlog. The vlog is what we say out loud, and this is where the stuff that doesn't survive being said out loud goes: numbers, dates, the specific shape of what broke (think of it like footnotes you don't read in those long academic papers).
+So this is the first of these monthly posts, and from here on it runs alongside the dev-vlog. The vlog is what we say out loud, and this is where the stuff that doesn't survive being said out loud goes: numbers, dates, the specific shape of what broke (think of it like footnotes you don't read in those long academic papers).
 
 First, we mentioned how we would eventually enable subscriptions for beta users at an alternative price point due to the platform being unfinished, and since some of you likely want to know what that actually looks like:
 
