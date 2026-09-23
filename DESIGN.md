@@ -129,7 +129,7 @@ Fixed sizes come from the `typography.scale` tokens in the frontmatter: `micro` 
 
 Display and section headings are deliberately **not** on this ramp: they are responsive `clamp()` expressions so they track viewport width, and their min/max bounds are free to sit between steps. The ramp governs fixed sizes only.
 
-**Known drift.** Like the radius scale, this ramp describes what the site already does, and the stylesheets still carry roughly a dozen off-ramp values (0.52rem, 0.62rem, 0.66rem, 0.82rem, 0.85rem, 1.07rem, 1.12rem, 1.15rem, 1.35rem, 1.5rem, 1.6rem among them). Treat them as a migration backlog, not as licence to add more.
+**Known drift.** Like the radius scale, this ramp describes what the site already does, and the stylesheets still carry roughly a dozen off-ramp values (0.52rem, 0.62rem, 0.66rem, 0.82rem, 0.85rem, 1.07rem, 1.12rem, 1.15rem, 1.35rem and 1.5rem among them). Treat them as a migration backlog, not as licence to add more.
 
 ### Named Rules
 
