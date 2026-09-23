@@ -64,11 +64,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   text-transform: uppercase;
   font-size: 0.72rem;
 }
-/* Larger eyebrow for the hero beta-date line */
-.eyebrow-hero {
-  font-size: clamp(1rem, 2.4vw, 1.35rem);
-  letter-spacing: 0.22em;
-}
 .font-mono { font-family: var(--font-mono); }
 
 /* ---- Brand gradient ---- */
@@ -400,7 +395,7 @@ strong, b { color: var(--color-gold); }
    ============================================================ */
 .legal { max-width: 46rem; margin-inline: auto; color: color-mix(in oklab, var(--color-paper) 86%, transparent); line-height: 1.75; }
 .legal h1 { font-family: Droidiga, var(--font-body); font-size: clamp(2rem, 5vw, 3rem); line-height: 1; margin-bottom: 0.5rem; }
-.legal h2 { font-family: Droidiga, var(--font-body); font-size: 1.6rem; margin-top: 2.5rem; margin-bottom: 0.75rem; color: var(--color-coral); }
+.legal h2 { font-family: Droidiga, var(--font-body); font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 0.75rem; color: var(--color-coral); }
 .legal h3 { font-weight: 700; font-size: 1.2rem; margin-top: 1.5rem; margin-bottom: 0.4rem; color: var(--color-gold); }
 .legal h4 { font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-gold); margin-top: 1.4rem; margin-bottom: 0.4rem; }
 .legal p, .legal li { margin-bottom: 0.85rem; }
