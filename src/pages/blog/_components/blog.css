@@ -40,7 +40,7 @@
 .post-card__cat { color: var(--color-coral); margin-bottom: .7rem; }
 .post-card__title { color: var(--color-paper); font-size: clamp(1.4rem, 3.4vw, 1.95rem); line-height: 1.04; }
 .post-card__desc { margin-top: .7rem; font-size: .95rem; line-height: 1.55; color: var(--color-mist); flex: 1; }
-.post-card__meta { margin-top: 1.1rem; font-size: .68rem; letter-spacing: .18em; color: var(--color-mist); }
+.post-card__meta { margin-top: 1.1rem; font-size: .72rem; letter-spacing: .18em; color: var(--color-mist); }
 
 /* Featured (latest) : full width, larger */
 .post-card--featured { padding: 2.2rem 1.8rem; }
@@ -84,7 +84,7 @@
 .post-toc a {
   display: block; padding: .32rem 0 .32rem 1rem; margin-left: -1px;
   border-left: 2px solid transparent; color: var(--color-mist);
-  font-size: .85rem; line-height: 1.35; transition: color .2s, border-color .2s;
+  font-size: .8rem; line-height: 1.35; transition: color .2s, border-color .2s;
 }
 .post-toc a:hover { color: var(--color-paper); }
 .post-toc a.is-active { color: var(--color-coral); border-left-color: var(--color-coral); }
@@ -108,7 +108,7 @@
    distinct treatment (the doubled .legal.post-prose out-specifies the equal-weight
    .legal h2). h2 = section, h3 = subsection, h4 = labelled mini-header. */
 .legal.post-prose h2 { font-family: Droidiga, var(--font-body); font-size: clamp(1.75rem, 3.6vw, 2.15rem); line-height: 1.08; margin-top: 2.8rem; margin-bottom: 0.8rem; color: var(--color-coral); }
-.legal.post-prose h3 { font-family: Droidiga, var(--font-body); font-weight: 700; font-size: 1.35rem; line-height: 1.18; margin-top: 2rem; margin-bottom: 0.5rem; color: var(--color-gold); }
+.legal.post-prose h3 { font-family: Droidiga, var(--font-body); font-weight: 700; font-size: 1.4rem; line-height: 1.18; margin-top: 2rem; margin-bottom: 0.5rem; color: var(--color-gold); }
 .legal.post-prose h4 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700; color: var(--color-gold); margin-top: 1.7rem; margin-bottom: 0.5rem; }
 .legal.post-prose h2 + h3, .legal.post-prose h3 + h4 { margin-top: 1rem; }
 
@@ -118,19 +118,6 @@
 .legal.post-prose ol { list-style: decimal; }
 .legal.post-prose li { padding-left: 0.25rem; margin: 0.45rem 0; }
 .legal.post-prose li::marker { color: var(--color-coral); }
-
-/* Floated code/figure aside beside body text (stacks full-width on narrow screens). */
-.post-aside { margin: 0.3rem 0 1.1rem; }
-.post-aside--right { float: right; clear: right; width: min(30rem, 52%); margin-left: 1.6rem; }
-@media (max-width: 700px) { .post-aside--right { float: none; width: 100%; margin-left: 0; } }
-.post-aside .post-code {
-  margin: 0; padding: 0.95rem 1.05rem; border-radius: 0.7rem; overflow-x: auto;
-  background: color-mix(in oklab, var(--color-night) 78%, #000);
-  border: 1px solid color-mix(in oklab, var(--color-paper) 14%, transparent);
-  font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.5;
-  color: color-mix(in oklab, var(--color-paper) 88%, transparent);
-}
-.post-aside .post-code code { font-family: inherit; white-space: pre; background: none; padding: 0; border: 0; color: inherit; }
 
 /* ---------- Post: pager ---------- */
 .post-pager { display: flex; justify-content: space-between; gap: 1rem; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid color-mix(in oklab, var(--color-paper) 12%, transparent); }
