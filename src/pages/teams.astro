@@ -38,7 +38,7 @@ const afterburner = [
 
   <main class="mx-auto w-full max-w-7xl px-6 pb-24 pt-10">
     <section class="mkt-hero">
-      <p class="eyebrow text-gradient">Groups &amp; Communities</p>
+      <p class="eyebrow text-gold">Groups &amp; Communities</p>
       <h1 class="display mkt-hero__title">For the people who make your place feel like home</h1>
       <p class="mkt-lead">
         Run a community, guild, or team with a space that belongs to all of you. Every hosted server starts free; premium plans lift the experience for everyone in it.
@@ -46,10 +46,10 @@ const afterburner = [
       </p>
     </section>
 
-    <section class="mkt-section"><p class="mkt-label eyebrow text-gradient">Choose What You Are Lifting Up</p><h2 class="display mkt-section__title">A shared place works better when the upgrade helps everyone.</h2><p class="mkt-section__sub">Start a community free, then choose the support that matches how your people gather: improve one server, carry premium with a crew, or split the cost together. The price follows the benefit, not the other way around.</p></section>
+    <section class="mkt-section"><p class="mkt-label eyebrow text-gold">Choose What You Are Lifting Up</p><h2 class="display mkt-section__title">A shared place works better when the upgrade helps everyone.</h2><p class="mkt-section__sub">Start a community free, then choose the support that matches how your people gather: improve one server, carry premium with a crew, or split the cost together. The price follows the benefit, not the other way around.</p></section>
 
     <section class="mkt-section" id="servers">
-      <p class="mkt-label eyebrow text-gradient">Hosted Server Pricing</p>
+      <p class="mkt-label eyebrow text-gold">Hosted Server Pricing</p>
       <h2 class="display mkt-section__title">Boost the whole server</h2>
       <p class="mkt-section__sub">
         Servers come in two flavors, hosted by us, or run by you. Either way, the basics are always free; a Mach
@@ -66,7 +66,7 @@ const afterburner = [
       <div class="mkt-grid">
         {serverTiers.map((t) => (
           <div class:list={['tier', 'reveal', t.featured && 'tier--featured']}>
-            <p class="tier__name eyebrow text-gradient">{t.name}</p>
+            <p class="tier__name eyebrow text-gold">{t.name}</p>
             <p class="tier__price" data-m={money(t.monthly)} data-y={t.yearly ? money(t.yearly) : ''} data-save={t.yearly ? savePct(t.monthly, t.yearly) : 0} data-per={t.monthly > 0 ? '/month' : ''}>
               <span class="tier__amt">{money(t.monthly)}</span><small class="tier__per">{t.monthly > 0 ? '/month' : ''}</small>
               <span class="tier__save" hidden> · save {t.yearly ? savePct(t.monthly, t.yearly) : 0}%</span>
@@ -89,7 +89,7 @@ const afterburner = [
 
     <!-- ===== Squadron (group plan) ===== -->
     <section class="mkt-section" id="squadron">
-      <p class="mkt-label eyebrow text-gradient">Squadron</p>
+      <p class="mkt-label eyebrow text-gold">Squadron</p>
       <h2 class="display mkt-section__title">One subscription for your whole crew</h2>
       <p class="mkt-section__sub">
         Mach boosts your server; Squadron boosts your <em>people</em>. One bill, one Captain, every member gets
@@ -105,7 +105,7 @@ const afterburner = [
       <div class="mkt-grid mkt-grid--3">
         {squadron.map((s) => (
           <div class:list={['tier', 'reveal', s.featured && 'tier--featured']}>
-            <p class="tier__name eyebrow text-gradient">{s.name}</p>
+            <p class="tier__name eyebrow text-gold">{s.name}</p>
             <p class="tier__price" data-m={money(s.monthly)} data-y={money(s.yearly)} data-save={savePct(s.monthly, s.yearly)} data-per="/month">
               <span class="tier__amt">{money(s.monthly)}</span><small class="tier__per">/month</small>
               <span class="tier__save" hidden> · save {savePct(s.monthly, s.yearly)}%</span>
@@ -125,7 +125,7 @@ const afterburner = [
 
     <!-- ===== Afterburner (crowd-funded boost) ===== -->
     <section class="mkt-section" id="afterburner">
-      <p class="mkt-label eyebrow text-gradient">Afterburner</p>
+      <p class="mkt-label eyebrow text-gold">Afterburner</p>
       <h2 class="display mkt-section__title">Crowd-fund a server boost</h2>
       <p class="mkt-section__sub">
         A fair pledge-to-unlock pool, nobody is charged until pledges reach the Mach tier price. Pick Mach 2 or Mach 3;
@@ -135,7 +135,7 @@ const afterburner = [
       <div class="mkt-grid">
         {afterburner.map((a) => (
           <div class:list={['tier', 'ab-card', 'reveal', (a.tier === 'Mach 2' && a.n === 3) && 'tier--featured']}>
-            <p class="tier__name eyebrow text-gradient">{a.tier} · {a.n} contributors</p>
+            <p class="tier__name eyebrow text-gold">{a.tier} · {a.n} contributors</p>
             <p class="ab-price"><span class="ab-amt display">{money(a.per)}</span><small>/mo each</small></p>
             <p class="tier__desc">Pool total {money(a.pool)}/mo</p>
           </div>
@@ -148,7 +148,7 @@ const afterburner = [
     </section>
 
     <section class="mkt-section">
-      <p class="mkt-label eyebrow text-gradient">Just You?</p>
+      <p class="mkt-label eyebrow text-gold">Just You?</p>
       <h2 class="display mkt-section__title">Looking for personal pricing?</h2>
       <p class="mkt-section__sub">Sonic (free), Supersonic, and the all-in-one Hypersonic and Wing plans live on the personal pricing page.</p>
       <div class="mkt-cta-row">
@@ -158,7 +158,7 @@ const afterburner = [
     </section>
 
     <section class="mkt-section" id="pricing-faq">
-      <p class="mkt-label eyebrow text-gradient">Pricing FAQ</p>
+      <p class="mkt-label eyebrow text-gold">Pricing FAQ</p>
       <div class="faq">
         <details class="faq__item"><summary class="faq__q">When do paid subscriptions start?</summary><p class="faq__a">Paid upgrades are planned for v1.0 General Availability. They are not active during Beta.</p></details>
         <details class="faq__item"><summary class="faq__q">Can paid prices change?</summary><p class="faq__a">Yes. The paid prices shown are planned values and may change before General Availability.</p></details>

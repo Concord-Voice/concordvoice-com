@@ -102,7 +102,7 @@ const boundaries = [
 
   <main class="mx-auto w-full max-w-6xl px-6 pb-24 pt-10">
     <section class="mkt-hero">
-      <p class="eyebrow text-gradient">Technical architecture</p>
+      <p class="eyebrow text-gold">Technical architecture</p>
       <h1 class="display mkt-hero__title">Three service planes. One privacy boundary.</h1>
       <p class="mkt-lead">
         Concord Voice is a desktop-first communications system designed so that messages and media are
@@ -117,7 +117,7 @@ const boundaries = [
     </section>
 
     <section class="mkt-section" id="system">
-      <p class="mkt-label eyebrow text-gradient">System at a glance</p>
+      <p class="mkt-label eyebrow text-gold">System at a glance</p>
       <pre class="architecture-map" aria-label="Desktop client communicates with the control and media planes; the control plane uses PostgreSQL, Redis, NATS and object storage, while the media plane uses Redis and NATS."><code>Desktop client
   ├── HTTP + WebSocket ──&gt; Control plane ──&gt; PostgreSQL · Redis · object storage
   └── Socket.IO + WebRTC ─&gt; Media plane ────&gt; Redis
@@ -135,7 +135,7 @@ const boundaries = [
     </section>
 
     <section class="mkt-section architecture-flow architecture-flow--rail" id="data-flow">
-      <p class="mkt-label eyebrow text-gradient">Data flow</p>
+      <p class="mkt-label eyebrow text-gold">Data flow</p>
       <h2 class="display mkt-section__title">Follow the path that matters to you.</h2>
       <p class="mkt-section__sub">Each view keeps the implementation detail visible without turning this page into the full architecture reference.</p>
       <div class="architecture-flow-tabs" role="tablist" aria-label="Architecture flows">
@@ -181,7 +181,7 @@ const boundaries = [
     </section>
 
     <section class="mkt-section" id="boundaries">
-      <p class="mkt-label eyebrow text-gradient">Privacy boundaries</p>
+      <p class="mkt-label eyebrow text-gold">Privacy boundaries</p>
       <div class="mkt-grid mkt-grid--3">
         {boundaries.map((boundary) => (
           <article class="feat reveal">
@@ -193,7 +193,7 @@ const boundaries = [
     </section>
 
     <section class="mkt-section" id="deployment">
-      <p class="mkt-label eyebrow text-gradient">Deployment</p>
+      <p class="mkt-label eyebrow text-gold">Deployment</p>
       <h2 class="display mkt-section__title">A hosted architecture built for privacy.</h2>
       <div class="mkt-prose">
         <p>
@@ -209,7 +209,7 @@ const boundaries = [
     </section>
 
     <section class="mkt-section">
-      <p class="mkt-label eyebrow text-gradient">What is next</p>
+      <p class="mkt-label eyebrow text-gold">What is next</p>
       <h2 class="display mkt-section__title">More places to use Concord. More ways to run it.</h2>
       <ul class="checklist checklist--arrow mkt-prose" style="max-width:46rem;">
         <li>Desktop is live today.</li>

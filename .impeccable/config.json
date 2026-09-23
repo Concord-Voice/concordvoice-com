@@ -7,11 +7,10 @@
         "rule": "gradient-text",
         "value": "*",
         "files": [
-          "src/pages/blog/_components/blog.css",
           "src/styles/global.css"
         ],
-        "createdAt": "2026-09-23T06:09:33.190Z",
-        "reason": "Mark confirmed 2026-09-23: the gold-to-coral gradient is the brand's 'human signal' (dev-tooling brand-voice-guidelines.md). Usage is being narrowed per DESIGN.md's Signal-Not-the-Flood rule in a follow-up; revisit this waiver then."
+        "createdAt": "2026-09-23T06:29:17.744Z",
+        "reason": "Mark confirmed 2026-09-23: the gold-to-coral gradient is the brand's 'human signal' (dev-tooling brand-voice-guidelines.md). Narrowed 2026-09-23 per DESIGN.md Signal-Not-the-Flood: .text-gradient is kept only for the hero accent phrase plus at most one closing statement per page (/, /app, /about-us). Kickers, labels, stats and blog categories use solid tokens and blog.css has no gradient text, so this covers only the .text-gradient definition in global.css."
       },
       {
         "rule": "design-system-color",
@@ -19,13 +18,13 @@
         "files": [
           "src/styles/global.css"
         ],
-        "createdAt": "2026-09-23T06:14:45.988Z",
+        "createdAt": "2026-09-23T06:29:17.802Z",
         "reason": "Mark confirmed 2026-09-23: not a painted color. L189/190 is an alpha-mask stop (mask-mode match-source reads alpha only; any opaque color is identical, #000 is the idiomatic opaque stop). L341 is the darkening operand in color-mix(night 80%, #000) for the cookie-note surface."
       },
       {
         "rule": "design-system-color",
         "value": "rgba(0, 0, 0, 0.85)",
-        "createdAt": "2026-09-23T06:14:46.031Z",
+        "createdAt": "2026-09-23T06:29:17.865Z",
         "reason": "Mark confirmed 2026-09-23: documented in DESIGN.md Elevation & Depth > Shadow Vocabulary as 'Overlay depth' (0 20px 55px -20px rgba(0, 0, 0, 0.85)); the detector reads frontmatter colors, not prose."
       },
       {
@@ -34,7 +33,7 @@
         "files": [
           "src/styles/global.css"
         ],
-        "createdAt": "2026-09-23T06:14:46.075Z",
+        "createdAt": "2026-09-23T06:29:17.937Z",
         "reason": "Mark confirmed 2026-09-23: the only hit is .legal blockquote's 3px coral left rule, standard quote typography in legal/blog prose, not an accent bar on a card. Caveat: this also mutes side-tab for any future card added to global.css."
       },
       {
@@ -43,7 +42,7 @@
         "files": [
           "src/styles/global.css"
         ],
-        "createdAt": "2026-09-23T06:14:46.119Z",
+        "createdAt": "2026-09-23T06:29:18.028Z",
         "reason": "Mark confirmed 2026-09-23: fluid ceiling of .legal h1 clamp(2rem, 5vw, 3rem). DESIGN.md Typography > Size Scale exempts display/section heading clamp bounds from the fixed ramp."
       }
     ]
