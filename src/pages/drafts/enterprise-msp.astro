@@ -42,7 +42,7 @@ const cell = (v) => (v === '✓' ? 'yes' : v === '×' ? 'no' : '');
 
   <main class="mx-auto w-full max-w-6xl px-6 pb-24 pt-10">
     <section class="mkt-hero">
-      <p class="eyebrow text-gradient">For Organizations</p>
+      <p class="eyebrow text-gold">For Organizations</p>
       <h1 class="display mkt-hero__title">Secure comms, <span class="text-gradient">on your terms</span></h1>
       <p class="mkt-lead">
         Deployed on your terms, managed at your scale, branded to your identity. Built from the ground up with
@@ -54,7 +54,7 @@ const cell = (v) => (v === '✓' ? 'yes' : v === '×' ? 'no' : '');
       <div class="mkt-grid">
         {[{ key: 'Enterprise', data: enterprise }, { key: 'MSP & OEM', data: msp }].map(({ key, data }) => (
           <div class="org reveal">
-            <p class="org__name eyebrow text-gradient">{key}</p>
+            <p class="org__name eyebrow text-gold">{key}</p>
             <h2 class="org__tagline display">{data.tagline}</h2>
             <p class="org__blurb">{data.blurb}</p>
             <p class="org__h eyebrow text-mist">Who it's for</p>
@@ -67,7 +67,7 @@ const cell = (v) => (v === '✓' ? 'yes' : v === '×' ? 'no' : '');
     </section>
 
     <section class="mkt-section">
-      <p class="mkt-label eyebrow text-gradient">Why Concord Voice for Business?</p>
+      <p class="mkt-label eyebrow text-gold">Why Concord Voice for Business?</p>
       <div class="mkt-grid mkt-grid--3">
         {why.map((w) => (
           <div class="pledge reveal"><p class="pledge__t">{w.t}</p><p class="pledge__d">{w.d}</p></div>
@@ -76,7 +76,7 @@ const cell = (v) => (v === '✓' ? 'yes' : v === '×' ? 'no' : '');
     </section>
 
     <section class="mkt-section">
-      <p class="mkt-label eyebrow text-gradient">Enterprise vs. MSP &amp; OEM</p>
+      <p class="mkt-label eyebrow text-gold">Enterprise vs. MSP &amp; OEM</p>
       <h2 class="display mkt-section__title">At a glance</h2>
       <div class="mkt-table-wrap">
         <table class="mkt-table">

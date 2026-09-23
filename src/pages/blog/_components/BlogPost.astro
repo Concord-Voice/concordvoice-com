@@ -34,7 +34,7 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
       <header class="post-hero">
         <a href={base} class="post-back eyebrow">← All Posts</a>
         <p class="post-kicker eyebrow">
-          {category && <span class="text-gradient">{category}</span>}
+          {category && <span class="text-coral">{category}</span>}
           <span class="post-kicker__meta">
             <time datetime={dateISO}>{dateLabel}</time>{readingTime ? ` · ${readingTime} min read` : ''}
           </span>
