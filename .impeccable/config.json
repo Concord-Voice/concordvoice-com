@@ -44,6 +44,51 @@
         ],
         "createdAt": "2026-09-23T06:29:18.028Z",
         "reason": "Mark confirmed 2026-09-23: fluid ceiling of .legal h1 clamp(2rem, 5vw, 3rem). DESIGN.md Typography > Size Scale exempts display/section heading clamp bounds from the fixed ramp."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "3rem",
+        "files": [
+          "src/pages/blog/_components/blog.css"
+        ],
+        "createdAt": "2026-09-23T07:17:52.941Z",
+        "reason": "Mark confirmed 2026-09-23: fluid clamp() bound, which DESIGN.md Typography > Size Scale exempts from the fixed ramp. The detector keys a clamp finding on its first bound. Covers .blog-masthead__title clamp(3rem, 9vw, 5.5rem) and .post-card--featured .post-card__title clamp(2rem, 5vw, 3rem)."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "1.95rem",
+        "files": [
+          "src/pages/blog/_components/blog.css"
+        ],
+        "createdAt": "2026-09-23T07:17:52.995Z",
+        "reason": "Mark confirmed 2026-09-23: fluid clamp() bound, which DESIGN.md Typography > Size Scale exempts from the fixed ramp. The detector keys a clamp finding on its first bound. Covers .post-card__title clamp(1.4rem, 3.4vw, 1.95rem)."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "2.2rem",
+        "files": [
+          "src/pages/blog/_components/blog.css"
+        ],
+        "createdAt": "2026-09-23T07:17:53.052Z",
+        "reason": "Mark confirmed 2026-09-23: fluid clamp() bound, which DESIGN.md Typography > Size Scale exempts from the fixed ramp. The detector keys a clamp finding on its first bound. Covers .post-title clamp(2.2rem, 6vw, 3.6rem)."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "1.75rem",
+        "files": [
+          "src/pages/blog/_components/blog.css"
+        ],
+        "createdAt": "2026-09-23T07:17:53.106Z",
+        "reason": "Mark confirmed 2026-09-23: fluid clamp() bound, which DESIGN.md Typography > Size Scale exempts from the fixed ramp. The detector keys a clamp finding on its first bound. Covers .legal.post-prose h2 clamp(1.75rem, 3.6vw, 2.15rem)."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "1.1rem",
+        "files": [
+          "src/pages/blog/_components/blog.css"
+        ],
+        "createdAt": "2026-09-23T07:17:53.164Z",
+        "reason": "Mark confirmed 2026-09-23: fluid clamp() bound, which DESIGN.md Typography > Size Scale exempts from the fixed ramp. The detector keys a clamp finding on its first bound. Covers the hero-scale blog masthead kicker .blog-masthead > .eyebrow clamp(1.1rem, 2.3vw, 1.55rem), which pairs with the 5.5rem masthead title."
       }
     ]
   }
