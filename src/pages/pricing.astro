@@ -30,7 +30,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
 
   <main class="mx-auto w-full max-w-7xl px-6 pb-24 pt-10">
     <section class="mkt-hero">
-      <p class="eyebrow text-gradient">Personal Use</p>
+      <p class="eyebrow text-gold">Personal Use</p>
       <h1 class="display mkt-hero__title">A private place, priced honestly</h1>
       <p class="mkt-lead">
         We believe personal use of the Concord Voice Network should be free. We will not charge you for privacy or
@@ -38,11 +38,11 @@ const wing = { monthly: 14.99, yearly: 164.89 };
       </p>
     </section>
 
-    <section class="mkt-section"><p class="mkt-label eyebrow text-gradient">Choose the shape of your support</p><h2 class="display mkt-section__title">Start with your people, not a price card.</h2><p class="mkt-section__sub">Everyone gets a private place to talk for free. Personal Use is for higher fidelity, more expression, or helping a small circle. If you are improving a shared home for everyone inside it, Groups &amp; Communities is the better fit.</p></section>
+    <section class="mkt-section"><p class="mkt-label eyebrow text-gold">Choose the shape of your support</p><h2 class="display mkt-section__title">Start with your people, not a price card.</h2><p class="mkt-section__sub">Everyone gets a private place to talk for free. Personal Use is for higher fidelity, more expression, or helping a small circle. If you are improving a shared home for everyone inside it, Groups &amp; Communities is the better fit.</p></section>
 
     <!-- ===== Hosted service + self-hosting early access ===== -->
     <section class="mkt-section">
-      <p class="mkt-label eyebrow text-gradient">Hosted service and early access</p>
+      <p class="mkt-label eyebrow text-gold">Hosted service and early access</p>
       <h2 class="display mkt-section__title">Start on the Concord Voice Network.</h2>
       <p class="mkt-section__sub">
         The hosted service is available today. Self-hosting early access is operator-assisted, not a supported
@@ -50,7 +50,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
       </p>
       <div class="mkt-grid fork">
         <div class="fork-card reveal">
-          <p class="fork-card__k eyebrow text-gradient">Cloud · we host it</p>
+          <p class="fork-card__k eyebrow text-gold">Cloud · we host it</p>
           <h3 class="fork-card__t">Hosted by us</h3>
           <p class="fork-card__d">
             Sign up and start talking. We run the infrastructure, updates, and uptime. Free to use, with optional
@@ -59,7 +59,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
           <a href="#plans" class="btn border border-white/20 hover:border-coral">See cloud plans ↓</a>
         </div>
         <div class="fork-card reveal">
-          <p class="fork-card__k eyebrow text-gradient">Self-hosting · early access</p>
+          <p class="fork-card__k eyebrow text-gold">Self-hosting · early access</p>
           <h3 class="fork-card__t">Operator-assisted pilot</h3>
           <p class="fork-card__d">
             Concord Voice source is public; the supported self-hosted installer and deployment guide are not
@@ -71,7 +71,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
     </section>
 
     <section class="mkt-section" id="plans">
-      <p class="mkt-label eyebrow text-gradient">Cloud Plans</p>
+      <p class="mkt-label eyebrow text-gold">Cloud Plans</p>
       <h2 class="display mkt-section__title">Honest. No Dark Patterns. No Shareholders.</h2>
       <p class="mkt-section__sub">
         Privacy isn't a premium feature. It's the baseline. Every account gets end-to-end encryption, voice and
@@ -86,7 +86,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
       <div class="mkt-grid">
         {userTiers.map((t) => (
           <div class:list={['tier', 'reveal', t.featured && 'tier--featured']}>
-            <p class="tier__name eyebrow text-gradient">{t.name}</p>
+            <p class="tier__name eyebrow text-gold">{t.name}</p>
             <p class="tier__price" data-m={money(t.monthly)} data-y={t.yearly ? money(t.yearly) : ''} data-save={t.yearly ? savePct(t.monthly, t.yearly) : 0} data-per={t.monthly > 0 ? '/month' : ''}>
               <span class="tier__amt">{money(t.monthly)}</span><small class="tier__per">{t.monthly > 0 ? '/month' : ''}</small>
               <span class="tier__save" hidden> · save {t.yearly ? savePct(t.monthly, t.yearly) : 0}%</span>
@@ -106,7 +106,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
     </section>
 
     <section class="mkt-section" id="hypersonic">
-      <p class="mkt-label eyebrow text-gradient">Hypersonic</p>
+      <p class="mkt-label eyebrow text-gold">Hypersonic</p>
       <h2 class="display mkt-section__title">Everything, in one plan</h2>
       <p class="mkt-section__sub">
         The complete experience: a Supersonic account <em>and</em> a bundled Mach 2 server boost (1440p/60 video, up to 510 kbps audio, server-wide), at a
@@ -128,11 +128,11 @@ const wing = { monthly: 14.99, yearly: 164.89 };
         </div>
         <div class="hyper-band__lists">
           <div>
-            <p class="hyper-list__t eyebrow text-gradient">You: free tier, plus</p>
+            <p class="hyper-list__t eyebrow text-gold">You: free tier, plus</p>
             <ul class="checklist">{hyperYou.map((i) => <li>{i}</li>)}</ul>
           </div>
           <div>
-            <p class="hyper-list__t eyebrow text-gradient">Your server: free tier, plus</p>
+            <p class="hyper-list__t eyebrow text-gold">Your server: free tier, plus</p>
             <ul class="checklist">{hyperServer.map((i) => <li>{i}</li>)}</ul>
           </div>
         </div>
@@ -141,7 +141,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
 
     <!-- ===== Wing (2-user), PROPOSED pricing ===== -->
     <section class="mkt-section" id="wing">
-      <p class="mkt-label eyebrow text-gradient">Wing</p>
+      <p class="mkt-label eyebrow text-gold">Wing</p>
       <h2 class="display mkt-section__title">Bring your favorite person along</h2>
       <p class="mkt-section__sub">
         A two-person plan: <strong data-wing-summary-plan>Supersonic for you</strong> and <strong>Supersonic for your +1</strong>. Two
@@ -159,15 +159,15 @@ const wing = { monthly: 14.99, yearly: 164.89 };
           <span class="tier__save" hidden> · save {savePct(wing.monthly, wing.yearly)}%</span>
         </p><div class="mach-card-picker" data-mach-picker><p class="fineprint" style="margin:0 0 .55rem">Shared server boost</p><div class="bill-toggle" role="group" aria-label="Choose Wing server boost"><button type="button" class="bill-toggle__btn is-active" data-mach-option data-monthly="0" data-yearly="0" aria-pressed="true">No boost</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="4.99" data-yearly="54.89">Mach 1</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="14.99" data-yearly="164.89">Mach 2</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="34.99" data-yearly="384.89">Mach 3</button></div></div></div>
         <div class="wing-seats">
-          <div><p class="hyper-list__t eyebrow text-gradient">You</p><p class="wing-seat__d">Full <strong data-wing-primary-plan>Supersonic</strong>: portable premium across every server and DM<span data-wing-boost-copy></span>.</p></div>
-          <div><p class="hyper-list__t eyebrow text-gradient">Your +1</p><p class="wing-seat__d">Full <strong>Supersonic</strong>: portable premium across every server and DM.</p></div>
+          <div><p class="hyper-list__t eyebrow text-gold">You</p><p class="wing-seat__d">Full <strong data-wing-primary-plan>Supersonic</strong>: portable premium across every server and DM<span data-wing-boost-copy></span>.</p></div>
+          <div><p class="hyper-list__t eyebrow text-gold">Your +1</p><p class="wing-seat__d">Full <strong>Supersonic</strong>: portable premium across every server and DM.</p></div>
         </div>
       </div>
     </section>
 
     <!-- ===== Pointer to teams + compare ===== -->
     <section class="mkt-section">
-      <p class="mkt-label eyebrow text-gradient">Bigger groups?</p>
+      <p class="mkt-label eyebrow text-gold">Bigger groups?</p>
       <h2 class="display mkt-section__title">Running a community or team?</h2>
       <p class="mkt-section__sub">
         Hosted servers (Groundspeed &amp; Mach), the Squadron group plan, and crowd-funded Afterburner boosts have
@@ -180,7 +180,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
     </section>
 
     <section class="mkt-section" id="pricing-faq">
-      <p class="mkt-label eyebrow text-gradient">Pricing FAQ</p>
+      <p class="mkt-label eyebrow text-gold">Pricing FAQ</p>
       <div class="faq">
         <details class="faq__item"><summary class="faq__q">So, why offer subscriptions?</summary><div class="faq__a mkt-prose"><p>We want subscriptions to fund a few things without ever limiting the platform for everyone else:</p><ul class="checklist" style="margin:1rem 0 1.2rem;"><li>An enhanced experience for those who want it, without gating the general platform for non-subscribers. <em>(Marketing calls it "maximizing value," or something like that.)</em></li><li>The infrastructure to grow and scale as our user base does. More servers for all you beautiful people, and the talented humans to keep it running. <em>(Ever tried to run Kubernetes? It's a special kind of pain.)</em></li><li>Ongoing development: new features, security improvements, and testing. <em>(The cost of compliance alone is miserable. Who likes lawyers anyway?)</em></li></ul><p>Want to know where your money would go? Read the <a href="/about-us">About</a> page to meet the people behind the app.</p></div></details>
         <details class="faq__item"><summary class="faq__q">When do paid subscriptions start?</summary><p class="faq__a">Paid upgrades are planned for v1.0 General Availability. They are not active during Beta.</p></details>

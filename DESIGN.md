@@ -105,7 +105,7 @@ The palette uses Night as the quiet field, Paper for clear reading, Coral for pr
 
 ### Named Rules
 
-**The Signal, Not the Flood Rule.** Coral and Gold make moments of importance visible; they do not become the default page background or generic decoration.
+**The Signal, Not the Flood Rule.** Coral and Gold make moments of importance visible; they do not become the default page background or generic decoration. Gradient text (`.text-gradient`) is kept for a page's hero accent phrase and at most one closing statement, so no page carries more than two. Kickers and labels use solid Gold, stat values use Paper, and blog categories use Coral.
 
 ## Typography
 
