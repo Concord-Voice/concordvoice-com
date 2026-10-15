@@ -38,7 +38,7 @@ Wanna know where you'd be putting your money? **Take a look at our **[**About**]
 
 Let's get one thing straight: the core platform doesn't cost a thing. Encryption, voice calls, video calls, messaging, DMs, screen sharing, creating and joining servers, all free. You don't hit a paywall to talk to your friends. You don't get a 7-day trial that nags you into upgrading. There is no "freemium bait and switch" here. If you use Concord Voice and never spend a dollar, you're still getting a fully encrypted communications platform that most companies would charge you for. That's by design.
 
-What subscriptions unlock are enhancements. Things like studio-grade audio quality, animated profile customization, bigger file uploads (256 MB for Supersonic), deeper message search, and a server-wide quality lift for every member of your boosted server, the exact ceiling depends on the Mach tier. Nice-to-haves that make the experience richer if you want them, but the platform is complete without them.
+What subscriptions unlock are enhancements. Things like studio-grade audio quality, animated profile customization, bigger file uploads (256 MB for Supersonic), and a server-wide quality lift for every member of your boosted server, the exact ceiling depends on the Mach tier. Nice-to-haves that make the experience richer if you want them, but the platform is complete without them.
 
 ## How the Tiers Work
 
