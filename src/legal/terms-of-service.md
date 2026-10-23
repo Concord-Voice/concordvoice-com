@@ -1,6 +1,6 @@
 # Terms of Service
 
-**Last Updated:** June 5, 2026
+**Last Updated:** October 23, 2026
 
 ---
 
@@ -337,11 +337,11 @@ without requiring your prior approval for each recurring charge, until
 such time as you cancel the applicable order. The length of your billing
 cycle is monthly or annually, depending on the plan you select.
 
-### 7.3 Free Trial
+### 7.3 No Free Trial
 
-We offer a 30-day free trial to new users who register with the Services.
-The account will be charged according to the user's chosen subscription
-at the end of the free trial.
+We do not offer a free trial of paid subscriptions. Your chosen
+subscription is charged when you subscribe, and then renews as described
+in Section 7.2.
 
 ### 7.4 Cancellation
 
