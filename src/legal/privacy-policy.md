@@ -178,7 +178,7 @@ as your email address or billing address, directly with Stripe.
 - **What Stripe receives from us:** an internal identifier that links
   your Stripe customer record to your Concord Voice account, and the plan
   you chose. We do not send Stripe your name or your account email
-  address.
+  address, and we do not store the email address you give Stripe.
 - **What Stripe collects from you:** your payment-card details and the
   billing details you enter on Stripe's pages. Stripe uses them to charge
   you, send receipts and payment notices, and keep transaction records.
