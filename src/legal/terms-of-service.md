@@ -1,6 +1,6 @@
 # Terms of Service
 
-**Last Updated:** June 5, 2026
+**Last Updated:** October 24, 2026
 
 ---
 
@@ -339,9 +339,11 @@ cycle is monthly or annually, depending on the plan you select.
 
 ### 7.3 Free Trial
 
-We offer a 30-day free trial to new users who register with the Services.
-The account will be charged according to the user's chosen subscription
-at the end of the free trial.
+We offer a 30-day free trial of the Supersonic plan to new users who
+register with the Services. An account may receive one free trial. The
+account will be charged for the Supersonic plan at the end of the free
+trial unless the user cancels before then. Other plans, including Wing,
+do not include a free trial and are charged when purchased.
 
 ### 7.4 Cancellation
 
