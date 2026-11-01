@@ -1,12 +1,20 @@
 ---
 title: "Founders Pricing, and What We Built While You Weren't Watching"
-description: "A month of quiet, one second region, and the number we've been dodging. Founders Pricing is 50% off through 120 days past v1.0 GA, plus everything that shipped since the intro video, including the things we broke."
+description: "Founders Pricing is 50% off for signups until July 1, 2027, with a lifetime price lock and a 28-day payment-failure grace period. Plus our September development update."
 pubDate: 2026-09-21
 category: "Company"
 tags: ["company"]
 readingTime: 12
 slug: "founders-pricing"
 ---
+
+> **Update: November 1, 2026**
+>
+> Founders signup is open until **July 1, 2027**. Once you obtain a founders subscription, that price is locked forever while your subscription remains active and your account stays in good standing. The signup deadline does not end an existing founders price lock.
+>
+> If a payment fails, you have a **28-day grace period** to resolve it and keep your price lock. Your price lock ends if you cancel, a failed payment remains unresolved after the grace period, or your account is deleted or banned.
+>
+> This update replaces the signup-window and payment-grace statements in the original September 21 post below, which we have preserved as published. See [personal pricing](/pricing/) and [groups and communities pricing](/teams/) for current plan availability and prices.
 
 *A month of quiet, one second region, and the number we've been dodging.*
 

@@ -1,0 +1,50 @@
+---
+import { cents, foundersOffer, foundersPrice, money } from '../lib/founders-pricing';
+interface Props {
+  monthly: number;
+  yearly?: number;
+  pending?: boolean;
+  members?: number;
+  class?: string;
+}
+const { monthly, yearly = 0, pending = false, members, class: className } = Astro.props;
+const regular = cents(monthly);
+const discounted = foundersPrice(regular);
+---
+<div class:list={['tier__price', 'founders-price', className]} data-founders-price
+  data-monthly={regular} data-yearly={cents(yearly)} data-pending={pending} data-members={members} aria-live="polite" aria-atomic="true">
+  {regular > 0 && foundersOffer.enabled && <span class="founders-price__regular">Regular <s><span data-regular>{money(regular)}</span><span data-period>/month</span></s></span>}
+  {regular > 0 && foundersOffer.enabled && <span class="founders-price__label">Founders · 50% off</span>}
+  <span class="tier__amt" data-founders>{money(discounted)}</span><small data-period>{regular > 0 ? '/month' : ''}</small>
+  {regular > 0 && <span class="founders-price__status" data-availability>{pending ? 'Coming later · non-final estimate' : 'Available now'}</span>}
+  {members && <span class="founders-price__members" data-per-member>About {money(Math.round(discounted / members))}/month per member at {members} members</span>}
+</div>
+
+<script>
+  import { cents, updateFoundersPrice } from '../lib/founders-pricing';
+  const prices = document.querySelectorAll<HTMLElement>('[data-founders-price]');
+  const annual = () => document.querySelector<HTMLElement>('[data-bill].is-active')?.dataset.bill === 'yearly';
+  document.querySelectorAll<HTMLElement>('[data-bill]').forEach(button => {
+    button.addEventListener('click', () => prices.forEach(price => updateFoundersPrice(price, button.dataset.bill === 'yearly')));
+  });
+  document.querySelectorAll<HTMLElement>('[data-mach-picker]').forEach(picker => {
+    const scope = picker.closest<HTMLElement>('.tier, .hyper-band, .wing-band');
+    if (!scope) return;
+    picker.querySelectorAll<HTMLButtonElement>('[data-mach-option]').forEach(button => {
+      button.setAttribute('aria-pressed', String(button.classList.contains('is-active')));
+      button.addEventListener('click', () => {
+        picker.querySelectorAll<HTMLButtonElement>('[data-mach-option]').forEach(option => {
+          option.classList.toggle('is-active', option === button);
+          option.setAttribute('aria-pressed', String(option === button));
+        });
+        scope.querySelectorAll<HTMLElement>('[data-founders-price]').forEach(price => {
+          price.dataset.monthlyAdjustment = String(cents(Number(button.dataset.monthly)));
+          price.dataset.yearlyAdjustment = String(cents(Number(button.dataset.yearly)));
+          updateFoundersPrice(price, annual());
+        });
+        const boostCopy = scope.querySelector<HTMLElement>('[data-wing-boost-copy]');
+        if (boostCopy) boostCopy.textContent = Number(button.dataset.monthly) ? ' + a Mach server boost (coming later)' : '';
+      });
+    });
+  });
+</script>

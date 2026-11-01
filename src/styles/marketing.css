@@ -110,3 +110,15 @@
 @media (prefers-reduced-motion: reduce) {
   .feat:hover { transform: none; }
 }
+
+/* Founders prices share the existing pricing typography and palette. */
+.founders-offer { border-block: 1px solid color-mix(in oklab, var(--color-gold) 24%, transparent); padding-block: 2rem; }
+.founders-note, .plan-status { max-width: 48rem; margin: 1rem auto; text-align: center; font-size: .9rem; line-height: 1.6; color: var(--color-mist); }
+.plan-status { color: var(--color-gold); }
+.founders-price__regular, .founders-price__label, .founders-price__status, .founders-price__members { display: block; font-family: var(--font-body); font-size: .9rem; font-weight: 600; line-height: 1.5; }
+.founders-price__regular { color: var(--color-mist); margin-bottom: .4rem; }
+.founders-price__regular s { text-decoration-thickness: 1px; }
+.founders-price__label { color: var(--color-gold); margin-bottom: .4rem; }
+.founders-price__status, .founders-price__members { color: var(--color-mist); margin-top: .6rem; }
+.founders-price { overflow-wrap: anywhere; }
+.founders-price.hyper-price__big { font-size: clamp(2.6rem, 8vw, 4rem); }

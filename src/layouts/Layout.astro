@@ -155,7 +155,7 @@ const stars = [
             b.classList.toggle('is-active', on);
             b.setAttribute('aria-pressed', on ? 'true' : 'false');
           });
-          document.querySelectorAll<HTMLElement>('.tier__price').forEach((p) => {
+          document.querySelectorAll<HTMLElement>('.tier__price:not([data-founders-price])').forEach((p) => {
             const amt = p.querySelector<HTMLElement>('.tier__amt');
             const per = p.querySelector<HTMLElement>('.tier__per');
             const save = p.querySelector<HTMLElement>('.tier__save');

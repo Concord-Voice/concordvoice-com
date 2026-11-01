@@ -2,12 +2,14 @@
 import Layout from '@layouts/Layout.astro';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
+import FoundersOffer from '@components/FoundersOffer.astro';
+import FoundersPrice from '@components/FoundersPrice.astro';
+import { cents, foundersOffer, foundersPrice, foundersTerms, money as centsMoney } from '../lib/founders-pricing';
 import '@styles/marketing.css';
 
 // Cloud pricing for COMMUNITIES & TEAMS. Split out of
 // the old personal-use page (individual plans are on /pricing, the comparison on /compare).
 const money = (n: number) => (n === 0 ? '$0' : `$${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
-const savePct = (m: number, y: number) => (m > 0 && y > 0 ? Math.round((1 - y / (m * 12)) * 100) : 0);
 
 const serverTiers = [
   { name: 'Groundspeed', monthly: 0, desc: 'For friends, family, clans, guilds, and small communities',
@@ -19,11 +21,11 @@ const serverTiers = [
   { name: 'Mach 3', monthly: 34.99, yearly: 384.89, desc: 'Maximum quality for large, media-rich communities',
     items: ['Everything in Mach 2', '4K/60 video, server-wide*', '512 MB per-file uploads, server-wide', '2.5 TB server storage', '500 custom emoji / 150 stickers / 55 soundboards'] },
 ];
-// Plans (Concord-Voice-Alpha issue #1150). Paid subscription pricing is planned for v1.0 GA.
+// Pending group-plan catalog; prices are previews, not purchase offers.
 const squadron = [
-  { name: 'Squadron-4', members: 4, slots: 1, monthly: 42.99, yearly: 472.89, per: 10.75 },
-  { name: 'Squadron-8', members: 8, slots: 1, monthly: 72.99, yearly: 802.89, per: 9.12, featured: true },
-  { name: 'Squadron-12', members: 12, slots: 1, monthly: 104.99, yearly: 1154.89, per: 8.75 },
+  { name: 'Squadron-4', members: 4, slots: 1, monthly: 42.99, yearly: 472.89 },
+  { name: 'Squadron-8', members: 8, slots: 1, monthly: 72.99, yearly: 802.89, featured: true },
+  { name: 'Squadron-12', members: 12, slots: 1, monthly: 104.99, yearly: 1154.89 },
 ];
 const afterburner = [
   { tier: 'Mach 2', n: 2, per: 8.03, pool: 16.05 }, { tier: 'Mach 2', n: 3, per: 5.45, pool: 16.36 },
@@ -48,9 +50,12 @@ const afterburner = [
 
     <section class="mkt-section"><p class="mkt-label eyebrow text-gold">Choose What You Are Lifting Up</p><h2 class="display mkt-section__title">A shared place works better when the upgrade helps everyone.</h2><p class="mkt-section__sub">Start a community free, then choose the support that matches how your people gather: improve one server, carry premium with a crew, or split the cost together. The price follows the benefit, not the other way around.</p></section>
 
+    <FoundersOffer />
+
     <section class="mkt-section" id="servers">
       <p class="mkt-label eyebrow text-gold">Hosted Server Pricing</p>
       <h2 class="display mkt-section__title">Boost the whole server</h2>
+      <p class="plan-status">Mach subscriptions are coming later · Groundspeed stays free</p>
       <p class="mkt-section__sub">
         Servers come in two flavors, hosted by us, or run by you. Either way, the basics are always free; a Mach
         boost lifts quality and unlocks extras for <em>every</em> member, not just the person who pays. Audio quality is the
@@ -60,24 +65,21 @@ const afterburner = [
       <div class="bill-wrap">
         <div class="bill-toggle" role="group" aria-label="Billing period">
           <button type="button" class="bill-toggle__btn is-active" data-bill="monthly" aria-pressed="true">Monthly</button>
-          <button type="button" class="bill-toggle__btn" data-bill="yearly" aria-pressed="false">Yearly <span class="bill-toggle__tag">1 mo free</span></button>
+          <button type="button" class="bill-toggle__btn" data-bill="yearly" aria-pressed="false">Yearly <span class="bill-toggle__tag">Billed yearly</span></button>
         </div>
       </div>
       <div class="mkt-grid">
         {serverTiers.map((t) => (
           <div class:list={['tier', 'reveal', t.featured && 'tier--featured']}>
             <p class="tier__name eyebrow text-gold">{t.name}</p>
-            <p class="tier__price" data-m={money(t.monthly)} data-y={t.yearly ? money(t.yearly) : ''} data-save={t.yearly ? savePct(t.monthly, t.yearly) : 0} data-per={t.monthly > 0 ? '/month' : ''}>
-              <span class="tier__amt">{money(t.monthly)}</span><small class="tier__per">{t.monthly > 0 ? '/month' : ''}</small>
-              <span class="tier__save" hidden> · save {t.yearly ? savePct(t.monthly, t.yearly) : 0}%</span>
-            </p>
+            <FoundersPrice monthly={t.monthly} yearly={t.yearly} pending={t.monthly > 0} />
             <p class="tier__desc">{t.desc}</p>
             <ul class="checklist">{t.items.map((i) => <li>{i}</li>)}</ul>
           </div>
         ))}
       </div>
       <p class="fineprint">
-        Multi-server operators can add extra servers à la carte at the ladder price; Squadron members get an optional 10% off.
+        Extra-server options are planned for a later release.
         Need something bigger? Reach out at <a href="mailto:contact-us@concordvoice.com">contact-us@concordvoice.com</a>. &nbsp;<br />
         * Requires devices and networks that support the necessary encoding and bitrates; otherwise expect
         degraded quality. &nbsp;<br />
@@ -91,31 +93,29 @@ const afterburner = [
     <section class="mkt-section" id="squadron">
       <p class="mkt-label eyebrow text-gold">Squadron</p>
       <h2 class="display mkt-section__title">One subscription for your whole crew</h2>
+      <p class="plan-status">Coming later · not available to purchase</p>
       <p class="mkt-section__sub">
         Mach boosts your server; Squadron boosts your <em>people</em>. One bill, one Captain, every member gets
         Supersonic that travels with them to every server, boosted or not. The Captain picks the Mach tier (Mach 2 default)
-        for the included boost; extra servers are à la carte at the ladder price (optional 10% off).
+        for the included boost. Extra-server options are planned for a later release.
       </p>
       <div class="bill-wrap bill-wrap--inline">
         <div class="bill-toggle" role="group" aria-label="Billing period">
           <button type="button" class="bill-toggle__btn is-active" data-bill="monthly" aria-pressed="true">Monthly</button>
-          <button type="button" class="bill-toggle__btn" data-bill="yearly" aria-pressed="false">Yearly <span class="bill-toggle__tag">1 mo free</span></button>
+          <button type="button" class="bill-toggle__btn" data-bill="yearly" aria-pressed="false">Yearly <span class="bill-toggle__tag">Billed yearly</span></button>
         </div>
       </div>
       <div class="mkt-grid mkt-grid--3">
         {squadron.map((s) => (
           <div class:list={['tier', 'reveal', s.featured && 'tier--featured']}>
             <p class="tier__name eyebrow text-gold">{s.name}</p>
-            <p class="tier__price" data-m={money(s.monthly)} data-y={money(s.yearly)} data-save={savePct(s.monthly, s.yearly)} data-per="/month">
-              <span class="tier__amt">{money(s.monthly)}</span><small class="tier__per">/month</small>
-              <span class="tier__save" hidden> · save {savePct(s.monthly, s.yearly)}%</span>
-            </p><div class="mach-card-picker" data-mach-picker><p class="fineprint" style="margin:0 0 .55rem">Included Mach boost</p><div class="bill-toggle" role="group" aria-label="Choose Mach tier"><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="-10" data-yearly="-110">Mach 1</button><button type="button" class="bill-toggle__btn is-active" data-mach-option data-monthly="0" data-yearly="0" aria-pressed="true">Mach 2</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="20" data-yearly="220">Mach 3</button></div></div>
-            <p class="tier__desc">Up to {s.members} members · 1 Mach boost (Captain picks Mach 1, Mach 2, or Mach 3) · ~{money(s.per)}/member</p>
+            <FoundersPrice monthly={s.monthly} yearly={s.yearly} pending members={s.members} /><div class="mach-card-picker" data-mach-picker><p class="fineprint" style="margin:0 0 .55rem">Included Mach boost</p><div class="bill-toggle" role="group" aria-label="Choose Mach tier"><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="-10" data-yearly="-110">Mach 1</button><button type="button" class="bill-toggle__btn is-active" data-mach-option data-monthly="0" data-yearly="0" aria-pressed="true">Mach 2</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="20" data-yearly="220">Mach 3</button></div></div>
+            <p class="tier__desc">Up to {s.members} members · 1 Mach boost (Captain picks Mach 1, Mach 2, or Mach 3)</p>
             <ul class="checklist">
               <li>Supersonic for up to {s.members} members, portable across DMs &amp; every server</li>
               <li>1 Mach boost, Captain picks Mach 1, Mach 2 (default), or Mach 3</li>
               <li>The Captain manages the roster and one bill</li>
-              <li>Extra servers à la carte at the ladder price (optional 10% off)</li>
+              <li>Extra-server options planned for a later release</li>
             </ul>
           </div>
         ))}
@@ -127,23 +127,24 @@ const afterburner = [
     <section class="mkt-section" id="afterburner">
       <p class="mkt-label eyebrow text-gold">Afterburner</p>
       <h2 class="display mkt-section__title">Crowd-fund a server boost</h2>
+      <p class="plan-status">Coming later · non-final estimates</p>
       <p class="mkt-section__sub">
         A fair pledge-to-unlock pool, nobody is charged until pledges reach the Mach tier price. Pick Mach 2 or Mach 3;
-        contributors pledge ~$5 or more each; when the pool hits the target the boost activates and everyone is billed their share.
-        <strong>Example: about $5.45/month each with 3 friends toward a Mach 2 boost.</strong> Split-billing fee included.
+        contributors share the cost. This feature is not available yet.
+        The examples below show the existing estimated pool totals with a 50% founders reduction. Final split-billing prices and fees are pending.
       </p>
       <div class="mkt-grid">
         {afterburner.map((a) => (
           <div class:list={['tier', 'ab-card', 'reveal', (a.tier === 'Mach 2' && a.n === 3) && 'tier--featured']}>
             <p class="tier__name eyebrow text-gold">{a.tier} · {a.n} contributors</p>
-            <p class="ab-price"><span class="ab-amt display">{money(a.per)}</span><small>/mo each</small></p>
-            <p class="tier__desc">Pool total {money(a.pool)}/mo</p>
+            <p class="ab-price"><span class="founders-price__regular">Regular <s>{money(a.per)}/month each</s></span><span class="founders-price__label">Founders · 50% off estimate</span><span class="ab-amt display">~{centsMoney(Math.round(foundersPrice(cents(a.pool)) / a.n))}</span><small>/month each</small></p>
+            <p class="tier__desc">Estimated pool: <s>{money(a.pool)}</s> {centsMoney(foundersPrice(cents(a.pool)))}/month</p>
           </div>
         ))}
       </div>
       <details class="faq__item ab-detail">
         <summary class="faq__q">How is Afterburner priced?</summary>
-        <p class="faq__a">Afterburner is a pledge-to-unlock pool, nobody is charged a cent until enough contributors have pledged to cover the chosen Mach tier (Mach 2 or Mach 3). Once the pool reaches the tier price, everyone's card is charged their share and the boost activates. The minimum meaningful pledge is about $5/month. The honest catch: splitting one boost into several smaller payments means our payment processor charges a separate transaction fee on each contributor's share, so the pool total runs slightly above the solo price, roughly $16/mo for a 3-way Mach 2 pool, up to ~$38/mo for a 7-way Mach 3 pool. It's not a discount; it's a transparent way to share the cost without anyone being left holding an unfunded bill.</p>
+        <p class="faq__a">Afterburner is a planned pledge-to-unlock pool for a Mach 2 or Mach 3 boost. It is not available yet. The pool and per-contributor amounts above are illustrative estimates showing a 50% founders reduction; final fees and billing details are pending. Per-contributor estimates are rounded and may not add up exactly to the displayed pool total.</p>
       </details>
     </section>
 
@@ -160,8 +161,8 @@ const afterburner = [
     <section class="mkt-section" id="pricing-faq">
       <p class="mkt-label eyebrow text-gold">Pricing FAQ</p>
       <div class="faq">
-        <details class="faq__item"><summary class="faq__q">When do paid subscriptions start?</summary><p class="faq__a">Paid upgrades are planned for v1.0 General Availability. They are not active during Beta.</p></details>
-        <details class="faq__item"><summary class="faq__q">Can paid prices change?</summary><p class="faq__a">Yes. The paid prices shown are planned values and may change before General Availability.</p></details>
+        <details class="faq__item"><summary class="faq__q">Which paid plans are available?</summary><p class="faq__a">Supersonic and Wing are available now. Hypersonic, Mach subscriptions and Wing Mach add-ons, Squadron, and Afterburner are coming later. Prices for pending plans are non-final preview estimates and may change before launch. They are not an offer to subscribe today or a reservation of founders pricing.</p></details>
+        <details class="faq__item"><summary class="faq__q">How long does my founders price stay locked?</summary><p class="faq__a">Founders signup is open until {foundersOffer.signupDeadline}. {foundersTerms.priceLock} {foundersTerms.grace} {foundersTerms.ends}</p></details>
         <details class="faq__item"><summary class="faq__q">What stays free?</summary><p class="faq__a">Groundspeed hosted servers and the core community experience stay free. Paid plans add optional upgrades.</p></details>
       </div>
     </section>
@@ -187,5 +188,5 @@ const afterburner = [
     .ab-amt { font-size: clamp(1.8rem, 5vw, 2.4rem); line-height: 1; }
     .ab-price small { color: var(--color-mist); font-size: .85rem; }
     .ab-detail { max-width: 46rem; margin: 1.4rem auto 0; } .plan-config { display:grid; justify-items:center; gap:.9rem; } .mach-card-picker { text-align:center; } .mach-card-picker .bill-toggle { flex-wrap:wrap; justify-content:center; } @media (min-width:720px) { .plan-config { grid-template-columns:auto auto; align-items:center; justify-content:center; } .mach-card-picker { text-align:left; } }
-  </style><script>const formatMachMoney=v=>"$"+v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});document.querySelectorAll("[data-mach-picker]").forEach(picker=>{const scope=picker.closest(".tier")||picker.closest(".hyper-band")||picker.closest(".wing-band");const prices=scope.querySelectorAll(".tier__price");prices.forEach(price=>{price.dataset.baseM??=price.dataset.m;price.dataset.baseY??=price.dataset.y});picker.querySelectorAll("[data-mach-option]").forEach(button=>button.addEventListener("click",()=>{picker.querySelectorAll("[data-mach-option]").forEach(option=>{const active=option===button;option.classList.toggle("is-active",active);option.setAttribute("aria-pressed",active?"true":"false")});prices.forEach(price=>{const monthly=Number(price.dataset.baseM.replace(/[^0-9.]/g,""))+Number(button.dataset.monthly);const yearly=Number(price.dataset.baseY.replace(/[^0-9.]/g,""))+Number(button.dataset.yearly);price.dataset.m=formatMachMoney(monthly);price.dataset.y=formatMachMoney(yearly);const annual=document.querySelector("[data-bill].is-active")?.dataset.bill==="yearly";price.querySelector(".tier__amt").textContent=annual?price.dataset.y:price.dataset.m});if(picker.closest("#wing")){const plan=document.querySelector("[data-wing-primary-plan]");if(plan)plan.textContent=button.dataset.monthly==="0"?"Supersonic":"Hypersonic"}}))})</script>
+  </style>
 </Layout>
