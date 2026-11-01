@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Last Updated:** June 5, 2026
+**Last Updated:** October 23, 2026
 
 ---
 
@@ -169,12 +169,37 @@ law, we process the following categories of sensitive information:
 
 ### Payment Data
 
-We may collect data necessary to process your payment if you choose to
-make purchases, such as your payment instrument number, and the security
-code associated with your payment instrument. **All payment data is
-handled and stored by Stripe.** You may find their privacy notice at
-[https://stripe.com/privacy](https://stripe.com/privacy). Concord Voice
-LLC does not store full payment-card numbers or CVV codes.
+Paid subscriptions are processed by **Stripe, Inc.** ("Stripe"), our
+payment processor. When you subscribe or manage your subscription, you do
+so on payment pages hosted by Stripe, not on pages served by Concord
+Voice. You enter your payment-card details, and any billing details such
+as your email address or billing address, directly with Stripe.
+
+- **What Stripe receives from us:** an internal identifier that links
+  your Stripe customer record to your Concord Voice account, and the plan
+  you chose. We do not send Stripe your name or your account email
+  address, and we do not store the email address you give Stripe.
+- **What Stripe collects from you:** your payment-card details and the
+  billing details you enter on Stripe's pages. Stripe uses them to charge
+  you, send receipts and payment notices, and keep transaction records.
+- **What we never see:** Concord Voice LLC never receives, sees, or
+  stores your full payment-card number or card security code (CVV).
+- **What we keep:** a record of your subscription, such as your plan,
+  billing interval, and subscription status, so that we can provide the
+  features you paid for.
+
+Stripe processes this information under its own privacy policy, available
+at [https://stripe.com/privacy](https://stripe.com/privacy).
+
+**If you delete your account:** we delete your Stripe customer record,
+which cancels any active paid subscription immediately. Purchases are
+non-refundable (see Section 7.4 of our
+[Terms of Service](https://www.concordvoice.com/terms)), so no refund is
+issued for the unused part of the billing period. Stripe keeps its own
+transaction records, such as invoices, payment history, and a card
+fingerprint, as its own legal obligations require, even after your
+Stripe customer record is deleted. Those records are governed by
+[Stripe's privacy policy](https://stripe.com/privacy).
 
 ### Single Sign-On Login Data
 
@@ -837,6 +862,11 @@ where retention is required by law. End-to-end encrypted message
 content stored on our servers is also deleted within this window
 (though ciphertext is, by construction, not readable by us; only the
 deletion of the ciphertext copies is meaningful from our perspective).
+
+If you had a paid subscription, deleting your account also deletes your
+Stripe customer record and cancels the subscription. Stripe retains its
+own transaction records as described under
+[Payment Data](#payment-data).
 
 When we have no ongoing legitimate business need to process your
 personal information, we will either delete or anonymize such

@@ -74,7 +74,7 @@ components:
 
 Concord Voice is a warm, candid, technically credible presence in a deep night field. The system makes privacy feel like an invitation to belong, not a warning label or an expert setting. A moon-and-two-stars symbol, dim aurora, a sparse starfield, and a precise gold-to-coral signal carry the brand without competing with the product screenshots or the visitor's next action.
 
-This is deliberately not corporate security theatre, a Discord imitation, or crypto-neon spectacle. It is softly luminous and conversational: full-featured enough to feel current, restrained enough that the privacy commitment remains believable and legible.
+This is deliberately not corporate security theatre, an imitation of existing chat apps, or crypto-neon spectacle. It is softly luminous and conversational: full-featured enough to feel current, restrained enough that the privacy commitment remains believable and legible.
 
 **Key Characteristics:**
 
@@ -205,7 +205,7 @@ Screenshots are proof objects, not decorative mockups. Frame raw captures with a
 
 ### Don't:
 
-- **Don't** turn the design into a Discord clone or a generic SaaS dashboard.
+- **Don't** turn the design into a clone of an existing chat app or a generic SaaS dashboard.
 - **Don't** use crypto-neon saturation, hard-edged cyberpunk effects, or security-theatre ornament.
 - **Don't** flood a screen with the gradient or use it for ordinary secondary content.
 - **Don't** replace translucent tonal depth with heavy gray drop shadows or fake window chrome.
