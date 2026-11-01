@@ -1,0 +1,11 @@
+---
+import { foundersOffer, foundersTerms } from '../lib/founders-pricing';
+---
+{foundersOffer.enabled && <section class="mkt-section founders-offer" aria-labelledby="founders-offer-title">
+  <p class="mkt-label eyebrow text-gold">Founders-50 · 50% off</p>
+  <h2 class="display mkt-section__title" id="founders-offer-title">Join early. Lock in your founders price.</h2>
+  <p class="mkt-section__sub">Founders signup is open until {foundersOffer.signupDeadline}. {foundersTerms.priceLock}</p>
+  <p class="mkt-section__sub">{foundersTerms.grace} {foundersTerms.ends}</p>
+  <p class="mkt-section__sub">Supersonic and Wing are available now. Hypersonic, Mach subscriptions and Wing Mach add-ons, Squadron, and Afterburner are coming later. Their regular and founders prices are non-final preview estimates and may change before launch. You cannot subscribe to those offerings yet; a preview does not reserve founders pricing.</p>
+  <p class="founders-note">Prices are in USD. Yearly amounts are the full yearly charge. The signup deadline does not end an active subscription’s founders price lock.</p>
+</section>}

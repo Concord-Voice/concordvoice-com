@@ -2,6 +2,7 @@
 import Layout from '@layouts/Layout.astro';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
+import { foundersOffer, foundersTerms } from '../lib/founders-pricing';
 import '@styles/marketing.css';
 
 // Plan + capability comparison, BRAND-FREE (compares against market ranges and the typical
@@ -114,8 +115,8 @@ const compare = [
     <section class="mkt-section" id="pricing-faq">
       <p class="mkt-label eyebrow text-gold">Pricing FAQ</p>
       <div class="faq">
-        <details class="faq__item"><summary class="faq__q">When do paid subscriptions start?</summary><p class="faq__a">Paid upgrades are planned for v1.0 General Availability. They are not active during Beta.</p></details>
-        <details class="faq__item"><summary class="faq__q">Can paid prices change?</summary><p class="faq__a">Yes. The paid prices shown are planned values and may change before General Availability.</p></details>
+        <details class="faq__item"><summary class="faq__q">Which paid plans are available?</summary><p class="faq__a">Supersonic and Wing are available now. Hypersonic, Mach subscriptions and Wing Mach add-ons, Squadron, and Afterburner are coming later. Their prices are non-final preview estimates. See <a href="/pricing/">personal pricing</a> and <a href="/teams/">groups and communities pricing</a> for current prices and availability.</p></details>
+        <details class="faq__item"><summary class="faq__q">How long does my founders price stay locked?</summary><p class="faq__a">Founders signup is open until {foundersOffer.signupDeadline}. {foundersTerms.priceLock} {foundersTerms.grace} {foundersTerms.ends}</p></details>
       </div>
     </section>
 

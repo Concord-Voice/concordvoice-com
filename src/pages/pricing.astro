@@ -2,13 +2,14 @@
 import Layout from '@layouts/Layout.astro';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
+import FoundersOffer from '@components/FoundersOffer.astro';
+import FoundersPrice from '@components/FoundersPrice.astro';
+import { foundersOffer, foundersTerms } from '../lib/founders-pricing';
 import '@styles/marketing.css';
 
 // Cloud pricing for INDIVIDUALS. Renamed from the old
 // personal-use page; team/community plans now live on /teams, the comparison on /compare.
-// Prices toggle monthly/yearly (yearly = 11× monthly, one month free → computed in Layout JS).
-const money = (n: number) => (n === 0 ? '$0' : `$${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
-const savePct = (m: number, y: number) => (m > 0 && y > 0 ? Math.round((1 - y / (m * 12)) * 100) : 0);
+// Regular catalog prices; FoundersPrice displays the active founders reduction.
 
 const userTiers = [
   { name: 'Sonic', monthly: 0, desc: 'For individuals and communities getting started',
@@ -39,6 +40,8 @@ const wing = { monthly: 14.99, yearly: 164.89 };
     </section>
 
     <section class="mkt-section"><p class="mkt-label eyebrow text-gold">Choose the shape of your support</p><h2 class="display mkt-section__title">Start with your people, not a price card.</h2><p class="mkt-section__sub">Everyone gets a private place to talk for free. Personal Use is for higher fidelity, more expression, or helping a small circle. If you are improving a shared home for everyone inside it, Groups &amp; Communities is the better fit.</p></section>
+
+    <FoundersOffer />
 
     <!-- ===== Hosted service + self-hosting early access ===== -->
     <section class="mkt-section">
@@ -80,17 +83,14 @@ const wing = { monthly: 14.99, yearly: 164.89 };
       <div class="bill-wrap">
         <div class="bill-toggle" role="group" aria-label="Billing period">
           <button type="button" class="bill-toggle__btn is-active" data-bill="monthly" aria-pressed="true">Monthly</button>
-          <button type="button" class="bill-toggle__btn" data-bill="yearly" aria-pressed="false">Yearly <span class="bill-toggle__tag">1 mo free</span></button>
+          <button type="button" class="bill-toggle__btn" data-bill="yearly" aria-pressed="false">Yearly <span class="bill-toggle__tag">Billed yearly</span></button>
         </div>
       </div>
       <div class="mkt-grid">
         {userTiers.map((t) => (
           <div class:list={['tier', 'reveal', t.featured && 'tier--featured']}>
             <p class="tier__name eyebrow text-gold">{t.name}</p>
-            <p class="tier__price" data-m={money(t.monthly)} data-y={t.yearly ? money(t.yearly) : ''} data-save={t.yearly ? savePct(t.monthly, t.yearly) : 0} data-per={t.monthly > 0 ? '/month' : ''}>
-              <span class="tier__amt">{money(t.monthly)}</span><small class="tier__per">{t.monthly > 0 ? '/month' : ''}</small>
-              <span class="tier__save" hidden> · save {t.yearly ? savePct(t.monthly, t.yearly) : 0}%</span>
-            </p>
+            <FoundersPrice monthly={t.monthly} yearly={t.yearly} />
             <p class="tier__desc">{t.desc}</p>
             <ul class="checklist">{t.items.map((i) => <li>{i}</li>)}</ul>
           </div>
@@ -101,29 +101,28 @@ const wing = { monthly: 14.99, yearly: 164.89 };
         degraded quality. &nbsp; ** Searchable only while the messages still exist, per your retention policy. &nbsp;<br />
         † Group-DM screen-share and camera limits are separate, not a shared pool: 8 of each by default, raised to
         16 screen shares and 25 cameras when anyone in the call is on Supersonic or higher. Per-channel concurrency
-        inside a server follows that server's plan, not your personal one. Applies once personal plans are on sale.
+        inside a server follows that server's plan, not your personal one.
       </p>
     </section>
 
     <section class="mkt-section" id="hypersonic">
       <p class="mkt-label eyebrow text-gold">Hypersonic</p>
       <h2 class="display mkt-section__title">Everything, in one plan</h2>
+      <p class="plan-status">Coming later · not available to purchase</p>
       <p class="mkt-section__sub">
-        The complete experience: a Supersonic account <em>and</em> a bundled Mach 2 server boost (1440p/60 video, up to 510 kbps audio, server-wide), at a
-        better price than buying them separately. One account, one bill, everything on.
+        The complete experience: a Supersonic account <em>and</em> a bundled server boost. The feature list below shows the Mach 2 example
+        (1440p/60 video, up to 510 kbps audio, server-wide). The selector previews prices for other Mach tiers; their server features differ.
+        One account, one bill when Hypersonic launches.
       </p>
       <div class="bill-wrap bill-wrap--inline">
         <div class="bill-toggle" role="group" aria-label="Billing period">
           <button type="button" class="bill-toggle__btn is-active" data-bill="monthly" aria-pressed="true">Monthly</button>
-          <button type="button" class="bill-toggle__btn" data-bill="yearly" aria-pressed="false">Yearly <span class="bill-toggle__tag">1 mo free</span></button>
+          <button type="button" class="bill-toggle__btn" data-bill="yearly" aria-pressed="false">Yearly <span class="bill-toggle__tag">Billed yearly</span></button>
         </div>
       </div>
       <div class="hyper-band reveal">
         <div class="hyper-band__head"><div class="plan-config">
-          <p class="hyper-price__big display tier__price" data-m={money(hyper.monthly)} data-y={money(hyper.yearly)} data-save={savePct(hyper.monthly, hyper.yearly)} data-per="/month">
-            <span class="tier__amt">{money(hyper.monthly)}</span><small class="tier__per">/month</small>
-            <span class="tier__save" hidden> · save {savePct(hyper.monthly, hyper.yearly)}%</span>
-          </p><div class="mach-card-picker" data-mach-picker><p class="fineprint" style="margin:0 0 .55rem">Included Mach boost</p><div class="bill-toggle" role="group" aria-label="Choose Mach tier"><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="-10" data-yearly="-110">Mach 1</button><button type="button" class="bill-toggle__btn is-active" data-mach-option data-monthly="0" data-yearly="0" aria-pressed="true">Mach 2</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="20" data-yearly="220">Mach 3</button></div></div>
+          <FoundersPrice monthly={hyper.monthly} yearly={hyper.yearly} pending class="hyper-price__big display" /><div class="mach-card-picker" data-mach-picker><p class="fineprint" style="margin:0 0 .55rem">Included Mach boost</p><div class="bill-toggle" role="group" aria-label="Choose Mach tier"><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="-10" data-yearly="-110">Mach 1</button><button type="button" class="bill-toggle__btn is-active" data-mach-option data-monthly="0" data-yearly="0" aria-pressed="true">Mach 2</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="20" data-yearly="220">Mach 3</button></div></div>
         </div>
         </div>
         <div class="hyper-band__lists">
@@ -132,14 +131,14 @@ const wing = { monthly: 14.99, yearly: 164.89 };
             <ul class="checklist">{hyperYou.map((i) => <li>{i}</li>)}</ul>
           </div>
           <div>
-            <p class="hyper-list__t eyebrow text-gold">Your server: free tier, plus</p>
+            <p class="hyper-list__t eyebrow text-gold">Your server: Mach 2 example</p>
             <ul class="checklist">{hyperServer.map((i) => <li>{i}</li>)}</ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== Wing (2-user), PROPOSED pricing ===== -->
+    <!-- ===== Wing (2-user) ===== -->
     <section class="mkt-section" id="wing">
       <p class="mkt-label eyebrow text-gold">Wing</p>
       <h2 class="display mkt-section__title">Bring your favorite person along</h2>
@@ -150,14 +149,12 @@ const wing = { monthly: 14.99, yearly: 164.89 };
       <div class="bill-wrap bill-wrap--inline">
         <div class="bill-toggle" role="group" aria-label="Billing period">
           <button type="button" class="bill-toggle__btn is-active" data-bill="monthly" aria-pressed="true">Monthly</button>
-          <button type="button" class="bill-toggle__btn" data-bill="yearly" aria-pressed="false">Yearly <span class="bill-toggle__tag">1 mo free</span></button>
+          <button type="button" class="bill-toggle__btn" data-bill="yearly" aria-pressed="false">Yearly <span class="bill-toggle__tag">Billed yearly</span></button>
         </div>
       </div>
       <div class="wing-band reveal"><div class="plan-config">
-        <p class="hyper-price__big display tier__price" data-m={money(wing.monthly)} data-y={money(wing.yearly)} data-save={savePct(wing.monthly, wing.yearly)} data-per="/month">
-          <span class="tier__amt">{money(wing.monthly)}</span><small class="tier__per">/month</small>
-          <span class="tier__save" hidden> · save {savePct(wing.monthly, wing.yearly)}%</span>
-        </p><div class="mach-card-picker" data-mach-picker><p class="fineprint" style="margin:0 0 .55rem">Shared server boost</p><div class="bill-toggle" role="group" aria-label="Choose Wing server boost"><button type="button" class="bill-toggle__btn is-active" data-mach-option data-monthly="0" data-yearly="0" aria-pressed="true">No boost</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="4.99" data-yearly="54.89">Mach 1</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="14.99" data-yearly="164.89">Mach 2</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="34.99" data-yearly="384.89">Mach 3</button></div></div></div>
+        <FoundersPrice monthly={wing.monthly} yearly={wing.yearly} members={2} class="hyper-price__big display" /><div class="mach-card-picker" data-mach-picker><p class="fineprint" style="margin:0 0 .55rem">Preview a server boost · Mach add-ons coming later</p><div class="bill-toggle" role="group" aria-label="Choose Wing server boost"><button type="button" class="bill-toggle__btn is-active" data-mach-option data-monthly="0" data-yearly="0" aria-pressed="true">No boost</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="4.99" data-yearly="54.89">Mach 1</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="14.99" data-yearly="164.89">Mach 2</button><button type="button" class="bill-toggle__btn" data-mach-option data-monthly="34.99" data-yearly="384.89">Mach 3</button></div></div></div>
+        <p class="fineprint">Wing with a Mach add-on is a non-final combined-price estimate. Final charges and rounding may differ at launch.</p>
         <div class="wing-seats">
           <div><p class="hyper-list__t eyebrow text-gold">You</p><p class="wing-seat__d">Full <strong data-wing-primary-plan>Supersonic</strong>: portable premium across every server and DM<span data-wing-boost-copy></span>.</p></div>
           <div><p class="hyper-list__t eyebrow text-gold">Your +1</p><p class="wing-seat__d">Full <strong>Supersonic</strong>: portable premium across every server and DM.</p></div>
@@ -183,8 +180,8 @@ const wing = { monthly: 14.99, yearly: 164.89 };
       <p class="mkt-label eyebrow text-gold">Pricing FAQ</p>
       <div class="faq">
         <details class="faq__item"><summary class="faq__q">So, why offer subscriptions?</summary><div class="faq__a mkt-prose"><p>We want subscriptions to fund a few things without ever limiting the platform for everyone else:</p><ul class="checklist" style="margin:1rem 0 1.2rem;"><li>An enhanced experience for those who want it, without gating the general platform for non-subscribers. <em>(Marketing calls it "maximizing value," or something like that.)</em></li><li>The infrastructure to grow and scale as our user base does. More servers for all you beautiful people, and the talented humans to keep it running. <em>(Ever tried to run Kubernetes? It's a special kind of pain.)</em></li><li>Ongoing development: new features, security improvements, and testing. <em>(The cost of compliance alone is miserable. Who likes lawyers anyway?)</em></li></ul><p>Want to know where your money would go? Read the <a href="/about-us">About</a> page to meet the people behind the app.</p></div></details>
-        <details class="faq__item"><summary class="faq__q">When do paid subscriptions start?</summary><p class="faq__a">Paid upgrades are planned for v1.0 General Availability. They are not active during Beta.</p></details>
-        <details class="faq__item"><summary class="faq__q">Can paid prices change?</summary><p class="faq__a">Yes. The paid prices shown are planned values and may change before General Availability.</p></details>
+        <details class="faq__item"><summary class="faq__q">Which paid plans are available?</summary><p class="faq__a">Supersonic and Wing are available now. Hypersonic, Mach subscriptions and Wing Mach add-ons, Squadron, and Afterburner are coming later. Prices for pending plans are non-final preview estimates and may change before launch. They are not an offer to subscribe today or a reservation of founders pricing.</p></details>
+        <details class="faq__item"><summary class="faq__q">How long does my founders price stay locked?</summary><p class="faq__a">Founders signup is open until {foundersOffer.signupDeadline}. {foundersTerms.priceLock} {foundersTerms.grace} {foundersTerms.ends}</p></details>
         <details class="faq__item"><summary class="faq__q">What stays free?</summary><p class="faq__a">Sonic accounts and personal-use basics stay free. Paid plans add optional upgraded features.</p></details>
       </div>
     </section>
@@ -222,53 +219,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
     @media (min-width: 640px) { .wing-seats { grid-template-columns: 1fr 1fr; } }
     .wing-seat__d { color: var(--color-mist); line-height: 1.55; font-size: .92rem; margin-top: .3rem; }
   </style>
-  <script>
-    import { machPrices, wingPlanCopy } from '../lib/pricing-interactions';
 
-    const formatMachMoney = (value: number) => '$' + value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-    document.querySelectorAll<HTMLElement>('[data-mach-picker]').forEach((picker) => {
-      const scope = picker.closest<HTMLElement>('.tier, .hyper-band, .wing-band');
-      if (!scope) return;
-
-      const prices = scope.querySelectorAll<HTMLElement>('.tier__price');
-      prices.forEach((price) => {
-        price.dataset.baseM ??= price.dataset.m;
-        price.dataset.baseY ??= price.dataset.y;
-      });
-
-      picker.querySelectorAll<HTMLButtonElement>('[data-mach-option]').forEach((button) => button.addEventListener('click', () => {
-        picker.querySelectorAll<HTMLButtonElement>('[data-mach-option]').forEach((option) => {
-          const active = option === button;
-          option.classList.toggle('is-active', active);
-          option.setAttribute('aria-pressed', active ? 'true' : 'false');
-        });
-
-        prices.forEach((price) => {
-          const prices = machPrices(
-            Number(price.dataset.baseM?.replace(/[^0-9.]/g, '')),
-            Number(price.dataset.baseY?.replace(/[^0-9.]/g, '')),
-            Number(button.dataset.monthly),
-            Number(button.dataset.yearly),
-          );
-          price.dataset.m = formatMachMoney(prices.monthly);
-          price.dataset.y = formatMachMoney(prices.yearly);
-          const annual = document.querySelector<HTMLElement>('[data-bill].is-active')?.dataset.bill === 'yearly';
-          const amount = price.querySelector<HTMLElement>('.tier__amt');
-          if (amount) amount.textContent = annual ? price.dataset.y : price.dataset.m;
-        });
-
-        if (!picker.closest('#wing')) return;
-        const copy = wingPlanCopy(Number(button.dataset.monthly));
-        const plan = document.querySelector<HTMLElement>('[data-wing-primary-plan]');
-        const summaryPlan = document.querySelector<HTMLElement>('[data-wing-summary-plan]');
-        const boostCopy = document.querySelector<HTMLElement>('[data-wing-boost-copy]');
-        if (plan) plan.textContent = copy.primaryPlan;
-        if (summaryPlan) summaryPlan.textContent = copy.summaryPlan;
-        if (boostCopy) boostCopy.textContent = copy.boostCopy;
-      }));
-    });
-  </script>
   <script>
     import { shouldAnimateStarfield, starfieldState } from '../lib/pricing-interactions';
 
