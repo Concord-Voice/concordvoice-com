@@ -4,22 +4,22 @@ import { assetUrl, recommendedBuild, platform, VERSION, RELEASE_TAG, MIRROR_REPO
 
 test('version + tag are wired and internally consistent', () => {
   assert.match(VERSION, /^\d+\.\d+\.\d+$/);          // resolved/seeded semver
-  assert.equal(RELEASE_TAG, `desktop-v${VERSION}`);  // tag derives from version
-  assert.equal(MIRROR_REPO, 'Concord-Voice/Concord-Voice');
+  assert.equal(RELEASE_TAG, `v${VERSION}`);  // tag derives from version
+  assert.equal(MIRROR_REPO, 'Concord-Voice/Desktop');
 });
 
-test('release notes URL points at the public mirror tag', () => {
-  assert.equal(RELEASE_NOTES_URL, `https://github.com/Concord-Voice/Concord-Voice/releases/tag/${RELEASE_TAG}`);
+test('release notes URL points at the public Desktop release tag', () => {
+  assert.equal(RELEASE_NOTES_URL, `https://github.com/Concord-Voice/Desktop/releases/tag/${RELEASE_TAG}`);
 });
 
-test('assetUrl builds the public mirror download URL', () => {
+test('assetUrl builds the public Desktop release download URL', () => {
   assert.equal(
     assetUrl('example.bin'),
-    `https://github.com/Concord-Voice/Concord-Voice/releases/download/${RELEASE_TAG}/example.bin`,
+    `https://github.com/Concord-Voice/Desktop/releases/download/${RELEASE_TAG}/example.bin`,
   );
 });
 
-test('recommended builds resolve to the exact mirrored filenames for the current version', () => {
+test('recommended builds resolve to the exact published filenames for the current version', () => {
   assert.equal(recommendedBuild('mac', 'arm64')?.filename, `ConcordVoice-${VERSION}-macos-arm64.dmg`);
   assert.equal(recommendedBuild('mac', 'x64')?.filename, `ConcordVoice-${VERSION}-macos-x64.dmg`);
   assert.equal(recommendedBuild('windows', 'x64')?.filename, `ConcordVoice-${VERSION}-windows-x64-Setup.exe`);

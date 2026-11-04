@@ -5,11 +5,11 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
-/** 'desktop-v0.2.0' -> '0.2.0'; returns null for anything that isn't desktop-vX.Y.Z.
+/** 'v0.3.0' -> '0.3.0'; returns null for anything that isn't vX.Y.Z.
  *  The version is rebuilt from Number()-parsed components, so the result is numeric-derived
  *  (not raw network text) — a sanitized value safe to embed in the generated file. */
 export function tagToVersion(tag) {
-  const m = /^desktop-v(\d+)\.(\d+)\.(\d+)$/.exec(tag ?? '');
+  const m = /^v(\d+)\.(\d+)\.(\d+)$/.exec(tag ?? '');
   return m ? `${Number(m[1])}.${Number(m[2])}.${Number(m[3])}` : null;
 }
 
@@ -19,9 +19,9 @@ export function tagToVersion(tag) {
 export function validateRelease(release, version) {
   const assets = Array.isArray(release?.assets) ? release.assets : [];
   const names = new Set(assets.map((a) => a?.name));
-  // Keep this list aligned with the download page's rendered links. The Alpha
-  // release workflow gates the same asset set before tag/release; a failure
-  // here means mirror lag or a release-pipeline regression, not an optional
+  // Keep this list aligned with the download page's rendered links. The
+  // Release-Ops publish step gates the same asset set before publishing; a
+  // failure here means a release-pipeline regression, not an optional
   // package omission that production should silently publish around.
   const required = ['arm64', 'x64'].flatMap((arch) => [
     `ConcordVoice-${version}-macos-${arch}.dmg`,
@@ -34,7 +34,7 @@ export function validateRelease(release, version) {
   return required.every((name) => names.has(name));
 }
 
-const LATEST_URL = 'https://api.github.com/repos/Concord-Voice/Concord-Voice/releases/latest';
+const LATEST_URL = 'https://api.github.com/repos/Concord-Voice/Desktop/releases/latest';
 const OUT = path.join(process.cwd(), 'src', 'data', 'release.generated.ts');
 
 /** Exact contents of release.generated.ts — MUST match the committed seed byte-for-byte. */
@@ -83,15 +83,15 @@ export async function main() {
   }
 
   const version = tagToVersion(release?.tag_name);
-  if (!version) { keepSeedOrFail(`tag '${release?.tag_name}' is not desktop-vX.Y.Z`); return; }
+  if (!version) { keepSeedOrFail(`tag '${release?.tag_name}' is not vX.Y.Z`); return; }
   if (!validateRelease(release, version)) {
-    keepSeedOrFail(`release desktop-v${version} is missing expected platform assets (mirror lag?)`);
+    keepSeedOrFail(`release v${version} is missing expected platform assets`);
     return;
   }
 
   // Build the written values from the sanitized version (numeric-derived), never the raw
   // network tag — keeps the generated file injection-proof and free of tainted-data flow.
-  const tag = `desktop-v${version}`;
+  const tag = `v${version}`;
   const next = fileContents(version, tag);
   let current = '';
   try { current = await readFile(OUT, 'utf8'); } catch { /* will create */ }

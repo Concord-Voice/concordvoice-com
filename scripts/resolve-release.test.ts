@@ -2,23 +2,23 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { main, shouldFailClosed, tagToVersion, validateRelease } from './resolve-release.mjs';
 
-test('tagToVersion extracts semver from a desktop-v tag', () => {
-  assert.equal(tagToVersion('desktop-v0.2.0'), '0.2.0');
-  assert.equal(tagToVersion('desktop-v1.10.3'), '1.10.3');
+test('tagToVersion extracts semver from a vX.Y.Z tag', () => {
+  assert.equal(tagToVersion('v0.2.0'), '0.2.0');
+  assert.equal(tagToVersion('v1.10.3'), '1.10.3');
 });
 
 test('tagToVersion rejects non-matching tags', () => {
-  assert.equal(tagToVersion('v0.2.0'), null);
-  assert.equal(tagToVersion('desktop-vbeta'), null);
-  assert.equal(tagToVersion('desktop-v0.2'), null);
+  assert.equal(tagToVersion('desktop-v0.2.0'), null);
+  assert.equal(tagToVersion('vbeta'), null);
+  assert.equal(tagToVersion('v0.2'), null);
   assert.equal(tagToVersion(''), null);
   assert.equal(tagToVersion(undefined), null);
 });
 
 test('tagToVersion rejects pre-release / 4-part tags (page never auto-adopts an RC)', () => {
-  assert.equal(tagToVersion('desktop-v0.2.0-rc1'), null);
-  assert.equal(tagToVersion('desktop-v0.2.0-beta'), null);
-  assert.equal(tagToVersion('desktop-v0.2.0.1'), null);
+  assert.equal(tagToVersion('v0.2.0-rc1'), null);
+  assert.equal(tagToVersion('v0.2.0-beta'), null);
+  assert.equal(tagToVersion('v0.2.0.1'), null);
 });
 
 // Every download link the page advertises, for both arches.
@@ -37,7 +37,7 @@ test('validateRelease passes when every platform/arch advertised asset is presen
   assert.equal(validateRelease({ assets: fullAssets('0.2.0') }, '0.2.0'), true);
 });
 
-test('validateRelease fails when the macOS dmg is missing (mirror lag)', () => {
+test('validateRelease fails when the macOS dmg is missing ', () => {
   const noDmg = { assets: fullAssets('0.2.0').filter((a) => !a.name.endsWith('.dmg')) };
   assert.equal(validateRelease(noDmg, '0.2.0'), false);
 });
@@ -54,7 +54,7 @@ test('validateRelease fails when Linux package alternates lag (.deb/.rpm missing
   assert.equal(validateRelease(noPackages, '0.2.0'), false);
 });
 
-test('validateRelease fails when only one arch is mirrored', () => {
+test('validateRelease fails when only one arch is published', () => {
   const arm64Only = { assets: fullAssets('0.2.0').filter((a) => a.name.includes('-arm64')) };
   assert.equal(validateRelease(arm64Only, '0.2.0'), false);
 });
