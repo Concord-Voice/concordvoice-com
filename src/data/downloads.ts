@@ -4,7 +4,7 @@
 // scripts/resolve-release.mjs into ./release.generated.ts (the committed value there is the
 // last-known-good fallback). Asset filenames are derived from VERSION + arch via the
 // per-format templates in `fn` (the naming scheme differs per format), so nothing else
-// changes unless the release alters those schemes. Release-Ops publishes the signed
+// changes unless the release alters those schemes. The release pipeline publishes the signed
 // binaries to the public Concord-Voice/Desktop repo, whose release assets download
 // anonymously.
 

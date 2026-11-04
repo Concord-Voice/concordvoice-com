@@ -20,7 +20,7 @@ export function validateRelease(release, version) {
   const assets = Array.isArray(release?.assets) ? release.assets : [];
   const names = new Set(assets.map((a) => a?.name));
   // Keep this list aligned with the download page's rendered links. The
-  // Release-Ops publish step gates the same asset set before publishing; a
+  // release publish step gates the same asset set before publishing; a
   // failure here means a release-pipeline regression, not an optional
   // package omission that production should silently publish around.
   const required = ['arm64', 'x64'].flatMap((arch) => [

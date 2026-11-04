@@ -23,15 +23,15 @@ Content-Type: application/json
 The response contains the hook URL. It is a secret (anyone with it can trigger a build) —
 store it, do not commit it.
 
-## Repo wiring (Release-Ops)
+## Repo wiring (release pipeline)
 
-Not wired yet. Since v0.3.0, Release-Ops `sign-desktop.yml` publishes desktop releases to the
-public `Concord-Voice/Desktop` repo (tag `vX.Y.Z`), and the resolver reads that repo. Until the
-hook below is added, rebuild the site by hand after a release (any push to `main`, or a manual
-Pages redeploy).
+Not wired yet. Since v0.3.0, desktop releases are published to the public
+`Concord-Voice/Desktop` repo (tag `vX.Y.Z`), and the resolver reads that repo. Until the hook
+below is added, rebuild the site by hand after a release (any push to `main`, or a manual Pages
+redeploy).
 
-1. Store the hook URL in Infisical `/release-ops/publish` as `CF_PAGES_DEPLOY_HOOK`.
-2. In the `publish-back` job, add a final step AFTER the Desktop release is published:
+1. Store the hook URL in the release pipeline's secret store as `CF_PAGES_DEPLOY_HOOK`.
+2. In the release publish workflow, add a final step AFTER the Desktop release is published:
 
    ```yaml
    - name: Trigger marketing site rebuild
@@ -47,7 +47,7 @@ Pages redeploy).
        if curl -fsS --retry 3 --retry-all-errors --max-time 30 -X POST "$HOOK" >/dev/null; then
          echo "Triggered concordvoice-com rebuild"
        else
-         echo "::error::concordvoice-com rebuild trigger failed; dispatch a resume run after fixing the hook"
+         echo "::error::concordvoice-com rebuild trigger failed; re-run the release publish step after fixing the hook"
          exit 1
        fi
    ```
@@ -69,5 +69,5 @@ Cloudflare/required builds fail closed if resolution fails, avoiding stale produ
 Linux assets are all present, including Linux `.deb` and `.rpm` alternates. If an asset is
 missing, local builds keep the committed seed and
 Cloudflare/required builds fail closed rather than publishing stale or broken download links.
-The Release-Ops publish step requires the same asset set before publishing, so a blocked
+The release publish step requires the same asset set before publishing, so a blocked
 production build means the release pipeline needs repair.
