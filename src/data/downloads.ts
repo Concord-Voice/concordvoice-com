@@ -4,17 +4,17 @@
 // scripts/resolve-release.mjs into ./release.generated.ts (the committed value there is the
 // last-known-good fallback). Asset filenames are derived from VERSION + arch via the
 // per-format templates in `fn` (the naming scheme differs per format), so nothing else
-// changes unless the mirror alters those schemes. Binaries are mirrored from the private
-// Concord-Voice-Alpha repo to the PUBLIC Concord-Voice/Concord-Voice repo, whose release
-// assets download anonymously.
+// changes unless the release alters those schemes. The release pipeline publishes the signed
+// binaries to the public Concord-Voice/Desktop repo, whose release assets download
+// anonymously.
 
 import { VERSION, RELEASE_TAG } from './release.generated.ts';
 export { VERSION, RELEASE_TAG };
-export const MIRROR_REPO = 'Concord-Voice/Concord-Voice';
+export const MIRROR_REPO = 'Concord-Voice/Desktop';
 
 export const RELEASE_NOTES_URL = `https://github.com/${MIRROR_REPO}/releases/tag/${RELEASE_TAG}`;
 
-/** Absolute download URL for a release asset on the public mirror. */
+/** Absolute download URL for a release asset on the public Desktop repo. */
 export function assetUrl(filename: string): string {
   return `https://github.com/${MIRROR_REPO}/releases/download/${RELEASE_TAG}/${filename}`;
 }

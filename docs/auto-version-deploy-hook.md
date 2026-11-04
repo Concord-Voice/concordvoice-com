@@ -23,11 +23,15 @@ Content-Type: application/json
 The response contains the hook URL. It is a secret (anyone with it can trigger a build) —
 store it, do not commit it.
 
-## Repo wiring (Concord-Voice-Alpha)
+## Repo wiring (release pipeline)
 
-1. Add the hook URL as a repo secret: `CF_PAGES_DEPLOY_HOOK`.
-2. In the **mirror-sync** workflow (the one that mirrors a desktop release to the public
-   `Concord-Voice/Concord-Voice` repo), add a final step AFTER the assets are mirrored:
+Not wired yet. Since v0.3.0, desktop releases are published to the public
+`Concord-Voice/Desktop` repo (tag `vX.Y.Z`), and the resolver reads that repo. Until the hook
+below is added, rebuild the site by hand after a release (any push to `main`, or a manual Pages
+redeploy).
+
+1. Store the hook URL in the release pipeline's secret store as `CF_PAGES_DEPLOY_HOOK`.
+2. In the release publish workflow, add a final step AFTER the Desktop release is published:
 
    ```yaml
    - name: Trigger marketing site rebuild
@@ -43,7 +47,7 @@ store it, do not commit it.
        if curl -fsS --retry 3 --retry-all-errors --max-time 30 -X POST "$HOOK" >/dev/null; then
          echo "Triggered concordvoice-com rebuild"
        else
-         echo "::error::concordvoice-com rebuild trigger failed; rerun this release-mirror job after fixing the hook"
+         echo "::error::concordvoice-com rebuild trigger failed; re-run the release publish step after fixing the hook"
          exit 1
        fi
    ```
@@ -54,7 +58,7 @@ store it, do not commit it.
 
 ## Result
 
-New desktop release → mirrored to the public repo → Deploy Hook → Cloudflare rebuilds
+New desktop release → published to `Concord-Voice/Desktop` → Deploy Hook → Cloudflare rebuilds
 concordvoice-com → `prebuild` resolves the new version → links + version label update. No
 manual edits. Local builds fall back to the committed `src/data/release.generated.ts` value.
 Cloudflare/required builds fail closed if resolution fails, avoiding stale production downloads.
@@ -62,8 +66,8 @@ Cloudflare/required builds fail closed if resolution fails, avoiding stale produ
 ## Note on advertised package assets
 
 `scripts/resolve-release.mjs` only adopts a release whose advertised macOS, Windows, and
-Linux assets are all present, including Linux `.deb` and `.rpm` alternates. If the public
-mirror lags or an asset is missing, local builds keep the committed seed and
+Linux assets are all present, including Linux `.deb` and `.rpm` alternates. If an asset is
+missing, local builds keep the committed seed and
 Cloudflare/required builds fail closed rather than publishing stale or broken download links.
-The companion Alpha release workflow gates this same asset contract before publishing a tag,
-so a blocked production build means the mirror or release pipeline needs repair.
+The release publish step requires the same asset set before publishing, so a blocked
+production build means the release pipeline needs repair.
