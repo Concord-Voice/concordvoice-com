@@ -1,9 +1,14 @@
 # Downloads Page — Build-Time Auto-Version — Design
 
 **Date:** 2026-06-20
-**Status:** Approved (design); pending implementation plan
+**Status:** Implemented. Release source superseded in v0.3.0 (see note below)
 **Repo:** `concordvoice-com` (Astro + Cloudflare Pages, static output)
 **Builds on:** the `/download` page shipped in `feat: add downloads page…` (commit `3fc0f93`).
+
+> **Superseded release source (v0.3.0).** This design reads `Concord-Voice/Concord-Voice` and
+> `desktop-vX.Y.Z` tags. Since v0.3.0 the resolver reads `Concord-Voice/Desktop` and accepts only
+> `vX.Y.Z` tags (`desktop-v` tags are rejected). The rest of the design still applies. Current
+> behavior: `scripts/resolve-release.mjs` and `docs/auto-version-deploy-hook.md`.
 
 ## Goal
 
