@@ -25,13 +25,12 @@ store it, do not commit it.
 
 ## Repo wiring (release pipeline)
 
-Not wired yet. Since v0.3.0, desktop releases are published to the public
-`Concord-Voice/Desktop` repo (tag `vX.Y.Z`), and the resolver reads that repo. Until the hook
-below is added, rebuild the site by hand after a release (any push to `main`, or a manual Pages
-redeploy).
+Wired. Since v0.3.0, desktop releases are published to the public `Concord-Voice/Desktop` repo
+(tag `vX.Y.Z`), and the resolver reads that repo. The release publish workflow fires the hook
+after each release. If that step fails, re-run it or redeploy from the Pages dashboard.
 
 1. Store the hook URL in the release pipeline's secret store as `CF_PAGES_DEPLOY_HOOK`.
-2. In the release publish workflow, add a final step AFTER the Desktop release is published:
+2. The release publish workflow's final step, AFTER the Desktop release is published, is equivalent to:
 
    ```yaml
    - name: Trigger marketing site rebuild
