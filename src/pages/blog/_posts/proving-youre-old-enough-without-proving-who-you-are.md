@@ -42,7 +42,7 @@ We do believe, however, in the social welfare of children and how having an onli
 
 It’s also our opinion that parents should have the ultimate say over their kids’ internet access, not us, another business, or the government.
 
-The impact of that has its own consequences, leaving some without a space to occupy, especially a safe one. We didn’t want to limit families and friend groups. There are some tech-savvy kids out there, along with parents who love gaming together with their kids. A self-hosted early-access pilot is operator-assisted: the operator runs the infrastructure and is responsible for its own policies, safeguards, and applicable legal obligations. Concord Voice does not operate or monitor that deployment. The pilot works from source rather than a supported downloadable installer. Concord Voice source is public; the supported self-hosted installer and deployment guide are not publicly released yet. Commercial self-hosting requires a [Concord Voice commercial license](/commercial-license). Anyone interested in a self-hosted early-access pilot can [contact us](mailto:contact-us@concordvoice.com?subject=Self-hosted%20early-access%20pilot).
+The impact of that has its own consequences, leaving some without a space to occupy, especially a safe one. We didn’t want to limit families and friend groups. There are some tech-savvy kids out there, along with parents who love gaming together with their kids. Self-hosting is one option: whoever runs a self-hosted server runs its infrastructure and is responsible for its own policies, safeguards, and applicable legal obligations. Concord Voice does not operate or monitor that deployment. Self-hosting is available now from a verified release with a guided installer; see [how self-hosting works](/self-hosting). Commercial self-hosting requires a [Concord Voice commercial license](/commercial-license).
 
 So… How do we handle age verification when required? We’ve approached this in a few ways.
 
@@ -125,7 +125,7 @@ Now, for age threshold rules:
 
 At this time, we have no intent to implement a full Age Verification integration, whether we develop it in-house or obtain it from a third party.
 
-This does restrict us in certain parts of the world. We do not currently offer a public, supported self-hosting installation.
+This does restrict us in certain parts of the world. *(Update, November 2026: self-hosting is now publicly available, so you can also [run Concord Voice on your own server](/self-hosting).)*
 
 Down the road, do I see this position changing? Unfortunately and transparently, it is likely, but we are unwilling participants. The current track record of government support for online ID tracking and verification is growing, and it has become a major concern of ours as we continue to develop ways that are minimally invasive of privacy and work around storing PII and other data on our hosted servers, specifically.
 
