@@ -10,7 +10,7 @@ const WIKI = `${REPO}/wiki`;
 
 const why = [
   { t: 'The same server we run', d: 'Self-Hosted is the server code behind our hosted service. There is no separate community edition and no better version kept behind a paywall.' },
-  { t: 'Every paid feature, free', d: 'On your own server, every member gets every premium feature at no charge. Plans and subscriptions exist only on our hosted service.' },
+  { t: 'Every premium feature, free', d: 'On your own server, every member gets every premium feature in the app at no charge. Plans and subscriptions exist only on our hosted service.' },
   { t: 'Encrypted on your hardware too', d: 'Each device encrypts messages, attachments, voice and video before they leave it. Your server stores and relays only data it cannot read. It can see profile images such as avatars and banners, and the routing details it needs.' },
 ];
 
@@ -18,13 +18,11 @@ const steps = [
   {
     t: 'Check your host',
     d: 'A Debian 12 or Ubuntu 24.04 machine with at least 2 vCPU, 2 GiB of RAM and 10 GiB of free disk, with Docker Engine and its Compose plugin, Python 3 and nginx installed. You also need a domain name that points at it and the voice ports open in your firewall.',
-    code: './infrastructure/deploy/install-selfhost.sh --preflight-only',
-    note: 'The preflight runs every host check and changes nothing.',
   },
   {
     t: 'Download and verify the release',
-    d: 'Each release on GitHub ships the server bundle, a manifest that lists the SHA-256 of every file, and a SHA256SUMS file. GitHub build attestations prove that each file came from our release build.',
-    code: 'sha256sum -c SHA256SUMS\ngh attestation verify concord-selfhost-<version>.tar.gz --repo Concord-Voice/Self-Hosted',
+    d: 'Each release on GitHub ships the server bundle, a manifest that lists the SHA-256 of every file, and a SHA256SUMS file. Download all three into one folder and check them. GitHub build attestations prove that each file came from our release build; checking them needs the GitHub CLI, signed in. Then unpack the bundle and run the preflight, which checks your host and changes nothing.',
+    code: 'sha256sum -c SHA256SUMS\ngh attestation verify concord-selfhost-<version>.tar.gz --repo Concord-Voice/Self-Hosted\ntar -xzf concord-selfhost-<version>.tar.gz && cd concord-selfhost-<version>\n./infrastructure/deploy/install-selfhost.sh --preflight-only',
   },
   {
     t: 'Run the installer',
@@ -58,7 +56,7 @@ const later = [
 
 <Layout
   title="Self-Hosting | Concord Voice"
-  description="Run the Concord Voice server on your own hardware. Download a verified release, run the guided installer, and manage it with one command. Every paid feature is free on your own server."
+  description="Run the Concord Voice server on your own hardware. Download a verified release, run the guided installer, and manage it with one command. Every premium app feature is free on your own server."
 >
   <Header />
 
