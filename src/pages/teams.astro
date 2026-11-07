@@ -13,13 +13,13 @@ const money = (n: number) => (n === 0 ? '$0' : `$${n.toLocaleString('en-US', { m
 
 const serverTiers = [
   { name: 'Groundspeed', monthly: 0, desc: 'For friends, family, clans, guilds, and small communities',
-    items: ['Unlimited channels & categories', 'End-to-end encrypted messaging', 'Voice & video channels (standard quality)', 'Screen sharing (up to 1080p · 30fps)', 'Basic server icon & banner', '32MB file upload limit per file', '75 custom emoji (incl. animated)', '10 custom stickers', 'Up to 8 screen shares and 8 cameras live at once per voice channel, counted separately'] },
+    items: ['Unlimited channels & categories', 'End-to-end encrypted messaging', 'Voice & video channels (standard quality)', 'Screen sharing (up to 1080p · 30fps)', 'Basic server icon & banner', '32MB file upload limit per file', '100 custom emoji (incl. animated)', '10 custom stickers', 'Up to 8 screen shares and 8 cameras live at once per voice channel, counted separately'] },
   { name: 'Mach 1', monthly: 4.99, yearly: 54.89, desc: 'Entry-level server boost for communities that want more',
-    items: ['Everything in Groundspeed', 'Animated GIF server banner', 'Up to 510 kbps audio, server-wide*', '1080p/60 video, server-wide*', '128 MB per-file uploads, server-wide', '250 GB server storage (fair-use ceiling)', '250 custom emoji / 75 stickers / 30 soundboards', 'List your server in the Public Directory (optional)', 'Every voice channel lifts to 16 screen shares and 25 cameras at once, server-wide†'] },
+    items: ['Everything in Groundspeed', 'Animated GIF server banner and icon', 'Up to 510 kbps audio, server-wide*', '1080p/60 video, server-wide*', '256 MB per-file uploads, server-wide', '250 GB server storage (fair-use ceiling)', '250 custom emoji / 75 stickers / 30 soundboards', 'List your server in the Public Directory (optional)', 'Every voice channel lifts to 16 screen shares and 25 cameras at once, server-wide†'] },
   { name: 'Mach 2', monthly: 14.99, yearly: 164.89, featured: true, desc: 'For active communities that want a step up in quality',
-    items: ['Everything in Mach 1', 'Custom invite links', '1440p/60 video, server-wide*', '256 MB per-file uploads, server-wide', '1 TB server storage', '350 custom emoji / 100 stickers / 40 soundboards', 'Server tag', 'Priority support'] },
+    items: ['Everything in Mach 1', 'Custom invite links', '1440p/60 video, server-wide*', '512 MB per-file uploads, server-wide', '1 TB server storage', '350 custom emoji / 100 stickers / 40 soundboards', 'Server tag', 'Priority support'] },
   { name: 'Mach 3', monthly: 34.99, yearly: 384.89, desc: 'Maximum quality for large, media-rich communities',
-    items: ['Everything in Mach 2', '4K/60 video, server-wide*', '512 MB per-file uploads, server-wide', '2.5 TB server storage', '500 custom emoji / 150 stickers / 55 soundboards'] },
+    items: ['Everything in Mach 2', '4K/60 video, server-wide*', '1 GB per-file uploads, server-wide', '2.5 TB server storage', '500 custom emoji / 150 stickers / 55 soundboards'] },
 ];
 // Pending group-plan catalog; prices are previews, not purchase offers.
 const squadron = [
