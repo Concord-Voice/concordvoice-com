@@ -43,13 +43,13 @@ const wing = { monthly: 14.99, yearly: 164.89 };
 
     <FoundersOffer />
 
-    <!-- ===== Hosted service + self-hosting early access ===== -->
+    <!-- ===== Hosted service + self-hosting ===== -->
     <section class="mkt-section">
-      <p class="mkt-label eyebrow text-gold">Hosted service and early access</p>
+      <p class="mkt-label eyebrow text-gold">Hosted or self-hosted</p>
       <h2 class="display mkt-section__title">Start on the Concord Voice Network.</h2>
       <p class="mkt-section__sub">
-        The hosted service is available today. Self-hosting early access is operator-assisted, not a supported
-        downloadable installer.
+        The hosted service is available today. The self-hosted server is published, and supported installation
+        opens once our fresh-host install testing passes.
       </p>
       <div class="mkt-grid fork">
         <div class="fork-card reveal">
@@ -62,13 +62,14 @@ const wing = { monthly: 14.99, yearly: 164.89 };
           <a href="#plans" class="btn border border-white/20 hover:border-coral">See cloud plans ↓</a>
         </div>
         <div class="fork-card reveal">
-          <p class="fork-card__k eyebrow text-gold">Self-hosting · early access</p>
-          <h3 class="fork-card__t">Operator-assisted pilot</h3>
+          <p class="fork-card__k eyebrow text-gold">Self-hosting · install support coming soon</p>
+          <h3 class="fork-card__t">Run your own server</h3>
           <p class="fork-card__d">
-            Concord Voice source is public; the supported self-hosted installer and deployment guide are not
-            publicly released yet. Commercial self-hosting requires a <a href="/commercial-license">Concord Voice commercial license</a>.
+            Run the same server on your own hardware. v0.3.0 is published; supported installs open once install
+            testing passes. Every premium app feature is free for every member of your server. Personal and non-profit use is free; for-profit and government use needs a
+            <a href="/commercial-license">commercial license</a>.
           </p>
-          <a href="mailto:contact-us@concordvoice.com?subject=Self-hosted%20early-access%20pilot" class="btn border border-white/20 hover:border-coral">Interested in a self-hosted early-access pilot? Contact us.</a>
+          <a href="/self-hosting" class="btn border border-white/20 hover:border-coral">How self-hosting works →</a>
         </div>
       </div>
     </section>
@@ -199,7 +200,7 @@ const wing = { monthly: 14.99, yearly: 164.89 };
     .fineprint { max-width: 46rem; margin: 1.6rem auto 0; font-size: 0.78rem; line-height: 1.6; color: var(--color-mist); text-align: center; }
     .fineprint a { color: var(--color-coral); }
 
-    /* Hosted service + self-hosting early access */
+    /* Hosted service + self-hosting */
     .fork-card { text-align: left; padding: 1.8rem; border: 1px solid color-mix(in oklab, var(--color-paper) 12%, transparent); border-radius: 1.2rem; background: color-mix(in oklab, var(--color-paper) 4%, transparent); display: flex; flex-direction: column; }
     .fork-card__t { font-size: 1.4rem; margin: 0.3rem 0 0.6rem; }
     .fork-card__d { color: var(--color-mist); line-height: 1.6; flex: 1; margin-bottom: 1.2rem; }

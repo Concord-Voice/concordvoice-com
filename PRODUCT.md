@@ -25,7 +25,7 @@ People use Concord Voice through the cross-platform Electron desktop client and 
 ## Capabilities and Constraints
 
 - End-to-end encryption protects messages and voice/video communications.
-- Concord Voice source is public; the supported self-hosted installer and deployment guide are not publicly released yet. Commercial self-hosting requires a Concord Voice commercial license.
+- Self-Hosted v0.3.0 is published (bundle, manifest, SHA256SUMS, attestations) with the guided installer and `concord-selfhost` command, but installation is not supported until fresh-host acceptance (Self-Hosted #74) passes. Say "published, install not supported yet"; never "available now". The .deb package, browser setup wizard, Admin Console Server area and signed updates are coming soon; appliances and cloud marketplaces come later. Every premium app feature is free on a self-hosted server (support and other service perks are not part of that). Commercial self-hosting requires a Concord Voice commercial license.
 - The source is available under CVSL 1.0 and each version converts to AGPL-3.0-or-later on the earlier of 2030-02-15 or four years after its first public distribution.
 - The product must be accessible, transparent, and feature-rich without making privacy tools difficult to use.
 - The public website is privacy-first and uses no third-party trackers.

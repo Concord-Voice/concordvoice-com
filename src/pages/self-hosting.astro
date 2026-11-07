@@ -3,47 +3,184 @@ import Layout from '@layouts/Layout.astro';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import '@styles/marketing.css';
+
+const REPO = 'https://github.com/Concord-Voice/Self-Hosted';
+const LATEST = `${REPO}/releases/latest`;
+const WIKI = `${REPO}/wiki`;
+const ACCEPTANCE = `${REPO}/issues/74`;
+
+const why = [
+  { t: 'The same server we run', d: 'Self-Hosted is the server code behind our hosted service. There is no separate community edition and no better version kept behind a paywall.' },
+  { t: 'Every premium feature, free', d: 'On your own server, every member gets every premium feature in the app at no charge. Plans and subscriptions exist only on our hosted service.' },
+  { t: 'Encrypted on your hardware too', d: 'Each device encrypts messages, attachments, voice and video before they leave it. Your server stores and relays only data it cannot read. It can see profile images such as avatars and banners, and the routing details it needs.' },
+];
+
+const steps = [
+  {
+    t: 'Check your host',
+    d: 'A Debian 12 or Ubuntu 24.04 machine with at least 2 vCPU, 2 GiB of RAM and 10 GiB of free disk, with Docker Engine and its Compose plugin, Python 3 and nginx installed. You also need a domain name that points at it and the voice ports open in your firewall.',
+  },
+  {
+    t: 'Download and verify the release',
+    d: 'Each release on GitHub ships the server bundle, a manifest that lists the SHA-256 of every file, and a SHA256SUMS file. Download all three into one folder and check them. GitHub build attestations prove that each file came from our release build; checking them needs the GitHub CLI, signed in. Then unpack the bundle and run the preflight, which checks your host and changes nothing.',
+    code: 'sha256sum -c SHA256SUMS\ngh attestation verify concord-selfhost-<version>.tar.gz --repo Concord-Voice/Self-Hosted\ntar -xzf concord-selfhost-<version>.tar.gz && cd concord-selfhost-<version>\n./infrastructure/deploy/install-selfhost.sh --preflight-only',
+  },
+  {
+    t: 'Run the installer',
+    d: 'The interactive installer asks for your domain, how to handle TLS and where to keep files, then writes your configuration. For TLS, choose Let’s Encrypt, a certificate you already have, or self-signed for a trusted home network. For files, choose the bundled storage or your own S3-compatible bucket. When it finishes, it prints the firewall, certificate and nginx steps for your setup.',
+    code: './infrastructure/deploy/install-selfhost.sh',
+    note: 'Pass --env-file answers.env to install without prompts.',
+  },
+  {
+    t: 'Start it and look after it',
+    d: 'One command starts, stops and checks the whole stack. It also takes and restores backups, which hold the database, bundled storage and your configuration in one checksummed archive.',
+    code: './infrastructure/deploy/concord-selfhost up\n./infrastructure/deploy/concord-selfhost health\n./infrastructure/deploy/concord-selfhost status --json\n./infrastructure/deploy/concord-selfhost logs\n./infrastructure/deploy/concord-selfhost backup',
+  },
+  {
+    t: 'Invite your people',
+    d: 'In the Concord Voice desktop app, choose Connect to Self-Hosted Server and enter your server’s address. Your community then talks on your hardware.',
+  },
+];
+
+const soon = [
+  { t: 'A Debian package', d: 'A .deb that installs the server and a small host agent with your system’s package manager. An .rpm follows.' },
+  { t: 'A setup wizard in your browser', d: 'Finish first-time setup from a web page on your local network, unlocked by a one-time code that only the machine’s administrator can read.' },
+  { t: 'A Server area in the Admin Console', d: 'See container status, health checks and logs from the Admin Console. Stop, restart, update and restore from there too, each confirmed with a security key tap and recorded in the audit log.' },
+  { t: 'Signed one-step updates', d: 'Update to a new release with one command or one click. The server checks the release signature first and refuses anything we did not sign. The update command is already in the current release, but it stays locked until we start signing release tags.' },
+];
+
+const later = [
+  'Ready-made appliances for Proxmox and TrueNAS.',
+  'One-click installs from cloud marketplaces, starting with DigitalOcean, then AWS.',
+];
 ---
 
 <Layout
-  title="Self-Hosting Early Access | Concord Voice"
-  description="The Concord Voice source is public. Supported self-hosted installation and deployment guidance are not publicly released yet."
+  title="Self-Hosting | Concord Voice"
+  description="Run the Concord Voice server on your own hardware. Self-Hosted v0.3.0 is published; supported installation opens once fresh-host install testing passes. Every premium app feature is free on your own server."
 >
   <Header />
 
   <main class="mx-auto w-full max-w-6xl px-6 pb-24 pt-10">
     <section class="mkt-hero">
       <p class="eyebrow text-gold">Self-Hosting</p>
-      <h1 class="display mkt-hero__title">Self-hosting early access</h1>
+      <h1 class="display mkt-hero__title">Run Concord Voice on your own server</h1>
       <p class="mkt-lead">
-        Concord Voice source is public; the supported self-hosted installer and deployment guide are not publicly released yet.
-        Commercial self-hosting requires a <a href="/commercial-license">Concord Voice commercial license</a>.
+        Your community talks on your hardware, and your data stays with you. Self-Hosted v0.3.0 is published, and
+        we are finishing the last step before you can install it: testing a full install on a fresh machine.
       </p>
+      <p class="sh-banner" role="note">
+        <strong>Installation is not supported yet.</strong> The v0.3.0 release is there to read and verify. Supported
+        installs open once <a href={ACCEPTANCE} target="_blank" rel="noopener noreferrer">fresh-host install testing</a> passes. Until then, please don’t run a community you care about on it.
+      </p>
+      <div class="mkt-cta-row">
+        <a href={LATEST} target="_blank" rel="noopener noreferrer" class="btn btn-primary">See the published release</a>
+        <a href={WIKI} target="_blank" rel="noopener noreferrer" class="btn border border-white/20 hover:border-coral">Read the operator guides →</a>
+      </div>
+    </section>
+
+    <section class="mkt-section reveal">
+      <p class="mkt-label eyebrow text-gold">Why run your own</p>
+      <div class="mkt-grid mkt-grid--3">
+        {why.map((f) => (
+          <article class="feat">
+            <h3 class="feat__t">{f.t}</h3>
+            <p class="feat__d">{f.d}</p>
+          </article>
+        ))}
+      </div>
     </section>
 
     <section class="mkt-section">
-      <p class="mkt-label eyebrow text-gold">Operator-assisted pilot</p>
-      <h2 class="display mkt-section__title">Work directly with the Concord Voice team.</h2>
+      <p class="mkt-label eyebrow text-gold">How install will work</p>
+      <h2 class="display mkt-section__title">From a fresh machine to your first call.</h2>
+      <p class="mkt-section__sub">These are the steps the supported install will use. They become supported once install testing passes.</p>
+      <ol class="sh-steps">
+        {steps.map((s, i) => (
+          <li class="sh-step reveal">
+            <span class="sh-step__n" aria-hidden="true">{i + 1}</span>
+            <div class="sh-step__body">
+              <h3 class="sh-step__t">{s.t}</h3>
+              <p class="sh-step__d">{s.d}</p>
+              {s.code && <pre class="sh-code"><code>{s.code}</code></pre>}
+              {s.note && <p class="sh-step__note">{s.note}</p>}
+            </div>
+          </li>
+        ))}
+      </ol>
       <p class="mkt-section__sub">
-        Early access is an operator-assisted pilot, not a supported downloadable installer or public self-service deployment.
+        The <a href={WIKI} target="_blank" rel="noopener noreferrer">Self-Hosted wiki</a> covers planning your server,
+        storage, TLS certificates, running the server and security basics in more detail.
       </p>
+    </section>
+
+    <section class="mkt-section reveal">
+      <p class="mkt-label eyebrow text-gold">Coming soon</p>
+      <h2 class="display mkt-section__title">Less terminal, more clicking.</h2>
+      <p class="mkt-section__sub">
+        We are building a self-managing launcher and a management area for your server. These pieces are in active
+        development and are not in a published release yet.
+      </p>
+      <div class="mkt-grid">
+        {soon.map((f) => (
+          <article class="feat">
+            <h3 class="feat__t">{f.t}</h3>
+            <p class="feat__d">{f.d}</p>
+          </article>
+        ))}
+      </div>
+      <p class="mkt-label eyebrow text-gold sh-later">Planned after that</p>
+      <ul class="checklist checklist--arrow mkt-prose" style="max-width:46rem;">
+        {later.map((l) => <li>{l}</li>)}
+      </ul>
+    </section>
+
+    <section class="mkt-section">
+      <p class="mkt-label eyebrow text-gold">Licensing</p>
+      <h2 class="display mkt-section__title">Free for people and non-profits.</h2>
       <div class="mkt-prose">
         <p>
-          The pilot works from source. The operator builds and runs the service stack, provisions persistent storage,
-          media-relay and network resources, and manages the required environment configuration and secrets. Concord
-          Voice provides deployment guidance and validation during the pilot.
+          Self-Hosted uses the Concord Voice Source License 1.0. Anyone can read the source, and personal and
+          non-profit use is free. Use by a for-profit company or a government body needs a <a href="/commercial-license">commercial license</a>, apart from a 30-day internal evaluation that is not in
+          production. Each version converts to AGPL-3.0-or-later on 2030-02-15 at the latest.
         </p>
         <p>
-          The <a href="https://github.com/Concord-Voice/Self-Hosted" target="_blank" rel="noreferrer">public source repository</a>
-          is available for review and development; it is not yet a supported production deployment guide.
+          When you run a server, you are its operator and the data controller for it. Our <a href="/privacy-policy">Privacy Notice</a> applies to your server only where it connects to our hosted
+          services.
         </p>
       </div>
       <div class="mkt-cta-row">
-        <a href="mailto:contact-us@concordvoice.com?subject=Self-hosted%20early-access%20pilot" class="btn btn-primary">Interested in a self-hosted early-access pilot? Contact us.</a>
         <a href="/license" class="btn border border-white/20 hover:border-coral">Read the CVSL 1.0 →</a>
+        <a href="mailto:contact-us@concordvoice.com?subject=Commercial%20self-hosting" class="btn border border-white/20 hover:border-coral">Ask about a commercial license</a>
+      </div>
+    </section>
+
+    <section class="mkt-cta reveal">
+      <p class="eyebrow text-gold">Ready when you are</p>
+      <h2 class="display mkt-cta__title">Your server, your people.</h2>
+      <p class="mkt-cta__sub">Have a question about running a server? Email contact-us@concordvoice.com. Report security issues privately to security@concordvoice.com.</p>
+      <div class="mkt-cta-row">
+        <a href={LATEST} target="_blank" rel="noopener noreferrer" class="btn btn-primary">See the published release</a>
+        <a href={REPO} target="_blank" rel="noopener noreferrer" class="btn border border-white/20 hover:border-coral">Browse the source</a>
+        <a href="/download" class="btn border border-white/20 hover:border-coral">Download the desktop app</a>
       </div>
     </section>
   </main>
 
   <Footer />
+
+  <style>
+    .sh-steps { list-style: none; padding: 0; margin: 1.6rem auto 0; max-width: 46rem; display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.2rem; text-align: left; }
+    .sh-step { display: flex; gap: 1rem; padding: 1.4rem; border: 1px solid color-mix(in oklab, var(--color-paper) 12%, transparent); border-radius: 1rem; background: color-mix(in oklab, var(--color-paper) 4%, transparent); }
+    .sh-step__n { flex: none; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 9999px; font-weight: 700; color: var(--color-night); background: linear-gradient(120deg, var(--color-gold), var(--color-coral)); }
+    .sh-step__body { min-width: 0; flex: 1; }
+    .sh-step__t { font-weight: 700; font-size: 1.1rem; color: var(--color-gold); margin-bottom: .4rem; }
+    .sh-step__d { color: var(--color-mist); line-height: 1.6; }
+    .sh-step__note { margin-top: .5rem; font-size: .85rem; color: var(--color-mist); }
+    .sh-code { margin-top: .8rem; padding: .8rem 1rem; overflow-x: auto; border-radius: .6rem; background: color-mix(in oklab, var(--color-night) 70%, black); border: 1px solid color-mix(in oklab, var(--color-paper) 10%, transparent); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .82rem; line-height: 1.6; color: var(--color-paper); white-space: pre; }
+    .sh-later { margin-top: 2rem; }
+    .sh-banner { max-width: 46rem; margin: 1.2rem auto 0; padding: 1rem 1.2rem; border: 1px solid color-mix(in oklab, var(--color-gold) 55%, transparent); border-radius: .8rem; background: color-mix(in oklab, var(--color-gold) 8%, transparent); line-height: 1.6; text-align: left; }
+    .sh-banner strong { color: var(--color-gold); }
+    .sh-banner a { color: var(--color-coral); }
+  </style>
 </Layout>
