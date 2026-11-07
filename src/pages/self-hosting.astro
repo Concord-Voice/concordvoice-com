@@ -7,6 +7,7 @@ import '@styles/marketing.css';
 const REPO = 'https://github.com/Concord-Voice/Self-Hosted';
 const LATEST = `${REPO}/releases/latest`;
 const WIKI = `${REPO}/wiki`;
+const ACCEPTANCE = `${REPO}/issues/74`;
 
 const why = [
   { t: 'The same server we run', d: 'Self-Hosted is the server code behind our hosted service. There is no separate community edition and no better version kept behind a paywall.' },
@@ -56,7 +57,7 @@ const later = [
 
 <Layout
   title="Self-Hosting | Concord Voice"
-  description="Run the Concord Voice server on your own hardware. Download a verified release, run the guided installer, and manage it with one command. Every premium app feature is free on your own server."
+  description="Run the Concord Voice server on your own hardware. Self-Hosted v0.3.0 is published; supported installation opens once fresh-host install testing passes. Every premium app feature is free on your own server."
 >
   <Header />
 
@@ -65,11 +66,15 @@ const later = [
       <p class="eyebrow text-gold">Self-Hosting</p>
       <h1 class="display mkt-hero__title">Run Concord Voice on your own server</h1>
       <p class="mkt-lead">
-        Self-Hosted is available now. Download a verified release, run the guided installer, and manage the whole
-        stack with one command. Your community talks on your hardware, and your data stays with you.
+        Your community talks on your hardware, and your data stays with you. Self-Hosted v0.3.0 is published, and
+        we are finishing the last step before you can install it: testing a full install on a fresh machine.
+      </p>
+      <p class="sh-banner" role="note">
+        <strong>Installation is not supported yet.</strong> The v0.3.0 release is there to read and verify. Supported
+        installs open once <a href={ACCEPTANCE} target="_blank" rel="noopener noreferrer">fresh-host install testing</a> passes. Until then, please don’t run a community you care about on it.
       </p>
       <div class="mkt-cta-row">
-        <a href={LATEST} target="_blank" rel="noopener noreferrer" class="btn btn-primary">Get the latest release</a>
+        <a href={LATEST} target="_blank" rel="noopener noreferrer" class="btn btn-primary">See the published release</a>
         <a href={WIKI} target="_blank" rel="noopener noreferrer" class="btn border border-white/20 hover:border-coral">Read the operator guides →</a>
       </div>
     </section>
@@ -87,8 +92,9 @@ const later = [
     </section>
 
     <section class="mkt-section">
-      <p class="mkt-label eyebrow text-gold">How it works today</p>
+      <p class="mkt-label eyebrow text-gold">How install will work</p>
       <h2 class="display mkt-section__title">From a fresh machine to your first call.</h2>
+      <p class="mkt-section__sub">These are the steps the supported install will use. They become supported once install testing passes.</p>
       <ol class="sh-steps">
         {steps.map((s, i) => (
           <li class="sh-step reveal">
@@ -154,7 +160,7 @@ const later = [
       <h2 class="display mkt-cta__title">Your server, your people.</h2>
       <p class="mkt-cta__sub">Have a question about running a server? Email contact-us@concordvoice.com. Report security issues privately to security@concordvoice.com.</p>
       <div class="mkt-cta-row">
-        <a href={LATEST} target="_blank" rel="noopener noreferrer" class="btn btn-primary">Get the latest release</a>
+        <a href={LATEST} target="_blank" rel="noopener noreferrer" class="btn btn-primary">See the published release</a>
         <a href={REPO} target="_blank" rel="noopener noreferrer" class="btn border border-white/20 hover:border-coral">Browse the source</a>
         <a href="/download" class="btn border border-white/20 hover:border-coral">Download the desktop app</a>
       </div>
@@ -173,5 +179,8 @@ const later = [
     .sh-step__note { margin-top: .5rem; font-size: .85rem; color: var(--color-mist); }
     .sh-code { margin-top: .8rem; padding: .8rem 1rem; overflow-x: auto; border-radius: .6rem; background: color-mix(in oklab, var(--color-night) 70%, black); border: 1px solid color-mix(in oklab, var(--color-paper) 10%, transparent); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .82rem; line-height: 1.6; color: var(--color-paper); white-space: pre; }
     .sh-later { margin-top: 2rem; }
+    .sh-banner { max-width: 46rem; margin: 1.2rem auto 0; padding: 1rem 1.2rem; border: 1px solid color-mix(in oklab, var(--color-gold) 55%, transparent); border-radius: .8rem; background: color-mix(in oklab, var(--color-gold) 8%, transparent); line-height: 1.6; text-align: left; }
+    .sh-banner strong { color: var(--color-gold); }
+    .sh-banner a { color: var(--color-coral); }
   </style>
 </Layout>
