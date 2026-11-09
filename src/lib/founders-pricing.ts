@@ -25,7 +25,9 @@ export function foundersPrice(regular: number): number {
 
 export function selectedPrice(monthly: number, yearly: number, monthlyAdjustment: number, yearlyAdjustment: number, annual: boolean) {
   const regular = annual && yearly > 0 ? yearly + yearlyAdjustment : monthly + monthlyAdjustment;
-  return { regular, founders: foundersPrice(regular), period: regular === 0 ? '' : annual && yearly > 0 ? '/year' : '/month' };
+  let period = '';
+  if (regular !== 0) period = annual && yearly > 0 ? '/year' : '/month';
+  return { regular, founders: foundersPrice(regular), period };
 }
 
 export function updateFoundersPrice(price: HTMLElement, annual: boolean) {

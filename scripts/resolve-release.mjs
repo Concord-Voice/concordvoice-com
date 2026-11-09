@@ -51,11 +51,18 @@ export function shouldFailClosed(env = process.env) {
   return (env.CF_PAGES === '1' && env.CF_PAGES_BRANCH === 'main') || env.CONCORD_RELEASE_RESOLUTION_REQUIRED === 'true';
 }
 
+// Escape terminal controls and line separators without discarding diagnostics.
+function logSafeText(value) {
+  return String(value).replace(/[\u0000-\u001f\u007f-\u009f\u2028\u2029]/g,
+    (character) => String.raw`\u${character.codePointAt(0).toString(16).padStart(4, '0')}`);
+}
+
 function keepSeedOrFail(reason) {
+  const safeReason = logSafeText(reason);
   if (shouldFailClosed()) {
-    throw new Error(`[resolve-release] ${reason}; refusing production build to avoid stale download links`);
+    throw new Error(`[resolve-release] ${safeReason}; refusing production build to avoid stale download links`);
   }
-  console.warn(`[resolve-release] ${reason}; keeping committed seed`);
+  console.warn(`[resolve-release] ${safeReason}; keeping committed seed`);
 }
 
 // Resolve the latest release and write it to OUT only if it changed. Never throws or exits
@@ -103,13 +110,15 @@ export async function main() {
 // Run only when executed directly (`node scripts/resolve-release.mjs`), not when imported by tests.
 // Local and preview builds keep the fallback behavior; production Cloudflare/required builds fail closed.
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  main().catch((err) => {
-    const message = err?.message ?? err;
+  try {
+    await main();
+  } catch (err) {
+    const message = logSafeText(err?.message ?? err);
     if (shouldFailClosed()) {
-      console.error(String(message).startsWith('[resolve-release]') ? message : `[resolve-release] unexpected error (${message}); refusing production build to avoid stale download links`);
+      console.error(message.startsWith('[resolve-release]') ? message : `[resolve-release] unexpected error (${message}); refusing production build to avoid stale download links`);
       process.exitCode = 1;
-      return;
+    } else {
+      console.warn(`[resolve-release] unexpected error (${message}); keeping committed seed`);
     }
-    console.warn(`[resolve-release] unexpected error (${message}); keeping committed seed`);
-  });
+  }
 }

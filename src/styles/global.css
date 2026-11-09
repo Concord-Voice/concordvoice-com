@@ -33,7 +33,6 @@
 
 /* ---- Base ---- */
 :root { color-scheme: dark; }
-html { scroll-behavior: smooth; }
 body {
   background-color: var(--color-night);
   color: var(--color-paper);
@@ -109,7 +108,6 @@ strong, b { color: var(--color-gold); }
      color matrix and stays. */
   filter: saturate(125%);
   opacity: 0.6;
-  animation: drift 24s ease-in-out infinite alternate;
 }
 @keyframes drift {
   0%   { transform: translate3d(0, 0, 0) scale(1); }
@@ -134,7 +132,6 @@ strong, b { color: var(--color-gold); }
   background: var(--color-paper);
   box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.5);
   opacity: 0.1;
-  animation: twinkle 5s ease-in-out infinite;
 }
 @keyframes twinkle { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.85; } }
 
@@ -171,7 +168,6 @@ strong, b { color: var(--color-gold); }
   background: #fff;
   box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.55);
   opacity: 0.16;
-  animation: twinkle 5s ease-in-out infinite;
 }
 
 /* Fog container : masked so the whole bank dissolves up into the night. */
@@ -224,27 +220,24 @@ strong, b { color: var(--color-gold); }
   color: inherit;
   background: color-mix(in oklab, var(--color-paper) 4%, transparent);
   cursor: pointer;
-  transition: border-color 0.3s, background 0.3s, transform 0.3s, color 0.3s;
 }
 .pill:hover,
 .pill:focus-visible {
   border-color: var(--color-coral);
   background: color-mix(in oklab, var(--color-coral) 12%, transparent);
-  transform: translateY(-2px);
 }
 .pill:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; }
 .btn {
   display: inline-flex; align-items: center; gap: 0.5rem;
   font-weight: 700; border-radius: 9999px;
   padding: 0.85rem 1.6rem;
-  transition: transform 0.25s, box-shadow 0.25s, filter 0.25s, border-color 0.25s;
 }
 .btn-primary {
   color: var(--color-ink);
   background: linear-gradient(100deg, var(--color-gold), var(--color-coral));
   box-shadow: 0 10px 40px -12px var(--color-coral);
 }
-.btn-primary:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 18px 52px -12px var(--color-coral); }
+.btn-primary:hover { filter: brightness(1.05); box-shadow: 0 18px 52px -12px var(--color-coral); }
 
 /* Header icon button : GitHub. */
 .gh-btn {
@@ -256,9 +249,6 @@ strong, b { color: var(--color-gold); }
   padding: 0;
   border-radius: 9999px;
   flex: none;
-  transition: color 0.25s, border-color 0.25s, background 0.25s, transform 0.25s, filter 0.25s, box-shadow 0.25s;
-}
-.gh-btn {
   color: var(--color-mist);
   border: 1px solid color-mix(in oklab, var(--color-paper) 22%, transparent);
 }
@@ -266,7 +256,6 @@ strong, b { color: var(--color-gold); }
   color: var(--color-paper);
   border-color: var(--color-coral);
   background: color-mix(in oklab, var(--color-paper) 6%, transparent);
-  transform: translateY(-1px);
 }
 .gh-btn svg { width: 1.2rem; height: 1.2rem; }
 /* Footer social icon links */
@@ -278,12 +267,10 @@ strong, b { color: var(--color-gold); }
   height: 2.5rem;
   border-radius: 0.6rem;
   color: var(--color-mist);
-  transition: color 0.25s, background 0.25s, transform 0.25s;
 }
 .social-link:hover {
   color: var(--color-coral);
   background: color-mix(in oklab, var(--color-paper) 7%, transparent);
-  transform: translateY(-2px);
 }
 .social-link svg { width: 1.15rem; height: 1.15rem; }
 
@@ -342,7 +329,6 @@ strong, b { color: var(--color-gold); }
 }
 .cookie-note.is-visible {
   display: block;
-  animation: cookie-note-in 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 .cookie-note__text { margin: 0; }
 .cookie-note__text strong { color: var(--color-paper); font-weight: 700; }
@@ -370,9 +356,8 @@ strong, b { color: var(--color-gold); }
   color: var(--color-ink);
   background: linear-gradient(100deg, var(--color-gold), var(--color-coral));
   cursor: pointer;
-  transition: filter 0.2s, transform 0.2s;
 }
-.cookie-note__ok:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.cookie-note__ok:hover { filter: brightness(1.08); }
 @keyframes cookie-note-in {
   from { opacity: 0; transform: translateY(14px) scale(0.98); }
   to { opacity: 1; transform: none; }
@@ -384,10 +369,10 @@ strong, b { color: var(--color-gold); }
 /* ============================================================
    Motion: page-load rise + scroll reveal
    ============================================================ */
-.rise { opacity: 0; transform: translateY(16px); animation: rise 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; animation-delay: var(--d, 0s); }
+.rise { opacity: 1; transform: none; }
 @keyframes rise { to { opacity: 1; transform: none; } }
 
-.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.reveal { opacity: 1; transform: none; }
 .reveal.in { opacity: 1; transform: none; }
 
 /* ============================================================
@@ -409,20 +394,24 @@ strong, b { color: var(--color-gold); }
 .legal table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
 .legal th, .legal td { border: 1px solid color-mix(in oklab, var(--color-paper) 14%, transparent); padding: 0.5rem 0.75rem; text-align: left; vertical-align: top; }
 
-/* ============================================================
-   Reduced motion : respect entrance / hover MOVEMENT, but keep the
-   slow ambient background drift (clouds, aurora, stars). It never
-   displaces content and is part of the brand. (Site-owner choice.)
-   ============================================================ */
-@media (prefers-reduced-motion: reduce) {
-  .rise, .reveal {
-    animation: none !important;
-    transition: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  .pill:hover, .btn:hover, .btn-primary:hover { transform: none !important; }
-  /* The witty cookie-note: appear instantly (no entrance slide) + no hover lift. */
-  .cookie-note.is-visible { animation: none !important; }
-  .cookie-note__ok:hover { transform: none !important; }
+/* Global CSS movement is opt-in. Static defaults keep content visible when
+   reduced motion is requested, without specificity overrides. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+  .aurora { animation: drift 24s ease-in-out infinite alternate; }
+  .star, .footer-star { animation: twinkle 5s ease-in-out infinite; }
+  .pill { transition: border-color 0.3s, background 0.3s, transform 0.3s, color 0.3s; }
+  .pill:hover, .pill:focus-visible { transform: translateY(-2px); }
+  .btn { transition: transform 0.25s, box-shadow 0.25s, filter 0.25s, border-color 0.25s; }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .gh-btn { transition: color 0.25s, border-color 0.25s, background 0.25s, transform 0.25s, filter 0.25s, box-shadow 0.25s; }
+  .gh-btn:hover { transform: translateY(-1px); }
+  .social-link { transition: color 0.25s, background 0.25s, transform 0.25s; }
+  .social-link:hover { transform: translateY(-2px); }
+  .cookie-note.is-visible { animation: cookie-note-in 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .cookie-note__ok { transition: filter 0.2s, transform 0.2s; }
+  .cookie-note__ok:hover { transform: translateY(-1px); }
+  .rise { opacity: 0; transform: translateY(16px); animation: rise 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; animation-delay: var(--d, 0s); }
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .reveal.in { opacity: 1; transform: none; }
 }
