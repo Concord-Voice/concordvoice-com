@@ -54,7 +54,7 @@ export function shouldFailClosed(env = process.env) {
 // Escape terminal controls and line separators without discarding diagnostics.
 function logSafeText(value) {
   return String(value).replace(/[\u0000-\u001f\u007f-\u009f\u2028\u2029]/g,
-    (character) => `\\u${character.charCodeAt(0).toString(16).padStart(4, '0')}`);
+    (character) => String.raw`\u${character.codePointAt(0).toString(16).padStart(4, '0')}`);
 }
 
 function keepSeedOrFail(reason) {
