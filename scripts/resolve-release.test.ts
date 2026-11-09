@@ -103,10 +103,25 @@ test('main preserves fail-closed GitHub API status errors', async (t) => {
 const rawLogControls = /[\u0000-\u001f\u007f-\u009f\u2028\u2029]/;
 const hostileDiagnostic = 'bad\r\nforged\nrecord\u001b[2J\u0000\t\u007f\u0085\u009b\u2028\u2029end';
 const seed = 'committed seed\n';
+const fetchFixtureModule = `
+const fixture = JSON.parse(process.env.RESOLVER_TEST_FIXTURE);
+globalThis.fetch = async () => {
+  switch (fixture.kind) {
+    case 'tag': return new Response(JSON.stringify({ tag_name: fixture.value }));
+    case 'fetch Error': throw new Error(fixture.value);
+    case 'fetch string': throw fixture.value;
+    case 'JSON parser error': return { ok: true, json: async () => { throw new SyntaxError(fixture.value); } };
+    case 'HTTP': return new Response('', { status: 503 });
+    case 'invalid JSON': return new Response('{');
+    case 'release': return new Response(JSON.stringify(fixture.value));
+    default: throw new Error('unknown test fixture');
+  }
+};
+`;
 
 // Each CLI process has a mocked fetch and its own cwd, because OUT is resolved at
 // module load. No test contacts GitHub or writes the repository's generated seed.
-function runResolver(t: TestContext, fetchBody: string, mode = 'local', initialSeed: string | null = seed, importOnly = false) {
+function runResolver(t: TestContext, fixture: { kind: string; value?: unknown }, mode = 'local', initialSeed: string | null = seed, importOnly = false) {
   const cwd = mkdtempSync(path.join(tmpdir(), 'resolve-release-\n-'));
   t.after(() => rmSync(cwd, { recursive: true, force: true }));
   const output = path.join(cwd, 'src', 'data', 'release.generated.ts');
@@ -115,8 +130,8 @@ function runResolver(t: TestContext, fetchBody: string, mode = 'local', initialS
     writeFileSync(output, initialSeed);
   }
   const moduleUrl = new URL('./resolve-release.mjs', import.meta.url);
-  const args = ['--import', `data:text/javascript,${encodeURIComponent(`globalThis.fetch = async () => { ${fetchBody} };`)}`];
-  if (importOnly) args.push('--input-type=module', '--eval', `await import(${JSON.stringify(moduleUrl.href)});`);
+  const args = ['--import', `data:text/javascript,${encodeURIComponent(fetchFixtureModule)}`];
+  if (importOnly) args.push('--input-type=module', '--eval', 'await import(process.env.RESOLVER_MODULE_URL);');
   else args.push(fileURLToPath(moduleUrl));
   const result = spawnSync(process.execPath, args, {
     cwd,
@@ -126,6 +141,8 @@ function runResolver(t: TestContext, fetchBody: string, mode = 'local', initialS
       ...process.env,
       NODE_OPTIONS: '',
       GITHUB_TOKEN: '',
+      RESOLVER_TEST_FIXTURE: JSON.stringify(fixture),
+      RESOLVER_MODULE_URL: moduleUrl.href,
       CF_PAGES: mode === 'local' ? '0' : '1',
       CF_PAGES_BRANCH: mode === 'production' ? 'main' : 'preview',
       CONCORD_RELEASE_RESOLUTION_REQUIRED: mode === 'required' ? 'true' : 'false',
@@ -143,17 +160,10 @@ function assertOneDiagnostic(text: string) {
 }
 
 test('CLI diagnostics escape untrusted tag and exception controls in every build mode', async (t) => {
-  const payload = JSON.stringify(hostileDiagnostic);
-  const cases = [
-    ['tag', `return new Response(JSON.stringify({ tag_name: ${payload} }));`],
-    ['fetch Error', `throw new Error(${payload});`],
-    ['fetch string', `throw ${payload};`],
-    ['JSON parser error', `return { ok: true, json: async () => { throw new SyntaxError(${payload}); } };`],
-  ];
-  for (const [name, fetchBody] of cases) {
+  for (const name of ['tag', 'fetch Error', 'fetch string', 'JSON parser error']) {
     for (const mode of ['local', 'preview', 'production', 'required']) {
       await t.test(`${name}: ${mode}`, (t) => {
-        const result = runResolver(t, fetchBody, mode);
+        const result = runResolver(t, { kind: name, value: hostileDiagnostic }, mode);
         const failClosed = mode === 'production' || mode === 'required';
         assert.equal(result.status, failClosed ? 1 : 0);
         assert.equal(result.stdout, '');
@@ -187,11 +197,11 @@ test('imported main rejects with log-safe production diagnostics', async (t) => 
 });
 
 test('CLI escapes unexpected filesystem errors and preserves exit behavior', async (t) => {
-  const release = JSON.stringify({ tag_name: 'v1.2.3', assets: fullAssets('1.2.3') });
+  const release = { tag_name: 'v1.2.3', assets: fullAssets('1.2.3') };
   for (const mode of ['local', 'production']) {
     await t.test(mode, (t) => {
       // Missing output parent forces a real filesystem error containing the cwd's LF.
-      const result = runResolver(t, `return new Response(${JSON.stringify(release)});`, mode, null);
+      const result = runResolver(t, { kind: 'release', value: release }, mode, null);
       assert.equal(result.status, mode === 'production' ? 1 : 0);
       assertOneDiagnostic(result.stderr);
       assert.match(result.stderr, /unexpected error .*ENOENT/);
@@ -202,13 +212,13 @@ test('CLI escapes unexpected filesystem errors and preserves exit behavior', asy
 
 test('CLI retains ordinary failure reasons and preserves the seed', async (t) => {
   const cases = [
-    ['HTTP', "return new Response('', { status: 503 });", 'GitHub API 503'],
-    ['invalid JSON', "return new Response('{');", 'GitHub API JSON parse failed'],
-    ['missing assets', "return new Response(JSON.stringify({ tag_name: 'v1.2.3', assets: [] }));", 'missing expected platform assets'],
+    ['HTTP', 'GitHub API 503'],
+    ['invalid JSON', 'GitHub API JSON parse failed'],
+    ['release', 'missing expected platform assets'],
   ];
-  for (const [name, fetchBody, reason] of cases) {
+  for (const [name, reason] of cases) {
     await t.test(name, (t) => {
-      const result = runResolver(t, fetchBody);
+      const result = runResolver(t, { kind: name, value: { tag_name: 'v1.2.3', assets: [] } });
       assert.equal(result.status, 0);
       assertOneDiagnostic(result.stderr);
       assert.ok(result.stderr.includes(reason));
@@ -218,11 +228,11 @@ test('CLI retains ordinary failure reasons and preserves the seed', async (t) =>
 });
 
 test('CLI writes the expected release and recognizes an unchanged seed', async (t) => {
-  const release = JSON.stringify({ tag_name: 'v1.2.3', assets: fullAssets('1.2.3') });
+  const release = { tag_name: 'v1.2.3', assets: fullAssets('1.2.3') };
   const expected = fileContents('1.2.3', 'v1.2.3');
   for (const [initial, message] of [[seed, 'updated to'], [expected, 'up to date at']]) {
     await t.test(message, (t) => {
-      const result = runResolver(t, `return new Response(${JSON.stringify(release)});`, 'production', initial);
+      const result = runResolver(t, { kind: 'release', value: release }, 'production', initial);
       assert.equal(result.status, 0);
       assert.equal(result.stderr, '');
       assert.equal(result.stdout, `[resolve-release] ${message} v1.2.3\n`);
@@ -232,7 +242,7 @@ test('CLI writes the expected release and recognizes an unchanged seed', async (
 });
 
 test('importing the resolver does not invoke fetch or change the seed', (t) => {
-  const result = runResolver(t, "throw new Error('import must not fetch');", 'production', seed, true);
+  const result = runResolver(t, { kind: 'fetch Error', value: 'import must not fetch' }, 'production', seed, true);
   assert.equal(result.status, 0);
   assert.equal(result.stdout, '');
   assert.equal(result.stderr, '');
